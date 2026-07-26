@@ -1,0 +1,107 @@
+import {
+    Card,
+    CardContent,
+    Typography,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Divider,
+} from "@mui/material";
+
+import TodayIcon from "@mui/icons-material/Today";
+import GroupsIcon from "@mui/icons-material/Groups";
+import EventBusyIcon from "@mui/icons-material/EventBusy";
+import BeachAccessIcon from "@mui/icons-material/BeachAccess";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+
+export default function TodaySummary() {
+    return (
+        <Card
+            elevation={2}
+            sx={{
+                borderRadius: 4,
+                height: "100%",
+            }}
+        >
+            <CardContent>
+
+                <Typography
+                    variant="h6"
+                    fontWeight={700}
+                    gutterBottom
+                >
+                    Ringkasan Hari Ini
+                </Typography>
+
+                <List disablePadding>
+
+                    <ListItem disableGutters>
+                        <ListItemIcon sx={{ minWidth: 40 }}>
+                            <TodayIcon color="primary" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary="Tanggal"
+                            secondary="24 Juli 2026"
+                        />
+                    </ListItem>
+
+                    <Divider />
+
+                    <ListItem disableGutters>
+                        <ListItemIcon sx={{ minWidth: 40 }}>
+                            <GroupsIcon color="success" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary="Hadir"
+                            secondary="123 Orang"
+                        />
+                    </ListItem>
+
+                    <Divider />
+
+                    <ListItem disableGutters>
+                        <ListItemIcon sx={{ minWidth: 40 }}>
+                            <EventBusyIcon color="warning" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary="Izin"
+                            secondary="5 Orang"
+                        />
+                    </ListItem>
+
+                    <Divider />
+
+                    <ListItem disableGutters>
+                        <ListItemIcon sx={{ minWidth: 40 }}>
+                            <BeachAccessIcon color="info" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary="Cuti"
+                            secondary="2 Orang"
+                        />
+                    </ListItem>
+
+                    <Divider />
+
+                    <ListItem disableGutters>
+                        <ListItemIcon sx={{ minWidth: 40 }}>
+                            <AccessTimeIcon color="error" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary="Terlambat"
+                            secondary="3 Orang"
+                        />
+                    </ListItem>
+
+                </List>
+
+            </CardContent>
+        </Card>
+    );
+}
