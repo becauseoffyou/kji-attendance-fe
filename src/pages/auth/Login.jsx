@@ -80,7 +80,8 @@ export default function Login() {
                         }}
                         fontWeight={700}
                     >
-                        KJI Attendance
+                           KJI Attendance TEST 999
+
                     </Typography>
 
                     <Typography
