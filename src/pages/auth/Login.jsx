@@ -16,13 +16,36 @@ import IconButton from "@mui/material/IconButton";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from "react-router-dom";
+import authService from "../../services/authService";
 
 export default function Login() {
-
+console.log(import.meta.env.VITE_API_URL);
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
+    };
+
+    const handleLogin = async () => {
+        try {
+            setLoading(true);
+
+            const data = await authService.login(email, password);
+
+            localStorage.setItem("token", data.token);
+
+            navigate("/dashboard");
+
+        } catch (err) {
+            alert(err.response?.data?.message || "Login gagal");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -68,14 +91,18 @@ export default function Login() {
                     <Stack spacing={3}>
 
                         <TextField
-                            label="Email / NIK"
+                            label="Email"
                             fullWidth
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
 
                         <TextField
                             label="Password"
                             type={showPassword ? "text" : "password"}
                             fullWidth
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             slotProps={{
                                 input: {
                                     endAdornment: (
@@ -105,6 +132,8 @@ export default function Login() {
                             variant="contained"
                             size="large"
                             fullWidth
+                            onClick={handleLogin}
+                            disabled={loading}
                             sx={{
                                 height: 50,
                                 borderRadius: 3,
@@ -112,7 +141,7 @@ export default function Login() {
                                 fontWeight: 600
                             }}
                         >
-                            Login
+                            {loading ? "Loading..." : "Login"}
                         </Button>
 
                     </Stack>
