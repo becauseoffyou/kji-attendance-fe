@@ -5,6 +5,7 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import DashboardLayout from "../layouts/DashboardLayout";
 import EmployeeLayout from "../layouts/AbsensiLayout";
 import EmployeeAttendance from "../pages/attendance/Attendance";
+import ProtectedRoute from "./ProtectedRoute";
 
 export default function AppRoutes() {
     return (
@@ -15,26 +16,33 @@ export default function AppRoutes() {
                 <Route
                     path="/dashboard"
                     element={
-                        <DashboardLayout>
-                            <Dashboard />
-                        </DashboardLayout>
+                        <ProtectedRoute>
+                            <DashboardLayout>
+                                <Dashboard />
+                            </DashboardLayout>
+                        </ProtectedRoute>
+
                     }
                 />
                 <Route
                     path="/employee/attendance"
                     element={
-                        <EmployeeLayout>
-                            <EmployeeAttendance />
-                        </EmployeeLayout>
+                        <ProtectedRoute>
+
+                            <EmployeeLayout>
+                                <EmployeeAttendance />
+                            </EmployeeLayout>
+                        </ProtectedRoute>
+
                     }
                 />
 
-                <Route path="/report" element={<DashboardLayout><h2>Laporan</h2></DashboardLayout>} />
+                <Route path="/report" element={  <ProtectedRoute><DashboardLayout><h2>Laporan</h2></DashboardLayout>  </ProtectedRoute>} />
 
-                <Route path="/settings" element={<DashboardLayout><h2>Pengaturan</h2></DashboardLayout>} />
+            <Route path="/settings" element={ <ProtectedRoute><DashboardLayout><h2>Pengaturan</h2></DashboardLayout></ProtectedRoute>} />
 
 
-            </Routes>
-        </BrowserRouter>
+        </Routes>
+        </BrowserRouter >
     );
 }
