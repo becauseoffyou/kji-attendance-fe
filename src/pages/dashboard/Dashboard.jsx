@@ -18,7 +18,6 @@ import attendanceService from "../../services/attendanceService";
 
 export default function Dashboard() {
 
-    const { user } = useAuth();
     const { user, loading } = useAuth();
 const [today, setToday] = useState(null);
 const [loadingToday, setLoadingToday] = useState(true);
