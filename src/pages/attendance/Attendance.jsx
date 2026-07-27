@@ -4,7 +4,7 @@ import HeroCard from "../../components/attendance/HeroCard";
 import LocationCard from "../../components/attendance/LocationCard";
 import CameraCard from "../../components/attendance/CameraCard";
 import { Box } from "@mui/material";
-import attendanceService from "../../services/attendanceService";
+import attendanceService from "../../services/attService";
 import {
     OFFICE,
     getCurrentLocation,

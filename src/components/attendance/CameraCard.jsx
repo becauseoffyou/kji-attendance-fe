@@ -11,7 +11,7 @@ import {
 
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
-import attendanceService from "../../services/attendanceService";
+import attendanceService from "../../services/attService";
 export default function CameraCard({ photo, setPhoto }) {
 
     const webcamRef = useRef(null);

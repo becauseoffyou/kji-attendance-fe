@@ -14,7 +14,7 @@ import attendanceChart from "../../data/charts";
 import attendanceToday from "../../data/attendance";
 import { useAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
-import attendanceService from "../../services/attendanceService";
+import attendanceService from "../../services/attService";
 
 export default function Dashboard() {
 

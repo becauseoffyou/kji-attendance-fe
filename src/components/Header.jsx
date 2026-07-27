@@ -18,7 +18,7 @@ import PasswordRoundedIcon from "@mui/icons-material/PasswordRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
     const [notifAnchor, setNotifAnchor] = useState(null);
