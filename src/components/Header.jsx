@@ -17,16 +17,32 @@ import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import PasswordRoundedIcon from "@mui/icons-material/PasswordRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Header() {
     const [notifAnchor, setNotifAnchor] = useState(null);
     const [profileAnchor, setProfileAnchor] = useState(null);
+    const navigate = useNavigate();
 
+    const { user, setUser } = useAuth();
     const notifications = [
         "Pengajuan cuti baru",
         "3 Karyawan belum check in",
         "1 Pengajuan lembur",
     ];
+
+    const initial = user?.name
+        ? user.name.charAt(0).toUpperCase()
+        : "?";
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+
+        setUser(null);
+
+        navigate("/");
+    };
 
     return (
         <>
@@ -48,7 +64,7 @@ export default function Header() {
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
-                        Selamat Datang, Irhandy 👋
+                        Selamat Datang, {user?.name} 👋
                     </Typography>
                 </Box>
 
@@ -90,7 +106,7 @@ export default function Header() {
                                 bgcolor: "#0F766E",
                             }}
                         >
-                            I
+                            {initial}
                         </Avatar>
 
                         <Box>
@@ -100,14 +116,14 @@ export default function Header() {
                                     lineHeight: 1.2,
                                 }}
                             >
-                                Irhandy
+                                {user?.name}
                             </Typography>
 
                             <Typography
                                 variant="caption"
                                 color="text.secondary"
                             >
-                                Administrator
+                                {user?.role}
                             </Typography>
                         </Box>
 
@@ -189,6 +205,7 @@ export default function Header() {
                 <Divider />
 
                 <MenuItem
+                    onClick={handleLogout}
                     sx={{
                         color: "error.main",
                     }}

@@ -4,6 +4,7 @@ import HeroCard from "../../components/attendance/HeroCard";
 import LocationCard from "../../components/attendance/LocationCard";
 import CameraCard from "../../components/attendance/CameraCard";
 import { Box } from "@mui/material";
+import attendanceService from "../../services/attendanceService";
 import {
     OFFICE,
     getCurrentLocation,
@@ -17,7 +18,10 @@ export default function Attendance() {
     const [status, setStatus] = useState("idle");
     const [location, setLocation] = useState(null);
     const [distance, setDistance] = useState(null);
-    // const [insideRadius, setInsideRadius] = useState(false);
+    const [photo, setPhoto] = useState(null);
+
+
+    const [loading, setLoading] = useState(false);
     const [insideRadius, setInsideRadius] = useState(null);
     useEffect(() => {
         loadLocation();
@@ -29,46 +33,70 @@ export default function Attendance() {
         return () => clearInterval(timer);
     }, []);
 
-    const handleCheck = async () => {
+    const handleCheckIn = async () => {
 
-        try {
+    if (!photo) {
 
-            const current = await getCurrentLocation();
+        alert("Silakan ambil selfie.");
 
-            const meter = calculateDistance(
-                current.latitude,
-                current.longitude,
-                OFFICE.latitude,
-                OFFICE.longitude
-            );
+        return;
 
-            setLocation(current);
-            setDistance(meter);
-            setInsideRadius(meter <= OFFICE.radius);
+    }
 
-            if (meter > OFFICE.radius) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Di luar radius",
-                    text: "Anda berada di luar area absensi.",
-                });
-                return;
-            }
+    if (!location) {
 
-            setStatus(prev =>
-                prev === "checkedin" ? "idle" : "checkedin"
-            );
+        alert("Lokasi belum tersedia.");
 
-        } catch (err) {
+        return;
 
-            Swal.fire({
-                icon: "error",
-                title: "Catch",
-                text: err.message,
-            });
+    }
 
-        }
-    };
+    setLoading(true);
+
+    try {
+
+        const file =
+            dataURLtoFile(photo, "selfie.jpg");
+
+        const formData = new FormData();
+
+        formData.append("photo", file);
+
+        formData.append(
+            "latitude",
+            location.latitude
+        );
+
+        formData.append(
+            "longitude",
+            location.longitude
+        );
+
+       const result =
+    await attendanceService.checkIn(formData);
+
+setStatus("checked-in");
+
+Swal.fire({
+    icon: "success",
+    title: "Berhasil",
+    text: result.message
+});
+
+    } catch (err) {
+
+        alert(
+            err.response?.data?.message ||
+            "Check In gagal."
+        );
+
+    } finally {
+
+        setLoading(false);
+
+    }
+
+};
     // get cordinat
     const loadLocation = async () => {
         try {
@@ -97,23 +125,50 @@ export default function Attendance() {
             });
         }
     };
+    const dataURLtoFile = (dataurl, filename) => {
 
+        const arr = dataurl.split(",");
+
+        const mime = arr[0].match(/:(.*?);/)[1];
+
+        const bstr = atob(arr[1]);
+
+        let n = bstr.length;
+
+        const u8arr = new Uint8Array(n);
+
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+
+        return new File(
+            [u8arr],
+            filename,
+            {
+                type: mime
+            }
+        );
+
+    };
     return (
 
         <>
 
-            <HeroCard
-                time={time}
-                status={status}
-                onCheck={handleCheck}
-                insideRadius={insideRadius}
-            />
+           <HeroCard
+    time={time}
+    status={status}
+    onCheck={handleCheckIn}
+    insideRadius={insideRadius}
+/>
             <Box sx={{ mt: 3 }}>
                 <LocationCard />
             </Box>
 
             <Box sx={{ mt: 3 }}>
-                <CameraCard />
+               <CameraCard
+    photo={photo}
+    setPhoto={setPhoto}
+/>
             </Box>
 
 

@@ -9,7 +9,7 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
@@ -18,29 +18,37 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
-console.log(import.meta.env.VITE_API_URL);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-
+    const { loadUser } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
+    
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            navigate("/dashboard");
+        }
+    }, [navigate]);
 
     const handleLogin = async () => {
         try {
             setLoading(true);
-
             const data = await authService.login(email, password);
 
             localStorage.setItem("token", data.token);
 
-            navigate("/dashboard");
+            await loadUser();
 
+            navigate("/dashboard");
         } catch (err) {
             alert(err.response?.data?.message || "Login gagal");
         } finally {

@@ -1,12 +1,30 @@
-const attendanceToday = [
-    {
-        id: 1,
-        tanggal: "23 Juli 2026",
-        checkIn: "07:58",
-        checkOut: "-",
-        status: "Belum Pulang",
-        durasi: "7 Jam 20 Menit",
-    },
-];
+import Webcam from "react-webcam";
+import { useRef, useState, useEffect } from "react";
+import attendanceService from "../services/attendanceService";
 
-export default attendanceToday;
+const [location, setLocation] = useState(null);
+
+useEffect(() => {
+
+    navigator.geolocation.getCurrentPosition(
+
+        (pos) => {
+
+            setLocation({
+
+                latitude: pos.coords.latitude,
+                longitude: pos.coords.longitude
+
+            });
+
+        },
+
+        (err) => {
+
+            console.log(err);
+
+        }
+
+    );
+
+}, []);

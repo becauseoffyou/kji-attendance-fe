@@ -12,11 +12,52 @@ import AttendanceTable from "../../components/layout/DataTable";
 
 import attendanceChart from "../../data/charts";
 import attendanceToday from "../../data/attendance";
+import { useAuth } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
+import attendanceService from "../../services/attendanceService";
 
 export default function Dashboard() {
+
+    const { user } = useAuth();
+    const { user, loading } = useAuth();
+const [today, setToday] = useState(null);
+const [loadingToday, setLoadingToday] = useState(true);
+    if (loading) {
+        return <Typography>Loading...</Typography>;
+    }
+
+
+    useEffect(() => {
+    const loadToday = async () => {
+        try {
+            const result = await attendanceService.getToday();
+            setToday(result.data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoadingToday(false);
+        }
+    };
+
+    loadToday();
+}, []);
+
     return (
         <>
+            <Typography
+                variant="h4"
+                fontWeight={700}
+                sx={{ mb: 1 }}
+            >
+                Selamat Datang, {user?.name}
+            </Typography>
 
+            <Typography
+                color="text.secondary"
+                sx={{ mb: 3 }}
+            >
+                {user?.department} • {user?.position}
+            </Typography>
 
             {/* ===================== */}
             {/* STAT CARD */}
@@ -27,7 +68,7 @@ export default function Dashboard() {
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
                         title="Check In"
-                        value="07:58"
+                        value={loadingToday ? "..." : (today?.checkIn ?? "-")}
                         icon={<LoginIcon />}
                         color="#2E7D32"
                     />
@@ -36,7 +77,7 @@ export default function Dashboard() {
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
                         title="Check Out"
-                        value="17:00"
+                        value={loadingToday ? "..." : (today?.checkOut ?? "-")}
                         icon={<LogoutIcon />}
                         color="#EF6C00"
                     />
@@ -45,7 +86,7 @@ export default function Dashboard() {
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
                         title="Status"
-                        value="Hadir"
+                       value={loadingToday ? "..." : (today?.status ?? "-")}
                         icon={<EventAvailableIcon />}
                         color="#1565C0"
                     />
@@ -54,7 +95,7 @@ export default function Dashboard() {
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
                         title="Jam Kerja"
-                        value="8 Jam"
+                       value={loadingToday ? "..." : (today?.workingHours ?? "-")}
                         icon={<ScheduleIcon />}
                         color="#6A1B9A"
                     />

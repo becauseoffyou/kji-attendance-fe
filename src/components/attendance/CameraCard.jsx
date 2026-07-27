@@ -1,3 +1,6 @@
+import { useRef, useState } from "react";
+import Webcam from "react-webcam";
+
 import {
     Box,
     Button,
@@ -7,8 +10,27 @@ import {
 } from "@mui/material";
 
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
+import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
+import attendanceService from "../../services/attendanceService";
+export default function CameraCard({ photo, setPhoto }) {
 
-export default function CameraCard() {
+    const webcamRef = useRef(null);
+
+    // const [photo, setPhoto] = useState(null);
+
+    const capture = () => {
+
+        const image = webcamRef.current.getScreenshot();
+
+        setPhoto(image);
+
+    };
+
+    const retake = () => {
+
+        setPhoto(null);
+
+    };
 
     return (
 
@@ -31,31 +53,77 @@ export default function CameraCard() {
                 <Box
                     sx={{
                         aspectRatio: "4 / 3",
-                        bgcolor: "#ECECEC",
+                        overflow: "hidden",
                         borderRadius: 4,
-
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-
-                        color: "#666",
+                        bgcolor: "#ECECEC"
                     }}
                 >
-                    Preview Kamera
+
+                    {photo ? (
+
+                        <img
+                            src={photo}
+                            alt="Preview"
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover"
+                            }}
+                        />
+
+                    ) : (
+
+                        <Webcam
+                            ref={webcamRef}
+                            screenshotFormat="image/jpeg"
+                            audio={false}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover"
+                            }}
+                        />
+
+                    )}
+
                 </Box>
 
-                <Button
-                    fullWidth
-                    variant="outlined"
-                    startIcon={<CameraAltRoundedIcon />}
-                    sx={{
-                        mt: 2,
-                        borderRadius: 3,
-                        height: 48,
-                    }}
-                >
-                    Ambil Foto
-                </Button>
+                {
+
+                    photo ?
+
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            color="warning"
+                            startIcon={<ReplayRoundedIcon />}
+                            sx={{
+                                mt: 2,
+                                borderRadius: 3,
+                                height: 48,
+                            }}
+                            onClick={retake}
+                        >
+                            Ambil Ulang
+                        </Button>
+
+                        :
+
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            startIcon={<CameraAltRoundedIcon />}
+                            sx={{
+                                mt: 2,
+                                borderRadius: 3,
+                                height: 48,
+                            }}
+                            onClick={capture}
+                        >
+                            Ambil Foto
+                        </Button>
+
+                }
 
             </CardContent>
 
