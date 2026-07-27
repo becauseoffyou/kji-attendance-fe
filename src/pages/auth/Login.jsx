@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
 
 export default function Login() {
-console.log(import.meta.env.VITE_API_URL);
+    console.log(import.meta.env.VITE_API_URL);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
@@ -32,17 +32,23 @@ console.log(import.meta.env.VITE_API_URL);
     };
 
     const handleLogin = async () => {
+        console.log("1. Tombol login diklik");
+
         try {
             setLoading(true);
 
+            console.log("2. Sebelum request");
+
             const data = await authService.login(email, password);
+
+            console.log("3. Sesudah request", data);
 
             localStorage.setItem("token", data.token);
 
             navigate("/dashboard");
 
         } catch (err) {
-            alert(err.response?.data?.message || "Login gagal");
+            console.error("ERROR LOGIN:", err);
         } finally {
             setLoading(false);
         }
