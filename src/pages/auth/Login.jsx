@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
 
 export default function Login() {
-    console.log(import.meta.env.VITE_API_URL);
+console.log(import.meta.env.VITE_API_URL);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
@@ -32,23 +32,17 @@ export default function Login() {
     };
 
     const handleLogin = async () => {
-        console.log("1. Tombol login diklik");
-
         try {
             setLoading(true);
 
-            console.log("2. Sebelum request");
-
             const data = await authService.login(email, password);
-
-            console.log("3. Sesudah request", data);
 
             localStorage.setItem("token", data.token);
 
             navigate("/dashboard");
 
         } catch (err) {
-            console.error("ERROR LOGIN:", err);
+            alert(err.response?.data?.message || "Login gagal");
         } finally {
             setLoading(false);
         }
@@ -80,8 +74,7 @@ export default function Login() {
                         }}
                         fontWeight={700}
                     >
-                           KJI Attendance TEST 999
-
+                        KJI Attendance
                     </Typography>
 
                     <Typography
@@ -148,7 +141,7 @@ export default function Login() {
                                 fontWeight: 600
                             }}
                         >
-                          {loading ? "Loading..." : "LOGIN TEST 123"}
+                            {loading ? "Loading..." : "Login"}
                         </Button>
 
                     </Stack>
