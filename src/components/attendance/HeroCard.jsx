@@ -14,7 +14,7 @@ export default function HeroCard({
 
 }) {
 
-    const isCheckedIn = status === "checkedin";
+    const isCheckedIn = status === "checked-in";
 
     return (
 
@@ -70,11 +70,11 @@ export default function HeroCard({
                 <Typography fontWeight={600} fontSize={18}>
                     {insideRadius === null
                         ? "📍 Lokasi Belum Terdeteksi"
-                        : !insideRadius
-                            ? "🔴 Di Luar Radius"
-                            : status === "checkedin"
-                                ? "🟢 Sedang Bekerja"
-                                : "🟢 Dalam Radius"}
+                        : isCheckedIn
+                            ? "🟢 Sedang Bekerja"
+                            : insideRadius
+                                ? "🟢 Dalam Radius"
+                                : "🔴 Di Luar Radius"}
                 </Typography>
 
             </Box>
