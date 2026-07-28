@@ -25,6 +25,8 @@ export default function Attendance() {
     const [insideRadius, setInsideRadius] = useState(null);
     useEffect(() => {
         loadLocation();
+        loadToday();
+
 
         const timer = setInterval(() => {
             setTime(new Date());
@@ -35,68 +37,66 @@ export default function Attendance() {
 
     const handleCheckIn = async () => {
 
-    if (!photo) {
+        if (!photo) {
 
-        alert("Silakan ambil selfie.");
+            alert("Silakan ambil selfie.");
 
-        return;
+            return;
 
-    }
+        }
 
-    if (!location) {
+        if (!location) {
 
-        alert("Lokasi belum tersedia.");
+            alert("Lokasi belum tersedia.");
 
-        return;
+            return;
 
-    }
+        }
 
-    setLoading(true);
+        setLoading(true);
 
-    try {
+        try {
 
-        const file =
-            dataURLtoFile(photo, "selfie.jpg");
+            const file =
+                dataURLtoFile(photo, "selfie.jpg");
 
-        const formData = new FormData();
+            const formData = new FormData();
 
-        formData.append("photo", file);
+            formData.append("photo", file);
 
-        formData.append(
-            "latitude",
-            location.latitude
-        );
+            formData.append(
+                "latitude",
+                location.latitude
+            );
 
-        formData.append(
-            "longitude",
-            location.longitude
-        );
+            formData.append(
+                "longitude",
+                location.longitude
+            );
+            const result = await attendanceService.checkIn(formData);
 
-       const result =
-    await attendanceService.checkIn(formData);
+            await loadToday();
 
-setStatus("checked-in");
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: result.message
+            });
 
-Swal.fire({
-    icon: "success",
-    title: "Berhasil",
-    text: result.message
-});
+        } catch (err) {
 
-    } catch (err) {
+            alert(
+                err.response?.data?.message ||
+                "Check In gagal."
+            );
 
-        alert(
-            err.response?.data?.message ||
-            "Check In gagal."
-        );
+        } finally {
 
-    } finally {
+            setLoading(false);
 
-        setLoading(false);
+        }
 
-    }
-
-};
+    };
     // get cordinat
     const loadLocation = async () => {
         try {
@@ -150,25 +150,55 @@ Swal.fire({
         );
 
     };
+
+    const loadToday = async () => {
+
+        try {
+
+            const result = await attendanceService.getToday();
+
+            const today = result.data;
+
+            if (today.checkIn && !today.checkOut) {
+
+                setStatus("checked-in");
+
+            } else if (today.checkIn && today.checkOut) {
+
+                setStatus("checked-out");
+
+            } else {
+
+                setStatus("idle");
+
+            }
+
+        } catch (err) {
+
+            console.error(err);
+
+        }
+
+    };
     return (
 
         <>
 
-           <HeroCard
-    time={time}
-    status={status}
-    onCheck={handleCheckIn}
-    insideRadius={insideRadius}
-/>
+            <HeroCard
+                time={time}
+                status={status}
+                onCheck={handleCheckIn}
+                insideRadius={insideRadius}
+            />
             <Box sx={{ mt: 3 }}>
                 <LocationCard />
             </Box>
 
             <Box sx={{ mt: 3 }}>
-               <CameraCard
-    photo={photo}
-    setPhoto={setPhoto}
-/>
+                <CameraCard
+                    photo={photo}
+                    setPhoto={setPhoto}
+                />
             </Box>
 
 
