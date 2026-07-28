@@ -9,9 +9,10 @@ export default function HeroCard({
     time,
     status,
     onCheck,
+    onCheckOut,
     insideRadius,
     loading
-}) {
+}){
 
     const isCheckedIn = status === "checked-in";
 
@@ -67,24 +68,38 @@ export default function HeroCard({
             >
 
                 <Typography fontWeight={600} fontSize={18}>
-                    {insideRadius === null
-                        ? "📍 Lokasi Belum Terdeteksi"
-                        : isCheckedIn
-                            ? "🟢 Sedang Bekerja"
-                            : insideRadius
-                                ? "🟢 Dalam Radius"
-                                : "🔴 Di Luar Radius"}
+                   {
+    status === "checked-out"
+        ? "✅ Sudah Check Out"
+        : insideRadius === null
+            ? "📍 Lokasi Belum Terdeteksi"
+            : status === "checked-in"
+                ? "🟢 Sedang Bekerja"
+                : insideRadius
+                    ? "🟢 Dalam Radius"
+                    : "🔴 Di Luar Radius"
+}
                 </Typography>
 
             </Box>
-           <Button
+          <Button
     fullWidth
     size="large"
     variant="contained"
-    disabled={loading}
-    onClick={onCheck}
+    disabled={loading || status === "checked-out"}
+    onClick={status === "checked-in"
+        ? onCheckOut
+        : onCheck}
 >
-    {loading ? "Sedang Check In..." : "Check In"}
+    {
+        loading
+            ? "Memproses..."
+            : status === "checked-in"
+                ? "Check Out"
+                : status === "checked-out"
+                    ? "Sudah Check Out"
+                    : "Check In"
+    }
 </Button>
 
         </Paper>

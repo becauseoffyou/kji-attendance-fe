@@ -48,7 +48,17 @@ if (!currentPhoto) {
         if (!gpsReady) {
 
             await loadLocation();
+if (!gpsReady || !location) {
 
+    Swal.fire({
+        icon: "error",
+        title: "Lokasi",
+        text: "Lokasi belum berhasil didapatkan."
+    });
+
+    return;
+
+}
         }
         setLoading(true);
 
@@ -94,6 +104,38 @@ if (!currentPhoto) {
         }
 
     };
+
+    const handleCheckOut = async () => {
+
+    try {
+
+        setLoading(true);
+
+        const result = await attendanceService.checkOut();
+
+        await loadToday();
+
+        Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: result.message
+        });
+
+    } catch (err) {
+
+        Swal.fire({
+            icon: "error",
+            title: "Gagal",
+            text: err.response?.data?.message || "Check Out gagal."
+        });
+
+    } finally {
+
+        setLoading(false);
+
+    }
+
+};
     // get cordinat
     const loadLocation = async () => {
 
@@ -184,13 +226,14 @@ if (!currentPhoto) {
 
         <>
 
-            <HeroCard
-                time={time}
-                status={status}
-                onCheck={handleCheckIn}
-                insideRadius={insideRadius}
-                loading={loading}
-            />
+           <HeroCard
+    time={time}
+    status={status}
+    onCheck={handleCheckIn}
+    onCheckOut={handleCheckOut}
+    insideRadius={insideRadius}
+    loading={loading}
+/>
             <Box sx={{ mt: 3 }}>
                 <LocationCard />
             </Box>
