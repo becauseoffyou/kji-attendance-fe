@@ -1,4 +1,8 @@
-import { useRef, useState } from "react";
+import {
+    useRef,
+    forwardRef,
+    useImperativeHandle
+} from "react";
 import Webcam from "react-webcam";
 
 import {
@@ -12,7 +16,7 @@ import {
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 import attendanceService from "../../services/attService";
-export default function CameraCard({ photo, setPhoto }) {
+const CameraCard = forwardRef(({ photo, setPhoto }, ref) => {
 
     const webcamRef = useRef(null);
 
@@ -25,6 +29,20 @@ export default function CameraCard({ photo, setPhoto }) {
         setPhoto(image);
 
     };
+
+    useImperativeHandle(ref, () => ({
+
+    capture() {
+
+        const image = webcamRef.current.getScreenshot();
+
+        setPhoto(image);
+
+        return image;
+
+    }
+
+}));
 
     const retake = () => {
 
@@ -131,4 +149,6 @@ export default function CameraCard({ photo, setPhoto }) {
 
     );
 
-}
+});
+
+export default CameraCard;

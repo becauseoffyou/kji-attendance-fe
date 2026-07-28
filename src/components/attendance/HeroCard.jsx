@@ -6,12 +6,11 @@ import {
 } from "@mui/material";
 
 export default function HeroCard({
-
     time,
     status,
     onCheck,
     insideRadius,
-
+    loading
 }) {
 
     const isCheckedIn = status === "checked-in";
@@ -78,17 +77,15 @@ export default function HeroCard({
                 </Typography>
 
             </Box>
-            <Button
-                fullWidth
-                size="large"
-                variant="contained"
-                onClick={() => {
-                    alert("BUTTON CLICK");
-                    onCheck();
-                }}
-            >
-                TEST BUTTON
-            </Button>
+           <Button
+    fullWidth
+    size="large"
+    variant="contained"
+    disabled={loading}
+    onClick={onCheck}
+>
+    {loading ? "Sedang Check In..." : "Check In"}
+</Button>
 
         </Paper>
 

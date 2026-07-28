@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Swal from "sweetalert2";
 import HeroCard from "../../components/attendance/HeroCard";
 import LocationCard from "../../components/attendance/LocationCard";
@@ -14,12 +14,12 @@ import {
 export default function Attendance() {
 
     const [time, setTime] = useState(new Date());
-
+    const [gpsReady, setGpsReady] = useState(false);
     const [status, setStatus] = useState("idle");
     const [location, setLocation] = useState(null);
     const [distance, setDistance] = useState(null);
     const [photo, setPhoto] = useState(null);
-
+    const cameraRef = useRef(null);
 
     const [loading, setLoading] = useState(false);
     const [insideRadius, setInsideRadius] = useState(null);
@@ -37,28 +37,25 @@ export default function Attendance() {
 
     const handleCheckIn = async () => {
 
-        if (!photo) {
+        let currentPhoto = photo;
 
-            alert("Silakan ambil selfie.");
+if (!currentPhoto) {
 
-            return;
+    currentPhoto = cameraRef.current.capture();
 
-        }
+}
 
-        if (!location) {
+        if (!gpsReady) {
 
-            alert("Lokasi belum tersedia.");
-
-            return;
+            await loadLocation();
 
         }
-
         setLoading(true);
 
         try {
 
-            const file =
-                dataURLtoFile(photo, "selfie.jpg");
+         const file =
+    dataURLtoFile(currentPhoto, "selfie.jpg");
 
             const formData = new FormData();
 
@@ -99,6 +96,7 @@ export default function Attendance() {
     };
     // get cordinat
     const loadLocation = async () => {
+
         try {
 
             const current = await getCurrentLocation();
@@ -114,16 +112,18 @@ export default function Attendance() {
 
             setDistance(meter);
             setInsideRadius(meter <= OFFICE.radius);
-        }
-        catch (err) {
+
+            setGpsReady(true);
+
+        } catch (err) {
+
+            setGpsReady(false);
             setInsideRadius(null);
 
-            Swal.fire({
-                icon: "warning",
-                title: "Lokasi",
-                text: err.message,
-            });
+            console.error(err);
+
         }
+
     };
     const dataURLtoFile = (dataurl, filename) => {
 
@@ -189,6 +189,7 @@ export default function Attendance() {
                 status={status}
                 onCheck={handleCheckIn}
                 insideRadius={insideRadius}
+                loading={loading}
             />
             <Box sx={{ mt: 3 }}>
                 <LocationCard />
@@ -196,6 +197,7 @@ export default function Attendance() {
 
             <Box sx={{ mt: 3 }}>
                 <CameraCard
+                    ref={cameraRef}
                     photo={photo}
                     setPhoto={setPhoto}
                 />
