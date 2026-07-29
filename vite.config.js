@@ -11,15 +11,18 @@ export default defineConfig({
         VitePWA({
 
             registerType: "autoUpdate",
-
-            includeAssets: [
-                "favicon.ico",
-                "apple-touch-icon.png",
-                "masked-icon.svg"
-            ],
+workbox: {
+    globPatterns: ["**/*.{js,css,html,ico,png,svg}"]
+},
+           includeAssets: [
+    "favicon.svg",
+    "icons.svg",
+    "pwa-192x192.png",
+    "pwa-512x512.png"
+],
 
             manifest: {
-
+  id: "/",
                 name: "KJI Attendance",
 
                 short_name: "KJI",
@@ -31,7 +34,7 @@ export default defineConfig({
                 background_color: "#ffffff",
 
                 display: "standalone",
-
+prefer_related_applications: false,
                 orientation: "portrait",
 
                 scope: "/",
