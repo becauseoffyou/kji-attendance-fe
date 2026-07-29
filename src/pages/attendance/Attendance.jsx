@@ -361,6 +361,7 @@ export default function Attendance() {
                 loading={loading}
                 todayData={todayData}
                     gpsReady={gpsReady}
+    onRetryLocation={loadLocation}
 
                 onOpenAttendance={() => setOpenDialog(true)}
             />
