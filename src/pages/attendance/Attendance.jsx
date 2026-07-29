@@ -4,8 +4,8 @@ import { Box } from "@mui/material";
 
 import HeroCard from "../../components/attendance/HeroCard";
 import AttendanceDialog from "../../components/attendance/AttendanceDialog";
-// import AnnouncementSlider from "../../components/attendance/AnnouncementSlider";
-
+import announcementService from "../../services/infoService";
+import AnnouncementSlider from "../../components/attendance/AnnouncementSlider";
 import attendanceService from "../../services/attService";
 
 import {
@@ -26,12 +26,13 @@ export default function Attendance() {
     const [distance, setDistance] = useState(null);
     const [photo, setPhoto] = useState(null);
     const cameraRef = useRef(null);
-
+    const [announcements, setAnnouncements] = useState([]);
     const [loading, setLoading] = useState(false);
     const [insideRadius, setInsideRadius] = useState(null);
     useEffect(() => {
 
         loadOffice();
+        loadAnnouncements();
 
         const timer = setInterval(() => {
             setTime(new Date());
@@ -49,6 +50,22 @@ export default function Attendance() {
         loadToday();
 
     }, [office]);
+
+    const loadAnnouncements = async () => {
+
+        try {
+
+            const result = await announcementService.getAll();
+
+            setAnnouncements(result.data);
+
+        } catch (err) {
+
+            console.error(err);
+
+        }
+
+    };
 
     const handleCheckIn = async () => {
 
@@ -309,7 +326,8 @@ export default function Attendance() {
             {/* <Box sx={{ mt: 3 }}>
                 <LocationCard />
             </Box> */}
-            {/* <AnnouncementSlider /> */}
+            <AnnouncementSlider announcements={announcements}
+            />
             <AttendanceDialog
 
                 open={openDialog}
