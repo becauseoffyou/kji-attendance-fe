@@ -2,8 +2,13 @@ import {
     Paper,
     Typography,
     Button,
-    Box
+    Box,
+    Grid
 } from "@mui/material";
+
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
 export default function HeroCard({
     time,
@@ -84,62 +89,161 @@ export default function HeroCard({
 
             </Box>
 
-            <Box sx={{ mt: 3 }}>
+        <Grid
+    container
+    spacing={2}
+    sx={{
+        mt: 3,
+        mb: 3
+    }}
+>
 
-    <Typography align="center">
-        Check In
-    </Typography>
+    {/* CHECK IN */}
 
-    <Typography
-        align="center"
-        fontWeight={700}
-    >
-        {
-            todayData?.checkIn
-                ? new Date(todayData.checkIn).toLocaleTimeString("id-ID", {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                })
-                : "-"
-        }
-    </Typography>
+    <Grid size={4}>
 
-    <Typography
-        align="center"
-        sx={{ mt: 2 }}
-    >
-        Check Out
-    </Typography>
+        <Paper
+            elevation={0}
+            sx={{
+                p: 2,
+                borderRadius: 3,
+                bgcolor: "rgba(255,255,255,.12)",
+                backdropFilter: "blur(8px)",
+                textAlign: "center",
+                color: "#fff"
+            }}
+        >
 
-    <Typography
-        align="center"
-        fontWeight={700}
-    >
-        {
-            todayData?.checkOut
-                ? new Date(todayData.checkOut).toLocaleTimeString("id-ID", {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                })
-                : "-"
-        }
-    </Typography>
+            <LoginRoundedIcon
+                sx={{
+                    fontSize: 34,
+                    color: "#4ADE80"
+                }}
+            />
 
-    <Typography
-        align="center"
-        sx={{ mt: 2 }}
-    >
-        Total Kerja
-    </Typography>
+            <Typography
+                variant="body2"
+                sx={{ mt: 1 }}
+            >
+                Check In
+            </Typography>
 
-    <Typography
-        align="center"
-        fontWeight={700}
-    >
-        {todayData?.workingHours || "-"}
-    </Typography>
+            <Typography
+                fontWeight={700}
+                fontSize={22}
+            >
+                {
+                    todayData?.checkIn
+                        ? new Date(todayData.checkIn).toLocaleTimeString(
+                            "id-ID",
+                            {
+                                hour: "2-digit",
+                                minute: "2-digit"
+                            }
+                        )
+                        : "-"
+                }
+            </Typography>
 
-</Box>
+        </Paper>
+
+    </Grid>
+
+    {/* CHECK OUT */}
+
+    <Grid size={4}>
+
+        <Paper
+            elevation={0}
+            sx={{
+                p: 2,
+                borderRadius: 3,
+                bgcolor: "rgba(255,255,255,.12)",
+                backdropFilter: "blur(8px)",
+                textAlign: "center",
+                color: "#fff"
+            }}
+        >
+
+            <LogoutRoundedIcon
+                sx={{
+                    fontSize: 34,
+                    color: todayData?.checkOut
+                        ? "#4ADE80"
+                        : "#EF4444"
+                }}
+            />
+
+            <Typography
+                variant="body2"
+                sx={{ mt: 1 }}
+            >
+                Check Out
+            </Typography>
+
+            <Typography
+                fontWeight={700}
+                fontSize={22}
+            >
+                {
+                    todayData?.checkOut
+                        ? new Date(todayData.checkOut).toLocaleTimeString(
+                            "id-ID",
+                            {
+                                hour: "2-digit",
+                                minute: "2-digit"
+                            }
+                        )
+                        : "-"
+                }
+            </Typography>
+
+        </Paper>
+
+    </Grid>
+
+    {/* TOTAL */}
+
+    <Grid size={4}>
+
+        <Paper
+            elevation={0}
+            sx={{
+                p: 2,
+                borderRadius: 3,
+                bgcolor: "rgba(255,255,255,.12)",
+                backdropFilter: "blur(8px)",
+                textAlign: "center",
+                color: "#fff"
+            }}
+        >
+
+            <AccessTimeRoundedIcon
+                sx={{
+                    fontSize: 34,
+                    color: "#60A5FA"
+                }}
+            />
+
+            <Typography
+                variant="body2"
+                sx={{ mt: 1 }}
+            >
+                Total Kerja
+            </Typography>
+
+            <Typography
+                fontWeight={700}
+                fontSize={18}
+            >
+                {todayData?.workingHours || "-"}
+            </Typography>
+
+        </Paper>
+
+    </Grid>
+
+</Grid>
           <Button
     fullWidth
     size="large"
