@@ -183,12 +183,15 @@ export default function Attendance() {
     const handleCheckOut = async () => {
 
         try {
-            await loadToday();
 
+            setLoading(true);
+
+            const result = await attendanceService.checkOut();
+
+            await loadToday();
             await loadLocation();
 
             setOpenDialog(false);
-
             setPhoto(null);
 
             Swal.fire({
