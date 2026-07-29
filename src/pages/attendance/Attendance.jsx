@@ -173,7 +173,10 @@ export default function Attendance() {
                 OFFICE.latitude,
                 OFFICE.longitude
             );
-
+console.log("GPS User:", current);
+console.log("Kantor:", OFFICE);
+console.log("Jarak:", meter, "meter");
+console.log("Akurasi GPS:", current.accuracy);
             setDistance(meter);
             setInsideRadius(meter <= OFFICE.radius);
 
