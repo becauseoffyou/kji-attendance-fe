@@ -15,34 +15,29 @@ import {
 
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
-import attendanceService from "../../services/attService";
+// import attendanceService from "../../services/attService";
 const CameraCard = forwardRef(({ photo, setPhoto }, ref) => {
 
     const webcamRef = useRef(null);
 
     // const [photo, setPhoto] = useState(null);
-
     const capture = () => {
 
-        const image = webcamRef.current.getScreenshot();
+        const image = webcamRef.current?.getScreenshot();
 
-        setPhoto(image);
-
-    };
-
-    useImperativeHandle(ref, () => ({
-
-    capture() {
-
-        const image = webcamRef.current.getScreenshot();
+        if (!image) return null;
 
         setPhoto(image);
 
         return image;
 
-    }
+    };
 
-}));
+    useImperativeHandle(ref, () => ({
+
+        capture
+
+    }));
 
     const retake = () => {
 
@@ -108,7 +103,7 @@ const CameraCard = forwardRef(({ photo, setPhoto }, ref) => {
 
                 {
 
-                    photo ?
+                    // photo ?
 
                         <Button
                             fullWidth
@@ -125,21 +120,21 @@ const CameraCard = forwardRef(({ photo, setPhoto }, ref) => {
                             Ambil Ulang
                         </Button>
 
-                        :
+                        // :
 
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            startIcon={<CameraAltRoundedIcon />}
-                            sx={{
-                                mt: 2,
-                                borderRadius: 3,
-                                height: 48,
-                            }}
-                            onClick={capture}
-                        >
-                            Ambil Foto
-                        </Button>
+                        // <Button
+                        //     fullWidth
+                        //     variant="contained"
+                        //     startIcon={<CameraAltRoundedIcon />}
+                        //     sx={{
+                        //         mt: 2,
+                        //         borderRadius: 3,
+                        //         height: 48,
+                        //     }}
+                        //     onClick={capture}
+                        // >
+                        //     Ambil Foto
+                        // </Button>
 
                 }
 

@@ -13,21 +13,18 @@ import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 export default function HeroCard({
     time,
     status,
-    onCheck,
-    onCheckOut,
     insideRadius,
     loading,
-    todayData
+    todayData,
+    onOpenAttendance
 }) {
-
-    const isCheckedIn = status === "checked-in";
 
     return (
 
         <Paper
             elevation={0}
             sx={{
-                borderRadius: 1,
+                borderRadius: 2,
                 overflow: "hidden",
                 background: "linear-gradient(135deg,#0F766E,#14B8A6)",
                 color: "#fff",
@@ -35,9 +32,11 @@ export default function HeroCard({
             }}
         >
 
+            {/* JAM */}
+
             <Typography
                 sx={{
-                    fontSize: 26,
+                    fontSize: 28,
                     fontWeight: 700,
                     textAlign: "center",
                     lineHeight: 1,
@@ -45,6 +44,8 @@ export default function HeroCard({
             >
                 {time.toLocaleTimeString("id-ID")}
             </Typography>
+
+            {/* TANGGAL */}
 
             <Typography
                 sx={{
@@ -54,26 +55,27 @@ export default function HeroCard({
                 }}
             >
                 {time.toLocaleDateString("id-ID", {
-
                     weekday: "long",
                     day: "numeric",
                     month: "long",
                     year: "numeric"
-
                 })}
             </Typography>
 
-
+            {/* STATUS */}
 
             <Box
                 sx={{
-                    mt: 3,
-                    mb: 3,
+                    mt: 2,
+                    mb: 2,
                     textAlign: "center"
                 }}
             >
 
-                <Typography fontWeight={600} fontSize={18}>
+                <Typography
+                    fontWeight={600}
+                    fontSize={17}
+                >
                     {
                         status === "checked-out"
                             ? "✅ Sudah Check Out"
@@ -89,184 +91,202 @@ export default function HeroCard({
 
             </Box>
 
+            {/* INFO CARD */}
+
             <Grid
                 container
                 spacing={2}
                 sx={{
-                    mt: 3,
-                    mb: 3
+                    mb: 2
                 }}
             >
-                <Grid container spacing={2} sx={{ mt: 3, mb: 3 }}>
 
-                    {/* CHECK IN */}
+                {/* CHECK IN */}
 
-                    <Grid size={6}>
+                <Grid size={6}>
 
-                        <Paper
-                            elevation={0}
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            height: 85,
+                            borderRadius: 2,
+                            p: 1.5,
+
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+
+                            bgcolor: "rgba(255,255,255,.12)",
+                            backdropFilter: "blur(10px)",
+                            color: "#fff"
+                        }}
+                    >
+
+                        <LoginRoundedIcon
                             sx={{
-                                height: 95,
-                                borderRadius: 1,
-                                p: 1.5,
-
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignItems: "center",
-
-                                bgcolor: "rgba(255,255,255,.12)",
-                                backdropFilter: "blur(10px)",
-                                color: "#fff"
+                                fontSize: 24,
+                                color: "#4ADE80"
                             }}
+                        />
+
+                        <Typography
+                            variant="body2"
+                            sx={{ mt: .5 }}
                         >
+                            Check In
+                        </Typography>
 
-                            <LoginRoundedIcon
-                                sx={{
-                                    fontSize: 24,
-                                    color: "#4ADE80"
-                                }}
-                            />
+                        <Typography
+                            fontWeight={700}
+                            fontSize={18}
+                        >
+                            {
+                                todayData?.checkIn
+                                    ? new Date(todayData.checkIn).toLocaleTimeString(
+                                        "id-ID",
+                                        {
+                                            hour: "2-digit",
+                                            minute: "2-digit"
+                                        }
+                                    )
+                                    : "-"
+                            }
+                        </Typography>
 
-                            <Typography
-                                variant="body2"
-                                sx={{ mt: 1 }}
-                            >
-                                Check In
-                            </Typography>
+                    </Paper>
 
-                            <Typography
-                                fontWeight={700}
-                                fontSize={22}
-                            >
-                                {
-                                    todayData?.checkIn
-                                        ? new Date(todayData.checkIn).toLocaleTimeString(
-                                            "id-ID",
-                                            {
-                                                hour: "2-digit",
-                                                minute: "2-digit"
-                                            }
-                                        )
-                                        : "-"
-                                }
-                            </Typography>
+                </Grid>
 
-                        </Paper>
+                {/* CHECK OUT */}
 
-                    </Grid>
+                <Grid size={6}>
 
-                    {/* CHECK OUT */}
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            height: 85,
+                            borderRadius: 2,
+                            p: 1.5,
 
-                    <Grid size={6}>
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
 
-                        <Paper
-                            elevation={0}
+                            bgcolor: "rgba(255,255,255,.12)",
+                            backdropFilter: "blur(10px)",
+                            color: "#fff"
+                        }}
+                    >
+
+                        <LogoutRoundedIcon
                             sx={{
-                                height: 95,
-                                borderRadius: 1,
-                                p: 1.5,
-
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignItems: "center",
-
-                                bgcolor: "rgba(255,255,255,.12)",
-                                backdropFilter: "blur(10px)",
-                                color: "#fff"
+                                fontSize: 24,
+                                color: todayData?.checkOut
+                                    ? "#4ADE80"
+                                    : "#EF4444"
                             }}
+                        />
+
+                        <Typography
+                            variant="body2"
+                            sx={{ mt: .5 }}
                         >
+                            Check Out
+                        </Typography>
 
-                            <LogoutRoundedIcon
-                                sx={{
-                                    fontSize: 24,
-                                    color: todayData?.checkOut
-                                        ? "#4ADE80"
-                                        : "#EF4444"
-                                }}
-                            />
+                        <Typography
+                            fontWeight={700}
+                            fontSize={18}
+                        >
+                            {
+                                todayData?.checkOut
+                                    ? new Date(todayData.checkOut).toLocaleTimeString(
+                                        "id-ID",
+                                        {
+                                            hour: "2-digit",
+                                            minute: "2-digit"
+                                        }
+                                    )
+                                    : "-"
+                            }
+                        </Typography>
 
-                            <Typography
-                                variant="body2"
-                                sx={{ mt: 1 }}
-                            >
-                                Check Out
-                            </Typography>
+                    </Paper>
 
-                            <Typography
-                                fontWeight={700}
-                                fontSize={22}
-                            >
-                                {
-                                    todayData?.checkOut
-                                        ? new Date(todayData.checkOut).toLocaleTimeString(
-                                            "id-ID",
-                                            {
-                                                hour: "2-digit",
-                                                minute: "2-digit"
-                                            }
-                                        )
-                                        : "-"
-                                }
-                            </Typography>
+                </Grid>
 
-                        </Paper>
+                {/* TOTAL */}
 
-                    </Grid>
+                <Grid size={12}>
 
-                    {/* TOTAL */}
+                    <Paper
+                        elevation={0}
+                        sx={{
+                            height: 70,
+                            borderRadius: 2,
+                            p: 1.5,
 
-                    <Grid size={12}>
-                        <Paper
-                            elevation={0}
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+
+                            bgcolor: "rgba(255,255,255,.12)",
+                            backdropFilter: "blur(10px)",
+                            color: "#fff"
+                        }}
+                    >
+
+                        <AccessTimeRoundedIcon
                             sx={{
-                                mt: 1,
-                                height: 80,
-                                borderRadius: 1,
-                                p: 1.5,
-
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignItems: "center",
-
-                                bgcolor: "rgba(255,255,255,.12)",
-                                backdropFilter: "blur(10px)",
-                                color: "#fff"
+                                fontSize: 22,
+                                color: "#60A5FA"
                             }}
+                        />
+
+                        <Typography
+                            variant="body2"
+                            sx={{ mt: .5 }}
                         >
-                            <AccessTimeRoundedIcon
-                                sx={{
-                                    fontSize: 24,
-                                    color: "#60A5FA"
-                                }}
-                            />
+                            Total Kerja
+                        </Typography>
 
-                            <Typography variant="body2" sx={{ mt: 1 }}>
-                                Total Kerja
-                            </Typography>
+                        <Typography
+                            fontWeight={700}
+                            fontSize={17}
+                        >
+                            {todayData?.workingHours || "-"}
+                        </Typography>
 
-                            <Typography
-                                fontWeight={700}
-                                fontSize={20}
-                            >
-                                {todayData?.workingHours || "-"}
-                            </Typography>
-                        </Paper>
-                    </Grid>
+                    </Paper>
+
                 </Grid>
 
             </Grid>
+
+            {/* BUTTON */}
+
             <Button
                 fullWidth
-                size="medium"
+                size="large"
                 variant="contained"
+                sx={{
+                    mt: 1,
+                    py: 1.3,
+                    borderRadius: 2,
+                    fontWeight: 700,
+                    bgcolor: "#ffffff",
+                    color: "#0F766E",
+                    "&:hover": {
+                        bgcolor: "#F3F4F6"
+                    }
+                }}
                 disabled={loading || status === "checked-out"}
-                onClick={status === "checked-in"
-                    ? onCheckOut
-                    : onCheck}
+                onClick={onOpenAttendance}
             >
+
                 {
                     loading
                         ? "Memproses..."
@@ -276,6 +296,7 @@ export default function HeroCard({
                                 ? "Sudah Check Out"
                                 : "Check In"
                 }
+
             </Button>
 
         </Paper>

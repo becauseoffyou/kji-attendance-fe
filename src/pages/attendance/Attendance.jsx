@@ -1,9 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import Swal from "sweetalert2";
-import HeroCard from "../../components/attendance/HeroCard";
-import CameraCard from "../../components/attendance/CameraCard";
 import { Box } from "@mui/material";
+
+import HeroCard from "../../components/attendance/HeroCard";
+import AttendanceDialog from "../../components/attendance/AttendanceDialog";
+import AnnouncementSlider from "../../components/attendance/AnnouncementSlider";
+
 import attendanceService from "../../services/attService";
+
 import {
     OFFICE,
     getCurrentLocation,
@@ -11,6 +15,8 @@ import {
 } from "../../services/locationService";
 
 export default function Attendance() {
+    const [openDialog, setOpenDialog] = useState(false);
+
     const [todayData, setTodayData] = useState(null);
     const [time, setTime] = useState(new Date());
     const [gpsReady, setGpsReady] = useState(false);
@@ -82,7 +88,8 @@ export default function Attendance() {
             const result = await attendanceService.checkIn(formData);
 
             await loadToday();
-
+            setOpenDialog(false);
+            setPhoto(null);
             Swal.fire({
                 icon: "success",
                 title: "Berhasil",
@@ -120,7 +127,7 @@ export default function Attendance() {
             const result = await attendanceService.checkOut();
 
             await loadToday();
-
+            setOpenDialog(false);
             Swal.fire({
                 icon: "success",
                 title: "Berhasil",
@@ -231,27 +238,51 @@ export default function Attendance() {
     return (
 
         <>
-
             <HeroCard
                 time={time}
                 status={status}
-                onCheck={handleCheckIn}
-                onCheckOut={handleCheckOut}
                 insideRadius={insideRadius}
                 loading={loading}
                 todayData={todayData}
+                onOpenAttendance={() => setOpenDialog(true)}
             />
             {/* <Box sx={{ mt: 3 }}>
                 <LocationCard />
             </Box> */}
+            <AnnouncementSlider />
+            <AttendanceDialog
 
-            <Box sx={{ mt: 3 }}>
-                <CameraCard
-                    ref={cameraRef}
-                    photo={photo}
-                    setPhoto={setPhoto}
-                />
-            </Box>
+                open={openDialog}
+
+                onClose={() => {
+
+                    setOpenDialog(false);
+
+                    setPhoto(null);
+
+                }}
+
+                cameraRef={cameraRef}
+
+                photo={photo}
+
+                setPhoto={setPhoto}
+
+                loading={loading}
+
+                status={status}
+
+                onConfirm={
+
+                    status === "checked-in"
+
+                        ? handleCheckOut
+
+                        : handleCheckIn
+
+                }
+
+            />
 
 
         </>
