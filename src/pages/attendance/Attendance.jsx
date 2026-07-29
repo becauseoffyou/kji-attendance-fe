@@ -249,7 +249,7 @@ export default function Attendance() {
             {/* <Box sx={{ mt: 3 }}>
                 <LocationCard />
             </Box> */}
-            <AnnouncementSlider />
+            {/* <AnnouncementSlider /> */}
             <AttendanceDialog
 
                 open={openDialog}
