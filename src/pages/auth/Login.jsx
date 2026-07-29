@@ -48,7 +48,7 @@ export default function Login() {
 
             await loadUser();
 
-            navigate("/dashboard");
+             navigate("/employee/attendance");
         } catch (err) {
             alert(err.response?.data?.message || "Login gagal");
         } finally {
