@@ -16,14 +16,15 @@ import {
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
 import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded";
 // import attendanceService from "../../services/attService";
-const CameraCard = forwardRef(({ photo, setPhoto }, ref) => {
+const CameraCard = forwardRef(({ photo, setPhoto, loading }, ref) => {
 
     const webcamRef = useRef(null);
 
-    // const [photo, setPhoto] = useState(null);
     const capture = () => {
 
-        const image = webcamRef.current?.getScreenshot();
+        if (!webcamRef.current) return null;
+
+        const image = webcamRef.current.getScreenshot();
 
         if (!image) return null;
 
@@ -50,7 +51,7 @@ const CameraCard = forwardRef(({ photo, setPhoto }, ref) => {
         <Card
             elevation={2}
             sx={{
-                borderRadius: 2,
+                borderRadius: 2
             }}
         >
 
@@ -72,69 +73,72 @@ const CameraCard = forwardRef(({ photo, setPhoto }, ref) => {
                     }}
                 >
 
-                    {photo ? (
+                    {
+                        photo ?
 
-                        <img
-                            src={photo}
-                            alt="Preview"
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover"
-                            }}
-                        />
+                            <img
+                                src={photo}
+                                alt="Preview"
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover"
+                                }}
+                            />
 
-                    ) : (
+                            :
 
-                        <Webcam
-                            ref={webcamRef}
-                            screenshotFormat="image/jpeg"
-                            audio={false}
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover"
-                            }}
-                        />
+                            <Webcam
+                                ref={webcamRef}
+                                screenshotFormat="image/jpeg"
+                                audio={false}
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover"
+                                }}
+                            />
 
-                    )}
+                    }
 
                 </Box>
 
                 {
 
-                    // photo ?
+                    photo ?
 
                         <Button
                             fullWidth
                             variant="outlined"
                             color="warning"
                             startIcon={<ReplayRoundedIcon />}
+                            disabled={loading}
                             sx={{
                                 mt: 2,
                                 borderRadius: 3,
-                                height: 48,
+                                height: 48
                             }}
                             onClick={retake}
                         >
                             Ambil Ulang
                         </Button>
 
-                        // :
+                        :
 
-                        // <Button
-                        //     fullWidth
-                        //     variant="contained"
-                        //     startIcon={<CameraAltRoundedIcon />}
-                        //     sx={{
-                        //         mt: 2,
-                        //         borderRadius: 3,
-                        //         height: 48,
-                        //     }}
-                        //     onClick={capture}
-                        // >
-                        //     Ambil Foto
-                        // </Button>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            startIcon={<CameraAltRoundedIcon />}
+                            disabled={loading}
+                            sx={{
+                                mt: 2,
+                                borderRadius: 3,
+                                height: 48
+                            }}
+                            onClick={capture}
+                        >
+                            Ambil Foto
+                        </Button>
 
                 }
 

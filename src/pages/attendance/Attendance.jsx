@@ -42,81 +42,99 @@ export default function Attendance() {
 
     const handleCheckIn = async () => {
 
-        let currentPhoto = photo;
+    let currentPhoto = photo;
+
+    if (!currentPhoto) {
+
+        currentPhoto = cameraRef.current?.capture();
 
         if (!currentPhoto) {
 
-            currentPhoto = cameraRef.current.capture();
-
-        }
-
-        if (!gpsReady) {
-
-            await loadLocation();
-            if (!gpsReady || !location) {
-
-                Swal.fire({
-                    icon: "error",
-                    title: "Lokasi",
-                    text: "Lokasi belum berhasil didapatkan."
-                });
-
-                return;
-
-            }
-        }
-        setLoading(true);
-
-        try {
-
-            const file =
-                dataURLtoFile(currentPhoto, "selfie.jpg");
-
-            const formData = new FormData();
-
-            formData.append("photo", file);
-
-            formData.append(
-                "latitude",
-                location.latitude
-            );
-
-            formData.append(
-                "longitude",
-                location.longitude
-            );
-            const result = await attendanceService.checkIn(formData);
-
-            await loadToday();
-            setOpenDialog(false);
-            setPhoto(null);
             Swal.fire({
-                icon: "success",
-                title: "Berhasil",
-                text: result.message
+                icon: "warning",
+                title: "Foto belum diambil",
+                text: "Silakan ambil foto terlebih dahulu."
             });
 
-        } catch (err) {
+            return;
 
-            console.log(err);
+        }
 
-            console.log(err.response);
+    }
 
-            console.log(err.response?.data);
+    if (!gpsReady) {
+
+        await loadLocation();
+
+        if (!gpsReady || !location) {
 
             Swal.fire({
                 icon: "error",
-                title: "Check In Gagal",
-                text: err.response?.data?.message || err.message
+                title: "Lokasi",
+                text: "Lokasi belum berhasil didapatkan."
             });
 
-        } finally {
-
-            setLoading(false);
+            return;
 
         }
 
-    };
+    }
+
+    setLoading(true);
+
+    try {
+
+        const file = dataURLtoFile(
+            currentPhoto,
+            "selfie.jpg"
+        );
+
+        const formData = new FormData();
+
+        formData.append("photo", file);
+
+        formData.append(
+            "latitude",
+            location.latitude
+        );
+
+        formData.append(
+            "longitude",
+            location.longitude
+        );
+
+        const result =
+            await attendanceService.checkIn(formData);
+
+        await loadToday();
+
+        setOpenDialog(false);
+
+        setPhoto(null);
+
+        Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: result.message
+        });
+
+    } catch (err) {
+
+        Swal.fire({
+            icon: "error",
+            title: "Check In Gagal",
+            text:
+                err.response?.data?.message ||
+                err.message
+        });
+
+    } finally {
+
+        setLoading(false);
+
+    }
+
+};
 
     const handleCheckOut = async () => {
 

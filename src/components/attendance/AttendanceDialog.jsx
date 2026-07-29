@@ -51,6 +51,8 @@ export default function AttendanceDialog({
                     ref={cameraRef}
                     photo={photo}
                     setPhoto={setPhoto}
+                    loading={loading}
+
                 />
 
                 <Box sx={{ mt: 2 }}>
