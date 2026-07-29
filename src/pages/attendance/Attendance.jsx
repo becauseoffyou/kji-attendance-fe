@@ -137,14 +137,23 @@ export default function Attendance() {
 
     };
 
-    const loadOffice = async () => {
+const loadOffice = async () => {
 
-        const officeData =
-            await officeService.getOffice();
+    try {
+
+        const officeData = await officeService.getOffice();
+
+        console.log("Office API:", officeData);
 
         setOffice(officeData);
 
-    };
+    } catch (err) {
+
+        console.error(err);
+
+    }
+
+};
 
     const handleCheckOut = async () => {
 
