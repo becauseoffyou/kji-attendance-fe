@@ -241,17 +241,51 @@ const [refreshingLocation, setRefreshingLocation] = useState(false);
         );
 
         setDistance(meter);
-        setInsideRadius(meter <= Number(office.radius));
+        setInsideRadius(
+            meter <= Number(office.radius)
+        );
         setGpsReady(true);
 
         return current;
 
     } catch (err) {
 
+        console.error("GPS Error:", err);
+
         setGpsReady(false);
         setInsideRadius(null);
 
-        // Swal kamu tetap di sini
+        let title = "Gagal Mendapatkan Lokasi";
+        let text = err.message || "Silakan coba lagi.";
+
+        switch (err.code) {
+
+            case 1:
+                title = "Izin Lokasi Ditolak";
+                text = "Silakan izinkan akses lokasi pada aplikasi melalui Pengaturan.";
+                break;
+
+            case 2:
+                title = "GPS Belum Aktif";
+                text = "Aktifkan GPS terlebih dahulu, lalu tekan tombol refresh.";
+                break;
+
+            case 3:
+                title = "GPS Timeout";
+                text = "Lokasi tidak berhasil diperoleh. Pastikan GPS aktif lalu coba lagi.";
+                break;
+
+            default:
+                title = "Lokasi Tidak Tersedia";
+                text = err.message || "Terjadi kesalahan saat mengambil lokasi.";
+        }
+
+        await Swal.fire({
+            icon: "warning",
+            title,
+            text,
+            confirmButtonText: "OK"
+        });
 
         return null;
 
