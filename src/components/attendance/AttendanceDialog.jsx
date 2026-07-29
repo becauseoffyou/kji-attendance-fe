@@ -80,21 +80,22 @@ export default function AttendanceDialog({
 
                 <Button
                     variant="contained"
-                    disabled={loading}
+                    disabled={
+                        loading ||
+                        (
+                            status !== "checked-in" &&
+                            !photo
+                        )
+                    }
                     onClick={onConfirm}
                 >
-
                     {
                         loading
-
                             ? "Memproses..."
-
                             : status === "checked-in"
                                 ? "Konfirmasi Check Out"
                                 : "Konfirmasi Check In"
-
                     }
-
                 </Button>
 
             </DialogActions>

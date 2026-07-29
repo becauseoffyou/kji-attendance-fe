@@ -40,28 +40,22 @@ export default function Attendance() {
         return () => clearInterval(timer);
     }, []);
 
-    const handleCheckIn = async () => {
+   const handleCheckIn = async () => {
 
-    let currentPhoto = photo;
+    // WAJIB sudah ada foto
+    if (!photo) {
 
-    if (!currentPhoto) {
+        Swal.fire({
+            icon: "warning",
+            title: "Foto belum diambil",
+            text: "Silakan ambil foto terlebih dahulu."
+        });
 
-        currentPhoto = cameraRef.current?.capture();
-
-        if (!currentPhoto) {
-
-            Swal.fire({
-                icon: "warning",
-                title: "Foto belum diambil",
-                text: "Silakan ambil foto terlebih dahulu."
-            });
-
-            return;
-
-        }
+        return;
 
     }
 
+    // WAJIB GPS
     if (!gpsReady) {
 
         await loadLocation();
@@ -85,7 +79,7 @@ export default function Attendance() {
     try {
 
         const file = dataURLtoFile(
-            currentPhoto,
+            photo,
             "selfie.jpg"
         );
 
@@ -103,8 +97,7 @@ export default function Attendance() {
             location.longitude
         );
 
-        const result =
-            await attendanceService.checkIn(formData);
+        const result = await attendanceService.checkIn(formData);
 
         await loadToday();
 
@@ -123,9 +116,7 @@ export default function Attendance() {
         Swal.fire({
             icon: "error",
             title: "Check In Gagal",
-            text:
-                err.response?.data?.message ||
-                err.message
+            text: err.response?.data?.message || err.message
         });
 
     } finally {
