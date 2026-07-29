@@ -1,8 +1,4 @@
-export const OFFICE = {
-    latitude: -6.227930924391262,    // Ganti dengan koordinat kantor
-    longitude: 106.78634210749608,    // Ganti dengan koordinat kantor
-    radius: 200,              // meter
-};
+
 
 export function getCurrentLocation() {
     return new Promise((resolve, reject) => {

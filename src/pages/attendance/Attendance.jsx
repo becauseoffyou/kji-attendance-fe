@@ -9,14 +9,15 @@ import AttendanceDialog from "../../components/attendance/AttendanceDialog";
 import attendanceService from "../../services/attService";
 
 import {
-    OFFICE,
     getCurrentLocation,
     calculateDistance
 } from "../../services/locationService";
 
+import officeService from "../services/officeService";
+
 export default function Attendance() {
     const [openDialog, setOpenDialog] = useState(false);
-
+    const [office, setOffice] = useState(null);
     const [todayData, setTodayData] = useState(null);
     const [time, setTime] = useState(new Date());
     const [gpsReady, setGpsReady] = useState(false);
@@ -29,6 +30,7 @@ export default function Attendance() {
     const [loading, setLoading] = useState(false);
     const [insideRadius, setInsideRadius] = useState(null);
     useEffect(() => {
+        loadOffice();
         loadLocation();
         loadToday();
 
@@ -40,92 +42,101 @@ export default function Attendance() {
         return () => clearInterval(timer);
     }, []);
 
-   const handleCheckIn = async () => {
+    const handleCheckIn = async () => {
 
-    // WAJIB sudah ada foto
-    if (!photo) {
-
-        Swal.fire({
-            icon: "warning",
-            title: "Foto belum diambil",
-            text: "Silakan ambil foto terlebih dahulu."
-        });
-
-        return;
-
-    }
-
-    // WAJIB GPS
-    if (!gpsReady) {
-
-        await loadLocation();
-
-        if (!gpsReady || !location) {
+        // WAJIB sudah ada foto
+        if (!photo) {
 
             Swal.fire({
-                icon: "error",
-                title: "Lokasi",
-                text: "Lokasi belum berhasil didapatkan."
+                icon: "warning",
+                title: "Foto belum diambil",
+                text: "Silakan ambil foto terlebih dahulu."
             });
 
             return;
 
         }
 
-    }
+        // WAJIB GPS
+        if (!gpsReady) {
 
-    setLoading(true);
+            await loadLocation();
 
-    try {
+            if (!gpsReady || !location) {
 
-        const file = dataURLtoFile(
-            photo,
-            "selfie.jpg"
-        );
+                Swal.fire({
+                    icon: "error",
+                    title: "Lokasi",
+                    text: "Lokasi belum berhasil didapatkan."
+                });
 
-        const formData = new FormData();
+                return;
 
-        formData.append("photo", file);
+            }
 
-        formData.append(
-            "latitude",
-            location.latitude
-        );
+        }
 
-        formData.append(
-            "longitude",
-            location.longitude
-        );
+        setLoading(true);
 
-        const result = await attendanceService.checkIn(formData);
+        try {
 
-        await loadToday();
+            const file = dataURLtoFile(
+                photo,
+                "selfie.jpg"
+            );
 
-        setOpenDialog(false);
+            const formData = new FormData();
 
-        setPhoto(null);
+            formData.append("photo", file);
 
-        Swal.fire({
-            icon: "success",
-            title: "Berhasil",
-            text: result.message
-        });
+            formData.append(
+                "latitude",
+                location.latitude
+            );
 
-    } catch (err) {
+            formData.append(
+                "longitude",
+                location.longitude
+            );
 
-        Swal.fire({
-            icon: "error",
-            title: "Check In Gagal",
-            text: err.response?.data?.message || err.message
-        });
+            const result = await attendanceService.checkIn(formData);
 
-    } finally {
+            await loadToday();
 
-        setLoading(false);
+            setOpenDialog(false);
 
-    }
+            setPhoto(null);
 
-};
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: result.message
+            });
+
+        } catch (err) {
+
+            Swal.fire({
+                icon: "error",
+                title: "Check In Gagal",
+                text: err.response?.data?.message || err.message
+            });
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
+    const loadOffice = async () => {
+
+        const officeData =
+            await officeService.getOffice();
+
+        setOffice(officeData);
+
+    };
 
     const handleCheckOut = async () => {
 
@@ -167,18 +178,20 @@ export default function Attendance() {
 
             setLocation(current);
 
+            if (!office) return;
+
             const meter = calculateDistance(
                 current.latitude,
                 current.longitude,
-                OFFICE.latitude,
-                OFFICE.longitude
+                Number(office.latitude),
+                Number(office.longitude)
             );
-console.log("GPS User:", current);
-console.log("Kantor:", OFFICE);
-console.log("Jarak:", meter, "meter");
-console.log("Akurasi GPS:", current.accuracy);
+
             setDistance(meter);
-            setInsideRadius(meter <= OFFICE.radius);
+
+            setInsideRadius(
+                meter <= Number(office.radius)
+            );
 
             setGpsReady(true);
 
