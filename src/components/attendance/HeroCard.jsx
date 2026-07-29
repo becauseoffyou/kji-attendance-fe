@@ -64,8 +64,6 @@ export default function HeroCard({
          sx={{
             fontSize: 26,
             fontWeight: "bold",
-            stroke: "#fff",
-            strokeWidth: 1.5,
             animation: refreshingLocation
                 ? "spin 1s linear infinite"
                 : "none",
