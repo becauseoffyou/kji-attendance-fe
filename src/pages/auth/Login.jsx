@@ -35,7 +35,7 @@ export default function Login() {
         const token = localStorage.getItem("token");
 
         if (token) {
-            navigate("/dashboard");
+           navigate("/employee/attendance");
         }
     }, [navigate]);
 

@@ -6,12 +6,20 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import EmployeeLayout from "../layouts/AbsensiLayout";
 import EmployeeAttendance from "../pages/attendance/Attendance";
 import ProtectedRoute from "./ProtectedRoute";
+import { Navigate } from "react-router-dom";
 
 export default function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Login />} />
+               <Route
+    path="/"
+    element={
+        localStorage.getItem("token")
+            ? <Navigate to="/employee/attendance" replace />
+            : <Login />
+    }
+/>
 
                 <Route
                     path="/dashboard"
