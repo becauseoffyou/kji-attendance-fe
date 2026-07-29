@@ -11,7 +11,8 @@ export default function HeroCard({
     onCheck,
     onCheckOut,
     insideRadius,
-    loading
+    loading,
+    todayData
 }){
 
     const isCheckedIn = status === "checked-in";
@@ -82,6 +83,63 @@ export default function HeroCard({
                 </Typography>
 
             </Box>
+
+            <Box sx={{ mt: 3 }}>
+
+    <Typography align="center">
+        Check In
+    </Typography>
+
+    <Typography
+        align="center"
+        fontWeight={700}
+    >
+        {
+            todayData?.checkIn
+                ? new Date(todayData.checkIn).toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+                : "-"
+        }
+    </Typography>
+
+    <Typography
+        align="center"
+        sx={{ mt: 2 }}
+    >
+        Check Out
+    </Typography>
+
+    <Typography
+        align="center"
+        fontWeight={700}
+    >
+        {
+            todayData?.checkOut
+                ? new Date(todayData.checkOut).toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+                : "-"
+        }
+    </Typography>
+
+    <Typography
+        align="center"
+        sx={{ mt: 2 }}
+    >
+        Total Kerja
+    </Typography>
+
+    <Typography
+        align="center"
+        fontWeight={700}
+    >
+        {todayData?.workingHours || "-"}
+    </Typography>
+
+</Box>
           <Button
     fullWidth
     size="large"

@@ -12,7 +12,7 @@ import {
 } from "../../services/locationService";
 
 export default function Attendance() {
-
+    const [todayData, setTodayData] = useState(null);
     const [time, setTime] = useState(new Date());
     const [gpsReady, setGpsReady] = useState(false);
     const [status, setStatus] = useState("idle");
@@ -39,33 +39,33 @@ export default function Attendance() {
 
         let currentPhoto = photo;
 
-if (!currentPhoto) {
+        if (!currentPhoto) {
 
-    currentPhoto = cameraRef.current.capture();
+            currentPhoto = cameraRef.current.capture();
 
-}
+        }
 
         if (!gpsReady) {
 
             await loadLocation();
-if (!gpsReady || !location) {
+            if (!gpsReady || !location) {
 
-    Swal.fire({
-        icon: "error",
-        title: "Lokasi",
-        text: "Lokasi belum berhasil didapatkan."
-    });
+                Swal.fire({
+                    icon: "error",
+                    title: "Lokasi",
+                    text: "Lokasi belum berhasil didapatkan."
+                });
 
-    return;
+                return;
 
-}
+            }
         }
         setLoading(true);
 
         try {
 
-         const file =
-    dataURLtoFile(currentPhoto, "selfie.jpg");
+            const file =
+                dataURLtoFile(currentPhoto, "selfie.jpg");
 
             const formData = new FormData();
 
@@ -92,10 +92,17 @@ if (!gpsReady || !location) {
 
         } catch (err) {
 
-            alert(
-                err.response?.data?.message ||
-                "Check In gagal."
-            );
+            console.log(err);
+
+            console.log(err.response);
+
+            console.log(err.response?.data);
+
+            Swal.fire({
+                icon: "error",
+                title: "Check In Gagal",
+                text: err.response?.data?.message || err.message
+            });
 
         } finally {
 
@@ -107,35 +114,35 @@ if (!gpsReady || !location) {
 
     const handleCheckOut = async () => {
 
-    try {
+        try {
 
-        setLoading(true);
+            setLoading(true);
 
-        const result = await attendanceService.checkOut();
+            const result = await attendanceService.checkOut();
 
-        await loadToday();
+            await loadToday();
 
-        Swal.fire({
-            icon: "success",
-            title: "Berhasil",
-            text: result.message
-        });
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: result.message
+            });
 
-    } catch (err) {
+        } catch (err) {
 
-        Swal.fire({
-            icon: "error",
-            title: "Gagal",
-            text: err.response?.data?.message || "Check Out gagal."
-        });
+            Swal.fire({
+                icon: "error",
+                title: "Gagal",
+                text: err.response?.data?.message || "Check Out gagal."
+            });
 
-    } finally {
+        } finally {
 
-        setLoading(false);
+            setLoading(false);
 
-    }
+        }
 
-};
+    };
     // get cordinat
     const loadLocation = async () => {
 
@@ -200,7 +207,7 @@ if (!gpsReady || !location) {
             const result = await attendanceService.getToday();
 
             const today = result.data;
-
+            setTodayData(today);
             if (today.checkIn && !today.checkOut) {
 
                 setStatus("checked-in");
@@ -226,14 +233,15 @@ if (!gpsReady || !location) {
 
         <>
 
-           <HeroCard
-    time={time}
-    status={status}
-    onCheck={handleCheckIn}
-    onCheckOut={handleCheckOut}
-    insideRadius={insideRadius}
-    loading={loading}
-/>
+            <HeroCard
+                time={time}
+                status={status}
+                onCheck={handleCheckIn}
+                onCheckOut={handleCheckOut}
+                insideRadius={insideRadius}
+                loading={loading}
+                todayData={todayData}
+            />
             <Box sx={{ mt: 3 }}>
                 <LocationCard />
             </Box>
