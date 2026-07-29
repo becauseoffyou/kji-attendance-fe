@@ -4,8 +4,12 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { AuthProvider } from "./context/AuthContext";
 import App from "./App";
-// import theme from "./theme";
 import theme from "./config/theme";
+import { registerSW } from "virtual:pwa-register";
+
+registerSW({
+    immediate: true,
+});
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>

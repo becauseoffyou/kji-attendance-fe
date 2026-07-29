@@ -41,7 +41,7 @@ export default function AnnouncementSlider({ announcements }) {
                 borderRadius: 1,
                 overflow: "hidden",
                 background:
-                   "#e53935",
+                   "#ef4c4c",
                 color: "#fff"
             }}
         >
