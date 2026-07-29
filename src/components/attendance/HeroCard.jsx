@@ -78,14 +78,14 @@ export default function HeroCard({
                 >
                     {
                         status === "checked-out"
-                            ? "✅ Sudah Check Out"
+                            ? "✅ Sudah Absen Pulang"
                             : insideRadius === null
-                                ? "📍 Lokasi Belum Terdeteksi"
+                                ? "Hai, Sudah waktunya bekerja"
                                 : status === "checked-in"
                                     ? "🟢 Sedang Bekerja"
                                     : insideRadius
-                                        ? "🟢 Dalam Radius"
-                                        : "🔴 Di Luar Radius"
+                                        ? "🟢 Sudah absen?"
+                                        : "🔴 Kamu jauh dari Kantor?"
                     }
                 </Typography>
 
@@ -291,10 +291,10 @@ export default function HeroCard({
                     loading
                         ? "Memproses..."
                         : status === "checked-in"
-                            ? "Check Out"
+                            ? "Absen Pulang"
                             : status === "checked-out"
                                 ? "Sudah Check Out"
-                                : "Check In"
+                                : "Absen Masuk"
                 }
 
             </Button>
