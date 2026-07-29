@@ -1,10 +1,10 @@
 import api from "./api";
 
-const announcementService = {
+const infoService = {
 
     async getAll() {
 
-        const { data } = await api.get("/attendance/list");
+        const { data } = await api.get("/attendance/info");
 
         return data;
 
@@ -12,4 +12,4 @@ const announcementService = {
 
 };
 
-export default announcementService;
+export default infoService;
