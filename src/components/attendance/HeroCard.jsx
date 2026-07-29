@@ -283,7 +283,7 @@ export default function HeroCard({
                         bgcolor: "#F3F4F6"
                     }
                 }}
-                disabled={loading || status === "checked-out"}
+                disabled={loading || status === "checked-out" ||  insideRadius === false}
                 onClick={onOpenAttendance}
             >
 

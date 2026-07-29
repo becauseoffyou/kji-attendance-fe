@@ -52,7 +52,6 @@ export default function Attendance() {
 
     const handleCheckIn = async () => {
 
-        // WAJIB sudah ada foto
         if (!photo) {
 
             Swal.fire({
@@ -65,22 +64,23 @@ export default function Attendance() {
 
         }
 
-        // WAJIB GPS
-        if (!gpsReady) {
+        let currentLocation = location;
 
-            await loadLocation();
+        if (!currentLocation) {
 
-            if (!gpsReady || !location) {
+            currentLocation = await loadLocation();
 
-                Swal.fire({
-                    icon: "error",
-                    title: "Lokasi",
-                    text: "Lokasi belum berhasil didapatkan."
-                });
+        }
 
-                return;
+        if (!currentLocation) {
 
-            }
+            Swal.fire({
+                icon: "error",
+                title: "Lokasi",
+                text: "Lokasi belum berhasil didapatkan."
+            });
+
+            return;
 
         }
 
@@ -99,26 +99,32 @@ export default function Attendance() {
 
             formData.append(
                 "latitude",
-                location.latitude
+                currentLocation.latitude
             );
 
             formData.append(
                 "longitude",
-                location.longitude
+                currentLocation.longitude
             );
 
-            const result = await attendanceService.checkIn(formData);
+            const result =
+                await attendanceService.checkIn(formData);
 
             await loadToday();
 
-            setOpenDialog(false);
+            await loadLocation();
 
             setPhoto(null);
 
+            setOpenDialog(false);
+
             Swal.fire({
                 icon: "success",
-                title: "Berhasil",
-                text: result.message
+                title: "Check In Berhasil",
+                html: `
+                <b>${result.office}</b><br>
+                Jarak ${result.distance} meter
+            `
             });
 
         } catch (err) {
@@ -126,7 +132,9 @@ export default function Attendance() {
             Swal.fire({
                 icon: "error",
                 title: "Check In Gagal",
-                text: err.response?.data?.message || err.message
+                text:
+                    err.response?.data?.message ||
+                    err.message
             });
 
         } finally {
@@ -137,34 +145,35 @@ export default function Attendance() {
 
     };
 
-const loadOffice = async () => {
+    const loadOffice = async () => {
 
-    try {
+        try {
 
-        const officeData = await officeService.getOffice();
+            const officeData = await officeService.getOffice();
 
-        console.log("Office API:", officeData);
+            console.log("Office API:", officeData);
 
-        setOffice(officeData);
+            setOffice(officeData);
 
-    } catch (err) {
+        } catch (err) {
 
-        console.error(err);
+            console.error(err);
 
-    }
+        }
 
-};
+    };
 
     const handleCheckOut = async () => {
 
         try {
-
-            setLoading(true);
-
-            const result = await attendanceService.checkOut();
-
             await loadToday();
+
+            await loadLocation();
+
             setOpenDialog(false);
+
+            setPhoto(null);
+
             Swal.fire({
                 icon: "success",
                 title: "Berhasil",
@@ -195,7 +204,12 @@ const loadOffice = async () => {
 
             setLocation(current);
 
-            if (!office) return;
+            if (!office) {
+
+                setGpsReady(true);
+                return current;
+
+            }
 
             const meter = calculateDistance(
                 current.latitude,
@@ -212,12 +226,16 @@ const loadOffice = async () => {
 
             setGpsReady(true);
 
+            return current;
+
         } catch (err) {
 
             setGpsReady(false);
             setInsideRadius(null);
 
             console.error(err);
+
+            return null;
 
         }
 
