@@ -27,7 +27,7 @@ export default function HeroCard({
         <Paper
             elevation={0}
             sx={{
-                borderRadius: 3,
+                borderRadius: 1,
                 overflow: "hidden",
                 background: "linear-gradient(135deg,#0F766E,#14B8A6)",
                 color: "#fff",
@@ -107,7 +107,7 @@ export default function HeroCard({
                             elevation={0}
                             sx={{
                                 height: 95,
-                                borderRadius: 3,
+                                borderRadius: 1,
                                 p: 1.5,
 
                                 display: "flex",
@@ -164,7 +164,7 @@ export default function HeroCard({
                             elevation={0}
                             sx={{
                                 height: 95,
-                                borderRadius: 3,
+                                borderRadius: 1,
                                 p: 1.5,
 
                                 display: "flex",
@@ -223,7 +223,7 @@ export default function HeroCard({
                             sx={{
                                 mt: 1,
                                 height: 80,
-                                borderRadius: 3,
+                                borderRadius: 1,
                                 p: 1.5,
 
                                 display: "flex",
