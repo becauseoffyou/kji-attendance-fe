@@ -1,50 +1,41 @@
-
-
-export function getCurrentLocation() {
+export const getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
 
-
         if (!navigator.geolocation) {
-            alert("Geolocation tidak didukung");
-
             reject({
-                code: -1,
-                message: "Browser tidak mendukung Geolocation.",
+                code: 0,
+                message: "Browser tidak mendukung GPS."
             });
-
             return;
         }
 
-
         navigator.geolocation.getCurrentPosition(
-            (position) => {
 
+            (position) => {
 
                 resolve({
                     latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    accuracy: position.coords.accuracy,
+                    longitude: position.coords.longitude
                 });
 
             },
+
             (error) => {
 
-
-                reject({
-                    code: error.code,
-                    message: error.message,
-                });
+                reject(error);
 
             },
+
             {
                 enableHighAccuracy: true,
-                timeout: 20000,
-                maximumAge: 0,
+                timeout: 10000,
+                maximumAge: 0
             }
+
         );
 
     });
-}
+};
 // Haversine Formula
 export const calculateDistance = (lat1, lon1, lat2, lon2) => {
 

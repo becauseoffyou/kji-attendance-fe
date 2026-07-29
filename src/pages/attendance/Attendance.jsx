@@ -218,48 +218,84 @@ export default function Attendance() {
     // get cordinat
     const loadLocation = async () => {
 
-        try {
+    try {
 
-            const current = await getCurrentLocation();
+        const current = await getCurrentLocation();
 
-            setLocation(current);
+        setLocation(current);
 
-            if (!office) {
-
-                setGpsReady(true);
-                return current;
-
-            }
-
-            const meter = calculateDistance(
-                current.latitude,
-                current.longitude,
-                Number(office.latitude),
-                Number(office.longitude)
-            );
-
-            setDistance(meter);
-
-            setInsideRadius(
-                meter <= Number(office.radius)
-            );
-
+        if (!office) {
             setGpsReady(true);
-
             return current;
+        }
 
-        } catch (err) {
+        const meter = calculateDistance(
+            current.latitude,
+            current.longitude,
+            Number(office.latitude),
+            Number(office.longitude)
+        );
 
-            setGpsReady(false);
-            setInsideRadius(null);
+        setDistance(meter);
 
-            console.error(err);
+        setInsideRadius(
+            meter <= Number(office.radius)
+        );
 
-            return null;
+        setGpsReady(true);
+
+        return current;
+
+    } catch (err) {
+
+        setGpsReady(false);
+        setInsideRadius(null);
+
+        if (err.code === 1) {
+
+            await Swal.fire({
+                icon: "warning",
+                title: "Izin Lokasi Ditolak",
+                text: "Silakan izinkan akses lokasi pada aplikasi."
+            });
 
         }
 
-    };
+        else if (err.code === 2) {
+
+            await Swal.fire({
+                icon: "warning",
+                title: "GPS Belum Aktif",
+                text: "Aktifkan GPS terlebih dahulu, lalu tekan Coba Lagi."
+            });
+
+        }
+
+        else if (err.code === 3) {
+
+            await Swal.fire({
+                icon: "warning",
+                title: "GPS Timeout",
+                text: "Lokasi tidak berhasil diperoleh."
+            });
+
+        }
+
+        else {
+
+            await Swal.fire({
+                icon: "error",
+                title: "Gagal Mendapatkan Lokasi",
+                text: err.message || "Terjadi kesalahan."
+            });
+
+        }
+
+        return null;
+
+    }
+
+};
     const dataURLtoFile = (dataurl, filename) => {
 
         const arr = dataurl.split(",");
@@ -324,6 +360,8 @@ export default function Attendance() {
                 insideRadius={insideRadius}
                 loading={loading}
                 todayData={todayData}
+                    gpsReady={gpsReady}
+
                 onOpenAttendance={() => setOpenDialog(true)}
             />
             {/* <Box sx={{ mt: 3 }}>

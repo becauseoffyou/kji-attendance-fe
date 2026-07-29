@@ -16,7 +16,8 @@ export default function HeroCard({
     insideRadius,
     loading,
     todayData,
-    onOpenAttendance
+    onOpenAttendance,
+     gpsReady,
 }) {
 
     return (
@@ -268,6 +269,17 @@ export default function HeroCard({
 
             {/* BUTTON */}
 
+            {!gpsReady && (
+    <Button
+        fullWidth
+        variant="outlined"
+        onClick={onRetryLocation}
+        sx={{ mb: 2 }}
+    >
+        🔄 Coba Lagi
+    </Button>
+)}
+
             <Button
                 fullWidth
                 size="large"
@@ -283,7 +295,8 @@ export default function HeroCard({
                         bgcolor: "#F3F4F6"
                     }
                 }}
-                disabled={loading || status === "checked-out" ||  insideRadius === false}
+                   disabled={!gpsReady || !insideRadius || loading}
+
                 onClick={onOpenAttendance}
             >
 
