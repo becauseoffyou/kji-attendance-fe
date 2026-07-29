@@ -13,7 +13,7 @@ import {
     calculateDistance
 } from "../../services/locationService";
 
-import officeService from "../services/officeService";
+import officeService from "../../services/officeService";
 
 export default function Attendance() {
     const [openDialog, setOpenDialog] = useState(false);
