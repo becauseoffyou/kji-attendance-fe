@@ -126,7 +126,7 @@ export default function HeroCard({
                         <LoginRoundedIcon
                             sx={{
                                 fontSize: 24,
-                                color: "#4ADE80"
+                                color: "#ffffff"
                             }}
                         />
 
@@ -184,7 +184,7 @@ export default function HeroCard({
                             sx={{
                                 fontSize: 24,
                                 color: todayData?.checkOut
-                                    ? "#4ADE80"
+                                    ? "#ffff"
                                     : "#EF4444"
                             }}
                         />
@@ -242,7 +242,7 @@ export default function HeroCard({
                         <AccessTimeRoundedIcon
                             sx={{
                                 fontSize: 22,
-                                color: "#60A5FA"
+                                color: "#ffffff"
                             }}
                         />
 
