@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 
 import HeroCard from "../../components/attendance/HeroCard";
 import AttendanceDialog from "../../components/attendance/AttendanceDialog";
-import AnnouncementSlider from "../../components/attendance/AnnouncementSlider";
+// import AnnouncementSlider from "../../components/attendance/AnnouncementSlider";
 
 import attendanceService from "../../services/attService";
 
