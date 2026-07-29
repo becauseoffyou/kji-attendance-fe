@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import Swal from "sweetalert2";
 import HeroCard from "../../components/attendance/HeroCard";
-import LocationCard from "../../components/attendance/LocationCard";
 import CameraCard from "../../components/attendance/CameraCard";
 import { Box } from "@mui/material";
 import attendanceService from "../../services/attService";
@@ -242,9 +241,9 @@ export default function Attendance() {
                 loading={loading}
                 todayData={todayData}
             />
-            <Box sx={{ mt: 3 }}>
+            {/* <Box sx={{ mt: 3 }}>
                 <LocationCard />
-            </Box>
+            </Box> */}
 
             <Box sx={{ mt: 3 }}>
                 <CameraCard
