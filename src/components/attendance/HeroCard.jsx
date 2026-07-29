@@ -48,6 +48,7 @@ export default function HeroCard({
     <Tooltip title="Perbarui Lokasi">
         <IconButton
     size="small"
+    color="white"
     onClick={onRetryLocation}
     disabled={loading}
 >
