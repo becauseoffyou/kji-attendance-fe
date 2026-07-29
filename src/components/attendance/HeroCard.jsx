@@ -48,25 +48,37 @@ export default function HeroCard({
     <Tooltip title="Perbarui Lokasi">
         <IconButton
     size="small"
-    color="white"
+       sx={{
+        color: "#fff",
+        backgroundColor: "rgba(255,255,255,0.15)",
+        border: "2px solid rgba(255,255,255,0.4)",
+        "&:hover": {
+            backgroundColor: "rgba(255,255,255,0.25)",
+        },
+    }}
     onClick={onRetryLocation}
     disabled={loading}
 >
+    refresh
     <RefreshIcon
          sx={{
-        animation: refreshingLocation
-            ? "spin 1s linear infinite"
-            : "none",
+            fontSize: 26,
+            fontWeight: "bold",
+            stroke: "#fff",
+            strokeWidth: 1.5,
+            animation: refreshingLocation
+                ? "spin 1s linear infinite"
+                : "none",
 
-        "@keyframes spin": {
-            from: {
-                transform: "rotate(0deg)",
+            "@keyframes spin": {
+                from: {
+                    transform: "rotate(0deg)",
+                },
+                to: {
+                    transform: "rotate(360deg)",
+                },
             },
-            to: {
-                transform: "rotate(360deg)",
-            },
-        },
-    }}
+        }}
     />
 </IconButton>
     </Tooltip>
