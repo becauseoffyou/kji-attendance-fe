@@ -30,17 +30,25 @@ export default function Attendance() {
     const [loading, setLoading] = useState(false);
     const [insideRadius, setInsideRadius] = useState(null);
     useEffect(() => {
-        loadOffice();
-        loadLocation();
-        loadToday();
 
+        loadOffice();
 
         const timer = setInterval(() => {
             setTime(new Date());
         }, 1000);
 
         return () => clearInterval(timer);
+
     }, []);
+
+    useEffect(() => {
+
+        if (!office) return;
+
+        loadLocation();
+        loadToday();
+
+    }, [office]);
 
     const handleCheckIn = async () => {
 
