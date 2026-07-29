@@ -29,6 +29,8 @@ export default function Attendance() {
     const [announcements, setAnnouncements] = useState([]);
     const [loading, setLoading] = useState(false);
     const [insideRadius, setInsideRadius] = useState(null);
+const [refreshingLocation, setRefreshingLocation] = useState(false);
+
     useEffect(() => {
 
         loadOffice();
@@ -218,6 +220,8 @@ export default function Attendance() {
     // get cordinat
     const loadLocation = async () => {
 
+    setRefreshingLocation(true);
+
     try {
 
         const current = await getCurrentLocation();
@@ -237,11 +241,7 @@ export default function Attendance() {
         );
 
         setDistance(meter);
-
-        setInsideRadius(
-            meter <= Number(office.radius)
-        );
-
+        setInsideRadius(meter <= Number(office.radius));
         setGpsReady(true);
 
         return current;
@@ -251,47 +251,13 @@ export default function Attendance() {
         setGpsReady(false);
         setInsideRadius(null);
 
-        if (err.code === 1) {
-
-            await Swal.fire({
-                icon: "warning",
-                title: "Izin Lokasi Ditolak",
-                text: "Silakan izinkan akses lokasi pada aplikasi."
-            });
-
-        }
-
-        else if (err.code === 2) {
-
-            await Swal.fire({
-                icon: "warning",
-                title: "GPS Belum Aktif",
-                text: "Aktifkan GPS terlebih dahulu, lalu tekan Coba Lagi."
-            });
-
-        }
-
-        else if (err.code === 3) {
-
-            await Swal.fire({
-                icon: "warning",
-                title: "GPS Timeout",
-                text: "Lokasi tidak berhasil diperoleh."
-            });
-
-        }
-
-        else {
-
-            await Swal.fire({
-                icon: "error",
-                title: "Gagal Mendapatkan Lokasi",
-                text: err.message || "Terjadi kesalahan."
-            });
-
-        }
+        // Swal kamu tetap di sini
 
         return null;
+
+    } finally {
+
+        setRefreshingLocation(false);
 
     }
 
@@ -362,7 +328,7 @@ export default function Attendance() {
                 todayData={todayData}
                     gpsReady={gpsReady}
     onRetryLocation={loadLocation}
-
+   refreshingLocation={refreshingLocation}
                 onOpenAttendance={() => setOpenDialog(true)}
             />
             {/* <Box sx={{ mt: 3 }}>

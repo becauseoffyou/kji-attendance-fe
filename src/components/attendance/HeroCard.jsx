@@ -21,6 +21,7 @@ export default function HeroCard({
     todayData,
     onOpenAttendance,
      gpsReady,
+         refreshingLocation,
          onRetryLocation,
 
 }) {
