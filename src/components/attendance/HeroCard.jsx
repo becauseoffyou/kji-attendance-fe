@@ -31,13 +31,13 @@ export default function HeroCard({
                 overflow: "hidden",
                 background: "linear-gradient(135deg,#0F766E,#14B8A6)",
                 color: "#fff",
-                p: 3,
+                p: 2.5,
             }}
         >
 
             <Typography
                 sx={{
-                    fontSize: 30,
+                    fontSize: 26,
                     fontWeight: 700,
                     textAlign: "center",
                     lineHeight: 1,
@@ -106,18 +106,24 @@ export default function HeroCard({
                         <Paper
                             elevation={0}
                             sx={{
-                                p: 2,
+                                height: 95,
                                 borderRadius: 3,
+                                p: 1.5,
+
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
+
                                 bgcolor: "rgba(255,255,255,.12)",
-                                backdropFilter: "blur(8px)",
-                                textAlign: "center",
+                                backdropFilter: "blur(10px)",
                                 color: "#fff"
                             }}
                         >
 
                             <LoginRoundedIcon
                                 sx={{
-                                    fontSize: 34,
+                                    fontSize: 24,
                                     color: "#4ADE80"
                                 }}
                             />
@@ -157,18 +163,24 @@ export default function HeroCard({
                         <Paper
                             elevation={0}
                             sx={{
-                                p: 2,
+                                height: 95,
                                 borderRadius: 3,
+                                p: 1.5,
+
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
+
                                 bgcolor: "rgba(255,255,255,.12)",
-                                backdropFilter: "blur(8px)",
-                                textAlign: "center",
+                                backdropFilter: "blur(10px)",
                                 color: "#fff"
                             }}
                         >
 
                             <LogoutRoundedIcon
                                 sx={{
-                                    fontSize: 34,
+                                    fontSize: 24,
                                     color: todayData?.checkOut
                                         ? "#4ADE80"
                                         : "#EF4444"
@@ -209,17 +221,24 @@ export default function HeroCard({
                         <Paper
                             elevation={0}
                             sx={{
-                                p: 2,
+                                mt: 1,
+                                height: 80,
                                 borderRadius: 3,
+                                p: 1.5,
+
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
+
                                 bgcolor: "rgba(255,255,255,.12)",
-                                backdropFilter: "blur(8px)",
-                                textAlign: "center",
+                                backdropFilter: "blur(10px)",
                                 color: "#fff"
                             }}
                         >
                             <AccessTimeRoundedIcon
                                 sx={{
-                                    fontSize: 30,
+                                    fontSize: 24,
                                     color: "#60A5FA"
                                 }}
                             />
@@ -241,7 +260,7 @@ export default function HeroCard({
             </Grid>
             <Button
                 fullWidth
-                size="large"
+                size="medium"
                 variant="contained"
                 disabled={loading || status === "checked-out"}
                 onClick={status === "checked-in"
