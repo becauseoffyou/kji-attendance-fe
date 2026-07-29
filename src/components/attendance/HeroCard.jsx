@@ -9,6 +9,9 @@ import {
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 export default function HeroCard({
     time,
@@ -34,7 +37,38 @@ export default function HeroCard({
                 p: 2.5,
             }}
         >
+ {!gpsReady && (
+<Box
+    display="flex"
+    justifyContent="space-between"
+    alignItems="center"
+>
+   
+    <Tooltip title="Perbarui Lokasi">
+        <IconButton
+    size="small"
+    onClick={onRetryLocation}
+    disabled={loading}
+>
+    <RefreshIcon
+         sx={{
+        animation: refreshingLocation
+            ? "spin 1s linear infinite"
+            : "none",
 
+        "@keyframes spin": {
+            from: {
+                transform: "rotate(0deg)",
+            },
+            to: {
+                transform: "rotate(360deg)",
+            },
+        },
+    }}
+    />
+</IconButton>
+    </Tooltip>
+</Box> )}
             {/* JAM */}
 
             <Typography
@@ -271,16 +305,7 @@ export default function HeroCard({
 
             {/* BUTTON */}
 
-            {!gpsReady && (
-    <Button
-        fullWidth
-        variant="outlined"
-        onClick={onRetryLocation}
-        sx={{ mb: 2 }}
-    >
-        🔄 Coba Lagi
-    </Button>
-)}
+    
 
             <Button
                 fullWidth
