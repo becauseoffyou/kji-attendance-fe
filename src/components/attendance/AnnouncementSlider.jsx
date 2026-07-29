@@ -38,10 +38,10 @@ export default function AnnouncementSlider({ announcements }) {
         <Card
             sx={{
                 mt: 3,
-                borderRadius: 3,
+                borderRadius: 1,
                 overflow: "hidden",
                 background:
-                    "linear-gradient(135deg,#0F9D58,#0B7A45)",
+                   "#e53935",
                 color: "#fff"
             }}
         >
