@@ -25,7 +25,7 @@ workbox: {
   id: "/",
                 name: "KJI Attendance",
 
-                short_name: "KJI",
+                short_name: "KATAN",
 
                 description: "Aplikasi Absensi PT KJI",
 
