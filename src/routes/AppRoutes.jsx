@@ -7,8 +7,8 @@ import Login from "../pages/auth/Login";
 
 // Admin
 import Dashboard from "../pages/dashboard/Dashboard";
-// import Report from "../pages/report/Report";
-// import Settings from "../pages/settings/Settings";
+import Report from "../pages/report/Report";
+import Settings from "../pages/settings/Settings";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 // Employee
@@ -46,7 +46,7 @@ export default function AppRoutes() {
                         </ProtectedRoute>
                     }
                 />
-
+{/* 
                 <Route
                     path="/report"
                     element={
@@ -67,7 +67,7 @@ export default function AppRoutes() {
                             </DashboardLayout>
                         </ProtectedRoute>
                     }
-                />
+                /> */}
 
                 {/* ===================== EMPLOYEE ===================== */}
 
