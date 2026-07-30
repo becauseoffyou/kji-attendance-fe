@@ -11,21 +11,22 @@ import AttendanceChart from "../../components/layout/AttChart";
 import TodaySummary from "../../components/layout/TodaySummary";
 import AttendanceTable from "../../components/layout/DataTable";
 
-import attendanceChart from "../../data/charts";
+// import attendanceChart from "../../data/charts";
 
 import { useAuth } from "../../context/AuthContext";
-import attendanceService from "../../services/attService";
-
+import dashboardService from "../../services/dashboardService";
 export default function Dashboard() {
 
     const { user, loading } = useAuth();
 
-    const [today, setToday] = useState({
-        checkIn: "-",
-        checkOut: "-",
-        status: "-",
-        workingHours: "-"
-    });
+    const [dashboard, setDashboard] = useState({
+    totalEmployee: 0,
+    present: 0,
+    leave: 0,
+    late: 0,
+    chart: [],
+    attendance: []
+});
 
     const [loadingToday, setLoadingToday] = useState(true);
 
@@ -35,10 +36,9 @@ export default function Dashboard() {
 
             try {
 
-                const result = await attendanceService.getToday();
+                const result = await dashboardService.getDashboard();
 
-                setToday(result.data);
-
+           setDashboard(result.data);
             } catch (err) {
 
                 console.error(err);
@@ -68,8 +68,8 @@ export default function Dashboard() {
 
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
-                        title="Check In"
-                        value={loadingToday ? "..." : today.checkIn}
+                      title="Total Karyawan"
+value={dashboard.totalEmployee}
                         icon={<LoginIcon />}
                         color="#2E7D32"
                     />
@@ -77,8 +77,8 @@ export default function Dashboard() {
 
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
-                        title="Check Out"
-                        value={loadingToday ? "..." : today.checkOut}
+                     title="Hadir Hari Ini"
+value={dashboard.present}
                         icon={<LogoutIcon />}
                         color="#EF6C00"
                     />
@@ -86,8 +86,8 @@ export default function Dashboard() {
 
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
-                        title="Status"
-                        value={loadingToday ? "..." : today.status}
+                       title="Izin"
+value={dashboard.leave}
                         icon={<EventAvailableIcon />}
                         color="#1565C0"
                     />
@@ -95,8 +95,8 @@ export default function Dashboard() {
 
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
-                        title="Jam Kerja"
-                        value={loadingToday ? "..." : today.workingHours}
+                      title="Terlambat"
+value={dashboard.late}
                         icon={<ScheduleIcon />}
                         color="#6A1B9A"
                     />
@@ -112,7 +112,7 @@ export default function Dashboard() {
 
                 <Grid size={{ xs: 12, lg: 9 }}>
                     <AttendanceChart
-                        data={attendanceChart}
+                      data={dashboard.chart}
                     />
                 </Grid>
 
@@ -129,7 +129,7 @@ export default function Dashboard() {
 
                 <Grid size={12}>
                     <AttendanceTable
-                        data={today ? [today] : []}
+                       data={dashboard.attendance}
                     />
                 </Grid>
 
