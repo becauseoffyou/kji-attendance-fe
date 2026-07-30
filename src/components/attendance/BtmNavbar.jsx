@@ -7,17 +7,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 const menus = [
   {
     label: "Absen",
-    value: "/attendance",
+    value: "/employee/attendance",
     icon: <AccessTimeRoundedIcon />,
   },
   {
     label: "History",
-    value: "/history",
+    value: "/employee/history",
     icon: <HistoryRoundedIcon />,
   },
   {
     label: "Profil",
-    value: "/profile",
+    value: "/employee/profile",
     icon: <PersonRoundedIcon />,
   },
 ];
