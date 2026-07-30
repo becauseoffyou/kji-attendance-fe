@@ -1,7 +1,8 @@
 import { Box } from "@mui/material";
+import { Outlet } from "react-router-dom";
 import BottomNavigationBar from "../components/attendance/BtmNavbar";
 
-export default function AbsensiLayout({ children }) {
+export default function AbsensiLayout() {
     return (
         <Box
             sx={{
@@ -11,7 +12,7 @@ export default function AbsensiLayout({ children }) {
             }}
         >
             <Box sx={{ p: 2 }}>
-                {children}
+                <Outlet />
             </Box>
 
             <BottomNavigationBar />

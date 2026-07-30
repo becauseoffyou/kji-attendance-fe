@@ -1,25 +1,40 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+import ProtectedRoute from "./ProtectedRoute";
+
+// Auth
 import Login from "../pages/auth/Login";
+
+// Admin
 import Dashboard from "../pages/dashboard/Dashboard";
+import Report from "../pages/report/Report";
+import Settings from "../pages/settings/Settings";
 import DashboardLayout from "../layouts/DashboardLayout";
+
+// Employee
 import EmployeeLayout from "../layouts/AbsensiLayout";
 import EmployeeAttendance from "../pages/attendance/Attendance";
-import ProtectedRoute from "./ProtectedRoute";
-import { Navigate } from "react-router-dom";
+import EmployeeHistory from "../pages/history/History";
+import EmployeeProfile from "../pages/profile/Profile";
 
 export default function AppRoutes() {
+    const isLogin = !!localStorage.getItem("token");
+
     return (
         <BrowserRouter>
             <Routes>
-               <Route
-    path="/"
-    element={
-        localStorage.getItem("token")
-            ? <Navigate to="/employee/attendance" replace />
-            : <Login />
-    }
-/>
+
+                {/* LOGIN */}
+                <Route
+                    path="/"
+                    element={
+                        isLogin
+                            ? <Navigate to="/employee/attendance" replace />
+                            : <Login />
+                    }
+                />
+
+                {/* ===================== ADMIN ===================== */}
 
                 <Route
                     path="/dashboard"
@@ -29,28 +44,64 @@ export default function AppRoutes() {
                                 <Dashboard />
                             </DashboardLayout>
                         </ProtectedRoute>
-
                     }
                 />
+
                 <Route
-                    path="/employee/attendance"
+                    path="/report"
                     element={
                         <ProtectedRoute>
-
-                            <EmployeeLayout>
-                                <EmployeeAttendance />
-                            </EmployeeLayout>
+                            <DashboardLayout>
+                                <Report />
+                            </DashboardLayout>
                         </ProtectedRoute>
-
                     }
                 />
 
-                <Route path="/report" element={  <ProtectedRoute><DashboardLayout><h2>Laporan</h2></DashboardLayout>  </ProtectedRoute>} />
+                <Route
+                    path="/settings"
+                    element={
+                        <ProtectedRoute>
+                            <DashboardLayout>
+                                <Settings />
+                            </DashboardLayout>
+                        </ProtectedRoute>
+                    }
+                />
 
-            <Route path="/settings" element={ <ProtectedRoute><DashboardLayout><h2>Pengaturan</h2></DashboardLayout></ProtectedRoute>} />
+                {/* ===================== EMPLOYEE ===================== */}
 
+                <Route
+                    path="/employee"
+                    element={
+                        <ProtectedRoute>
+                            <EmployeeLayout />
+                        </ProtectedRoute>
+                    }
+                >
+                    <Route
+                        path="attendance"
+                        element={<EmployeeAttendance />}
+                    />
 
-        </Routes>
-        </BrowserRouter >
+                    <Route
+                        path="history"
+                        element={<EmployeeHistory />}
+                    />
+
+                    <Route
+                        path="profile"
+                        element={<EmployeeProfile />}
+                    />
+                </Route>
+
+                {/* 404 */}
+                <Route
+                    path="*"
+                    element={<Navigate to="/" replace />}
+                />
+
+            </Routes>
+        </BrowserRouter>
     );
 }
