@@ -9,7 +9,7 @@ export default function ProtectedEmployeeRoute({ children }) {
         return <Navigate to="/" replace />;
     }
 
-    if (user.role !== 2) {
+    if (user.role !== 3) {
         return <Navigate to="/dashboard" replace />;
     }
 
