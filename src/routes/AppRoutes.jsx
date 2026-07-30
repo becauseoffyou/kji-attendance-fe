@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedAdminRoute from "./ProtectedAdminRoute";
+import ProtectedEmployeeRoute from "./ProtectedEmployeeRoute";
 
 // Auth
 import Login from "../pages/auth/Login";
@@ -19,33 +20,48 @@ import EmployeeProfile from "../pages/employee/Profile";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
-
+const token = localStorage.getItem("token");
+const user = JSON.parse(localStorage.getItem("user") || "null");
     return (
         <BrowserRouter>
             <Routes>
 
                 {/* LOGIN */}
-                <Route
-                    path="/"
-                    element={
-                        isLogin
-                            ? <Navigate to="/employee/attendance" replace />
-                            : <Login />
-                    }
-                />
+               <Route
+    path="/"
+    element={
+        !token
+            ? (
+                <Login />
+            )
+            : user?.role === 1
+                ? (
+                    <Navigate
+                        to="/dashboard"
+                        replace
+                    />
+                )
+                : (
+                    <Navigate
+                        to="/employee/attendance"
+                        replace
+                    />
+                )
+    }
+/>
 
                 {/* ===================== ADMIN ===================== */}
 
-                <Route
-                    path="/dashboard"
-                    element={
-                        <ProtectedRoute>
-                            <DashboardLayout>
-                                <Dashboard />
-                            </DashboardLayout>
-                        </ProtectedRoute>
-                    }
-                />
+               <Route
+    path="/dashboard"
+    element={
+        <ProtectedAdminRoute>
+            <DashboardLayout>
+                <Dashboard />
+            </DashboardLayout>
+        </ProtectedAdminRoute>
+    }
+/>
 {/* 
                 <Route
                     path="/report"
@@ -74,9 +90,9 @@ export default function AppRoutes() {
                 <Route
                     path="/employee"
                     element={
-                        <ProtectedRoute>
+                        <ProtectedEmployeeRoute>
                             <EmployeeLayout />
-                        </ProtectedRoute>
+                        </ProtectedEmployeeRoute>
                     }
                 >
                     <Route

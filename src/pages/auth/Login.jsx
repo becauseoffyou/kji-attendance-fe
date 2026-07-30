@@ -32,11 +32,20 @@ export default function Login() {
     };
     
     useEffect(() => {
-        const token = localStorage.getItem("token");
+          const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-        if (token) {
-           navigate("/employee/attendance");
-        }
+    if (!token || !user) return;
+
+    if (user.role === 1) {
+
+        navigate("/dashboard");
+
+    } else {
+
+        navigate("/employee/attendance");
+
+    }
     }, [navigate]);
 
     const handleLogin = async () => {
@@ -44,11 +53,19 @@ export default function Login() {
             setLoading(true);
             const data = await authService.login(email, password);
 
-            localStorage.setItem("token", data.token);
+           localStorage.setItem("token", data.token);
+localStorage.setItem("user", JSON.stringify(data.user));
 
             await loadUser();
+if (data.user.role === 1) {
 
-             navigate("/employee/attendance");
+    navigate("/dashboard");
+
+} else {
+
+    navigate("/employee/attendance");
+
+}
         } catch (err) {
             alert(err.response?.data?.message || "Login gagal");
         } finally {
