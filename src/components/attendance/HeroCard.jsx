@@ -340,7 +340,7 @@ export default function HeroCard({
                         bgcolor: "#F3F4F6"
                     }
                 }}
-                   disabled={!gpsReady || !insideRadius || loading || status === "checked-out"}
+                   disabled={!gpsReady || !insideRadius || loading ||  status === "checked-out"}
 
                 onClick={onOpenAttendance}
             >
