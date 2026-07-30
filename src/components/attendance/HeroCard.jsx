@@ -40,45 +40,51 @@ export default function HeroCard({
         >
  {!gpsReady && (
 <Box
-    display="flex"
-    justifyContent="space-between"
-    alignItems="center"
->
-   
-    <Tooltip title="Perbarui Lokasi">
-        <IconButton
-    size="small"
-       sx={{
-        color: "#fff",
-        backgroundColor: "rgba(255,255,255,0.15)",
-        border: "2px solid rgba(255,255,255,0.4)",
-        "&:hover": {
-            backgroundColor: "rgba(255,255,255,0.25)",
-        },
+    sx={{
+        display: "flex",
+        justifyContent: "flex-end",
+        mb: 1
     }}
-    onClick={onRetryLocation}
-    disabled={loading}
 >
-    refresh
-    <RefreshIcon
-         sx={{
-            fontSize: 26,
-            fontWeight: "bold",
-            animation: refreshingLocation
-                ? "spin 1s linear infinite"
-                : "none",
+    <Tooltip
+        title={
+            gpsReady
+                ? "Perbarui Lokasi"
+                : "GPS belum aktif"
+        }
+    >
+        <IconButton
+            onClick={onRetryLocation}
+            disabled={refreshingLocation}
+            sx={{
+                color: "#fff",
+                width: 38,
+                height: 38,
+                bgcolor: "rgba(255,255,255,.10)",
 
-            "@keyframes spin": {
-                from: {
-                    transform: "rotate(0deg)",
-                },
-                to: {
-                    transform: "rotate(360deg)",
-                },
-            },
-        }}
-    />
-</IconButton>
+                "&:hover": {
+                    bgcolor: "rgba(255,255,255,.18)",
+                }
+            }}
+        >
+            <RefreshRoundedIcon
+                sx={{
+                    fontSize: 22,
+                    animation: refreshingLocation
+                        ? "spin .8s linear infinite"
+                        : "none",
+
+                    "@keyframes spin": {
+                        from: {
+                            transform: "rotate(0deg)"
+                        },
+                        to: {
+                            transform: "rotate(360deg)"
+                        }
+                    }
+                }}
+            />
+        </IconButton>
     </Tooltip>
 </Box> )}
             {/* JAM */}
