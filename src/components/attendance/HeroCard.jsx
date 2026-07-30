@@ -9,7 +9,7 @@ import {
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
