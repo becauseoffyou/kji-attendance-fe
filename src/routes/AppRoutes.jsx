@@ -14,8 +14,8 @@ import DashboardLayout from "../layouts/DashboardLayout";
 // Employee
 import EmployeeLayout from "../layouts/AbsensiLayout";
 import EmployeeAttendance from "../pages/attendance/Attendance";
-import EmployeeHistory from "../pages/history/History";
-import EmployeeProfile from "../pages/profile/Profile";
+import EmployeeHistory from "../pages/employee/History";
+import EmployeeProfile from "../pages/employee/Profile";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
