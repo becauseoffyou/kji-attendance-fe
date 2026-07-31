@@ -126,75 +126,82 @@ export default function History() {
                                     })}
                             </Typography>
 
-                            <Stack
-                                direction="row"
-                                justifyContent="space-between"
-                                mb={1}
-                            >
+                        <Stack spacing={1.5}>
 
-                                <Stack direction="row" spacing={1}>
-                                    <LoginIcon color="success" />
-                                    <Typography>
-                                        Masuk
-                                    </Typography>
-                                </Stack>
+    {/* Masuk */}
+    <Box display="flex" alignItems="center">
+        <Box
+            display="flex"
+            alignItems="center"
+            sx={{ width: 140 }}
+        >
+            <LoginIcon color="success" sx={{ mr: 1 }} />
+            <Typography>Masuk</Typography>
+        </Box>
 
-                                <Typography>
-                                    {item.check_in
-                                        ? new Date(item.check_in)
-                                            .toLocaleTimeString("id-ID", {
-                                                hour: "2-digit",
-                                                minute: "2-digit"
-                                            })
-                                        : "-"}
-                                </Typography>
+        <Typography
+            sx={{
+                ml: "auto",
+                fontWeight: 600
+            }}
+        >
+            {item.check_in
+                ? new Date(item.check_in).toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+                : "-"}
+        </Typography>
+    </Box>
 
-                            </Stack>
+    {/* Pulang */}
+    <Box display="flex" alignItems="center">
+        <Box
+            display="flex"
+            alignItems="center"
+            sx={{ width: 140 }}
+        >
+            <LogoutIcon color="error" sx={{ mr: 1 }} />
+            <Typography>Pulang</Typography>
+        </Box>
 
-                            <Stack
-                                direction="row"
-                                justifyContent="space-between"
-                                mb={1}
-                            >
+        <Typography
+            sx={{
+                ml: "auto",
+                fontWeight: 600
+            }}
+        >
+            {item.check_out
+                ? new Date(item.check_out).toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+                : "-"}
+        </Typography>
+    </Box>
 
-                                <Stack direction="row" spacing={1}>
-                                    <LogoutIcon color="error" />
-                                    <Typography>
-                                        Pulang
-                                    </Typography>
-                                </Stack>
+    {/* Durasi */}
+    <Box display="flex" alignItems="center">
+        <Box
+            display="flex"
+            alignItems="center"
+            sx={{ width: 140 }}
+        >
+            <ScheduleIcon color="primary" sx={{ mr: 1 }} />
+            <Typography>Jam Kerja</Typography>
+        </Box>
 
-                                <Typography>
-                                    {item.check_out
-                                        ? new Date(item.check_out)
-                                            .toLocaleTimeString("id-ID", {
-                                                hour: "2-digit",
-                                                minute: "2-digit"
-                                            })
-                                        : "-"}
-                                </Typography>
+        <Typography
+            sx={{
+                ml: "auto",
+                fontWeight: 600
+            }}
+        >
+            {item.working_hours}
+        </Typography>
+    </Box>
 
-                            </Stack>
-
-                            <Stack
-                                direction="row"
-                                justifyContent="space-between"
-                            >
-
-                                <Stack direction="row" spacing={1}>
-                                    <ScheduleIcon color="primary" />
-                                    <Typography>
-                                        Jam Kerja
-                                    </Typography>
-                                </Stack>
-
-                                <Typography>
-
-                                    {item.working_hours}
-
-                                </Typography>
-
-                            </Stack>
+</Stack>
 
                             <Box
                                 mt={2}
