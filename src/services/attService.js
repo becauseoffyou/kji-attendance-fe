@@ -29,9 +29,15 @@ const attendanceService = {
 
         return data;
 
-    }
+    },
 
- 
+ getHistory: async () => {
+
+    const { data } = await api.get("/attendance/history");
+
+    return data;
+
+},
 
 };
 
