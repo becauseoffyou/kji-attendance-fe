@@ -188,7 +188,7 @@ export default function History() {
             sx={{ width: 140 }}
         >
             <ScheduleIcon color="primary" sx={{ mr: 1 }} />
-            <Typography>Jam Kerja</Typography>
+            <Typography>Durasi Kerja</Typography>
         </Box>
 
         <Typography
