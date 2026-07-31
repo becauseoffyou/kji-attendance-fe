@@ -28,13 +28,13 @@ export default function History() {
     }, []);
 
     const formatTime = (time) => {
-    if (!time) return "-";
+        if (!time) return "-";
 
-    return new Date(time).toLocaleTimeString("id-ID", {
-        hour: "2-digit",
-        minute: "2-digit"
-    });
-};
+        return new Date(time).toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+    };
 
     const loadHistory = async () => {
 
@@ -75,16 +75,20 @@ export default function History() {
             <Box
                 sx={{
                     position: "sticky",
-        top: 0,
-        zIndex: 999,
-        backgroundColor: "#F5F7FA",
-        pb: 2
+                    top: 0,
+                    zIndex: 1000,
+                    bgcolor: "#F5F7FA",
+                    px: 2,
+                    pt: 2,
+                    pb: 2,
+                    borderBottom: "1px solid #e5e7eb",
+                    boxShadow: "0 2px 8px rgba(0,0,0,.05)"
                 }}
             >
 
                 <Typography
-                      variant="h5"
-        fontWeight={700}
+                    variant="h5"
+                    fontWeight={700}
                     mb={2}
                 >
                     Riwayat Absensi
@@ -130,10 +134,11 @@ export default function History() {
 
             {/* List */}
             <Stack
-                spacing={2}
-                sx={{
-                    p: 2
-                }}
+                   spacing={2}
+    sx={{
+        px: 2,
+        py: 2
+    }}
             >
 
                 {filteredHistory.map(item => (

@@ -17,11 +17,10 @@ export default function AbsensiLayout() {
 
             <Box
                 sx={{
-                    flex: 1,
-                    overflowY: "auto",
-                    p: 2,
-                    pb: 10
-                }}
+        flex: 1,
+        overflowY: "auto",
+        pb: 10
+    }}
             >
                 <Outlet />
             </Box>
