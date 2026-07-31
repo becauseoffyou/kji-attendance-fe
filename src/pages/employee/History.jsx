@@ -58,25 +58,19 @@ return (
 
     <Box
         sx={{
-            height: "100vh",
-            overflowY: "auto",
             bgcolor: "#f5f7fb"
         }}
     >
 
         {/* Sticky Header */}
         <Box
-            sx={{
-                position: "sticky",
-                top: 0,
-                zIndex: 100,
-                bgcolor: "#f5f7fb",
-                px: 2,
-                pt: 2,
-                pb: 2,
-                borderBottom: "1px solid #e5e7eb",
-                boxShadow: "0 2px 10px rgba(0,0,0,.04)"
-            }}
+         sx={{
+        position: "sticky",
+        top: 0,
+        zIndex: 10,
+        bgcolor: "#F5F7FA",
+        py: 2
+    }}
         >
 
             <Typography

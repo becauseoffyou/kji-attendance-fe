@@ -6,15 +6,25 @@ export default function AbsensiLayout() {
     return (
         <Box
             sx={{
-                minHeight: "100vh",
+                height: "100vh",
+                display: "flex",
+                flexDirection: "column",
                 bgcolor: "#F5F7FA",
-                pb: 10,
             }}
         >
-            <Box sx={{ p: 2 }}>
+            {/* Area yang bisa di-scroll */}
+            <Box
+                sx={{
+                    flex: 1,
+                    overflowY: "auto",
+                    p: 2,
+                    pb: 10
+                }}
+            >
                 <Outlet />
             </Box>
 
+            {/* Bottom Nav tetap */}
             <BottomNavigationBar />
         </Box>
     );
