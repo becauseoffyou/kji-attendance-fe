@@ -27,6 +27,15 @@ export default function History() {
         loadHistory();
     }, []);
 
+    const formatTime = (time) => {
+    if (!time) return "-";
+
+    return new Date(time).toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+};
+
     const loadHistory = async () => {
 
         try {
