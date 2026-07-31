@@ -69,7 +69,7 @@ return (
         top: 0,
         zIndex: 10,
         bgcolor: "#F5F7FA",
-        py: 2
+       
     }}
         >
 
@@ -139,149 +139,102 @@ return (
 
                     <CardContent>
 
-                        <Typography
-                            fontWeight={700}
-                            color="primary"
-                            mb={2}
-                        >
-                            {new Date(item.attendance_date)
-                                .toLocaleDateString("id-ID", {
-                                    weekday: "long",
-                                    day: "numeric",
-                                    month: "long",
-                                    year: "numeric"
-                                })}
-                        </Typography>
+    <Typography
+        fontWeight={700}
+        color="primary"
+        mb={2}
+    >
+        {new Date(item.attendance_date).toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        })}
+    </Typography>
 
-                        <Stack spacing={1.5}>
+    <Box
+        display="flex"
+        justifyContent="space-between"
+        textAlign="center"
+        mb={2}
+    >
 
-                            {/* Masuk */}
-                            <Box display="flex" alignItems="center">
+        <Box flex={1}>
+            <Typography
+                fontWeight={700}
+                fontSize={18}
+            >
+                {item.check_in
+                    ? new Date(item.check_in).toLocaleTimeString("id-ID", {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    })
+                    : "-"}
+            </Typography>
 
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    sx={{ width: 140 }}
-                                >
+            <Typography
+                variant="caption"
+                color="text.secondary"
+            >
+                Masuk
+            </Typography>
+        </Box>
 
-                                    <LoginIcon
-                                        color="success"
-                                        sx={{ mr: 1 }}
-                                    />
+        <Box flex={1}>
+            <Typography
+                fontWeight={700}
+                fontSize={18}
+            >
+                {item.check_out
+                    ? new Date(item.check_out).toLocaleTimeString("id-ID", {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    })
+                    : "-"}
+            </Typography>
 
-                                    <Typography>
-                                        Masuk
-                                    </Typography>
+            <Typography
+                variant="caption"
+                color="text.secondary"
+            >
+                Pulang
+            </Typography>
+        </Box>
 
-                                </Box>
+        <Box flex={1}>
+            <Typography
+                fontWeight={700}
+                fontSize={18}
+            >
+                {item.working_hours}
+            </Typography>
 
-                                <Typography
-                                    sx={{
-                                        ml: "auto",
-                                        fontWeight: 600
-                                    }}
-                                >
-                                    {item.check_in
-                                        ? new Date(item.check_in)
-                                            .toLocaleTimeString("id-ID", {
-                                                hour: "2-digit",
-                                                minute: "2-digit"
-                                            })
-                                        : "-"}
-                                </Typography>
+            <Typography
+                variant="caption"
+                color="text.secondary"
+            >
+                Durasi
+            </Typography>
+        </Box>
 
-                            </Box>
+    </Box>
 
-                            {/* Pulang */}
-                            <Box display="flex" alignItems="center">
+    <Box
+        display="flex"
+        justifyContent="flex-end"
+    >
+        <Chip
+            size="small"
+            label={item.status}
+            color={
+                item.status === "Pulang"
+                    ? "success"
+                    : "warning"
+            }
+        />
+    </Box>
 
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    sx={{ width: 140 }}
-                                >
-
-                                    <LogoutIcon
-                                        color="error"
-                                        sx={{ mr: 1 }}
-                                    />
-
-                                    <Typography>
-                                        Pulang
-                                    </Typography>
-
-                                </Box>
-
-                                <Typography
-                                    sx={{
-                                        ml: "auto",
-                                        fontWeight: 600
-                                    }}
-                                >
-                                    {item.check_out
-                                        ? new Date(item.check_out)
-                                            .toLocaleTimeString("id-ID", {
-                                                hour: "2-digit",
-                                                minute: "2-digit"
-                                            })
-                                        : "-"}
-                                </Typography>
-
-                            </Box>
-
-                            {/* Durasi */}
-                            <Box display="flex" alignItems="center">
-
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    sx={{ width: 140 }}
-                                >
-
-                                    <ScheduleIcon
-                                        color="primary"
-                                        sx={{ mr: 1 }}
-                                    />
-
-                                    <Typography>
-                                        Jam Kerja
-                                    </Typography>
-
-                                </Box>
-
-                                <Typography
-                                    sx={{
-                                        ml: "auto",
-                                        fontWeight: 600
-                                    }}
-                                >
-                                    {item.working_hours}
-                                </Typography>
-
-                            </Box>
-
-                        </Stack>
-
-                        <Box
-                            mt={2}
-                            pt={2}
-                            borderTop="1px solid #eee"
-                            display="flex"
-                            justifyContent="flex-end"
-                        >
-
-                            <Chip
-                                label={item.status}
-                                color={
-                                    item.status === "Pulang"
-                                        ? "success"
-                                        : "warning"
-                                }
-                            />
-
-                        </Box>
-
-                    </CardContent>
+</CardContent>
 
                 </Card>
 
