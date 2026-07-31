@@ -152,97 +152,68 @@ export default function History() {
                                 })}
                             </Typography>
 
-                           <Box
-    sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        mt: 2,
-        mb: 2,
-        textAlign: "center"
-    }}
->
+                            <Box
+                                sx={{
+                                    display: "grid",
+                                    gridTemplateColumns: "repeat(3, 1fr)",
+                                    gap: 2,
+                                    textAlign: "center",
+                                    my: 2
+                                }}
+                            >
 
-    {/* Masuk */}
-    <Box sx={{ flex: 1 }}>
-        <Typography
-            variant="h6"
-            fontWeight={700}
-        >
-            {item.check_in
-                ? new Date(item.check_in).toLocaleTimeString("id-ID", {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                })
-                : "-"}
-        </Typography>
+                                <Box>
+                                    <Typography
+                                        fontWeight={700}
+                                        fontSize={20}
+                                        noWrap
+                                    >
+                                        {formatTime(item.check_in)}
+                                    </Typography>
 
-        <Typography
-            variant="caption"
-            color="text.secondary"
-        >
-            Masuk
-        </Typography>
-    </Box>
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                    >
+                                        Masuk
+                                    </Typography>
+                                </Box>
 
-    {/* Divider */}
-    <Box
-        sx={{
-            width: 1,
-            height: 40,
-            bgcolor: "#e0e0e0"
-        }}
-    />
+                                <Box>
+                                    <Typography
+                                        fontWeight={700}
+                                        fontSize={20}
+                                        noWrap
+                                    >
+                                        {formatTime(item.check_out)}
+                                    </Typography>
 
-    {/* Pulang */}
-    <Box sx={{ flex: 1 }}>
-        <Typography
-            variant="h6"
-            fontWeight={700}
-        >
-            {item.check_out
-                ? new Date(item.check_out).toLocaleTimeString("id-ID", {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                })
-                : "-"}
-        </Typography>
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                    >
+                                        Pulang
+                                    </Typography>
+                                </Box>
 
-        <Typography
-            variant="caption"
-            color="text.secondary"
-        >
-            Pulang
-        </Typography>
-    </Box>
+                                <Box>
+                                    <Typography
+                                        fontWeight={700}
+                                        fontSize={20}
+                                        noWrap
+                                    >
+                                        {item.working_hours}
+                                    </Typography>
 
-    {/* Divider */}
-    <Box
-        sx={{
-            width: 1,
-            height: 40,
-            bgcolor: "#e0e0e0"
-        }}
-    />
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                    >
+                                        Durasi
+                                    </Typography>
+                                </Box>
 
-    {/* Durasi */}
-    <Box sx={{ flex: 1 }}>
-        <Typography
-            variant="h6"
-            fontWeight={700}
-        >
-            {item.working_hours}
-        </Typography>
-
-        <Typography
-            variant="caption"
-            color="text.secondary"
-        >
-            Durasi
-        </Typography>
-    </Box>
-
-</Box>
+                            </Box>
 
                             <Box
                                 display="flex"
