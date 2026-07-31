@@ -75,16 +75,16 @@ export default function History() {
             <Box
                 sx={{
                     position: "sticky",
-                    top: 0,
-                    zIndex: 10,
-                    bgcolor: "#F5F7FA",
-                    py: 1
+        top: 0,
+        zIndex: 999,
+        backgroundColor: "#F5F7FA",
+        pb: 2
                 }}
             >
 
                 <Typography
-                    variant="h5"
-                    fontWeight={700}
+                      variant="h5"
+        fontWeight={700}
                     mb={2}
                 >
                     Riwayat Absensi

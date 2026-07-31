@@ -3,7 +3,9 @@ import { Outlet } from "react-router-dom";
 import BottomNavigationBar from "../components/attendance/BtmNavbar";
 
 export default function AbsensiLayout() {
+
     return (
+
         <Box
             sx={{
                 height: "100vh",
@@ -12,7 +14,7 @@ export default function AbsensiLayout() {
                 bgcolor: "#F5F7FA",
             }}
         >
-            {/* Area yang bisa di-scroll */}
+
             <Box
                 sx={{
                     flex: 1,
@@ -24,8 +26,10 @@ export default function AbsensiLayout() {
                 <Outlet />
             </Box>
 
-            {/* Bottom Nav tetap */}
             <BottomNavigationBar />
+
         </Box>
+
     );
+
 }
