@@ -152,74 +152,97 @@ export default function History() {
                                 })}
                             </Typography>
 
-                            <Box
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="center"
-                                textAlign="center"
-                                mt={2}
-                                mb={2}
-                            >
+                           <Box
+    sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        mt: 2,
+        mb: 2,
+        textAlign: "center"
+    }}
+>
 
-                                <Box flex={1}>
-                                    <Typography
-                                        fontWeight={700}
-                                        fontSize={18}
-                                    >
-                                        {item.check_in
-                                            ? new Date(item.check_in).toLocaleTimeString("id-ID", {
-                                                hour: "2-digit",
-                                                minute: "2-digit"
-                                            })
-                                            : "-"}
-                                    </Typography>
+    {/* Masuk */}
+    <Box sx={{ flex: 1 }}>
+        <Typography
+            variant="h6"
+            fontWeight={700}
+        >
+            {item.check_in
+                ? new Date(item.check_in).toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+                : "-"}
+        </Typography>
 
-                                    <Typography
-                                        variant="caption"
-                                        color="text.secondary"
-                                    >
-                                        Masuk
-                                    </Typography>
-                                </Box>
+        <Typography
+            variant="caption"
+            color="text.secondary"
+        >
+            Masuk
+        </Typography>
+    </Box>
 
-                                <Box flex={1}>
-                                    <Typography
-                                        fontWeight={700}
-                                        fontSize={18}
-                                    >
-                                        {item.check_out
-                                            ? new Date(item.check_out).toLocaleTimeString("id-ID", {
-                                                hour: "2-digit",
-                                                minute: "2-digit"
-                                            })
-                                            : "-"}
-                                    </Typography>
+    {/* Divider */}
+    <Box
+        sx={{
+            width: 1,
+            height: 40,
+            bgcolor: "#e0e0e0"
+        }}
+    />
 
-                                    <Typography
-                                        variant="caption"
-                                        color="text.secondary"
-                                    >
-                                        Pulang
-                                    </Typography>
-                                </Box>
+    {/* Pulang */}
+    <Box sx={{ flex: 1 }}>
+        <Typography
+            variant="h6"
+            fontWeight={700}
+        >
+            {item.check_out
+                ? new Date(item.check_out).toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+                : "-"}
+        </Typography>
 
-                                <Box flex={1}>
-                                    <Typography
-                                        fontWeight={700}
-                                        fontSize={18}
-                                    >
-                                        {item.working_hours}
-                                    </Typography>
+        <Typography
+            variant="caption"
+            color="text.secondary"
+        >
+            Pulang
+        </Typography>
+    </Box>
 
-                                    <Typography
-                                        variant="caption"
-                                        color="text.secondary"
-                                    >
-                                        Durasi
-                                    </Typography>
-                                </Box>
+    {/* Divider */}
+    <Box
+        sx={{
+            width: 1,
+            height: 40,
+            bgcolor: "#e0e0e0"
+        }}
+    />
 
-                            </Box>
+    {/* Durasi */}
+    <Box sx={{ flex: 1 }}>
+        <Typography
+            variant="h6"
+            fontWeight={700}
+        >
+            {item.working_hours}
+        </Typography>
+
+        <Typography
+            variant="caption"
+            color="text.secondary"
+        >
+            Durasi
+        </Typography>
+    </Box>
+
+</Box>
 
                             <Box
                                 display="flex"
