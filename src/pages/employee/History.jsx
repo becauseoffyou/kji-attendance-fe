@@ -54,196 +54,198 @@ export default function History() {
         });
 
     }, [history, month]);
-return (
+    return (
 
-    <Box
-        sx={{
-            bgcolor: "#f5f7fb"
-        }}
-    >
-
-        {/* Sticky Header */}
         <Box
-         sx={{
-        position: "sticky",
-        top: 0,
-        zIndex: 10,
-        bgcolor: "#F5F7FA",
-       
-    }}
-        >
-
-            <Typography
-                variant="h5"
-                fontWeight={700}
-                mb={2}
-            >
-                Riwayat Absensi
-            </Typography>
-
-            <FormControl fullWidth>
-
-                <Select
-                    size="small"
-                    value={month}
-                    onChange={(e) => setMonth(e.target.value)}
-                >
-
-                    {[
-                        "Januari",
-                        "Februari",
-                        "Maret",
-                        "April",
-                        "Mei",
-                        "Juni",
-                        "Juli",
-                        "Agustus",
-                        "September",
-                        "Oktober",
-                        "November",
-                        "Desember"
-                    ].map((m, i) => (
-
-                        <MenuItem
-                            key={i}
-                            value={i}
-                        >
-                            {m}
-                        </MenuItem>
-
-                    ))}
-
-                </Select>
-
-            </FormControl>
-
-        </Box>
-
-        {/* List */}
-        <Stack
-            spacing={2}
             sx={{
-                p: 2
+                bgcolor: "#f5f7fb"
             }}
         >
 
-            {filteredHistory.map(item => (
+            {/* Sticky Header */}
+            <Box
+                sx={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 10,
+                    bgcolor: "#F5F7FA",
+                    py: 1
+                }}
+            >
 
-                <Card
-                    key={item.id}
-                    elevation={2}
-                    sx={{
-                        borderRadius: 3
-                    }}
+                <Typography
+                    variant="h5"
+                    fontWeight={700}
+                    mb={2}
                 >
+                    Riwayat Absensi
+                </Typography>
 
-                    <CardContent>
+                <FormControl fullWidth>
 
-    <Typography
-        fontWeight={700}
-        color="primary"
-        mb={2}
-    >
-        {new Date(item.attendance_date).toLocaleDateString("id-ID", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        })}
-    </Typography>
+                    <Select
+                        size="small"
+                        value={month}
+                        onChange={(e) => setMonth(e.target.value)}
+                    >
 
-    <Box
-        display="flex"
-        justifyContent="space-between"
-        textAlign="center"
-        mb={2}
-    >
+                        {[
+                            "Januari",
+                            "Februari",
+                            "Maret",
+                            "April",
+                            "Mei",
+                            "Juni",
+                            "Juli",
+                            "Agustus",
+                            "September",
+                            "Oktober",
+                            "November",
+                            "Desember"
+                        ].map((m, i) => (
 
-        <Box flex={1}>
-            <Typography
-                fontWeight={700}
-                fontSize={18}
+                            <MenuItem
+                                key={i}
+                                value={i}
+                            >
+                                {m}
+                            </MenuItem>
+
+                        ))}
+
+                    </Select>
+
+                </FormControl>
+
+            </Box>
+
+            {/* List */}
+            <Stack
+                spacing={2}
+                sx={{
+                    p: 2
+                }}
             >
-                {item.check_in
-                    ? new Date(item.check_in).toLocaleTimeString("id-ID", {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    })
-                    : "-"}
-            </Typography>
 
-            <Typography
-                variant="caption"
-                color="text.secondary"
-            >
-                Masuk
-            </Typography>
+                {filteredHistory.map(item => (
+
+                    <Card
+                        key={item.id}
+                        elevation={2}
+                        sx={{
+                            borderRadius: 3
+                        }}
+                    >
+
+                        <CardContent>
+
+                            <Typography
+                                fontWeight={700}
+                                color="primary"
+                                mb={2}
+                            >
+                                {new Date(item.attendance_date).toLocaleDateString("id-ID", {
+                                    weekday: "long",
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric"
+                                })}
+                            </Typography>
+
+                            <Box
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                textAlign="center"
+                                mt={2}
+                                mb={2}
+                            >
+
+                                <Box flex={1}>
+                                    <Typography
+                                        fontWeight={700}
+                                        fontSize={18}
+                                    >
+                                        {item.check_in
+                                            ? new Date(item.check_in).toLocaleTimeString("id-ID", {
+                                                hour: "2-digit",
+                                                minute: "2-digit"
+                                            })
+                                            : "-"}
+                                    </Typography>
+
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                    >
+                                        Masuk
+                                    </Typography>
+                                </Box>
+
+                                <Box flex={1}>
+                                    <Typography
+                                        fontWeight={700}
+                                        fontSize={18}
+                                    >
+                                        {item.check_out
+                                            ? new Date(item.check_out).toLocaleTimeString("id-ID", {
+                                                hour: "2-digit",
+                                                minute: "2-digit"
+                                            })
+                                            : "-"}
+                                    </Typography>
+
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                    >
+                                        Pulang
+                                    </Typography>
+                                </Box>
+
+                                <Box flex={1}>
+                                    <Typography
+                                        fontWeight={700}
+                                        fontSize={18}
+                                    >
+                                        {item.working_hours}
+                                    </Typography>
+
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                    >
+                                        Durasi
+                                    </Typography>
+                                </Box>
+
+                            </Box>
+
+                            <Box
+                                display="flex"
+                                justifyContent="flex-end"
+                            >
+                                <Chip
+                                    size="small"
+                                    label={item.status}
+                                    color={
+                                        item.status === "Pulang"
+                                            ? "success"
+                                            : "warning"
+                                    }
+                                />
+                            </Box>
+
+                        </CardContent>
+
+                    </Card>
+
+                ))}
+
+            </Stack>
+
         </Box>
 
-        <Box flex={1}>
-            <Typography
-                fontWeight={700}
-                fontSize={18}
-            >
-                {item.check_out
-                    ? new Date(item.check_out).toLocaleTimeString("id-ID", {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    })
-                    : "-"}
-            </Typography>
-
-            <Typography
-                variant="caption"
-                color="text.secondary"
-            >
-                Pulang
-            </Typography>
-        </Box>
-
-        <Box flex={1}>
-            <Typography
-                fontWeight={700}
-                fontSize={18}
-            >
-                {item.working_hours}
-            </Typography>
-
-            <Typography
-                variant="caption"
-                color="text.secondary"
-            >
-                Durasi
-            </Typography>
-        </Box>
-
-    </Box>
-
-    <Box
-        display="flex"
-        justifyContent="flex-end"
-    >
-        <Chip
-            size="small"
-            label={item.status}
-            color={
-                item.status === "Pulang"
-                    ? "success"
-                    : "warning"
-            }
-        />
-    </Box>
-
-</CardContent>
-
-                </Card>
-
-            ))}
-
-        </Stack>
-
-    </Box>
-
-);
+    );
 
 }
