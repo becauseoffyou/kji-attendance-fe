@@ -97,7 +97,7 @@ export default function Profile() {
 
             <Card
                 sx={{
-                    borderRadius: 4
+                    borderRadius: 2
                 }}
             >
 
@@ -152,7 +152,7 @@ export default function Profile() {
             <Card
                 sx={{
                     mt: 2,
-                    borderRadius: 4
+                    borderRadius: 2
                 }}
             >
                 <CardContent>
@@ -239,7 +239,7 @@ export default function Profile() {
             <Card
                 sx={{
                     mt: 2,
-                    borderRadius: 4
+                    borderRadius: 2
                 }}
             >
                 <List disablePadding>
