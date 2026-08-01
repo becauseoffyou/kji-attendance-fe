@@ -7,16 +7,30 @@ import {
     Chip,
     Divider,
     CircularProgress,
-    Typography
+    Typography,
+    List,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button
 } from "@mui/material";
 
+import { useNavigate } from "react-router-dom";
+
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import authService from "../../services/authService";
 
 export default function Profile() {
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const [openLogout, setOpenLogout] = useState(false);
     useEffect(() => {
         loadProfile();
     }, []);
@@ -64,6 +78,17 @@ export default function Profile() {
         );
 
     }
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        navigate("/");
+
+    };
 
     return (
 
@@ -209,6 +234,95 @@ export default function Profile() {
 
                 </CardContent>
             </Card>
+            <Card
+                sx={{
+                    mt: 2,
+                    borderRadius: 4
+                }}
+            >
+                <List disablePadding>
+
+                    <ListItemButton>
+
+                        <ListItemIcon>
+                            <LockOutlinedIcon color="primary" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary="Ganti Password"
+                            secondary="Ubah password akun Anda"
+                        />
+
+                        <ChevronRightRoundedIcon color="action" />
+
+                    </ListItemButton>
+
+                    <Divider />
+
+                    <ListItemButton
+                        onClick={() => setOpenLogout(true)}
+                        sx={{
+                            color: "error.main"
+                        }}
+                    >
+                        <ListItemIcon>
+                            <LogoutRoundedIcon color="error" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary="Logout"
+                            secondary="Keluar dari aplikasi"
+                        />
+
+                        <ChevronRightRoundedIcon color="error" />
+
+                    </ListItemButton>
+
+                </List>
+            </Card>
+            <Dialog
+                open={openLogout}
+                onClose={() => setOpenLogout(false)}
+            >
+
+                <DialogTitle>
+                    Logout
+                </DialogTitle>
+
+                <DialogContent>
+                    Apakah Anda yakin ingin keluar?
+                </DialogContent>
+
+                <DialogActions>
+
+                    <Button
+                        onClick={() => setOpenLogout(false)}
+                    >
+                        Batal
+                    </Button>
+
+                    <Button
+                        color="error"
+                        variant="contained"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </Button>
+
+                </DialogActions>
+
+            </Dialog>
+            <Typography
+                align="center"
+                color="text.secondary"
+                variant="caption"
+                sx={{
+                    mt: 4,
+                    mb: 2
+                }}
+            >
+                KJI Attendance v1.0.0
+            </Typography>
         </Box>
 
     );
