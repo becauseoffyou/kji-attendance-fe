@@ -280,7 +280,6 @@ const summary = useMemo(() => {
         size="small"
         sx={{
             fontWeight: 600,
-             ml: 2,
         }}
     />
 
