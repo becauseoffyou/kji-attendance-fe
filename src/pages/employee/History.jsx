@@ -298,10 +298,10 @@ const summary = useMemo(() => {
 
                                 <Box>
 
-                                    <LoginIcon
+                                    {/* <LoginIcon
                                         color="success"
                                         sx={{ mb: .5 }}
-                                    />
+                                    /> */}
 
                                     <Typography
                                         fontWeight={700}
@@ -321,10 +321,10 @@ const summary = useMemo(() => {
 
                                 <Box>
 
-                                    <LogoutIcon
+                                    {/* <LogoutIcon
                                         color="error"
                                         sx={{ mb: .5 }}
-                                    />
+                                    /> */}
 
                                     <Typography
                                         fontWeight={700}
@@ -344,10 +344,10 @@ const summary = useMemo(() => {
 
                                 <Box>
 
-                                    <ScheduleIcon
+                                    {/* <ScheduleIcon
                                         color="primary"
                                         sx={{ mb: .5 }}
-                                    />
+                                    /> */}
 
                                     <Typography
                                         fontWeight={700}
