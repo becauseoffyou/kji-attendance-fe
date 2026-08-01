@@ -169,7 +169,7 @@ const summary = useMemo(() => {
                     color="text.secondary"
                     sx={{ mt: .5 }}
                 >
-                    {summary.hadir} Hari Hadir • {summary.terlambat} Terlambat
+                    {summary.hadir} Hari Hadir | {summary.terlambat} Terlambat | 0 Izin
                 </Typography>
 
                 <Box
@@ -245,7 +245,7 @@ const summary = useMemo(() => {
                         key={item.id}
                         elevation={2}
                         sx={{
-                            borderRadius: 4
+                            borderRadius: 1
                         }}
                     >
 
@@ -268,9 +268,8 @@ const summary = useMemo(() => {
                                         month: "long",
                                         year: "numeric"
                                     })}
-                                </Typography>
 
-                                <Chip
+                                      <Chip
                                     label={item.status}
                                     color={
                                         item.status === "Pulang"
@@ -279,10 +278,13 @@ const summary = useMemo(() => {
                                     }
                                     size="small"
                                 />
+                                </Typography>
+
+                              
 
                             </Box>
 
-                            <Divider sx={{ mb: 2 }} />
+                            {/* <Divider sx={{ mb: 2 }} /> */}
 
                             <Box
                                 sx={{
