@@ -74,48 +74,49 @@ export default function Profile() {
                 }}
             >
 
-                <CardContent>
+                <CardContent
+                    sx={{
+                        textAlign: "center"
+                    }}
+                >
 
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
+                    <Avatar
+                        src={user?.photo || ""}
+                        sx={{
+                            width: 90,
+                            height: 90,
+                            mx: "auto",
+                            mb: 2,
+                            bgcolor: "#16A34A",
+                            fontSize: 34
+                        }}
                     >
+                        {user?.name?.charAt(0)}
+                    </Avatar>
 
-                        <Avatar
-                            src={user?.photo || ""}
-                            sx={{
-                                width: 90,
-                                height: 90,
-                                bgcolor: "#16A34A",
-                                fontSize: 34,
-                                mb: 2
-                            }}
-                        >
-                            {user?.name?.charAt(0) || "?"}
-                        </Avatar>
+                    <Typography
+                        variant="h5"
+                        fontWeight={700}
+                    >
+                        {user.name}
+                    </Typography>
 
-                        <Typography
-                            variant="h5"
-                            fontWeight={700}
-                        >
-                            {user.name}
-                        </Typography>
+                    <Typography
+                        color="text.secondary"
+                        sx={{ mt: .5 }}
+                    >
+                        {user.position}
+                    </Typography>
 
-                        <Typography
-                            color="text.secondary"
-                        >
-                            {user.position}
-                        </Typography>
-
-                        <Chip
-                            label={user.department}
-                            color="success"
-                            size="small"
-                            sx={{ mt: 1 }}
-                        />
-
-                    </Box>
+                    <Chip
+                        label={user.department}
+                        color="success"
+                        size="small"
+                        sx={{
+                            mt: 2,
+                            px: 1
+                        }}
+                    />
 
                 </CardContent>
 
@@ -126,64 +127,68 @@ export default function Profile() {
                     borderRadius: 4
                 }}
             >
-
                 <CardContent>
 
-                    <Typography
-                        variant="subtitle2"
-                        color="text.secondary"
+                    <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        py={1}
                     >
-                        NIK
-                    </Typography>
+                        <Typography color="text.secondary">
+                            NIK
+                        </Typography>
 
-                    <Typography
-                        fontWeight={600}
-                        mb={2}
+                        <Typography fontWeight={600}>
+                            {user.nik}
+                        </Typography>
+                    </Box>
+
+                    <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        py={1}
                     >
-                        {user.nik}
-                    </Typography>
+                        <Typography color="text.secondary">
+                            Email
+                        </Typography>
 
-                    <Typography
-                        variant="subtitle2"
-                        color="text.secondary"
+                        <Typography
+                            fontWeight={600}
+                            textAlign="right"
+                        >
+                            {user.email}
+                        </Typography>
+                    </Box>
+
+                    <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        py={1}
                     >
-                        Email
-                    </Typography>
+                        <Typography color="text.secondary">
+                            Department
+                        </Typography>
 
-                    <Typography
-                        fontWeight={600}
-                        mb={2}
+                        <Typography fontWeight={600}>
+                            {user.department}
+                        </Typography>
+                    </Box>
+
+                    <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        py={1}
                     >
-                        {user.email}
-                    </Typography>
+                        <Typography color="text.secondary">
+                            Jabatan
+                        </Typography>
 
-                    <Typography
-                        variant="subtitle2"
-                        color="text.secondary"
-                    >
-                        Department
-                    </Typography>
-
-                    <Typography
-                        fontWeight={600}
-                        mb={2}
-                    >
-                        {user.department}
-                    </Typography>
-
-                    <Typography
-                        variant="subtitle2"
-                        color="text.secondary"
-                    >
-                        Jabatan
-                    </Typography>
-
-                    <Typography fontWeight={600}>
-                        {user.position}
-                    </Typography>
+                        <Typography fontWeight={600}>
+                            {user.position}
+                        </Typography>
+                    </Box>
 
                 </CardContent>
-
             </Card>
 
         </Box>
