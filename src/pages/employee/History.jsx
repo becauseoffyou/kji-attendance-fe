@@ -107,16 +107,7 @@ export default function History() {
 
     };
 
-    const summary = useMemo(() => {
-
-        return {
-            hadir: filteredHistory.length,
-            terlambat: filteredHistory.filter(
-                x => x.status === "Terlambat"
-            ).length
-        };
-
-    }, [filteredHistory]);
+   
 
     const filteredHistory = useMemo(() => {
 
@@ -133,7 +124,14 @@ export default function History() {
 
     }, [history, selectedMonth, selectedYear]);
 
-
+const summary = useMemo(() => {
+    return {
+        hadir: filteredHistory.length,
+        terlambat: filteredHistory.filter(
+            x => x.status === "Terlambat"
+        ).length
+    };
+}, [filteredHistory]);
 
     return (
 
