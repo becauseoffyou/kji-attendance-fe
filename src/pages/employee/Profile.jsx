@@ -31,6 +31,8 @@ export default function Profile() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [openLogout, setOpenLogout] = useState(false);
+    const navigate = useNavigate();
+
     useEffect(() => {
         loadProfile();
     }, []);
@@ -79,7 +81,6 @@ export default function Profile() {
 
     }
 
-    const navigate = useNavigate();
 
     const handleLogout = () => {
 
