@@ -112,6 +112,7 @@ export default function Profile() {
                         sx={{
                             width: 90,
                             height: 90,
+                            boxShadow: "0 8px 25px rgba(22,163,74,.25)",
                             mx: "auto",
                             mb: 2,
                             bgcolor: "#16A34A",
@@ -313,17 +314,28 @@ export default function Profile() {
                 </DialogActions>
 
             </Dialog>
-            <Typography
-                align="center"
-                color="text.secondary"
-                variant="caption"
+            <Box
                 sx={{
                     mt: 4,
-                    mb: 2
+                    mb: 2,
+                    textAlign: "center"
                 }}
             >
-                KJI Attendance v1.0.0
-            </Typography>
+                <Typography
+                    variant="body2"
+                    fontWeight={600}
+                    color="text.secondary"
+                >
+                    KJI Attendance
+                </Typography>
+
+                <Typography
+                    variant="caption"
+                    color="text.secondary"
+                >
+                    Version 1.0.0
+                </Typography>
+            </Box>
         </Box>
 
     );
