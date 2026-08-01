@@ -65,37 +65,112 @@ export default function Profile() {
                 }}
             >
 
-                <CardContent
-                    sx={{
-                        textAlign: "center"
-                    }}
-                >
+                <CardContent>
 
-                    <Avatar
-                        src={user.photo || ""}
-                        sx={{
-                            width: 90,
-                            height: 90,
-                            mx: "auto",
-                            mb: 2
-                        }}
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
                     >
-                        {user.name.charAt(0)}
-                    </Avatar>
+
+                        <Avatar
+                            src={user.photo || ""}
+                            sx={{
+                                width: 90,
+                                height: 90,
+                                bgcolor: "#16A34A",
+                                fontSize: 34,
+                                mb: 2
+                            }}
+                        >
+                            {user.name.charAt(0)}
+                        </Avatar>
+
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                        >
+                            {user.name}
+                        </Typography>
+
+                        <Typography
+                            color="text.secondary"
+                        >
+                            {user.position}
+                        </Typography>
+
+                        <Chip
+                            label={user.department}
+                            color="success"
+                            size="small"
+                            sx={{ mt: 1 }}
+                        />
+
+                    </Box>
+
+                </CardContent>
+
+            </Card>
+            <Card
+                sx={{
+                    mt: 2,
+                    borderRadius: 4
+                }}
+            >
+
+                <CardContent>
 
                     <Typography
-                        variant="h5"
-                        fontWeight={700}
+                        variant="subtitle2"
+                        color="text.secondary"
                     >
-                        {user.name}
+                        NIK
                     </Typography>
 
-                    <Typography color="text.secondary">
-                        {user.position}
+                    <Typography
+                        fontWeight={600}
+                        mb={2}
+                    >
+                        {user.nik}
                     </Typography>
 
-                    <Typography color="text.secondary">
+                    <Typography
+                        variant="subtitle2"
+                        color="text.secondary"
+                    >
+                        Email
+                    </Typography>
+
+                    <Typography
+                        fontWeight={600}
+                        mb={2}
+                    >
+                        {user.email}
+                    </Typography>
+
+                    <Typography
+                        variant="subtitle2"
+                        color="text.secondary"
+                    >
+                        Department
+                    </Typography>
+
+                    <Typography
+                        fontWeight={600}
+                        mb={2}
+                    >
                         {user.department}
+                    </Typography>
+
+                    <Typography
+                        variant="subtitle2"
+                        color="text.secondary"
+                    >
+                        Jabatan
+                    </Typography>
+
+                    <Typography fontWeight={600}>
+                        {user.position}
                     </Typography>
 
                 </CardContent>
