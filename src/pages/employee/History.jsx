@@ -252,38 +252,39 @@ const summary = useMemo(() => {
                         <CardContent>
 
                             <Box
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="center"
-                                mb={4}
-                            >
+    display="flex"
+    justifyContent="space-between"
+    alignItems="flex-start"
+    mb={2}
+>
 
-                                <Typography
-                                    fontWeight={700}
-                                    color="primary"
-                                >
-                                    {new Date(item.attendance_date).toLocaleDateString("id-ID", {
-                                        weekday: "long",
-                                        day: "numeric",
-                                        month: "long",
-                                        year: "numeric"
-                                    })}
+    <Typography
+        fontWeight={700}
+        color="primary"
+    >
+        {new Date(item.attendance_date).toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        })}
+    </Typography>
 
-                                      <Chip
-                                      sx={{ ml: 1 }} 
-                                    label={item.status}
-                                    color={
-                                        item.status === "Pulang"
-                                            ? "success"
-                                            : "warning"
-                                    }
-                                    size="small"
-                                />
-                                </Typography>
+    <Chip
+        label={item.status}
+        color={
+            item.status === "Pulang"
+                ? "success"
+                : "warning"
+        }
+        size="small"
+        sx={{
+            fontWeight: 600,
+             ml: 2,
+        }}
+    />
 
-                              
-
-                            </Box>
+</Box>
 
                             {/* <Divider sx={{ mb: 2 }} /> */}
 
