@@ -255,7 +255,7 @@ const summary = useMemo(() => {
                                 display="flex"
                                 justifyContent="space-between"
                                 alignItems="center"
-                                mb={2}
+                                mb={4}
                             >
 
                                 <Typography
@@ -270,6 +270,7 @@ const summary = useMemo(() => {
                                     })}
 
                                       <Chip
+                                      sx={{ ml: 1 }} 
                                     label={item.status}
                                     color={
                                         item.status === "Pulang"
