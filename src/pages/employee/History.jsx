@@ -20,15 +20,17 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import attendanceService from "../../services/attService";
 
 export default function History() {
-    const now = new Date();
 
+
+
+    const [history, setHistory] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const selectedMonth = selectedDate.getMonth();
+    const selectedYear = selectedDate.getFullYear();
+    const now = new Date();
     const isCurrentMonth =
         selectedMonth === now.getMonth() &&
         selectedYear === now.getFullYear();
-
-    const [history, setHistory] = useState([]);
-    const [month, setMonth] = useState(new Date().getMonth());
-
     const monthNames = [
         "Januari",
         "Februari",
@@ -72,10 +74,7 @@ export default function History() {
 
     };
 
-    const [selectedDate, setSelectedDate] = useState(new Date());
 
-    const selectedMonth = selectedDate.getMonth();
-    const selectedYear = selectedDate.getFullYear();
 
     useEffect(() => {
         loadHistory();
@@ -165,21 +164,18 @@ export default function History() {
                     }}
                 >
 
+                    <IconButton onClick={prevMonth}>
+                        <ChevronLeftRoundedIcon />
+                    </IconButton>
+
+                    <Typography>
+                        {monthNames[selectedMonth]} {selectedYear}
+                    </Typography>
+
                     <IconButton
                         onClick={nextMonth}
                         disabled={isCurrentMonth}
                     >
-                        <ChevronRightRoundedIcon />
-                    </IconButton>
-
-                    <Typography
-                        fontWeight={700}
-                        fontSize={18}
-                    >
-                        {monthNames[selectedMonth]} {selectedYear}
-                    </Typography>
-
-                    <IconButton onClick={nextMonth}>
                         <ChevronRightRoundedIcon />
                     </IconButton>
 
