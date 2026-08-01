@@ -164,13 +164,7 @@ const summary = useMemo(() => {
                     Riwayat Absensi
                 </Typography>
 
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: .5 }}
-                >
-                    {summary.hadir} Hari Hadir | {summary.terlambat} Terlambat | 0 Izin
-                </Typography>
+               
 
                 <Box
                     sx={{
@@ -205,6 +199,14 @@ const summary = useMemo(() => {
                     </IconButton>
 
                 </Box>
+
+                 <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: .5, textAlign: "center" }}
+                >
+                    {summary.hadir} Hari Hadir | {summary.terlambat} Terlambat | 0 Izin
+                </Typography>
 
             </Box>
 
