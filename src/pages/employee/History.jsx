@@ -107,6 +107,17 @@ export default function History() {
 
     };
 
+    const summary = useMemo(() => {
+
+        return {
+            hadir: filteredHistory.length,
+            terlambat: filteredHistory.filter(
+                x => x.status === "Terlambat"
+            ).length
+        };
+
+    }, [filteredHistory]);
+
     const filteredHistory = useMemo(() => {
 
         return history.filter(item => {
@@ -136,18 +147,31 @@ export default function History() {
             {/* Header */}
             <Box
                 sx={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1000,
+                    bgcolor: "#F5F7FA",
                     px: 2,
                     pt: 2,
-                    pb: 2
+                    pb: 2,
+                    borderBottom: "1px solid #ECEFF1",
+                    boxShadow: "0 2px 10px rgba(0,0,0,.05)"
                 }}
             >
 
                 <Typography
                     variant="h5"
                     fontWeight={700}
-                    mb={2}
                 >
                     Riwayat Absensi
+                </Typography>
+
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: .5 }}
+                >
+                    {summary.hadir} Hari Hadir • {summary.terlambat} Terlambat
                 </Typography>
 
                 <Box
@@ -160,7 +184,7 @@ export default function History() {
                         borderRadius: 3,
                         px: 1,
                         py: .5,
-                        boxShadow: "0 2px 10px rgba(0,0,0,.05)"
+                        boxShadow: "0 2px 8px rgba(0,0,0,.04)"
                     }}
                 >
 
@@ -168,7 +192,10 @@ export default function History() {
                         <ChevronLeftRoundedIcon />
                     </IconButton>
 
-                    <Typography>
+                    <Typography
+                        fontWeight={700}
+                        fontSize={18}
+                    >
                         {monthNames[selectedMonth]} {selectedYear}
                     </Typography>
 
