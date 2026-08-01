@@ -74,51 +74,51 @@ export default function Profile() {
                 }}
             >
 
-                <CardContent
-                    sx={{
-                        textAlign: "center"
-                    }}
-                >
+               <CardContent
+    sx={{
+        textAlign: "center"
+    }}
+>
 
-                    <Avatar
-                        src={user?.photo || ""}
-                        sx={{
-                            width: 90,
-                            height: 90,
-                            mx: "auto",
-                            mb: 2,
-                            bgcolor: "#16A34A",
-                            fontSize: 34
-                        }}
-                    >
-                        {user?.name?.charAt(0)}
-                    </Avatar>
+    <Avatar
+        src={user?.photo || ""}
+        sx={{
+            width: 90,
+            height: 90,
+            mx: "auto",
+            mb: 2,
+            bgcolor: "#16A34A",
+            fontSize: 34
+        }}
+    >
+        {user?.name?.charAt(0)}
+    </Avatar>
 
-                    <Typography
-                        variant="h5"
-                        fontWeight={700}
-                    >
-                        {user.name}
-                    </Typography>
+    <Typography
+        variant="h5"
+        fontWeight={700}
+    >
+        {user.name}
+    </Typography>
 
-                    <Typography
-                        color="text.secondary"
-                        sx={{ mt: .5 }}
-                    >
-                        {user.position}
-                    </Typography>
+    <Typography
+        color="text.secondary"
+        sx={{ mt: .5 }}
+    >
+        {user.position}
+    </Typography>
 
-                    <Chip
-                        label={user.department}
-                        color="success"
-                        size="small"
-                        sx={{
-                            mt: 2,
-                            px: 1
-                        }}
-                    />
+    <Chip
+        label={user.department}
+        color="success"
+        size="small"
+        sx={{
+            mt: 2,
+            px: 1
+        }}
+    />
 
-                </CardContent>
+</CardContent>
 
             </Card>
             <Card
