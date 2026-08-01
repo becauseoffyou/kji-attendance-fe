@@ -4,6 +4,7 @@ import {
     Box,
     Card,
     CardContent,
+    Chip,
     CircularProgress,
     Typography
 } from "@mui/material";
@@ -43,6 +44,14 @@ export default function Profile() {
 
     if (loading) {
 
+        if (!user) {
+            return (
+                <Typography align="center">
+                    Data user tidak ditemukan
+                </Typography>
+            );
+        }
+
         return (
             <Box
                 display="flex"
@@ -74,7 +83,7 @@ export default function Profile() {
                     >
 
                         <Avatar
-                            src={user.photo || ""}
+                            src={user?.photo || ""}
                             sx={{
                                 width: 90,
                                 height: 90,
@@ -83,7 +92,7 @@ export default function Profile() {
                                 mb: 2
                             }}
                         >
-                            {user.name.charAt(0)}
+                            {user?.name?.charAt(0) || "?"}
                         </Avatar>
 
                         <Typography
