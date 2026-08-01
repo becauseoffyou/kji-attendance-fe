@@ -121,75 +121,74 @@ export default function Profile() {
 </CardContent>
 
             </Card>
-            <Card
+        <Card
+    sx={{
+        mt: 2,
+        borderRadius: 4
+    }}
+>
+    <CardContent>
+
+        <Box
+            display="grid"
+            gridTemplateColumns="110px 1fr"
+            rowGap={2}
+            columnGap={2}
+            alignItems="center"
+        >
+
+            <Typography color="text.secondary">
+                NIK
+            </Typography>
+
+            <Typography
+                fontWeight={600}
+                textAlign="right"
+            >
+                {user.nik}
+            </Typography>
+
+            <Typography color="text.secondary">
+                Email
+            </Typography>
+
+            <Typography
+                fontWeight={600}
+                textAlign="right"
                 sx={{
-                    mt: 2,
-                    borderRadius: 4
+                    wordBreak: "break-word"
                 }}
             >
-                <CardContent>
+                {user.email}
+            </Typography>
 
-                    <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        py={1}
-                    >
-                        <Typography color="text.secondary">
-                            NIK
-                        </Typography>
+            <Typography color="text.secondary">
+                Department
+            </Typography>
 
-                        <Typography fontWeight={600}>
-                            {user.nik}
-                        </Typography>
-                    </Box>
+            <Typography
+                fontWeight={600}
+                textAlign="right"
+            >
+                {user.department}
+            </Typography>
 
-                    <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        py={1}
-                    >
-                        <Typography color="text.secondary">
-                            Email
-                        </Typography>
+            <Typography color="text.secondary">
+                Jabatan
+            </Typography>
 
-                        <Typography
-                            fontWeight={600}
-                            textAlign="right"
-                        >
-                            {user.email}
-                        </Typography>
-                    </Box>
+            <Typography
+                fontWeight={600}
+                textAlign="right"
+            >
+                {user.position}
+            </Typography>
 
-                    <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        py={1}
-                    >
-                        <Typography color="text.secondary">
-                            Department
-                        </Typography>
+        </Box>
 
-                        <Typography fontWeight={600}>
-                            {user.department}
-                        </Typography>
-                    </Box>
+    </CardContent>
 
-                    <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        py={1}
-                    >
-                        <Typography color="text.secondary">
-                            Jabatan
-                        </Typography>
-
-                        <Typography fontWeight={600}>
-                            {user.position}
-                        </Typography>
-                    </Box>
-
-                </CardContent>
-            </Card>
+</Card>
 
         </Box>
 
