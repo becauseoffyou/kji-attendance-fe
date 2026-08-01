@@ -254,40 +254,47 @@ export default function History() {
                         <CardContent>
 
                             <Box
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="flex-start"
-                                mb={2}
-                            >
+    sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        mb: 2,
+        gap: 2
+    }}
+>
 
-                                <Typography
-                                    fontWeight={700}
-                                    color="primary"
-                                >
-                                    {new Date(item.attendance_date).toLocaleDateString("id-ID", {
-                                        weekday: "long",
-                                        day: "numeric",
-                                        month: "long",
-                                        year: "numeric"
-                                    })}
-                                </Typography>
-                                <Chip
-                                    label={item.status}
-                                    color={
-                                        item.status === "Pulang"
-                                            ? "success"
-                                            : "warning"
-                                    }
-                                    size="small"
-                                    sx={{
-                                        position: "absolute",
-                                        top: 16,
-                                        right: 16,
-                                        fontWeight: 600
-                                    }}
-                                />
+    <Typography
+        sx={{
+            flex: 1,
+            fontWeight: 700,
+            color: "primary.main",
+            lineHeight: 1.4
+        }}
+    >
+        {new Date(item.attendance_date).toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        })}
+    </Typography>
 
-                            </Box>
+    <Chip
+        label={item.status}
+        color={
+            item.status === "Pulang"
+                ? "success"
+                : "warning"
+        }
+        size="small"
+        sx={{
+            flexShrink: 0,
+            fontWeight: 700,
+            borderRadius: "999px"
+        }}
+    />
+
+</Box>
 
                             {/* <Divider sx={{ mb: 2 }} /> */}
 
