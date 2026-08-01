@@ -107,7 +107,7 @@ export default function History() {
 
     };
 
-   
+
 
     const filteredHistory = useMemo(() => {
 
@@ -124,14 +124,14 @@ export default function History() {
 
     }, [history, selectedMonth, selectedYear]);
 
-const summary = useMemo(() => {
-    return {
-        hadir: filteredHistory.length,
-        terlambat: filteredHistory.filter(
-            x => x.status === "Terlambat"
-        ).length
-    };
-}, [filteredHistory]);
+    const summary = useMemo(() => {
+        return {
+            hadir: filteredHistory.length,
+            terlambat: filteredHistory.filter(
+                x => x.status === "Terlambat"
+            ).length
+        };
+    }, [filteredHistory]);
 
     return (
 
@@ -164,7 +164,7 @@ const summary = useMemo(() => {
                     Riwayat Absensi
                 </Typography>
 
-               
+
 
                 <Box
                     sx={{
@@ -200,7 +200,7 @@ const summary = useMemo(() => {
 
                 </Box>
 
-                 <Typography
+                <Typography
                     variant="body2"
                     color="text.secondary"
                     sx={{ mt: .5, textAlign: "center" }}
@@ -254,38 +254,40 @@ const summary = useMemo(() => {
                         <CardContent>
 
                             <Box
-    display="flex"
-    justifyContent="space-between"
-    alignItems="flex-start"
-    mb={2}
->
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="flex-start"
+                                mb={2}
+                            >
 
-    <Typography
-        fontWeight={700}
-        color="primary"
-    >
-        {new Date(item.attendance_date).toLocaleDateString("id-ID", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        })}
-    </Typography>
+                                <Typography
+                                    fontWeight={700}
+                                    color="primary"
+                                >
+                                    {new Date(item.attendance_date).toLocaleDateString("id-ID", {
+                                        weekday: "long",
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric"
+                                    })}
+                                </Typography>
+                                <Chip
+                                    label={item.status}
+                                    color={
+                                        item.status === "Pulang"
+                                            ? "success"
+                                            : "warning"
+                                    }
+                                    size="small"
+                                    sx={{
+                                        position: "absolute",
+                                        top: 16,
+                                        right: 16,
+                                        fontWeight: 600
+                                    }}
+                                />
 
-    <Chip
-        label={item.status}
-        color={
-            item.status === "Pulang"
-                ? "success"
-                : "warning"
-        }
-        size="small"
-        sx={{
-            fontWeight: 600,
-        }}
-    />
-
-</Box>
+                            </Box>
 
                             {/* <Divider sx={{ mb: 2 }} /> */}
 
