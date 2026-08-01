@@ -5,6 +5,7 @@ import {
     Card,
     CardContent,
     Chip,
+    Divider,
     CircularProgress,
     Typography
 } from "@mui/material";
@@ -74,122 +75,140 @@ export default function Profile() {
                 }}
             >
 
-               <CardContent
-    sx={{
-        textAlign: "center"
-    }}
->
+                <CardContent
+                    sx={{
+                        textAlign: "center"
+                    }}
+                >
 
-    <Avatar
-        src={user?.photo || ""}
-        sx={{
-            width: 90,
-            height: 90,
-            mx: "auto",
-            mb: 2,
-            bgcolor: "#16A34A",
-            fontSize: 34
-        }}
-    >
-        {user?.name?.charAt(0)}
-    </Avatar>
+                    <Avatar
+                        src={user?.photo || ""}
+                        sx={{
+                            width: 90,
+                            height: 90,
+                            mx: "auto",
+                            mb: 2,
+                            bgcolor: "#16A34A",
+                            fontSize: 34
+                        }}
+                    >
+                        {user?.name?.charAt(0)}
+                    </Avatar>
 
-    <Typography
-        variant="h5"
-        fontWeight={700}
-    >
-        {user.name}
-    </Typography>
+                    <Typography
+                        variant="h5"
+                        fontWeight={700}
+                    >
+                        {user.name}
+                    </Typography>
 
-    <Typography
-        color="text.secondary"
-        sx={{ mt: .5 }}
-    >
-        {user.position}
-    </Typography>
+                    <Typography
+                        color="text.secondary"
+                        sx={{ mt: .5 }}
+                    >
+                        {user.position}
+                    </Typography>
 
-    <Chip
-        label={user.department}
-        color="success"
-        size="small"
-        sx={{
-            mt: 2,
-            px: 1
-        }}
-    />
+                    <Chip
+                        label={user.department}
+                        color="success"
+                        size="small"
+                        sx={{
+                            mt: 2,
+                            px: 1
+                        }}
+                    />
 
-</CardContent>
+                </CardContent>
 
             </Card>
-        <Card
-    sx={{
-        mt: 2,
-        borderRadius: 4
-    }}
->
-    <CardContent>
-
-        <Box
-            display="grid"
-            gridTemplateColumns="110px 1fr"
-            rowGap={2}
-            columnGap={2}
-            alignItems="center"
-        >
-
-            <Typography color="text.secondary">
-                NIK
-            </Typography>
-
-            <Typography
-                fontWeight={600}
-                textAlign="right"
-            >
-                {user.nik}
-            </Typography>
-
-            <Typography color="text.secondary">
-                Email
-            </Typography>
-
-            <Typography
-                fontWeight={600}
-                textAlign="right"
+            <Card
                 sx={{
-                    wordBreak: "break-word"
+                    mt: 2,
+                    borderRadius: 4
                 }}
             >
-                {user.email}
-            </Typography>
+                <CardContent>
 
-            <Typography color="text.secondary">
-                Department
-            </Typography>
+                    <Box py={1}>
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                        >
+                            NIK
+                        </Typography>
 
-            <Typography
-                fontWeight={600}
-                textAlign="right"
-            >
-                {user.department}
-            </Typography>
+                        <Typography
+                            variant="body1"
+                            fontWeight={600}
+                            mt={0.5}
+                        >
+                            {user.nik}
+                        </Typography>
+                    </Box>
 
-            <Typography color="text.secondary">
-                Jabatan
-            </Typography>
+                    <Divider />
 
-            <Typography
-                fontWeight={600}
-                textAlign="right"
-            >
-                {user.position}
-            </Typography>
+                    <Box py={2}>
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                        >
+                            Email
+                        </Typography>
 
-        </Box>
+                        <Typography
+                            variant="body1"
+                            fontWeight={600}
+                            mt={0.5}
+                            sx={{
+                                wordBreak: "break-word"
+                            }}
+                        >
+                            {user.email}
+                        </Typography>
+                    </Box>
 
-    </CardContent>
+                    <Divider />
 
-</Card>
+                    <Box py={2}>
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                        >
+                            Department
+                        </Typography>
 
+                        <Typography
+                            variant="body1"
+                            fontWeight={600}
+                            mt={0.5}
+                        >
+                            {user.department}
+                        </Typography>
+                    </Box>
+
+                    <Divider />
+
+                    <Box py={2}>
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                        >
+                            Jabatan
+                        </Typography>
+
+                        <Typography
+                            variant="body1"
+                            fontWeight={600}
+                            mt={0.5}
+                        >
+                            {user.position}
+                        </Typography>
+                    </Box>
+
+                </CardContent>
+            </Card>
         </Box>
 
     );
