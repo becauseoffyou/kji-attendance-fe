@@ -63,7 +63,7 @@ const getStatusMessage = () => {
         <Paper
             elevation={0}
             sx={{
-                borderRadius: 2,
+                borderRadius: "0 0 2px 2px",
                 overflow: "hidden",
                 background: "#0e7d63",
                 color: "#fff",
