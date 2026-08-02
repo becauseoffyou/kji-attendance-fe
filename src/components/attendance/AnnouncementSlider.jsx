@@ -61,6 +61,10 @@ color: "#0E7D63",
                 <Typography
                     variant="h6"
                     fontWeight={700}
+                    sx={{
+                        color: "#000",
+                        bold: true,
+                    }}
                 >
                     {item.title}
                 </Typography>
