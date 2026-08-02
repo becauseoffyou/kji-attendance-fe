@@ -16,7 +16,8 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    Button
+    Button,
+    Skeleton
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -25,7 +26,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import authService from "../../services/authService";
-
+import {
+    Skeleton
+} from "@mui/material";
 export default function Profile() {
 
     const [user, setUser] = useState(null);
@@ -39,47 +42,123 @@ export default function Profile() {
 
     const loadProfile = async () => {
 
-        try {
+    setLoading(true);
 
-            const token = localStorage.getItem("token");
+    try {
 
-            const result = await authService.getMe(token);
+        const token = localStorage.getItem("token");
 
-            setUser(result.user);
+        const result = await authService.getMe(token);
 
-        } catch (err) {
+        setUser(result.user);
 
-            console.error(err);
+    } catch (err) {
 
-        } finally {
+        console.error(err);
 
-            setLoading(false);
+        setUser(null);
 
-        }
+    } finally {
 
-    };
-
-    if (loading) {
-
-        if (!user) {
-            return (
-                <Typography align="center">
-                    Data user tidak ditemukan
-                </Typography>
-            );
-        }
-
-        return (
-            <Box
-                display="flex"
-                justifyContent="center"
-                mt={5}
-            >
-                <CircularProgress />
-            </Box>
-        );
+        setLoading(false);
 
     }
+
+};
+
+if (loading) {
+
+    return (
+
+        <Box p={2}>
+
+            <Card sx={{ borderRadius: 4 }}>
+
+                <CardContent>
+
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                    >
+
+                        <Skeleton
+                            variant="circular"
+                            width={90}
+                            height={90}
+                        />
+
+                        <Skeleton
+                            width={180}
+                            height={40}
+                            sx={{ mt: 2 }}
+                        />
+
+                        <Skeleton
+                            width={120}
+                            height={30}
+                        />
+
+                    </Box>
+
+                </CardContent>
+
+            </Card>
+
+            <Card
+                sx={{
+                    mt: 2,
+                    borderRadius: 4
+                }}
+            >
+
+                <CardContent>
+
+                    {[1,2,3,4].map(i => (
+
+                        <Box key={i} mb={2}>
+
+                            <Skeleton width={80} />
+
+                            <Skeleton
+                                width="100%"
+                                height={30}
+                            />
+
+                        </Box>
+
+                    ))}
+
+                </CardContent>
+
+            </Card>
+
+        </Box>
+
+    );
+
+}
+
+if (!user) {
+
+    return (
+
+        <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="70vh"
+        >
+
+            <Typography color="error">
+                Data profil tidak ditemukan.
+            </Typography>
+
+        </Box>
+
+    );
+
+}
 
 
     const handleLogout = () => {
