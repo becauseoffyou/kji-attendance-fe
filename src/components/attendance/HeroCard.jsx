@@ -25,6 +25,38 @@ export default function HeroCard({
          onRetryLocation,
 
 }) {
+const getStatusMessage = () => {
+
+    const today = new Date();
+    const day = today.getDay(); // 0=Minggu, 6=Sabtu
+
+    // Kalau sudah check out
+    if (status === "checked-out") {
+        return "✅ Sudah Absen Pulang";
+    }
+
+    // Sabtu atau Minggu
+    if (day === 0 || day === 6) {
+        return "🎉 Selamat menikmati waktu istirahat di akhir pekan";
+    }
+
+    // (Nanti bisa ditambah hari libur nasional)
+
+    if (insideRadius === null) {
+        return "👋 Hai, sudah waktunya bekerja";
+    }
+
+    if (status === "checked-in") {
+        return "🟢 Sedang Bekerja";
+    }
+
+    if (insideRadius) {
+        return "🟢 Sudah siap untuk absen?";
+    }
+
+    return "🔴 Kamu berada di luar area kantor";
+
+};
 
     return (
 
@@ -127,22 +159,12 @@ export default function HeroCard({
                 }}
             >
 
-                <Typography
-                    fontWeight={600}
-                    fontSize={17}
-                >
-                    {
-                        status === "checked-out"
-                            ? "✅ Sudah Absen Pulang"
-                            : insideRadius === null
-                                ? "Hai, Sudah waktunya bekerja"
-                                : status === "checked-in"
-                                    ? "🟢 Sedang Bekerja"
-                                    : insideRadius
-                                        ? "🟢 Sudah absen?"
-                                        : "🔴 Kamu jauh dari Kantor?"
-                    }
-                </Typography>
+               <Typography
+    fontWeight={600}
+    fontSize={17}
+>
+    {getStatusMessage()}
+</Typography>
 
             </Box>
 
