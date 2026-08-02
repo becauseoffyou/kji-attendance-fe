@@ -32,7 +32,6 @@ export default function Attendance() {
     const [loading, setLoading] = useState(false);
     const [insideRadius, setInsideRadius] = useState(null);
     const [refreshingLocation, setRefreshingLocation] = useState(false);
-    const image = cameraRef.current.capture();
 
     useEffect(() => {
 
