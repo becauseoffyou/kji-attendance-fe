@@ -368,7 +368,7 @@ export default function HeroCard({
                         bgcolor: "#F3F4F6"
                     }
                 }}
-                disabled={!gpsReadyd || loading || status === "checked-out"}
+                disabled={!gpsReady || loading || status === "checked-out"}
 
                 onClick={onOpenAttendance}
             >
