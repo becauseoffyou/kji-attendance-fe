@@ -13,12 +13,16 @@ import {
 } from "@mui/material";
 
 import CameraCard from "./CameraCard";
+import {
+    TextField
+} from "@mui/material";
 
 export default function AttendanceDialog({
 
     open,
     onClose,
-
+    notes,
+    setNotes,
     cameraRef,
     photo,
     setPhoto,
@@ -100,6 +104,21 @@ export default function AttendanceDialog({
                                 <MenuItem value="OTHER">Lainnya</MenuItem>
                             </Select>
 
+                            {attendanceType === "OTHER" && (
+
+                                <TextField
+                                    fullWidth
+                                    multiline
+                                    rows={3}
+                                    label="Keterangan"
+                                    placeholder="Masukkan alasan absensi..."
+                                    value={notes}
+                                    onChange={(e) => setNotes(e.target.value)}
+                                    sx={{ mt: 2 }}
+                                />
+
+                            )}
+
                         </FormControl>
 
                     </Box>
@@ -121,7 +140,13 @@ export default function AttendanceDialog({
 
                 <Button
                     variant="contained"
-                    disabled={loading}
+                    disabled={
+                        loading ||
+                        (
+                            attendanceType === "OTHER" &&
+                            notes.trim() === ""
+                        )
+                    }
                     onClick={async () => {
 
                         if (status !== "checked-in") {

@@ -18,6 +18,7 @@ import officeService from "../../services/officeService";
 export default function Attendance() {
     const [openDialog, setOpenDialog] = useState(false);
     const [attendanceType, setAttendanceType] = useState("OFFICE");
+    const [notes, setNotes] = useState("");
     const [office, setOffice] = useState(null);
     const [todayData, setTodayData] = useState(null);
     const [time, setTime] = useState(new Date());
@@ -130,6 +131,11 @@ export default function Attendance() {
             formData.append(
                 "attendance_type",
                 attendanceType
+            );
+
+            formData.append(
+                "notes",
+                notes
             );
 
             const result =
@@ -392,7 +398,8 @@ export default function Attendance() {
                 setAttendanceType={setAttendanceType}
 
                 cameraRef={cameraRef}
-
+                notes={notes}
+                setNotes={setNotes}
                 photo={photo}
 
                 setPhoto={setPhoto}
