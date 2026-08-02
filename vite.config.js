@@ -29,7 +29,7 @@ workbox: {
 
                 description: "Aplikasi Absensi PT KJI",
 
-                theme_color: "#d32f2f",
+                theme_color: "#0E7D63",
 
                 background_color: "#ffffff",
 
