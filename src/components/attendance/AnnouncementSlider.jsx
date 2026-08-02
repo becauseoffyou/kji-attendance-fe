@@ -40,8 +40,9 @@ export default function AnnouncementSlider({ announcements }) {
                 mt: 3,
                 borderRadius: 1,
                 overflow: "hidden",
-                background:
-                   "#ef4c4c",
+                bgcolor: "#fff",
+boxShadow: "0 8px 24px rgba(0,0,0,.08)",
+borderRadius: 3,
                 color: "#fff"
             }}
         >
@@ -52,8 +53,8 @@ export default function AnnouncementSlider({ announcements }) {
                     label="📢 Pengumuman"
                     sx={{
                         mb: 2,
-                        bgcolor: "rgba(255,255,255,.2)",
-                        color: "#fff"
+                        bgcolor: "#E8F5F1",
+color: "#0E7D63",
                     }}
                 />
 

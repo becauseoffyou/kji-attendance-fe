@@ -65,7 +65,7 @@ const getStatusMessage = () => {
             sx={{
                 borderRadius: 2,
                 overflow: "hidden",
-                background: "linear-gradient(135deg,#0F766E,#14B8A6)",
+                background: "#0e7d63",
                 color: "#fff",
                 p: 2.5,
             }}
@@ -194,7 +194,9 @@ const getStatusMessage = () => {
                             justifyContent: "center",
                             alignItems: "center",
 
-                            bgcolor: "rgba(255,255,255,.12)",
+                            bgcolor: "rgba(255,255,255,.08)",
+border: "1px solid rgba(255,255,255,.08)",
+boxShadow: "none",
                             backdropFilter: "blur(10px)",
                             color: "#fff"
                         }}
@@ -251,7 +253,9 @@ const getStatusMessage = () => {
                             justifyContent: "center",
                             alignItems: "center",
 
-                            bgcolor: "rgba(255,255,255,.12)",
+                            bgcolor: "rgba(255,255,255,.08)",
+border: "1px solid rgba(255,255,255,.08)",
+boxShadow: "none",
                             backdropFilter: "blur(10px)",
                             color: "#fff"
                         }}
@@ -310,7 +314,9 @@ const getStatusMessage = () => {
                             justifyContent: "center",
                             alignItems: "center",
 
-                            bgcolor: "rgba(255,255,255,.12)",
+                           bgcolor: "rgba(255,255,255,.08)",
+border: "1px solid rgba(255,255,255,.08)",
+boxShadow: "none",
                             backdropFilter: "blur(10px)",
                             color: "#fff"
                         }}
