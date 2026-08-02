@@ -72,7 +72,7 @@ if (loading) {
 
             <Card sx={{ borderRadius: 4 }}>
 
-                <CardContent>
+                <CardContent sx={{textAlign: "center"}}>
 
                     <Box
                         display="flex"
