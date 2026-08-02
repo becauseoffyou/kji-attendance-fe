@@ -26,9 +26,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import authService from "../../services/authService";
-import {
-    Skeleton
-} from "@mui/material";
+
 export default function Profile() {
 
     const [user, setUser] = useState(null);
