@@ -55,6 +55,24 @@ export default function Attendance() {
 
     }, [office]);
 
+    useEffect(() => {
+
+        if (!openDialog) return;
+
+        if (insideRadius === false) {
+
+            setAttendanceType("WFH");
+
+        } else {
+
+            setAttendanceType("OFFICE");
+
+        }
+
+        setNotes("");
+
+    }, [openDialog, insideRadius]);
+
     const loadAnnouncements = async () => {
 
         try {
