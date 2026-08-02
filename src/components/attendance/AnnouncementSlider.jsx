@@ -99,8 +99,8 @@ color: "#0E7D63",
                                 transition: ".3s",
                                 bgcolor:
                                     active === index
-                                        ? "#fff"
-                                        : "rgba(255,255,255,.4)"
+                                        ? "#0E7D63"
+                                        : "#D1D5DB"
                             }}
                         />
 
