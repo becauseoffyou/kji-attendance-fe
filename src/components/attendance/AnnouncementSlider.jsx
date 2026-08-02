@@ -68,7 +68,8 @@ color: "#0E7D63",
                 <Typography
                     sx={{
                         mt: 1,
-                        opacity: .9
+                        opacity: .9,
+                        color: "#000",
                     }}
                 >
                     {item.description}
