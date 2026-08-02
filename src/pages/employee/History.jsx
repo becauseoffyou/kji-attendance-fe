@@ -7,15 +7,12 @@ import {
     MenuItem,
     Stack,
     Typography,
-    Divider
+    Skeleton
 } from "@mui/material";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { IconButton } from "@mui/material";
 
-import LoginIcon from "@mui/icons-material/Login";
-import LogoutIcon from "@mui/icons-material/Logout";
-import ScheduleIcon from "@mui/icons-material/Schedule";
 
 import attendanceService from "../../services/attService";
 
@@ -24,6 +21,7 @@ export default function History() {
 
 
     const [history, setHistory] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const selectedMonth = selectedDate.getMonth();
     const selectedYear = selectedDate.getFullYear();
@@ -82,6 +80,8 @@ export default function History() {
 
     const loadHistory = async () => {
 
+        setLoading(true);
+
         try {
 
             const result = await attendanceService.getHistory();
@@ -91,6 +91,10 @@ export default function History() {
         } catch (err) {
 
             console.error(err);
+
+        } finally {
+
+            setLoading(false);
 
         }
 
@@ -124,14 +128,25 @@ export default function History() {
 
     }, [history, selectedMonth, selectedYear]);
 
-    const summary = useMemo(() => {
-        return {
-            hadir: filteredHistory.length,
-            terlambat: filteredHistory.filter(
-                x => x.status === "Terlambat"
-            ).length
-        };
-    }, [filteredHistory]);
+   const summary = useMemo(() => {
+
+    return {
+
+        hadir: filteredHistory.filter(
+            x => x.status === "Pulang"
+        ).length,
+
+        terlambat: filteredHistory.filter(
+            x => x.status === "Terlambat"
+        ).length,
+
+        izin: filteredHistory.filter(
+            x => x.status === "Izin"
+        ).length
+
+    };
+
+}, [filteredHistory]);
 
     return (
 
@@ -211,21 +226,71 @@ export default function History() {
             </Box>
 
             <Stack
-                spacing={2}
-                sx={{
-                    px: 2,
-                    pb: 10
-                }}
+                spacing={2} sx={{ px: 2, pt: 2, pb: 10 }}
+             
             >
 
-                {filteredHistory.length === 0 && (
+                {loading ? (
+
+                    [...Array(4)].map((_, index) => (
+
+                        <Card
+                            key={index}
+                            sx={{
+                                borderRadius: 1
+                            }}
+                        >
+                            <CardContent>
+
+                                <Skeleton
+                                    width="60%"
+                                    height={30}
+                                />
+
+                                <Box
+                                    sx={{
+                                        display: "grid",
+                                        gridTemplateColumns: "repeat(3,1fr)",
+                                        gap: 2,
+                                        mt: 2,
+                                        textAlign: "center"
+                                    }}
+                                >
+
+                                    {[1, 2, 3].map((i) => (
+
+                                        <Box key={i}>
+
+                                            <Skeleton
+                                                width={55}
+                                                height={32}
+                                                sx={{ mx: "auto" }}
+                                            />
+
+                                            <Skeleton
+                                                width={70}
+                                                height={18}
+                                                sx={{ mx: "auto" }}
+                                            />
+
+                                        </Box>
+
+                                    ))}
+
+                                </Box>
+
+                            </CardContent>
+                        </Card>
+
+                    ))
+
+                ) : filteredHistory.length === 0 ? (
 
                     <Card
                         sx={{
-                            borderRadius: 4
+                            borderRadius: 1
                         }}
                     >
-
                         <CardContent>
 
                             <Typography
@@ -236,12 +301,11 @@ export default function History() {
                             </Typography>
 
                         </CardContent>
-
                     </Card>
 
-                )}
+                ) : (
 
-                {filteredHistory.map(item => (
+                filteredHistory.map(item => (
 
                     <Card
                         key={item.id}
@@ -254,47 +318,47 @@ export default function History() {
                         <CardContent>
 
                             <Box
-    sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        mb: 2,
-        gap: 2
-    }}
->
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "flex-start",
+                                    mb: 2,
+                                    gap: 2
+                                }}
+                            >
 
-    <Typography
-        sx={{
-            flex: 1,
-            fontWeight: 700,
-            color: "primary.main",
-            lineHeight: 1.4
-        }}
-    >
-        {new Date(item.attendance_date).toLocaleDateString("id-ID", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        })}
-    </Typography>
+                                <Typography
+                                    sx={{
+                                        flex: 1,
+                                        fontWeight: 700,
+                                        color: "primary.main",
+                                        lineHeight: 1.4
+                                    }}
+                                >
+                                    {new Date(item.attendance_date).toLocaleDateString("id-ID", {
+                                        weekday: "long",
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric"
+                                    })}
+                                </Typography>
 
-    <Chip
-        label={item.status}
-        color={
-            item.status === "Pulang"
-                ? "success"
-                : "warning"
-        }
-        size="small"
-        sx={{
-            flexShrink: 0,
-            fontWeight: 700,
-            borderRadius: "999px"
-        }}
-    />
+                                <Chip
+                                    label={item.status}
+                                    color={
+                                        item.status === "Pulang"
+                                            ? "success"
+                                            : "warning"
+                                    }
+                                    size="small"
+                                    sx={{
+                                        flexShrink: 0,
+                                        fontWeight: 700,
+                                        borderRadius: "999px"
+                                    }}
+                                />
 
-</Box>
+                            </Box>
 
                             {/* <Divider sx={{ mb: 2 }} /> */}
 
@@ -382,7 +446,13 @@ export default function History() {
 
                     </Card>
 
-                ))}
+                ))
+
+                )}
+             
+
+
+
 
             </Stack>
 

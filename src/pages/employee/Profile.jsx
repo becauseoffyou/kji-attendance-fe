@@ -72,18 +72,22 @@ if (loading) {
 
             <Card sx={{ borderRadius: 4 }}>
 
-                <CardContent sx={{textAlign: "center"}}>
+                <CardContent>
 
                     <Box
                         display="flex"
-                        flexDirection="column"
-                        alignItems="center"
+    flexDirection="column"
+    alignItems="center"
+    justifyContent="center"
                     >
 
                         <Skeleton
                             variant="circular"
                             width={90}
                             height={90}
+                               sx={{
+        mx: "auto"
+    }}
                         />
 
                         <Skeleton
