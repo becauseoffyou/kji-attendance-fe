@@ -20,105 +20,105 @@ export default function HeroCard({
     loading,
     todayData,
     onOpenAttendance,
-     gpsReady,
-         refreshingLocation,
-         onRetryLocation,
+    gpsReady,
+    refreshingLocation,
+    onRetryLocation,
 
 }) {
-const getStatusMessage = () => {
+    const getStatusMessage = () => {
 
-    const day = time.getDay();
+        const day = time.getDay();
 
-    // 1. Sudah check out
-    if (status === "checked-out") {
-        return "✅ Sudah Absen Pulang";
-    }
+        // 1. Sudah check out
+        if (status === "checked-out") {
+            return "✅ Sudah Absen Pulang";
+        }
 
-    // 2. Weekend (tidak bergantung GPS)
-    if (day === 0 || day === 6) {
-        return "🎉 Selamat menikmati waktu istirahat di akhir pekan";
-    }
+        // 2. Weekend (tidak bergantung GPS)
+        if (day === 0 || day === 6) {
+            return "🎉 Selamat menikmati waktu istirahat di akhir pekan";
+        }
 
-    // 3. Sedang bekerja
-    if (status === "checked-in") {
-        return "🟢 Sedang Bekerja";
-    }
+        // 3. Sedang bekerja
+        if (status === "checked-in") {
+            return "🟢 Sedang Bekerja";
+        }
 
-    // 4. GPS belum siap
-    if (insideRadius === null) {
-        return "📍 Sedang mendapatkan lokasi...";
-    }
+        // 4. GPS belum siap
+        if (insideRadius === null) {
+            return "📍 Sedang mendapatkan lokasi...";
+        }
 
-    // 5. Dalam area kantor
-    if (insideRadius) {
-        return "🟢 Sudah siap untuk absen?";
-    }
+        // 5. Dalam area kantor
+        if (insideRadius) {
+            return "🟢 Sudah siap untuk absen?";
+        }
 
-    // 6. Di luar area
-    return "🔴 Kamu berada di luar area kantor";
-};
+        // 6. Di luar area
+        return "🔴 Kamu berada di luar area kantor";
+    };
 
     return (
 
         <Paper
             elevation={0}
             sx={{
-                borderRadius: "0 0 2px 2px",
+                borderRadius: "0 0 5px 5px",
                 overflow: "hidden",
                 background: "#0e7d63",
                 color: "#fff",
                 p: 2.5,
             }}
         >
- {!gpsReady && (
-<Box
-    sx={{
-        display: "flex",
-        justifyContent: "flex-end",
-        mb: 1
-    }}
->
-    <Tooltip
-        title={
-            gpsReady
-                ? "Perbarui Lokasi"
-                : "GPS belum aktif"
-        }
-    >
-        <IconButton
-            onClick={onRetryLocation}
-            disabled={refreshingLocation}
-            sx={{
-                color: "#fff",
-                width: 38,
-                height: 38,
-                bgcolor: "rgba(255,255,255,.10)",
-
-                "&:hover": {
-                    bgcolor: "rgba(255,255,255,.18)",
-                }
-            }}
-        >
-            <RefreshRoundedIcon
-                sx={{
-                    fontSize: 22,
-                    animation: refreshingLocation
-                        ? "spin .8s linear infinite"
-                        : "none",
-
-                    "@keyframes spin": {
-                        from: {
-                            transform: "rotate(0deg)"
-                        },
-                        to: {
-                            transform: "rotate(360deg)"
+            {!gpsReady && (
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        mb: 1
+                    }}
+                >
+                    <Tooltip
+                        title={
+                            gpsReady
+                                ? "Perbarui Lokasi"
+                                : "GPS belum aktif"
                         }
-                    }
-                }}
-            />
-        </IconButton>
-    </Tooltip>
-</Box> )}
+                    >
+                        <IconButton
+                            onClick={onRetryLocation}
+                            disabled={refreshingLocation}
+                            sx={{
+                                color: "#fff",
+                                width: 38,
+                                height: 38,
+                                bgcolor: "rgba(255,255,255,.10)",
+
+                                "&:hover": {
+                                    bgcolor: "rgba(255,255,255,.18)",
+                                }
+                            }}
+                        >
+                            <RefreshRoundedIcon
+                                sx={{
+                                    fontSize: 22,
+                                    animation: refreshingLocation
+                                        ? "spin .8s linear infinite"
+                                        : "none",
+
+                                    "@keyframes spin": {
+                                        from: {
+                                            transform: "rotate(0deg)"
+                                        },
+                                        to: {
+                                            transform: "rotate(360deg)"
+                                        }
+                                    }
+                                }}
+                            />
+                        </IconButton>
+                    </Tooltip>
+                </Box>)}
             {/* JAM */}
 
             <Typography
@@ -159,12 +159,12 @@ const getStatusMessage = () => {
                 }}
             >
 
-               <Typography
-    fontWeight={600}
-    fontSize={17}
->
-    {getStatusMessage()}
-</Typography>
+                <Typography
+                    fontWeight={600}
+                    fontSize={17}
+                >
+                    {getStatusMessage()}
+                </Typography>
 
             </Box>
 
@@ -195,8 +195,8 @@ const getStatusMessage = () => {
                             alignItems: "center",
 
                             bgcolor: "rgba(255,255,255,.08)",
-border: "1px solid rgba(255,255,255,.08)",
-boxShadow: "none",
+                            border: "1px solid rgba(255,255,255,.08)",
+                            boxShadow: "none",
                             backdropFilter: "blur(10px)",
                             color: "#fff"
                         }}
@@ -254,8 +254,8 @@ boxShadow: "none",
                             alignItems: "center",
 
                             bgcolor: "rgba(255,255,255,.08)",
-border: "1px solid rgba(255,255,255,.08)",
-boxShadow: "none",
+                            border: "1px solid rgba(255,255,255,.08)",
+                            boxShadow: "none",
                             backdropFilter: "blur(10px)",
                             color: "#fff"
                         }}
@@ -314,9 +314,9 @@ boxShadow: "none",
                             justifyContent: "center",
                             alignItems: "center",
 
-                           bgcolor: "rgba(255,255,255,.08)",
-border: "1px solid rgba(255,255,255,.08)",
-boxShadow: "none",
+                            bgcolor: "rgba(255,255,255,.08)",
+                            border: "1px solid rgba(255,255,255,.08)",
+                            boxShadow: "none",
                             backdropFilter: "blur(10px)",
                             color: "#fff"
                         }}
@@ -351,7 +351,7 @@ boxShadow: "none",
 
             {/* BUTTON */}
 
-    
+
 
             <Button
                 fullWidth
@@ -368,7 +368,7 @@ boxShadow: "none",
                         bgcolor: "#F3F4F6"
                     }
                 }}
-                   disabled={!gpsReady || !insideRadius || loading ||  status === "checked-out"}
+                disabled={!gpsReadyd || loading || status === "checked-out"}
 
                 onClick={onOpenAttendance}
             >
@@ -380,7 +380,9 @@ boxShadow: "none",
                             ? "Absen Pulang"
                             : status === "checked-out"
                                 ? "Sudah Check Out"
-                                : "Absen Masuk"
+                                : insideRadius
+                                    ? "Absen Masuk"
+                                    : "Absen Luar Kantor"
                 }
 
             </Button>

@@ -42,7 +42,6 @@ export default function AnnouncementSlider({ announcements }) {
                 overflow: "hidden",
                 bgcolor: "#fff",
 boxShadow: "0 8px 24px rgba(0,0,0,.08)",
-borderRadius: 3,
                 color: "#fff"
             }}
         >
@@ -95,7 +94,7 @@ color: "#0E7D63",
                             sx={{
                                 width: active === index ? 24 : 8,
                                 height: 8,
-                                borderRadius: 10,
+                                borderRadius: 8,
                                 transition: ".3s",
                                 bgcolor:
                                     active === index

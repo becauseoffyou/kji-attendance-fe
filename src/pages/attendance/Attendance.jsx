@@ -17,6 +17,7 @@ import officeService from "../../services/officeService";
 
 export default function Attendance() {
     const [openDialog, setOpenDialog] = useState(false);
+    const [attendanceType, setAttendanceType] = useState("OFFICE");
     const [office, setOffice] = useState(null);
     const [todayData, setTodayData] = useState(null);
     const [time, setTime] = useState(new Date());
@@ -29,7 +30,7 @@ export default function Attendance() {
     const [announcements, setAnnouncements] = useState([]);
     const [loading, setLoading] = useState(false);
     const [insideRadius, setInsideRadius] = useState(null);
-const [refreshingLocation, setRefreshingLocation] = useState(false);
+    const [refreshingLocation, setRefreshingLocation] = useState(false);
 
     useEffect(() => {
 
@@ -126,6 +127,11 @@ const [refreshingLocation, setRefreshingLocation] = useState(false);
                 currentLocation.longitude
             );
 
+            formData.append(
+                "attendance_type",
+                attendanceType
+            );
+
             const result =
                 await attendanceService.checkIn(formData);
 
@@ -220,82 +226,82 @@ const [refreshingLocation, setRefreshingLocation] = useState(false);
     // get cordinat
     const loadLocation = async () => {
 
-    setRefreshingLocation(true);
+        setRefreshingLocation(true);
 
-    try {
+        try {
 
-        const current = await getCurrentLocation();
+            const current = await getCurrentLocation();
 
-        setLocation(current);
+            setLocation(current);
 
-        if (!office) {
+            if (!office) {
+                setGpsReady(true);
+                return current;
+            }
+
+            const meter = calculateDistance(
+                current.latitude,
+                current.longitude,
+                Number(office.latitude),
+                Number(office.longitude)
+            );
+
+            setDistance(meter);
+            setInsideRadius(
+                meter <= Number(office.radius)
+            );
             setGpsReady(true);
+
             return current;
+
+        } catch (err) {
+
+            console.error("GPS Error:", err);
+
+            setGpsReady(false);
+            setInsideRadius(null);
+
+            let title = "Gagal Mendapatkan Lokasi";
+            let text = err.message || "Silakan coba lagi.";
+
+            switch (err.code) {
+
+                case 1:
+                    title = "Izin Lokasi Ditolak";
+                    text = "Silakan izinkan akses lokasi pada aplikasi melalui Pengaturan.";
+                    break;
+
+                case 2:
+                    title = "GPS Belum Aktif";
+                    text = "Aktifkan GPS terlebih dahulu, lalu tekan tombol refresh.";
+                    break;
+
+                case 3:
+                    title = "GPS Timeout";
+                    text = "Lokasi tidak berhasil diperoleh. Pastikan GPS aktif lalu coba lagi.";
+                    break;
+
+                default:
+                    title = "Lokasi Tidak Tersedia";
+                    text = err.message || "Terjadi kesalahan saat mengambil lokasi.";
+            }
+
+            await Swal.fire({
+                icon: "warning",
+                title,
+                text,
+                confirmButtonText: "OK"
+            });
+
+            return null;
+
+        } finally {
+
+            setRefreshingLocation(false);
+
         }
 
-        const meter = calculateDistance(
-            current.latitude,
-            current.longitude,
-            Number(office.latitude),
-            Number(office.longitude)
-        );
-
-        setDistance(meter);
-        setInsideRadius(
-            meter <= Number(office.radius)
-        );
-        setGpsReady(true);
-
-        return current;
-
-    } catch (err) {
-
-        console.error("GPS Error:", err);
-
-        setGpsReady(false);
-        setInsideRadius(null);
-
-        let title = "Gagal Mendapatkan Lokasi";
-        let text = err.message || "Silakan coba lagi.";
-
-        switch (err.code) {
-
-            case 1:
-                title = "Izin Lokasi Ditolak";
-                text = "Silakan izinkan akses lokasi pada aplikasi melalui Pengaturan.";
-                break;
-
-            case 2:
-                title = "GPS Belum Aktif";
-                text = "Aktifkan GPS terlebih dahulu, lalu tekan tombol refresh.";
-                break;
-
-            case 3:
-                title = "GPS Timeout";
-                text = "Lokasi tidak berhasil diperoleh. Pastikan GPS aktif lalu coba lagi.";
-                break;
-
-            default:
-                title = "Lokasi Tidak Tersedia";
-                text = err.message || "Terjadi kesalahan saat mengambil lokasi.";
-        }
-
-        await Swal.fire({
-            icon: "warning",
-            title,
-            text,
-            confirmButtonText: "OK"
-        });
-
-        return null;
-
-    } finally {
-
-        setRefreshingLocation(false);
-
-    }
-
-};
+    };
     const dataURLtoFile = (dataurl, filename) => {
 
         const arr = dataurl.split(",");
@@ -360,9 +366,9 @@ const [refreshingLocation, setRefreshingLocation] = useState(false);
                 insideRadius={insideRadius}
                 loading={loading}
                 todayData={todayData}
-                    gpsReady={gpsReady}
-    onRetryLocation={loadLocation}
-   refreshingLocation={refreshingLocation}
+                gpsReady={gpsReady}
+                onRetryLocation={loadLocation}
+                refreshingLocation={refreshingLocation}
                 onOpenAttendance={() => setOpenDialog(true)}
             />
             {/* <Box sx={{ mt: 3 }}>
@@ -381,6 +387,9 @@ const [refreshingLocation, setRefreshingLocation] = useState(false);
                     setPhoto(null);
 
                 }}
+                insideRadius={insideRadius}
+                attendanceType={attendanceType}
+                setAttendanceType={setAttendanceType}
 
                 cameraRef={cameraRef}
 

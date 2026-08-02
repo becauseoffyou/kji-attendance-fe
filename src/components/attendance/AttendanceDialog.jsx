@@ -5,7 +5,11 @@ import {
     DialogActions,
     Button,
     Typography,
-    Box
+    Box,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem
 } from "@mui/material";
 
 import CameraCard from "./CameraCard";
@@ -21,6 +25,11 @@ export default function AttendanceDialog({
 
     loading,
     status,
+
+    insideRadius,
+
+    attendanceType,
+    setAttendanceType,
 
     onConfirm
 
@@ -54,6 +63,52 @@ export default function AttendanceDialog({
                     loading={loading}
 
                 />
+
+                {insideRadius === false && status !== "checked-in" && (
+
+                    <Box mt={3}>
+
+                        <FormControl fullWidth>
+
+                            <InputLabel>
+                                Jenis Absensi
+                            </InputLabel>
+
+                            <Select
+                                value={attendanceType}
+                                label="Jenis Absensi"
+                                onChange={(e) =>
+                                    setAttendanceType(e.target.value)
+                                }
+                            >
+
+                                <MenuItem value="WFH">
+                                    Work From Home
+                                </MenuItem>
+
+                                <MenuItem value="CLIENT">
+                                    Kunjungan Client
+                                </MenuItem>
+
+                                <MenuItem value="MEETING">
+                                    Meeting
+                                </MenuItem>
+
+                                <MenuItem value="BUSINESS_TRIP">
+                                    Perjalanan Dinas
+                                </MenuItem>
+
+                                <MenuItem value="OTHER">
+                                    Lainnya
+                                </MenuItem>
+
+                            </Select>
+
+                        </FormControl>
+
+                    </Box>
+
+                )}
 
                 <Box sx={{ mt: 2 }}>
 
