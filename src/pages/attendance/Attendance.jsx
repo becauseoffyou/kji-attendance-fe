@@ -155,11 +155,12 @@ export default function Attendance() {
             await loadToday();
 
             await loadLocation();
-
+            // Reset dialog
             setPhoto(null);
+            setAttendanceType("OFFICE");
+            setNotes("");
 
             setOpenDialog(false);
-
             Swal.fire({
                 icon: "success",
                 title: "Check In Berhasil",
