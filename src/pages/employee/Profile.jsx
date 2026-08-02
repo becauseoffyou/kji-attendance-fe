@@ -99,7 +99,7 @@ if (loading) {
                         <Skeleton
                             width={120}
                             height={30}
-                              sx={{ textAlign: "center" }}
+                              sx={{mx: "auto" }}
                         />
 
                     </Box>
