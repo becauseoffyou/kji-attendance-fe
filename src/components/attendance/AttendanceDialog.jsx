@@ -61,47 +61,35 @@ export default function AttendanceDialog({
                     photo={photo}
                     setPhoto={setPhoto}
                     loading={loading}
-
                 />
 
                 {insideRadius === false && status !== "checked-in" && (
 
-                    <Box mt={3}>
+                    <Box sx={{ mt: 1, mb: 2 }}>
 
-                        <FormControl fullWidth>
+                        <Typography
+                            variant="subtitle2"
+                            sx={{
+                                mb: 1,
+                                fontWeight: 600
+                            }}
+                        >
+                            Jenis Absensi
+                        </Typography>
 
-                            <InputLabel>
-                                Jenis Absensi
-                            </InputLabel>
+                        <FormControl fullWidth size="small">
 
                             <Select
                                 value={attendanceType}
-                                label="Jenis Absensi"
                                 onChange={(e) =>
                                     setAttendanceType(e.target.value)
                                 }
                             >
-
-                                <MenuItem value="WFH">
-                                    Work From Home
-                                </MenuItem>
-
-                                <MenuItem value="CLIENT">
-                                    Kunjungan Client
-                                </MenuItem>
-
-                                <MenuItem value="MEETING">
-                                    Meeting
-                                </MenuItem>
-
-                                <MenuItem value="BUSINESS_TRIP">
-                                    Perjalanan Dinas
-                                </MenuItem>
-
-                                <MenuItem value="OTHER">
-                                    Lainnya
-                                </MenuItem>
-
+                                <MenuItem value="WFH">Work From Home</MenuItem>
+                                <MenuItem value="CLIENT">Kunjungan Client</MenuItem>
+                                <MenuItem value="MEETING">Meeting</MenuItem>
+                                <MenuItem value="BUSINESS_TRIP">Perjalanan Dinas</MenuItem>
+                                <MenuItem value="OTHER">Lainnya</MenuItem>
                             </Select>
 
                         </FormControl>
@@ -110,17 +98,7 @@ export default function AttendanceDialog({
 
                 )}
 
-                <Box sx={{ mt: 2 }}>
 
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        textAlign="center"
-                    >
-                        Pastikan wajah terlihat jelas sebelum melanjutkan.
-                    </Typography>
-
-                </Box>
 
             </DialogContent>
 

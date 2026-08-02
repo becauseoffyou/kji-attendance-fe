@@ -58,17 +58,19 @@ const CameraCard = forwardRef(({ photo, setPhoto, loading }, ref) => {
             <CardContent>
 
                 <Typography
-                    variant="h6"
-                    mb={2}
+                    variant="body2"
+                    color="text.secondary"
+                    textAlign="center"
+                    size="small"
                 >
-                    Selfie
+                    Pastikan wajah terlihat jelas sebelum melanjutkan.
                 </Typography>
 
                 <Box
                     sx={{
                         aspectRatio: "4 / 3",
                         overflow: "hidden",
-                        borderRadius: 4,
+                        borderRadius: 1,
                         bgcolor: "#ECECEC"
                     }}
                 >
@@ -116,7 +118,7 @@ const CameraCard = forwardRef(({ photo, setPhoto, loading }, ref) => {
                             sx={{
                                 mt: 2,
                                 borderRadius: 3,
-                                height: 48
+                                height: 45
                             }}
                             onClick={retake}
                         >
@@ -133,7 +135,7 @@ const CameraCard = forwardRef(({ photo, setPhoto, loading }, ref) => {
                             sx={{
                                 mt: 2,
                                 borderRadius: 3,
-                                height: 48
+                                height: 45
                             }}
                             onClick={capture}
                         >
