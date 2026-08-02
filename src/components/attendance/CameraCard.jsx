@@ -105,7 +105,7 @@ const CameraCard = forwardRef(({ photo, setPhoto, loading }, ref) => {
 
                 </Box>
 
-                {
+                {/* {
 
                     photo ?
 
@@ -142,7 +142,7 @@ const CameraCard = forwardRef(({ photo, setPhoto, loading }, ref) => {
                             Ambil Foto
                         </Button>
 
-                }
+                } */}
 
             </CardContent>
 

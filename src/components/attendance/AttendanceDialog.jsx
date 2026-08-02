@@ -121,14 +121,20 @@ export default function AttendanceDialog({
 
                 <Button
                     variant="contained"
-                    disabled={
-                        loading ||
-                        (
-                            status !== "checked-in" &&
-                            !photo
-                        )
-                    }
-                    onClick={onConfirm}
+                    disabled={loading}
+                    onClick={async () => {
+
+                        if (status !== "checked-in") {
+
+                            const image = cameraRef.current.capture();
+
+                            if (!image) return;
+
+                        }
+
+                        onConfirm();
+
+                    }}
                 >
                     {
                         loading
