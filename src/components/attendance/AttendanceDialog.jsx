@@ -39,16 +39,6 @@ export default function AttendanceDialog({
 
 }) {
 
-    const image = cameraRef.current?.capture();
-
-    if (!image) {
-        console.log("cameraRef:", cameraRef);
-        console.log("cameraRef.current:", cameraRef?.current);
-        return;
-    }
-
-    onConfirm(image);
-
     return (
 
         <Dialog
@@ -150,13 +140,6 @@ export default function AttendanceDialog({
 
                 <Button
                     variant="contained"
-                    disabled={
-                        loading ||
-                        (
-                            attendanceType === "OTHER" &&
-                            notes.trim() === ""
-                        )
-                    }
                     onClick={() => {
 
                         if (status === "checked-in") {
@@ -164,11 +147,12 @@ export default function AttendanceDialog({
                             return;
                         }
 
-                        const image = cameraRef.current.capture();
+                        console.log("cameraRef:", cameraRef);
+                        console.log("cameraRef.current:", cameraRef.current);
 
-                        if (!image) {
-                            return;
-                        }
+                        const image = cameraRef.current?.capture();
+
+                        if (!image) return;
 
                         onConfirm(image);
 
