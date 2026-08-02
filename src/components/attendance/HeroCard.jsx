@@ -27,35 +27,35 @@ export default function HeroCard({
 }) {
 const getStatusMessage = () => {
 
-    const today = new Date();
-    const day = today.getDay(); // 0=Minggu, 6=Sabtu
+    const day = time.getDay();
 
-    // Kalau sudah check out
+    // 1. Sudah check out
     if (status === "checked-out") {
         return "✅ Sudah Absen Pulang";
     }
 
-    // Sabtu atau Minggu
+    // 2. Weekend (tidak bergantung GPS)
     if (day === 0 || day === 6) {
         return "🎉 Selamat menikmati waktu istirahat di akhir pekan";
     }
 
-    // (Nanti bisa ditambah hari libur nasional)
-
-    if (insideRadius === null) {
-        return "👋 Hai, sudah waktunya bekerja";
-    }
-
+    // 3. Sedang bekerja
     if (status === "checked-in") {
         return "🟢 Sedang Bekerja";
     }
 
+    // 4. GPS belum siap
+    if (insideRadius === null) {
+        return "📍 Sedang mendapatkan lokasi...";
+    }
+
+    // 5. Dalam area kantor
     if (insideRadius) {
         return "🟢 Sudah siap untuk absen?";
     }
 
+    // 6. Di luar area
     return "🔴 Kamu berada di luar area kantor";
-
 };
 
     return (
