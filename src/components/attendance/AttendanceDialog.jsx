@@ -84,6 +84,14 @@ export default function AttendanceDialog({
                                 onChange={(e) =>
                                     setAttendanceType(e.target.value)
                                 }
+                                MenuProps={{
+                                    PaperProps: {
+                                        sx: {
+                                            maxHeight: 250,
+                                            zIndex: 20000
+                                        }
+                                    }
+                                }}
                             >
                                 <MenuItem value="WFH">Work From Home</MenuItem>
                                 <MenuItem value="CLIENT">Kunjungan Client</MenuItem>

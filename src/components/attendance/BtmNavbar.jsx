@@ -36,7 +36,7 @@ export default function BottomNav() {
         right: 12,
         borderRadius: "18px",
         overflow: "hidden",
-        zIndex: 9999,
+        zIndex: (theme) => theme.zIndex.appBar
       }}
     >
       <BottomNavigation
