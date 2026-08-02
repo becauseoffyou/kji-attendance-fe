@@ -32,6 +32,7 @@ export default function Attendance() {
     const [loading, setLoading] = useState(false);
     const [insideRadius, setInsideRadius] = useState(null);
     const [refreshingLocation, setRefreshingLocation] = useState(false);
+    const image = cameraRef.current.capture();
 
     useEffect(() => {
 
@@ -71,16 +72,9 @@ export default function Attendance() {
 
     };
 
-    const handleCheckIn = async () => {
+    const handleCheckIn = async (image) => {
 
-        if (!photo) {
-
-            Swal.fire({
-                icon: "warning",
-                title: "Foto belum diambil",
-                text: "Silakan ambil foto terlebih dahulu."
-            });
-
+        if (!image) {
             return;
 
         }
@@ -110,7 +104,7 @@ export default function Attendance() {
         try {
 
             const file = dataURLtoFile(
-                photo,
+                image,
                 "selfie.jpg"
             );
 

@@ -147,17 +147,20 @@ export default function AttendanceDialog({
                             notes.trim() === ""
                         )
                     }
-                    onClick={async () => {
+                    onClick={() => {
 
-                        if (status !== "checked-in") {
-
-                            const image = cameraRef.current.capture();
-
-                            if (!image) return;
-
+                        if (status === "checked-in") {
+                            onConfirm();
+                            return;
                         }
 
-                        onConfirm();
+                        const image = cameraRef.current.capture();
+
+                        if (!image) {
+                            return;
+                        }
+
+                        onConfirm(image);
 
                     }}
                 >
