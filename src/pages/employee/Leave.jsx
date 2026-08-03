@@ -32,97 +32,99 @@ const loadHistory = async () => {
 
     }
 
-};
 
-useEffect(() => {
 
-    loadHistory();
+    useEffect(() => {
 
-}, []);
+        loadHistory();
 
-return (
+    }, []);
 
-    <Box sx={{ p: 2 }}>
+    return (
 
-        <Typography
-            variant="h6"
-            fontWeight={700}
-            mb={2}
-        >
-            Riwayat Pengajuan
-        </Typography>
+        <Box sx={{ p: 2 }}>
 
-        {
+            <Typography
+                variant="h6"
+                fontWeight={700}
+                mb={2}
+            >
+                Riwayat Pengajuan
+            </Typography>
 
-            loading ?
+            {
 
-                <CircularProgress />
+                loading ?
 
-                :
+                    <CircularProgress />
 
-                history.map((item) => (
+                    :
 
-                    <Card
-                        key={item.id}
-                        sx={{
-                            mb: 2,
-                            borderRadius: 3
-                        }}
-                    >
+                    history.map((item) => (
 
-                        <CardContent>
+                        <Card
+                            key={item.id}
+                            sx={{
+                                mb: 2,
+                                borderRadius: 3
+                            }}
+                        >
 
-                            <Box
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="center"
-                            >
+                            <CardContent>
+
+                                <Box
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                >
+
+                                    <Typography
+                                        fontWeight={700}
+                                    >
+                                        {item.leave_type}
+                                    </Typography>
+
+                                    <Chip
+                                        label={item.status}
+                                        color={
+                                            item.status === "APPROVED"
+                                                ? "success"
+                                                : item.status === "REJECTED"
+                                                    ? "error"
+                                                    : "warning"
+                                        }
+                                        size="small"
+                                    />
+
+                                </Box>
 
                                 <Typography
-                                    fontWeight={700}
+                                    mt={1}
+                                    color="text.secondary"
                                 >
-                                    {item.leave_type}
+                                    {item.start_date}
+                                    {" "}
+                                    s/d
+                                    {" "}
+                                    {item.end_date}
                                 </Typography>
 
-                                <Chip
-                                    label={item.status}
-                                    color={
-                                        item.status === "APPROVED"
-                                            ? "success"
-                                            : item.status === "REJECTED"
-                                                ? "error"
-                                                : "warning"
-                                    }
-                                    size="small"
-                                />
+                                <Typography
+                                    mt={1}
+                                >
+                                    {item.reason}
+                                </Typography>
 
-                            </Box>
+                            </CardContent>
 
-                            <Typography
-                                mt={1}
-                                color="text.secondary"
-                            >
-                                {item.start_date}
-                                {" "}
-                                s/d
-                                {" "}
-                                {item.end_date}
-                            </Typography>
+                        </Card>
 
-                            <Typography
-                                mt={1}
-                            >
-                                {item.reason}
-                            </Typography>
+                    ))
 
-                        </CardContent>
+            }
 
-                    </Card>
+        </Box>
 
-                ))
+    );
 
-        }
-
-    </Box>
-
-);
+};
