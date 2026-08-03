@@ -172,7 +172,6 @@ export default function History() {
                 <Card
                     sx={{
                         mb: 3,
-                        borderRadius: 4,
                         background: "linear-gradient(135deg,#0e7d63,#17a673)",
                         color: "#fff"
                     }}
