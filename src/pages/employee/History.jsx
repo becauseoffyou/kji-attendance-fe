@@ -109,8 +109,7 @@ export default function History() {
         return new Date(time).toLocaleTimeString("id-ID", {
             hour: "2-digit",
             minute: "2-digit",
-            hour12: false,
-            timeZone: "Asia/Jakarta"
+            hour12: false
         });
 
     };
