@@ -196,6 +196,7 @@ export default function History() {
                                 borderRadius: 3,
                                 px: 1,
                                 py: .5,
+                                color: "#000",
                                 boxShadow: "0 2px 8px rgba(0,0,0,.04)"
                             }}
                         >
@@ -207,9 +208,7 @@ export default function History() {
                             <Typography
                                 fontWeight={700}
                                 fontSize={18}
-                                sx={{
-                                    color: "#000"
-                                }}
+
                             >
                                 {monthNames[selectedMonth]} {selectedYear}
                             </Typography>
