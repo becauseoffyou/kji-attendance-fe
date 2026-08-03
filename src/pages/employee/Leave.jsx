@@ -64,7 +64,7 @@ export default function Leave() {
 
     };
 
-    const leaveType = {
+    const leaveTypeLabel = {
 
         SAKIT: "🏥 Sakit",
         IZIN: "📝 Izin",
@@ -222,7 +222,7 @@ export default function Leave() {
                                             fontWeight={700}
                                         >
                                             {
-                                                leaveType[item.leave_type] ||
+                                                leaveTypeLabel[item.leave_type] ||
                                                 item.leave_type
                                             }
                                         </Typography>
