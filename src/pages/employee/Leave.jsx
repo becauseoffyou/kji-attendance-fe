@@ -20,6 +20,8 @@ export default function Leave() {
     const [loading, setLoading] = useState(true);
     const [openDialog, setOpenDialog] = useState(false);
     const [leaveType, setLeaveType] = useState("SAKIT");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
     useEffect(() => {
 
@@ -316,12 +318,16 @@ export default function Leave() {
             <LeaveDialog
 
                 open={openDialog}
-
                 onClose={() => setOpenDialog(false)}
 
                 leaveType={leaveType}
-
                 setLeaveType={setLeaveType}
+
+                startDate={startDate}
+                setStartDate={setStartDate}
+
+                endDate={endDate}
+                setEndDate={setEndDate}
             />
 
         </Box>

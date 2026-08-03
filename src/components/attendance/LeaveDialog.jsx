@@ -4,11 +4,13 @@ import {
     DialogContent,
     DialogActions,
     Button,
-    Typography,
     FormControl,
     InputLabel,
     Select,
-    MenuItem
+    MenuItem,
+    TextField,
+    Box
+
 } from "@mui/material";
 
 
@@ -18,7 +20,12 @@ export default function LeaveDialog({
     onClose,
 
     leaveType,
-    setLeaveType
+    setLeaveType,
+    startDate,
+    setStartDate,
+
+    endDate,
+    setEndDate
 
 }) {
 
@@ -62,32 +69,55 @@ export default function LeaveDialog({
 
                         <MenuItem value="SAKIT">
 
-                            🏥 Sakit
+                            Sakit
 
                         </MenuItem>
 
                         <MenuItem value="IZIN">
 
-                            📝 Izin
+                            Izin
 
                         </MenuItem>
 
                         <MenuItem value="CUTI">
 
-                            🌴 Cuti
+                            Cuti
 
                         </MenuItem>
 
-                        <MenuItem value="DINAS">
-
-                            🚗 Perjalanan Dinas
-
-                        </MenuItem>
 
                     </Select>
 
                 </FormControl>
+                ''''''''''<Box sx={{ mt: 2 }}>
 
+                    <TextField
+                        fullWidth
+                        type="date"
+                        label="Tanggal Mulai"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                    />
+
+                </Box>
+
+                <Box sx={{ mt: 2 }}>
+
+                    <TextField
+                        fullWidth
+                        type="date"
+                        label="Tanggal Selesai"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                    />
+
+                </Box>
             </DialogContent>
 
             <DialogActions>
