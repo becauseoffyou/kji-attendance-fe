@@ -112,7 +112,7 @@ export default function LeaveCard({
 
                     <Typography
                         variant="body2"
-                        sx={{ mb: 1 }}
+                        sx={{ mb: 0 }}
                     >
                         <strong>Tanggal :</strong>{" "}
                         {formatDate(item.start_date)} - {formatDate(item.end_date)}
@@ -120,7 +120,7 @@ export default function LeaveCard({
 
                     <Typography
                         variant="body2"
-                        sx={{ mb: 1 }}
+                        sx={{ mb: 0 }}
                     >
                         <strong>Durasi :</strong>{" "}
                         {

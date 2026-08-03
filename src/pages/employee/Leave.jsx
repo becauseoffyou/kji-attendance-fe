@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import leaveService from "../../services/leaveService";
 import LeaveDialog from "../../components/attendance/LeaveDialog";
+import LeaveDetailDialog from "../../components/leave/LeaveDetailDialog";
 import LeaveCard from "../../components/layout/LeaveCard";
 import {
     Box,
@@ -27,6 +28,9 @@ export default function Leave() {
     const [reason, setReason] = useState("");
     const [attachment, setAttachment] = useState(null);
     const [submitLoading, setSubmitLoading] = useState(false);
+    const [selectedLeave, setSelectedLeave] = useState(null);
+
+    const [openDetail, setOpenDetail] = useState(false);
 
     useEffect(() => {
 
@@ -381,7 +385,15 @@ export default function Leave() {
 
                 onSubmit={handleSubmit}
             />
+            <LeaveDetailDialog
 
+                open={openDetail}
+
+                onClose={() => setOpenDetail(false)}
+
+                data={selectedLeave}
+
+            />
         </Box>
 
     );
