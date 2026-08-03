@@ -229,7 +229,7 @@ export default function Leave() {
     const chipStyle = (value) => ({
         borderRadius: 5,
         px: 0.5,
-        gap: 1,
+        gap: 2,
         transition: ".2s",
         transform:
             statusFilter === value
