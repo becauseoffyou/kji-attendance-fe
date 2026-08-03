@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import Swal from "sweetalert2";
 
 export default function Leave() {
 
@@ -24,6 +25,7 @@ export default function Leave() {
     const [endDate, setEndDate] = useState("");
     const [reason, setReason] = useState("");
     const [attachment, setAttachment] = useState(null);
+    const [submitLoading, setSubmitLoading] = useState(false);
 
     useEffect(() => {
 
@@ -78,6 +80,86 @@ export default function Leave() {
         CLIENT: "🤝 Kunjungan Client",
         MEETING: "👥 Meeting",
         WFH: "🏠 Work From Home"
+
+    };
+
+    const handleSubmit = async () => {
+
+        if (!startDate || !endDate) {
+
+            Swal.fire({
+                icon: "warning",
+                title: "Tanggal belum lengkap"
+            });
+
+            return;
+
+        }
+
+        if (!reason.trim()) {
+
+            Swal.fire({
+                icon: "warning",
+                title: "Keterangan wajib diisi"
+            });
+
+            return;
+
+        }
+
+        try {
+
+            setSubmitLoading(true);
+
+            const formData = new FormData();
+
+            formData.append("leave_type", leaveType);
+            formData.append("start_date", startDate);
+            formData.append("end_date", endDate);
+            formData.append("reason", reason);
+
+            if (attachment) {
+
+                formData.append(
+                    "attachment",
+                    attachment
+                );
+
+            }
+
+            await leaveService.create(formData);
+
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: "Pengajuan berhasil dikirim."
+            });
+
+            setOpenDialog(false);
+
+            setLeaveType("SAKIT");
+            setStartDate("");
+            setEndDate("");
+            setReason("");
+            setAttachment(null);
+
+            loadHistory();
+
+        } catch (err) {
+
+            Swal.fire({
+                icon: "error",
+                title: "Gagal",
+                text:
+                    err.response?.data?.message ||
+                    "Terjadi kesalahan."
+            });
+
+        } finally {
+
+            setSubmitLoading(false);
+
+        }
 
     };
 
@@ -334,6 +416,9 @@ export default function Leave() {
                 setReason={setReason}
                 attachment={attachment}
                 setAttachment={setAttachment}
+                loading={submitLoading}
+
+                onSubmit={handleSubmit}
             />
 
         </Box>

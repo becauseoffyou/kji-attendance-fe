@@ -9,6 +9,7 @@ import {
     Select,
     MenuItem,
     TextField,
+    Typography,
     Box
 
 } from "@mui/material";
@@ -29,7 +30,9 @@ export default function LeaveDialog({
     reason,
     setReason,
     attachment,
-    setAttachment
+    setAttachment,
+    loading,
+    onSubmit
 
 }) {
 
@@ -194,10 +197,23 @@ export default function LeaveDialog({
 
             <DialogActions>
 
-                <Button onClick={onClose}>
+                <Button
+                    onClick={onClose}
+                    disabled={loading}
+                >
+                    Batal
+                </Button>
 
-                    Tutup
-
+                <Button
+                    variant="contained"
+                    onClick={onSubmit}
+                    disabled={loading}
+                >
+                    {
+                        loading
+                            ? "Mengirim..."
+                            : "Kirim"
+                    }
                 </Button>
 
             </DialogActions>
