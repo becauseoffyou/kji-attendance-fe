@@ -23,6 +23,7 @@ export default function Leave() {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [reason, setReason] = useState("");
+    const [attachment, setAttachment] = useState(null);
 
     useEffect(() => {
 
@@ -331,6 +332,8 @@ export default function Leave() {
                 setEndDate={setEndDate}
                 reason={reason}
                 setReason={setReason}
+                attachment={attachment}
+                setAttachment={setAttachment}
             />
 
         </Box>

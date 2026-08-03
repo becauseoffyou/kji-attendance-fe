@@ -12,7 +12,7 @@ import {
     Box
 
 } from "@mui/material";
-
+import AttachFileRoundedIcon from "@mui/icons-material/AttachFileRounded";
 
 export default function LeaveDialog({
 
@@ -27,7 +27,9 @@ export default function LeaveDialog({
     endDate,
     setEndDate,
     reason,
-    setReason
+    setReason,
+    attachment,
+    setAttachment
 
 }) {
 
@@ -131,6 +133,61 @@ export default function LeaveDialog({
                         value={reason}
                         onChange={(e) => setReason(e.target.value)}
                     />
+
+                </Box>
+                <Box sx={{ mt: 2 }}>
+
+                    <Button
+                        fullWidth
+                        variant="outlined"
+                        component="label"
+                        startIcon={<AttachFileRoundedIcon />}
+                        sx={{
+                            height: 50,
+                            borderStyle: "dashed"
+                        }}
+                    >
+
+                        Pilih Lampiran
+
+                        <input
+                            hidden
+                            type="file"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            onChange={(e) => {
+
+                                if (e.target.files.length > 0) {
+
+                                    setAttachment(
+                                        e.target.files[0]
+                                    );
+
+                                }
+
+                            }}
+                        />
+
+                    </Button>
+
+                    {
+
+                        attachment && (
+
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{
+                                    mt: 1
+                                }}
+                            >
+
+                                {attachment.name}
+
+                            </Typography>
+
+                        )
+
+                    }
 
                 </Box>
             </DialogContent>
