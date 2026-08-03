@@ -9,10 +9,11 @@ import {
     CircularProgress
 } from "@mui/material";
 
-const [history, setHistory] = useState([]);
-const [loading, setLoading] = useState(true);
+
 
 export default function Leave() {
+    const [history, setHistory] = useState([]);
+    const [loading, setLoading] = useState(true);
     const loadHistory = async () => {
 
         try {
