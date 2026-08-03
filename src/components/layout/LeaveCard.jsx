@@ -25,6 +25,18 @@ export default function LeaveCard({
 
 }) {
 
+    const formatShortDate = (date) => {
+
+        return new Date(date).toLocaleDateString(
+            "id-ID",
+            {
+                day: "numeric",
+                month: "short"
+            }
+        );
+
+    };
+
     const formatDate = (date) => {
 
         return new Date(date).toLocaleDateString(
@@ -46,7 +58,7 @@ export default function LeaveCard({
 
             sx={{
                 mb: 2,
-                borderRadius: 3,
+                borderRadius: 1,
                 cursor: "pointer",
                 transition: ".2s",
 
@@ -60,43 +72,31 @@ export default function LeaveCard({
             <CardContent>
 
                 <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="flex-start"
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "flex-start",
+                        mb: 2,
+                        gap: 2
+                    }}
                 >
 
-                    <Stack spacing={.5}>
+                    <Typography
+                        sx={{
+                            flex: 1,
+                            fontWeight: 700,
+                            color: "primary.main",
+                            lineHeight: 1.4
+                        }}
+                    >
 
-                        <Typography
-                            fontWeight={700}
-                            fontSize={17}
-                        >
+                        {leaveTypeLabel[item.leave_type] || item.leave_type}
 
-                            {leaveTypeLabel[item.leave_type] || item.leave_type}
-
-                        </Typography>
-
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                        >
-
-                            {formatDate(item.start_date)}
-
-                            {"  •  "}
-
-                            {formatDate(item.end_date)}
-
-                        </Typography>
-
-                    </Stack>
+                    </Typography>
 
                     <Chip
-
                         label={item.status}
-
                         size="small"
-
                         color={
                             item.status === "APPROVED"
                                 ? "success"
@@ -104,24 +104,90 @@ export default function LeaveCard({
                                     ? "error"
                                     : "warning"
                         }
-
                     />
 
                 </Box>
 
-                <Typography
-                    mt={2}
-                    color="text.secondary"
+                <Box
                     sx={{
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden"
+                        display: "grid",
+                        gridTemplateColumns: "repeat(3,1fr)",
+                        gap: 2,
+                        textAlign: "center"
                     }}
                 >
 
-                    {item.reason}
+                    <Box>
 
+                        <Typography
+                            fontWeight={700}
+                            fontSize={20}
+                        >
+                            {formatShortDate(item.start_date)}
+                        </Typography>
+
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                        >
+                            Mulai
+                        </Typography>
+
+                    </Box>
+
+                    <Box>
+
+                        <Typography
+                            fontWeight={700}
+                            fontSize={20}
+                        >
+                            {formatShortDate(item.end_date)}
+                        </Typography>
+
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                        >
+                            Selesai
+                        </Typography>
+
+                    </Box>
+
+                    <Box>
+
+                        <Typography
+                            fontWeight={700}
+                            fontSize={18}
+                        >
+                            {Math.max(
+                                1,
+                                Math.ceil(
+                                    (
+                                        new Date(item.end_date) -
+                                        new Date(item.start_date)
+                                    ) / 86400000
+                                ) + 1
+                            )}
+                        </Typography>
+
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                        >
+                            Hari
+                        </Typography>
+
+                    </Box>
+
+                </Box>
+
+                <Typography
+                    sx={{
+                        mt: 2,
+                        color: "text.secondary"
+                    }}
+                >
+                    {item.reason}
                 </Typography>
 
             </CardContent>
