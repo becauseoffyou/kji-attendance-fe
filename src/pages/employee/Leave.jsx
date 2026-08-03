@@ -19,6 +19,7 @@ export default function Leave() {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [openDialog, setOpenDialog] = useState(false);
+    const [leaveType, setLeaveType] = useState("SAKIT");
 
     useEffect(() => {
 
@@ -318,6 +319,9 @@ export default function Leave() {
 
                 onClose={() => setOpenDialog(false)}
 
+                leaveType={leaveType}
+
+                setLeaveType={setLeaveType}
             />
 
         </Box>

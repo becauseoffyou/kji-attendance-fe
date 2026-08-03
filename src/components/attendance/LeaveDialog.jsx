@@ -4,13 +4,21 @@ import {
     DialogContent,
     DialogActions,
     Button,
-    Typography
+    Typography,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem
 } from "@mui/material";
+
 
 export default function LeaveDialog({
 
     open,
-    onClose
+    onClose,
+
+    leaveType,
+    setLeaveType
 
 }) {
 
@@ -31,11 +39,54 @@ export default function LeaveDialog({
 
             <DialogContent>
 
-                <Typography>
+                <FormControl
+                    fullWidth
+                    sx={{
+                        mt: 1
+                    }}
+                >
 
-                    Form Pengajuan
+                    <InputLabel>
 
-                </Typography>
+                        Jenis Pengajuan
+
+                    </InputLabel>
+
+                    <Select
+                        value={leaveType}
+                        label="Jenis Pengajuan"
+                        onChange={(e) =>
+                            setLeaveType(e.target.value)
+                        }
+                    >
+
+                        <MenuItem value="SAKIT">
+
+                            🏥 Sakit
+
+                        </MenuItem>
+
+                        <MenuItem value="IZIN">
+
+                            📝 Izin
+
+                        </MenuItem>
+
+                        <MenuItem value="CUTI">
+
+                            🌴 Cuti
+
+                        </MenuItem>
+
+                        <MenuItem value="DINAS">
+
+                            🚗 Perjalanan Dinas
+
+                        </MenuItem>
+
+                    </Select>
+
+                </FormControl>
 
             </DialogContent>
 
