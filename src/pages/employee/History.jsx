@@ -80,13 +80,17 @@ export default function History() {
 
     const loadHistory = async () => {
 
-        setLoading(true);
-
         try {
 
-            const result = await attendanceService.getHistory();
+            setLoading(true);
 
-            setHistory(result.data);
+            await new Promise(resolve =>
+                setTimeout(resolve, 2000)
+            );
+
+            const { data } = await leaveService.history();
+
+            setHistory(data.data);
 
         } catch (err) {
 

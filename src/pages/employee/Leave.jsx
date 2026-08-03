@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+
 import leaveService from "../../services/leaveService";
+
 import {
     Box,
     Card,
@@ -7,20 +9,22 @@ import {
     Typography,
     Chip,
     Fab,
-    Skeleton,
-    CircularProgress
+    Skeleton
 } from "@mui/material";
+
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
-
 export default function Leave() {
+
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
 
         loadHistory();
 
     }, []);
+
     const loadHistory = async () => {
 
         try {
@@ -40,8 +44,12 @@ export default function Leave() {
             setLoading(false);
 
         }
+
     };
+
     const formatDate = (date) => {
+
+        if (!date) return "-";
 
         return new Date(date).toLocaleDateString(
             "id-ID",
@@ -53,30 +61,40 @@ export default function Leave() {
         );
 
     };
+
     const leaveType = {
 
         SAKIT: "🏥 Sakit",
-
         IZIN: "📝 Izin",
-
         CUTI: "🌴 Cuti",
-
         DINAS: "🚗 Dinas",
-
-        WFH: "🏠 WFH"
+        BUSINESS_TRIP: "✈️ Perjalanan Dinas",
+        CLIENT: "🤝 Kunjungan Client",
+        MEETING: "👥 Meeting",
+        WFH: "🏠 Work From Home"
 
     };
+
     return (
 
-        <Box sx={{ p: 2 }}>
+        <Box
+            sx={{
+                p: 2,
+                pb: 10
+            }}
+        >
+
+            {/* Header */}
 
             <Card
                 sx={{
                     mb: 3,
+                    borderRadius: 4,
                     background: "linear-gradient(135deg,#0e7d63,#17a673)",
                     color: "#fff"
                 }}
             >
+
                 <CardContent>
 
                     <Typography
@@ -89,18 +107,20 @@ export default function Leave() {
                     <Typography
                         variant="body2"
                         sx={{
-                            opacity: .9,
-                            mt: .5
+                            mt: .5,
+                            opacity: .9
                         }}
                     >
                         Ajukan izin, cuti, sakit, atau perjalanan dinas.
                     </Typography>
 
                 </CardContent>
+
             </Card>
 
             {
-                loading ? (
+
+                loading ?
 
                     [...Array(4)].map((_, index) => (
 
@@ -111,6 +131,7 @@ export default function Leave() {
                                 borderRadius: 3
                             }}
                         >
+
                             <CardContent>
 
                                 <Box
@@ -118,9 +139,10 @@ export default function Leave() {
                                     justifyContent="space-between"
                                     alignItems="center"
                                 >
+
                                     <Skeleton
                                         variant="text"
-                                        width={120}
+                                        width={130}
                                         height={28}
                                     />
 
@@ -129,6 +151,7 @@ export default function Leave() {
                                         width={90}
                                         height={28}
                                     />
+
                                 </Box>
 
                                 <Skeleton
@@ -141,46 +164,131 @@ export default function Leave() {
                                 <Skeleton
                                     variant="text"
                                     width="90%"
-                                    height={20}
+                                    height={18}
                                     sx={{ mt: .5 }}
                                 />
 
                             </CardContent>
+
                         </Card>
 
                     ))
 
-                ) : history.length === 0 ? (
+                    :
 
-                    <Typography
-                        align="center"
-                        color="text.secondary"
-                        mt={8}
-                    >
-                        Belum ada riwayat pengajuan.
-                    </Typography>
-
-                ) : (
-
-                    history.map((item) => (
+                    history.length === 0 ?
 
                         <Card
-                            key={item.id}
                             sx={{
-                                mb: 2,
                                 borderRadius: 3
                             }}
                         >
+
                             <CardContent>
 
-                                {/* isi card yang sudah kamu buat */}
+                                <Typography
+                                    align="center"
+                                    color="text.secondary"
+                                >
+                                    Belum ada riwayat pengajuan.
+                                </Typography>
 
                             </CardContent>
+
                         </Card>
 
-                    ))
+                        :
 
-                )
+                        history.map((item) => (
+
+                            <Card
+                                key={item.id}
+                                sx={{
+                                    mb: 2,
+                                    borderRadius: 3
+                                }}
+                            >
+
+                                <CardContent>
+
+                                    <Box
+                                        display="flex"
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+
+                                        <Typography
+                                            fontWeight={700}
+                                        >
+                                            {
+                                                leaveType[item.leave_type] ||
+                                                item.leave_type
+                                            }
+                                        </Typography>
+
+                                        <Chip
+                                            size="small"
+                                            label={
+                                                item.status === "APPROVED"
+
+                                                    ? "Disetujui"
+
+                                                    : item.status === "REJECTED"
+
+                                                        ? "Ditolak"
+
+                                                        : "Menunggu"
+                                            }
+                                            color={
+                                                item.status === "APPROVED"
+
+                                                    ? "success"
+
+                                                    : item.status === "REJECTED"
+
+                                                        ? "error"
+
+                                                        : "warning"
+                                            }
+                                        />
+
+                                    </Box>
+
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                        sx={{
+                                            mt: 1
+                                        }}
+                                    >
+                                        {formatDate(item.start_date)}
+                                        {" - "}
+                                        {formatDate(item.end_date)}
+                                    </Typography>
+
+                                    {
+
+                                        item.reason && (
+
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    mt: 1
+                                                }}
+                                            >
+                                                {item.reason}
+                                            </Typography>
+
+                                        )
+
+                                    }
+
+                                </CardContent>
+
+                            </Card>
+
+                        ))
+
             }
 
             <Fab
@@ -192,14 +300,20 @@ export default function Leave() {
                     bgcolor: "#0e7d63",
 
                     "&:hover": {
+
                         bgcolor: "#0a6a54"
+
                     }
+
                 }}
             >
+
                 <AddRoundedIcon />
+
             </Fab>
 
         </Box>
 
     );
+
 }
