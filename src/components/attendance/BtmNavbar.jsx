@@ -18,6 +18,7 @@ const menus = [
   },
   {
     label: "Request",
+    value: "/employee/leave",
     icon: <DescriptionRoundedIcon />,
     path: "/leave"
   },
