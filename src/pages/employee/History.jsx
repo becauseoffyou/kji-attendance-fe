@@ -88,7 +88,7 @@ export default function History() {
                 setTimeout(resolve, 2000)
             );
 
-            const { data } = await leaveService.history();
+            const { data } = await attendanceService.history();
 
             setHistory(data.data);
 
