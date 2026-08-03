@@ -343,24 +343,19 @@ export default function History() {
                                         })}
                                     </Typography>
 
-                                    <Chip
-                                        label={
-                                            item.is_late
-                                                ? `Terlambat ${item.late_minutes} Menit`
-                                                : "Tepat Waktu"
-                                        }
-                                        color={
-                                            item.is_late
-                                                ? "error"
-                                                : "success"
-                                        }
-                                        size="small"
-                                        sx={{
-                                            flexShrink: 0,
-                                            fontWeight: 700,
-                                            borderRadius: "999px"
-                                        }}
-                                    />
+                                    {item.attendance_status === "Terlambat" ? (
+                                        <Chip
+                                            label={`Terlambat ${item.late_minutes} Menit`}
+                                            color="error"
+                                            size="small"
+                                        />
+                                    ) : (
+                                        <Chip
+                                            label="Tepat Waktu"
+                                            color="success"
+                                            size="small"
+                                        />
+                                    )}
 
                                 </Box>
 
