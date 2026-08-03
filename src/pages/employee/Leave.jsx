@@ -6,9 +6,10 @@ import {
     CardContent,
     Typography,
     Chip,
+    Fab,
     CircularProgress
 } from "@mui/material";
-
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 
 export default function Leave() {
@@ -39,7 +40,31 @@ export default function Leave() {
 
         }
     };
+    const formatDate = (date) => {
 
+        return new Date(date).toLocaleDateString(
+            "id-ID",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+    };
+    const leaveType = {
+
+        SAKIT: "🏥 Sakit",
+
+        IZIN: "📝 Izin",
+
+        CUTI: "🌴 Cuti",
+
+        DINAS: "🚗 Dinas",
+
+        WFH: "🏠 WFH"
+
+    };
     return (
 
         <Box sx={{ p: 2 }}>
@@ -81,11 +106,17 @@ export default function Leave() {
                                     <Typography
                                         fontWeight={700}
                                     >
-                                        {item.leave_type}
+                                        {leaveType[item.leave_type] || item.leave_type}
                                     </Typography>
 
                                     <Chip
-                                        label={item.status}
+                                        label={
+                                            item.status === "APPROVED"
+                                                ? "Disetujui"
+                                                : item.status === "REJECTED"
+                                                    ? "Ditolak"
+                                                    : "Menunggu"
+                                        }
                                         color={
                                             item.status === "APPROVED"
                                                 ? "success"
@@ -102,11 +133,9 @@ export default function Leave() {
                                     mt={1}
                                     color="text.secondary"
                                 >
-                                    {item.start_date}
-                                    {" "}
-                                    s/d
-                                    {" "}
-                                    {item.end_date}
+                                    {formatDate(item.start_date)}
+                                    {" - "}
+                                    {formatDate(item.end_date)}
                                 </Typography>
 
                                 <Typography
@@ -122,6 +151,35 @@ export default function Leave() {
                     ))
 
             }
+            {
+                !loading && history.length === 0 && (
+
+                    <Typography
+                        align="center"
+                        color="text.secondary"
+                        mt={8}
+                    >
+                        Belum ada riwayat pengajuan.
+                    </Typography>
+
+                )
+            }
+
+            <Fab
+                color="primary"
+                sx={{
+                    position: "fixed",
+                    bottom: 85,
+                    right: 20,
+                    bgcolor: "#0e7d63",
+
+                    "&:hover": {
+                        bgcolor: "#0a6a54"
+                    }
+                }}
+            >
+                <AddRoundedIcon />
+            </Fab>
 
         </Box>
 
