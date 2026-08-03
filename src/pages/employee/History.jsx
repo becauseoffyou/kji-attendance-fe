@@ -103,7 +103,7 @@ export default function History() {
     };
 
     const formatTime = (time) => {
-
+        console.log("RAW:", time);
         if (!time) return "-";
 
         return new Date(time).toLocaleTimeString("id-ID", {
