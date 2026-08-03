@@ -12,119 +12,121 @@ import {
 const [history, setHistory] = useState([]);
 const [loading, setLoading] = useState(true);
 
-const loadHistory = async () => {
+export default function Leave() {
+    const loadHistory = async () => {
 
-    try {
+        try {
 
-        setLoading(true);
+            setLoading(true);
 
-        const { data } = await leaveService.history();
+            const { data } = await leaveService.history();
 
-        setHistory(data.data);
+            setHistory(data.data);
 
-    } catch (err) {
+        } catch (err) {
 
-        console.error(err);
+            console.error(err);
 
-    } finally {
+        } finally {
 
-        setLoading(false);
+            setLoading(false);
 
-    }
+        }
 
 
 
-    useEffect(() => {
+        useEffect(() => {
 
-        loadHistory();
+            loadHistory();
 
-    }, []);
+        }, []);
 
-    return (
+        return (
 
-        <Box sx={{ p: 2 }}>
+            <Box sx={{ p: 2 }}>
 
-            <Typography
-                variant="h6"
-                fontWeight={700}
-                mb={2}
-            >
-                Riwayat Pengajuan
-            </Typography>
+                <Typography
+                    variant="h6"
+                    fontWeight={700}
+                    mb={2}
+                >
+                    Riwayat Pengajuan
+                </Typography>
 
-            {
+                {
 
-                loading ?
+                    loading ?
 
-                    <CircularProgress />
+                        <CircularProgress />
 
-                    :
+                        :
 
-                    history.map((item) => (
+                        history.map((item) => (
 
-                        <Card
-                            key={item.id}
-                            sx={{
-                                mb: 2,
-                                borderRadius: 3
-                            }}
-                        >
+                            <Card
+                                key={item.id}
+                                sx={{
+                                    mb: 2,
+                                    borderRadius: 3
+                                }}
+                            >
 
-                            <CardContent>
+                                <CardContent>
 
-                                <Box
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                >
+                                    <Box
+                                        display="flex"
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+
+                                        <Typography
+                                            fontWeight={700}
+                                        >
+                                            {item.leave_type}
+                                        </Typography>
+
+                                        <Chip
+                                            label={item.status}
+                                            color={
+                                                item.status === "APPROVED"
+                                                    ? "success"
+                                                    : item.status === "REJECTED"
+                                                        ? "error"
+                                                        : "warning"
+                                            }
+                                            size="small"
+                                        />
+
+                                    </Box>
 
                                     <Typography
-                                        fontWeight={700}
+                                        mt={1}
+                                        color="text.secondary"
                                     >
-                                        {item.leave_type}
+                                        {item.start_date}
+                                        {" "}
+                                        s/d
+                                        {" "}
+                                        {item.end_date}
                                     </Typography>
 
-                                    <Chip
-                                        label={item.status}
-                                        color={
-                                            item.status === "APPROVED"
-                                                ? "success"
-                                                : item.status === "REJECTED"
-                                                    ? "error"
-                                                    : "warning"
-                                        }
-                                        size="small"
-                                    />
+                                    <Typography
+                                        mt={1}
+                                    >
+                                        {item.reason}
+                                    </Typography>
 
-                                </Box>
+                                </CardContent>
 
-                                <Typography
-                                    mt={1}
-                                    color="text.secondary"
-                                >
-                                    {item.start_date}
-                                    {" "}
-                                    s/d
-                                    {" "}
-                                    {item.end_date}
-                                </Typography>
+                            </Card>
 
-                                <Typography
-                                    mt={1}
-                                >
-                                    {item.reason}
-                                </Typography>
+                        ))
 
-                            </CardContent>
+                }
 
-                        </Card>
+            </Box>
 
-                    ))
+        );
 
-            }
-
-        </Box>
-
-    );
-
-};
+    };
+}
