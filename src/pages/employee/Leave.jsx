@@ -317,7 +317,6 @@ export default function Leave() {
                 <Box
                     sx={{
                         overflowX: "auto",
-                        px: 2,
                         pb: 2,
 
                         "&::-webkit-scrollbar": {
