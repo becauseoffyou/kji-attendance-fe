@@ -32,6 +32,10 @@ export default function Leave() {
 
     const [openDetail, setOpenDetail] = useState(false);
 
+    const [summary, setSummary] = useState({
+        leave_balance: 0
+    });
+
     useEffect(() => {
 
         loadHistory();
@@ -48,6 +52,7 @@ export default function Leave() {
 
             setHistory(data.data);
 
+            setSummary(data.summary);
         } catch (err) {
 
             console.error(err);
@@ -215,11 +220,18 @@ export default function Leave() {
                     <Typography
                         variant="body2"
                         sx={{
-                            mt: .5,
+                            mt: 1,
                             opacity: .9
                         }}
                     >
-                        Ajukan izin, cuti, sakit, atau perjalanan dinas.
+                        Sisa Cuti Tahunan
+                    </Typography>
+
+                    <Typography
+                        variant="h4"
+                        fontWeight={700}
+                    >
+                        {summary.leave_balance} Hari
                     </Typography>
 
                 </CardContent>
