@@ -58,6 +58,14 @@ export default function HeroCard({
         return "🔴 Kamu berada di luar area kantor";
     };
 
+    const formatTime = (time) => {
+
+        if (!time) return "-";
+
+        return time.substring(11, 16);
+
+    };
+
     return (
 
         <Paper
@@ -129,7 +137,7 @@ export default function HeroCard({
                     lineHeight: 1,
                 }}
             >
-                {time.toLocaleTimeString("id-ID")}
+                {formatTime(todayData?.checkIn || time.toISOString())}
             </Typography>
 
             {/* TANGGAL */}
@@ -282,15 +290,7 @@ export default function HeroCard({
                             fontSize={18}
                         >
                             {
-                                todayData?.checkOut
-                                    ? new Date(todayData.checkOut).toLocaleTimeString(
-                                        "id-ID",
-                                        {
-                                            hour: "2-digit",
-                                            minute: "2-digit"
-                                        }
-                                    )
-                                    : "-"
+                                formatTime(todayData?.checkOut || null)
                             }
                         </Typography>
 

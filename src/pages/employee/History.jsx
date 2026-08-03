@@ -104,10 +104,7 @@ export default function History() {
 
         if (!time) return "-";
 
-        return new Date(time).toLocaleTimeString("id-ID", {
-            hour: "2-digit",
-            minute: "2-digit"
-        });
+        return time.substring(11, 16);
 
     };
 

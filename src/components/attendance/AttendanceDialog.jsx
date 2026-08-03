@@ -147,9 +147,6 @@ export default function AttendanceDialog({
                             return;
                         }
 
-                        console.log("cameraRef:", cameraRef);
-                        console.log("cameraRef.current:", cameraRef.current);
-
                         const image = cameraRef.current?.capture();
 
                         if (!image) return;
