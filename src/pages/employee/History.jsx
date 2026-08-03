@@ -207,7 +207,9 @@ export default function History() {
                             <Typography
                                 fontWeight={700}
                                 fontSize={18}
-                                color="#000"
+                                sx={{
+                                    color: "#000"
+                                }}
                             >
                                 {monthNames[selectedMonth]} {selectedYear}
                             </Typography>
