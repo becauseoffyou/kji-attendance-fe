@@ -1,44 +1,36 @@
 import api from "./api";
 
 const attendanceService = {
+  getToday: async () => {
+    const { data } = await api.get("/attendance/today");
+    return data;
+  },
 
-    getToday: async () => {
-        const { data } = await api.get("/attendance/today");
-        return data;
-    },
+  checkIn: async (formData) => {
+    const { data } = await api.post("/attendance/checkin", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-    checkIn: async (formData) => {
+    return data;
+  },
 
-        const { data } = await api.post(
-            "/attendance/checkin",
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            }
-        );
+  checkOut: async (formData) => {
+    const { data } = await api.post("/attendance/checkout", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-        return data;
-    },
+    return data;
+  },
 
-    checkOut: async () => {
-
-        const { data } =
-            await api.post("/attendance/checkout");
-
-        return data;
-
-    },
-
- getHistory: async () => {
-
+  getHistory: async () => {
     const { data } = await api.get("/attendance/history");
 
     return data;
-
-},
-
+  },
 };
 
 export default attendanceService;

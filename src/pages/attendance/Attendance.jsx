@@ -205,14 +205,45 @@ export default function Attendance() {
         }
 
     };
-
     const handleCheckOut = async () => {
+
+        let currentLocation = location;
+
+        if (!currentLocation) {
+
+            currentLocation = await loadLocation();
+
+        }
+
+        if (!currentLocation) {
+
+            Swal.fire({
+                icon: "error",
+                title: "Lokasi",
+                text: "Lokasi belum berhasil didapatkan."
+            });
+
+            return;
+
+        }
 
         try {
 
             setLoading(true);
 
-            const result = await attendanceService.checkOut();
+            const formData = new FormData();
+
+            formData.append(
+                "latitude",
+                currentLocation.latitude
+            );
+
+            formData.append(
+                "longitude",
+                currentLocation.longitude
+            );
+
+            const result = await attendanceService.checkOut(formData);
 
             await loadToday();
             await loadLocation();
@@ -231,7 +262,9 @@ export default function Attendance() {
             Swal.fire({
                 icon: "error",
                 title: "Gagal",
-                text: err.response?.data?.message || "Check Out gagal."
+                text:
+                    err.response?.data?.message ||
+                    "Check Out gagal."
             });
 
         } finally {
