@@ -22,6 +22,7 @@ export default function Leave() {
     const [leaveType, setLeaveType] = useState("SAKIT");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [reason, setReason] = useState("");
 
     useEffect(() => {
 
@@ -328,6 +329,8 @@ export default function Leave() {
 
                 endDate={endDate}
                 setEndDate={setEndDate}
+                reason={reason}
+                setReason={setReason}
             />
 
         </Box>

@@ -25,7 +25,9 @@ export default function LeaveDialog({
     setStartDate,
 
     endDate,
-    setEndDate
+    setEndDate,
+    reason,
+    setReason
 
 }) {
 
@@ -89,7 +91,7 @@ export default function LeaveDialog({
                     </Select>
 
                 </FormControl>
-                ''''''''''<Box sx={{ mt: 2 }}>
+                <Box sx={{ mt: 2 }}>
 
                     <TextField
                         fullWidth
@@ -115,6 +117,19 @@ export default function LeaveDialog({
                         InputLabelProps={{
                             shrink: true
                         }}
+                    />
+
+                </Box>
+                <Box sx={{ mt: 2 }}>
+
+                    <TextField
+                        fullWidth
+                        multiline
+                        rows={4}
+                        label="Keterangan"
+                        placeholder="Masukkan alasan pengajuan..."
+                        value={reason}
+                        onChange={(e) => setReason(e.target.value)}
                     />
 
                 </Box>
