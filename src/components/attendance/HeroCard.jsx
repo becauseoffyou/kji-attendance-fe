@@ -228,17 +228,7 @@ export default function HeroCard({
                             fontWeight={700}
                             fontSize={18}
                         >
-                            {
-                                todayData?.checkIn
-                                    ? new Date(todayData.checkIn).toLocaleTimeString(
-                                        "id-ID",
-                                        {
-                                            hour: "2-digit",
-                                            minute: "2-digit"
-                                        }
-                                    )
-                                    : "-"
-                            }
+                            {formatTime(todayData?.checkIn || null)}
                         </Typography>
 
                     </Paper>
