@@ -36,6 +36,42 @@ export default function Leave() {
         leave_balance: 0
     });
 
+    const [statusFilter, setStatusFilter] = useState("ALL");
+    const filteredHistory = useMemo(() => {
+
+        if (statusFilter === "ALL") {
+            return history;
+        }
+
+        return history.filter(
+            item => item.status === statusFilter
+        );
+
+    }, [history, statusFilter]);
+
+    const statusCount = useMemo(() => ({
+
+        ALL: history.length,
+
+        PENDING: history.filter(
+            item => item.status === "PENDING"
+        ).length,
+
+        APPROVED: history.filter(
+            item => item.status === "APPROVED"
+        ).length,
+
+        REJECTED: history.filter(
+            item => item.status === "REJECTED"
+        ).length,
+
+        CANCELLED: history.filter(
+            item => item.status === "CANCELLED"
+        ).length
+
+    }), [history]);
+
+
     useEffect(() => {
 
         loadHistory();
@@ -189,6 +225,17 @@ export default function Leave() {
 
     };
 
+    const chipStyle = (value) => ({
+        borderRadius: 5,
+        fontWeight: 600,
+        px: 0.5,
+        transition: ".2s",
+        transform:
+            statusFilter === value
+                ? "scale(1.05)"
+                : "scale(1)"
+    });
+
     return (
 
         <Box
@@ -247,7 +294,71 @@ export default function Leave() {
                         </Typography>
 
                     </CardContent>
+                    <Stack
+                        direction="row"
+                        spacing={1}
+                        sx={{
+                            mt: 2,
+                            overflowX: "auto",
+                            pb: .5,
 
+                            "&::-webkit-scrollbar": {
+                                display: "none"
+                            }
+                        }}
+                    >
+
+                        <Chip
+                            label={`Semua (${statusCount.ALL})`}
+
+                            clickable
+                            color={statusFilter === "ALL" ? "primary" : "default"}
+                            onClick={() => setStatusFilter("ALL")}
+                        />
+
+                        <Chip
+                            label={`Pending (${statusCount.PENDING})`}
+                            clickable
+                            sx={chipStyle("PENDING")}
+                            color={statusFilter === "PENDING" ? "warning" : "default"}
+                            onClick={() => setStatusFilter("PENDING")}
+                        />
+
+                        <Chip
+                            label={`Approved (${statusCount.APPROVED})`}
+                            clickable
+                            sx={chipStyle("APPROVED")}
+                            color={statusFilter === "APPROVED" ? "success" : "default"}
+                            onClick={() => setStatusFilter("APPROVED")}
+                        />
+
+                        <Chip
+                            label={`Rejected (${statusCount.REJECTED})`}
+                            clickable
+                            sx={chipStyle("REJECTED")}
+                            color={statusFilter === "REJECTED" ? "error" : "default"}
+                            onClick={() => setStatusFilter("REJECTED")}
+                        />
+
+                        <Chip
+
+                            label={`Cancelled (${statusCount.CANCELLED})`}
+
+                            clickable
+
+                            color={
+                                statusFilter === "CANCELLED"
+                                    ? "default"
+                                    : "default"
+                            }
+
+                            onClick={() =>
+                                setStatusFilter("CANCELLED")
+                            }
+
+                        />
+
+                    </Stack>
                 </Card>
             </Box>
             {
@@ -308,7 +419,7 @@ export default function Leave() {
 
                     :
 
-                    history.length === 0 ?
+                    filteredHistory.length === 0 ?
 
                         <Card
                             sx={{
@@ -331,7 +442,7 @@ export default function Leave() {
 
                         :
 
-                        history.map((item) => (
+                        filteredHistory.map(item => (
 
                             <LeaveCard
 
