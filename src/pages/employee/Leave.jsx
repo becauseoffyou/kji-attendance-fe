@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import leaveService from "../../services/leaveService";
-
+import LeaveDialog from "../../components/attendance/LeaveDialog";
 import {
     Box,
     Card,
@@ -18,6 +18,7 @@ export default function Leave() {
 
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
 
@@ -292,6 +293,7 @@ export default function Leave() {
 
             <Fab
                 color="primary"
+                onClick={() => setOpenDialog(true)}
                 sx={{
                     position: "fixed",
                     bottom: 85,
@@ -310,6 +312,13 @@ export default function Leave() {
                 <AddRoundedIcon />
 
             </Fab>
+            <LeaveDialog
+
+                open={openDialog}
+
+                onClose={() => setOpenDialog(false)}
+
+            />
 
         </Box>
 
