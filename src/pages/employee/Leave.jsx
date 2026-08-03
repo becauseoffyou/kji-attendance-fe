@@ -312,56 +312,57 @@ export default function Leave() {
 
 
                     </Stack>
-                    <Chip
-                        label={`Semua (${statusCount.ALL})`}
 
-                        clickable
-                        color={statusFilter === "ALL" ? "primary" : "default"}
-                        onClick={() => setStatusFilter("ALL")}
-                    />
-
-                    <Chip
-                        label={`Pending (${statusCount.PENDING})`}
-                        clickable
-                        sx={chipStyle("PENDING")}
-                        color={statusFilter === "PENDING" ? "warning" : "default"}
-                        onClick={() => setStatusFilter("PENDING")}
-                    />
-
-                    <Chip
-                        label={`Approved (${statusCount.APPROVED})`}
-                        clickable
-                        sx={chipStyle("APPROVED")}
-                        color={statusFilter === "APPROVED" ? "success" : "default"}
-                        onClick={() => setStatusFilter("APPROVED")}
-                    />
-
-                    <Chip
-                        label={`Rejected (${statusCount.REJECTED})`}
-                        clickable
-                        sx={chipStyle("REJECTED")}
-                        color={statusFilter === "REJECTED" ? "error" : "default"}
-                        onClick={() => setStatusFilter("REJECTED")}
-                    />
-
-                    <Chip
-
-                        label={`Cancelled (${statusCount.CANCELLED})`}
-
-                        clickable
-
-                        color={
-                            statusFilter === "CANCELLED"
-                                ? "primary"
-                                : "default"
-                        }
-
-                        onClick={() =>
-                            setStatusFilter("CANCELLED")
-                        }
-
-                    />
                 </Card>
+                <Chip
+                    label={`Semua (${statusCount.ALL})`}
+
+                    clickable
+                    color={statusFilter === "ALL" ? "primary" : "default"}
+                    onClick={() => setStatusFilter("ALL")}
+                />
+
+                <Chip
+                    label={`Pending (${statusCount.PENDING})`}
+                    clickable
+                    sx={chipStyle("PENDING")}
+                    color={statusFilter === "PENDING" ? "warning" : "default"}
+                    onClick={() => setStatusFilter("PENDING")}
+                />
+
+                <Chip
+                    label={`Approved (${statusCount.APPROVED})`}
+                    clickable
+                    sx={chipStyle("APPROVED")}
+                    color={statusFilter === "APPROVED" ? "success" : "default"}
+                    onClick={() => setStatusFilter("APPROVED")}
+                />
+
+                <Chip
+                    label={`Rejected (${statusCount.REJECTED})`}
+                    clickable
+                    sx={chipStyle("REJECTED")}
+                    color={statusFilter === "REJECTED" ? "error" : "default"}
+                    onClick={() => setStatusFilter("REJECTED")}
+                />
+
+                <Chip
+
+                    label={`Cancelled (${statusCount.CANCELLED})`}
+
+                    clickable
+
+                    color={
+                        statusFilter === "CANCELLED"
+                            ? "primary"
+                            : "default"
+                    }
+
+                    onClick={() =>
+                        setStatusFilter("CANCELLED")
+                    }
+
+                />
             </Box>
             {
 
