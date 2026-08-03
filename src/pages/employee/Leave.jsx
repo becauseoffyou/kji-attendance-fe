@@ -193,51 +193,63 @@ export default function Leave() {
 
         <Box
             sx={{
-                p: 2,
-                pb: 10
+                bgcolor: "#f5f7fb",
+                minHeight: "100vh"
             }}
         >
 
             {/* Header */}
-
-            <Card
+            <Box
                 sx={{
-                    mb: 3,
-                    background: "linear-gradient(135deg,#0e7d63,#17a673)",
-                    color: "#fff"
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1000,
+                    bgcolor: "#F5F7FA",
+                    px: 2,
+                    pt: 2,
+                    pb: 2,
+                    borderBottom: "1px solid #ECEFF1",
+                    boxShadow: "0 2px 10px rgba(0,0,0,.05)"
                 }}
             >
+                <Card
+                    sx={{
+                        mb: 3,
+                        background: "linear-gradient(135deg,#0e7d63,#17a673)",
+                        color: "#fff"
+                    }}
+                >
 
-                <CardContent>
+                    <CardContent>
 
-                    <Typography
-                        variant="h5"
-                        fontWeight={700}
-                    >
-                        Pengajuan
-                    </Typography>
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                        >
+                            Pengajuan
+                        </Typography>
 
-                    <Typography
-                        variant="body2"
-                        sx={{
-                            mt: 1,
-                            opacity: .9
-                        }}
-                    >
-                        Sisa Cuti Tahunan
-                    </Typography>
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                mt: 1,
+                                opacity: .9
+                            }}
+                        >
+                            Sisa Cuti Tahunan
+                        </Typography>
 
-                    <Typography
-                        variant="h4"
-                        fontWeight={700}
-                    >
-                        {summary.leave_balance} Hari
-                    </Typography>
+                        <Typography
+                            variant="h4"
+                            fontWeight={700}
+                        >
+                            {summary.leave_balance} Hari
+                        </Typography>
 
-                </CardContent>
+                    </CardContent>
 
-            </Card>
-
+                </Card>
+            </Box>
             {
 
                 loading ?
