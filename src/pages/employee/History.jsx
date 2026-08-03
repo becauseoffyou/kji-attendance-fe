@@ -169,56 +169,72 @@ export default function History() {
                 }}
             >
 
-                <Typography
-                    variant="h5"
-                    fontWeight={700}
-                >
-                    Riwayat Absensi
-                </Typography>
-
-
-
-                <Box
+                <Card
                     sx={{
-                        mt: 2,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        bgcolor: "#fff",
-                        borderRadius: 3,
-                        px: 1,
-                        py: .5,
-                        boxShadow: "0 2px 8px rgba(0,0,0,.04)"
+                        mb: 3,
+                        borderRadius: 4,
+                        background: "linear-gradient(135deg,#0e7d63,#17a673)",
+                        color: "#fff"
                     }}
                 >
+                    <CardContent>
 
-                    <IconButton onClick={prevMonth}>
-                        <ChevronLeftRoundedIcon />
-                    </IconButton>
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                        >
+                            Riwayat Absensi
+                        </Typography>
 
-                    <Typography
-                        fontWeight={700}
-                        fontSize={18}
-                    >
-                        {monthNames[selectedMonth]} {selectedYear}
-                    </Typography>
 
-                    <IconButton
-                        onClick={nextMonth}
-                        disabled={isCurrentMonth}
-                    >
-                        <ChevronRightRoundedIcon />
-                    </IconButton>
+                        <Box
+                            sx={{
+                                mt: 2,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                bgcolor: "#fff",
+                                borderRadius: 3,
+                                px: 1,
+                                py: .5,
+                                boxShadow: "0 2px 8px rgba(0,0,0,.04)"
+                            }}
+                        >
 
-                </Box>
+                            <IconButton onClick={prevMonth}>
+                                <ChevronLeftRoundedIcon />
+                            </IconButton>
 
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: .5, textAlign: "center" }}
-                >
-                    {summary.hadir} Hari Hadir | {summary.terlambat} Terlambat | 0 Izin
-                </Typography>
+                            <Typography
+                                fontWeight={700}
+                                fontSize={18}
+                            >
+                                {monthNames[selectedMonth]} {selectedYear}
+                            </Typography>
+
+                            <IconButton
+                                onClick={nextMonth}
+                                disabled={isCurrentMonth}
+                            >
+                                <ChevronRightRoundedIcon />
+                            </IconButton>
+
+                        </Box>
+
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ mt: .5, textAlign: "center" }}
+                        >
+                            {summary.hadir} Hari Hadir | {summary.terlambat} Terlambat | 0 Izin
+                        </Typography>
+
+
+                    </CardContent>
+                </Card>
+
+
+
 
             </Box>
 
