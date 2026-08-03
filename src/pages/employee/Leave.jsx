@@ -228,8 +228,8 @@ export default function Leave() {
 
     const chipStyle = (value) => ({
         borderRadius: 5,
-        fontWeight: 600,
         px: 0.5,
+        gap: 1,
         transition: ".2s",
         transform:
             statusFilter === value
@@ -316,7 +316,7 @@ export default function Leave() {
                 </Card>
                 <Chip
                     label={`Semua (${statusCount.ALL})`}
-
+                    sx={{ gap: 1 }}
                     clickable
                     color={statusFilter === "ALL" ? "primary" : "default"}
                     onClick={() => setStatusFilter("ALL")}
@@ -325,6 +325,7 @@ export default function Leave() {
                 <Chip
                     label={`Pending (${statusCount.PENDING})`}
                     clickable
+
                     sx={chipStyle("PENDING")}
                     color={statusFilter === "PENDING" ? "warning" : "default"}
                     onClick={() => setStatusFilter("PENDING")}
@@ -351,7 +352,7 @@ export default function Leave() {
                     label={`Cancelled (${statusCount.CANCELLED})`}
 
                     clickable
-
+                    sx={{ gap: 1 }}
                     color={
                         statusFilter === "CANCELLED"
                             ? "primary"
