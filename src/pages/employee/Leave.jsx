@@ -109,6 +109,22 @@ export default function Leave() {
 
         try {
 
+            if (leaveType === "SAKIT" && !attachment) {
+
+                Swal.fire({
+
+                    icon: "warning",
+
+                    title: "Lampiran Wajib",
+
+                    text: "Pengajuan sakit wajib melampirkan surat dokter."
+
+                });
+
+                return;
+
+            }
+
             setSubmitLoading(true);
 
             const formData = new FormData();
@@ -402,7 +418,21 @@ export default function Leave() {
             <LeaveDialog
 
                 open={openDialog}
-                onClose={() => setOpenDialog(false)}
+                onClose={() => {
+
+                    setOpenDialog(false);
+
+                    setLeaveType("SAKIT");
+
+                    setStartDate("");
+
+                    setEndDate("");
+
+                    setReason("");
+
+                    setAttachment(null);
+
+                }}
 
                 leaveType={leaveType}
                 setLeaveType={setLeaveType}

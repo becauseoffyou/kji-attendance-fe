@@ -103,7 +103,17 @@ export default function LeaveDialog({
                         type="date"
                         label="Tanggal Mulai"
                         value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
+                        onChange={(e) => {
+
+                            setStartDate(e.target.value);
+
+                            if (!endDate) {
+
+                                setEndDate(e.target.value);
+
+                            }
+
+                        }}
                         InputLabelProps={{
                             shrink: true
                         }}
@@ -207,11 +217,16 @@ export default function LeaveDialog({
                 <Button
                     variant="contained"
                     onClick={onSubmit}
-                    disabled={loading}
+                    disabled={
+                        loading ||
+                        !startDate ||
+                        !endDate ||
+                        !reason.trim()
+                    }
                 >
                     {
                         loading
-                            ? "Mengirim..."
+                            ? "Mengirim"
                             : "Kirim"
                     }
                 </Button>
