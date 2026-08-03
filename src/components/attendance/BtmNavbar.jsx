@@ -1,6 +1,7 @@
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
+import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -14,6 +15,11 @@ const menus = [
     label: "History",
     value: "/employee/history",
     icon: <HistoryRoundedIcon />,
+  },
+  {
+    label: "Request",
+    icon: <DescriptionRoundedIcon />,
+    path: "/leave"
   },
   {
     label: "Profil",

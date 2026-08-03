@@ -17,52 +17,53 @@ import EmployeeLayout from "../layouts/AbsensiLayout";
 import EmployeeAttendance from "../pages/attendance/Attendance";
 import EmployeeHistory from "../pages/employee/History";
 import EmployeeProfile from "../pages/employee/Profile";
+import Leave from "../pages/employee/Leave";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
-const token = localStorage.getItem("token");
-const user = JSON.parse(localStorage.getItem("user") || "null");
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
     return (
         <BrowserRouter>
             <Routes>
 
                 {/* LOGIN */}
-               <Route
-    path="/"
-    element={
-        !token
-            ? (
-                <Login />
-            )
-            : user?.role === 1
-                ? (
-                    <Navigate
-                        to="/dashboard"
-                        replace
-                    />
-                )
-                : (
-                    <Navigate
-                        to="/employee/attendance"
-                        replace
-                    />
-                )
-    }
-/>
+                <Route
+                    path="/"
+                    element={
+                        !token
+                            ? (
+                                <Login />
+                            )
+                            : user?.role === 1
+                                ? (
+                                    <Navigate
+                                        to="/dashboard"
+                                        replace
+                                    />
+                                )
+                                : (
+                                    <Navigate
+                                        to="/employee/attendance"
+                                        replace
+                                    />
+                                )
+                    }
+                />
 
                 {/* ===================== ADMIN ===================== */}
 
-               <Route
-    path="/dashboard"
-    element={
-        <ProtectedAdminRoute>
-            <DashboardLayout>
-                <Dashboard />
-            </DashboardLayout>
-        </ProtectedAdminRoute>
-    }
-/>
-{/* 
+                <Route
+                    path="/dashboard"
+                    element={
+                        <ProtectedAdminRoute>
+                            <DashboardLayout>
+                                <Dashboard />
+                            </DashboardLayout>
+                        </ProtectedAdminRoute>
+                    }
+                />
+                {/* 
                 <Route
                     path="/report"
                     element={
@@ -103,6 +104,11 @@ const user = JSON.parse(localStorage.getItem("user") || "null");
                     <Route
                         path="history"
                         element={<EmployeeHistory />}
+                    />
+
+                    <Route
+                        path="leave"
+                        element={<Leave />}
                     />
 
                     <Route
