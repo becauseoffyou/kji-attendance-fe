@@ -108,58 +108,23 @@ export default function LeaveCard({
 
                 </Box>
 
-                <Box
-                    sx={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(3,1fr)",
-                        gap: 2,
-                        textAlign: "center"
-                    }}
-                >
+                <Box sx={{ mt: 1.5 }}>
 
-                    <Box>
+                    <Typography
+                        variant="body2"
+                        sx={{ mb: 1 }}
+                    >
+                        <strong>Tanggal :</strong>{" "}
+                        {formatDate(item.start_date)} - {formatDate(item.end_date)}
+                    </Typography>
 
-                        <Typography
-                            fontWeight={700}
-                            fontSize={20}
-                        >
-                            {formatShortDate(item.start_date)}
-                        </Typography>
-
-                        <Typography
-                            variant="caption"
-                            color="text.secondary"
-                        >
-                            Mulai
-                        </Typography>
-
-                    </Box>
-
-                    <Box>
-
-                        <Typography
-                            fontWeight={700}
-                            fontSize={20}
-                        >
-                            {formatShortDate(item.end_date)}
-                        </Typography>
-
-                        <Typography
-                            variant="caption"
-                            color="text.secondary"
-                        >
-                            Selesai
-                        </Typography>
-
-                    </Box>
-
-                    <Box>
-
-                        <Typography
-                            fontWeight={700}
-                            fontSize={18}
-                        >
-                            {Math.max(
+                    <Typography
+                        variant="body2"
+                        sx={{ mb: 1 }}
+                    >
+                        <strong>Durasi :</strong>{" "}
+                        {
+                            Math.max(
                                 1,
                                 Math.ceil(
                                     (
@@ -167,29 +132,19 @@ export default function LeaveCard({
                                         new Date(item.start_date)
                                     ) / 86400000
                                 ) + 1
-                            )}
-                        </Typography>
+                            )
+                        } Hari
+                    </Typography>
 
-                        <Typography
-                            variant="caption"
-                            color="text.secondary"
-                        >
-                            Hari
-                        </Typography>
+                    <Typography variant="body2">
 
-                    </Box>
+                        <strong>Keterangan :</strong>{" "}
+
+                        {item.reason || "-"}
+
+                    </Typography>
 
                 </Box>
-
-                <Typography
-                    sx={{
-                        mt: 2,
-                        color: "text.secondary"
-                    }}
-                >
-                    {item.reason}
-                </Typography>
-
             </CardContent>
 
         </Card>
