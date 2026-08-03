@@ -135,16 +135,14 @@ export default function History() {
 
         return {
 
-            hadir: filteredHistory.filter(
-                x => x.status === "Pulang"
-            ).length,
+            hadir: filteredHistory.length,
 
             terlambat: filteredHistory.filter(
-                x => x.status === "Terlambat"
+                x => x.attendance_status === "Terlambat"
             ).length,
 
-            izin: filteredHistory.filter(
-                x => x.status === "Izin"
+            tepatWaktu: filteredHistory.filter(
+                x => x.attendance_status === "Tepat Waktu"
             ).length
 
         };
@@ -233,7 +231,7 @@ export default function History() {
                             color="text.secondary"
                             sx={{ mt: .5, textAlign: "center" }}
                         >
-                            {summary.hadir} Hari Hadir | {summary.terlambat} Terlambat | 0 Izin
+                            {summary.hadir} Hari Hadir | {summary.terlambat} Terlambat | {summary.tepatWaktu} Tepat Waktu
                         </Typography>
 
 
