@@ -84,13 +84,11 @@ export default function History() {
 
             setLoading(true);
 
-            await new Promise(resolve =>
-                setTimeout(resolve, 2000)
-            );
+            const result = await attendanceService.getHistory();
 
-            const { data } = await attendanceService.getHistory();
+            console.log(result);
 
-            setHistory(data.data);
+            setHistory(result.data);
 
         } catch (err) {
 
