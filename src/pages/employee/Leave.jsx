@@ -229,7 +229,6 @@ export default function Leave() {
     const chipStyle = (value) => ({
         borderRadius: 5,
         px: 0.5,
-        gap: 2,
         transition: ".2s",
         transform:
             statusFilter === value
@@ -314,56 +313,61 @@ export default function Leave() {
                     </Stack>
 
                 </Card>
-                <Chip
-                    label={`Semua (${statusCount.ALL})`}
-                    sx={{ gap: 1 }}
-                    clickable
-                    color={statusFilter === "ALL" ? "primary" : "default"}
-                    onClick={() => setStatusFilter("ALL")}
-                />
 
-                <Chip
-                    label={`Pending (${statusCount.PENDING})`}
-                    clickable
+                <Stack
+                    direction="row"
+                    spacing={1.5}   // default biasanya 1
+                >
+                    <Chip
+                        label={`Semua (${statusCount.ALL})`}
+                        sx={{ gap: 1 }}
+                        clickable
+                        color={statusFilter === "ALL" ? "primary" : "default"}
+                        onClick={() => setStatusFilter("ALL")}
+                    />
 
-                    sx={chipStyle("PENDING")}
-                    color={statusFilter === "PENDING" ? "warning" : "default"}
-                    onClick={() => setStatusFilter("PENDING")}
-                />
+                    <Chip
+                        label={`Pending (${statusCount.PENDING})`}
+                        clickable
 
-                <Chip
-                    label={`Approved (${statusCount.APPROVED})`}
-                    clickable
-                    sx={chipStyle("APPROVED")}
-                    color={statusFilter === "APPROVED" ? "success" : "default"}
-                    onClick={() => setStatusFilter("APPROVED")}
-                />
+                        sx={chipStyle("PENDING")}
+                        color={statusFilter === "PENDING" ? "warning" : "default"}
+                        onClick={() => setStatusFilter("PENDING")}
+                    />
 
-                <Chip
-                    label={`Rejected (${statusCount.REJECTED})`}
-                    clickable
-                    sx={chipStyle("REJECTED")}
-                    color={statusFilter === "REJECTED" ? "error" : "default"}
-                    onClick={() => setStatusFilter("REJECTED")}
-                />
+                    <Chip
+                        label={`Approved (${statusCount.APPROVED})`}
+                        clickable
+                        sx={chipStyle("APPROVED")}
+                        color={statusFilter === "APPROVED" ? "success" : "default"}
+                        onClick={() => setStatusFilter("APPROVED")}
+                    />
 
-                <Chip
+                    <Chip
+                        label={`Rejected (${statusCount.REJECTED})`}
+                        clickable
+                        sx={chipStyle("REJECTED")}
+                        color={statusFilter === "REJECTED" ? "error" : "default"}
+                        onClick={() => setStatusFilter("REJECTED")}
+                    />
 
-                    label={`Cancelled (${statusCount.CANCELLED})`}
+                    <Chip
 
-                    clickable
-                    sx={{ gap: 1 }}
-                    color={
-                        statusFilter === "CANCELLED"
-                            ? "primary"
-                            : "default"
-                    }
+                        label={`Cancelled (${statusCount.CANCELLED})`}
 
-                    onClick={() =>
-                        setStatusFilter("CANCELLED")
-                    }
+                        clickable
+                        sx={{ gap: 1 }}
+                        color={
+                            statusFilter === "CANCELLED"
+                                ? "primary"
+                                : "default"
+                        }
 
-                />
+                        onClick={() =>
+                            setStatusFilter("CANCELLED")
+                        }
+
+                    /></Stack>
             </Box>
             {
 
