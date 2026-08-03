@@ -106,7 +106,12 @@ export default function History() {
 
         if (!time) return "-";
 
-        return time.substring(11, 16);
+        return new Date(time).toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+            timeZone: "Asia/Jakarta"
+        });
 
     };
 
