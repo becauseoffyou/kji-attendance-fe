@@ -69,13 +69,35 @@ export default function Leave() {
 
         <Box sx={{ p: 2 }}>
 
-            <Typography
-                variant="h6"
-                fontWeight={700}
-                mb={2}
+            <Card
+                sx={{
+                    mb: 3,
+                    borderRadius: 4,
+                    background: "linear-gradient(135deg,#0e7d63,#17a673)",
+                    color: "#fff"
+                }}
             >
-                Riwayat Pengajuan
-            </Typography>
+                <CardContent>
+
+                    <Typography
+                        variant="h5"
+                        fontWeight={700}
+                    >
+                        Pengajuan
+                    </Typography>
+
+                    <Typography
+                        variant="body2"
+                        sx={{
+                            opacity: .9,
+                            mt: .5
+                        }}
+                    >
+                        Ajukan izin, cuti, sakit, atau perjalanan dinas.
+                    </Typography>
+
+                </CardContent>
+            </Card>
 
             {
 
