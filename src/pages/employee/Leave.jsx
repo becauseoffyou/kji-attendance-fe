@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import leaveService from "../../services/leaveService";
 import LeaveDialog from "../../components/attendance/LeaveDialog";
-import LeaveDetailDialog from "../../components/leave/LeaveDetailDialog";
+import LeaveDetailDialog from "../../components/layout/LeaveDetailDialog";
 import LeaveCard from "../../components/layout/LeaveCard";
 import {
     Box,
