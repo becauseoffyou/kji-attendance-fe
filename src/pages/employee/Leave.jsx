@@ -7,6 +7,7 @@ import {
     Typography,
     Chip,
     Fab,
+    Skeleton,
     CircularProgress
 } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -99,12 +100,67 @@ export default function Leave() {
             </Card>
 
             {
+                loading ? (
 
-                loading ?
+                    [...Array(4)].map((_, index) => (
 
-                    <CircularProgress />
+                        <Card
+                            key={index}
+                            sx={{
+                                mb: 2,
+                                borderRadius: 3
+                            }}
+                        >
+                            <CardContent>
 
-                    :
+                                <Box
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                >
+                                    <Skeleton
+                                        variant="text"
+                                        width={120}
+                                        height={28}
+                                    />
+
+                                    <Skeleton
+                                        variant="rounded"
+                                        width={90}
+                                        height={28}
+                                    />
+                                </Box>
+
+                                <Skeleton
+                                    variant="text"
+                                    width="70%"
+                                    height={24}
+                                    sx={{ mt: 1 }}
+                                />
+
+                                <Skeleton
+                                    variant="text"
+                                    width="90%"
+                                    height={20}
+                                    sx={{ mt: .5 }}
+                                />
+
+                            </CardContent>
+                        </Card>
+
+                    ))
+
+                ) : history.length === 0 ? (
+
+                    <Typography
+                        align="center"
+                        color="text.secondary"
+                        mt={8}
+                    >
+                        Belum ada riwayat pengajuan.
+                    </Typography>
+
+                ) : (
 
                     history.map((item) => (
 
@@ -115,73 +171,14 @@ export default function Leave() {
                                 borderRadius: 3
                             }}
                         >
-
                             <CardContent>
 
-                                <Box
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                >
-
-                                    <Typography
-                                        fontWeight={700}
-                                    >
-                                        {leaveType[item.leave_type] || item.leave_type}
-                                    </Typography>
-
-                                    <Chip
-                                        label={
-                                            item.status === "APPROVED"
-                                                ? "Disetujui"
-                                                : item.status === "REJECTED"
-                                                    ? "Ditolak"
-                                                    : "Menunggu"
-                                        }
-                                        color={
-                                            item.status === "APPROVED"
-                                                ? "success"
-                                                : item.status === "REJECTED"
-                                                    ? "error"
-                                                    : "warning"
-                                        }
-                                        size="small"
-                                    />
-
-                                </Box>
-
-                                <Typography
-                                    mt={1}
-                                    color="text.secondary"
-                                >
-                                    {formatDate(item.start_date)}
-                                    {" - "}
-                                    {formatDate(item.end_date)}
-                                </Typography>
-
-                                <Typography
-                                    mt={1}
-                                >
-                                    {item.reason}
-                                </Typography>
+                                {/* isi card yang sudah kamu buat */}
 
                             </CardContent>
-
                         </Card>
 
                     ))
-
-            }
-            {
-                !loading && history.length === 0 && (
-
-                    <Typography
-                        align="center"
-                        color="text.secondary"
-                        mt={8}
-                    >
-                        Belum ada riwayat pengajuan.
-                    </Typography>
 
                 )
             }
