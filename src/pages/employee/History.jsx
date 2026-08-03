@@ -128,25 +128,25 @@ export default function History() {
 
     }, [history, selectedMonth, selectedYear]);
 
-   const summary = useMemo(() => {
+    const summary = useMemo(() => {
 
-    return {
+        return {
 
-        hadir: filteredHistory.filter(
-            x => x.status === "Pulang"
-        ).length,
+            hadir: filteredHistory.filter(
+                x => x.status === "Pulang"
+            ).length,
 
-        terlambat: filteredHistory.filter(
-            x => x.status === "Terlambat"
-        ).length,
+            terlambat: filteredHistory.filter(
+                x => x.status === "Terlambat"
+            ).length,
 
-        izin: filteredHistory.filter(
-            x => x.status === "Izin"
-        ).length
+            izin: filteredHistory.filter(
+                x => x.status === "Izin"
+            ).length
 
-    };
+        };
 
-}, [filteredHistory]);
+    }, [filteredHistory]);
 
     return (
 
@@ -227,7 +227,7 @@ export default function History() {
 
             <Stack
                 spacing={2} sx={{ px: 2, pt: 2, pb: 10 }}
-             
+
             >
 
                 {loading ? (
@@ -305,151 +305,155 @@ export default function History() {
 
                 ) : (
 
-                filteredHistory.map(item => (
+                    filteredHistory.map(item => (
 
-                    <Card
-                        key={item.id}
-                        elevation={2}
-                        sx={{
-                            borderRadius: 1
-                        }}
-                    >
+                        <Card
+                            key={item.id}
+                            elevation={2}
+                            sx={{
+                                borderRadius: 1
+                            }}
+                        >
 
-                        <CardContent>
+                            <CardContent>
 
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "flex-start",
-                                    mb: 2,
-                                    gap: 2
-                                }}
-                            >
-
-                                <Typography
+                                <Box
                                     sx={{
-                                        flex: 1,
-                                        fontWeight: 700,
-                                        color: "primary.main",
-                                        lineHeight: 1.4
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "flex-start",
+                                        mb: 2,
+                                        gap: 2
                                     }}
                                 >
-                                    {new Date(item.attendance_date).toLocaleDateString("id-ID", {
-                                        weekday: "long",
-                                        day: "numeric",
-                                        month: "long",
-                                        year: "numeric"
-                                    })}
-                                </Typography>
 
-                                <Chip
-                                    label={item.status}
-                                    color={
-                                        item.status === "Pulang"
-                                            ? "success"
-                                            : "warning"
-                                    }
-                                    size="small"
+                                    <Typography
+                                        sx={{
+                                            flex: 1,
+                                            fontWeight: 700,
+                                            color: "primary.main",
+                                            lineHeight: 1.4
+                                        }}
+                                    >
+                                        {new Date(item.attendance_date).toLocaleDateString("id-ID", {
+                                            weekday: "long",
+                                            day: "numeric",
+                                            month: "long",
+                                            year: "numeric"
+                                        })}
+                                    </Typography>
+
+                                    <Chip
+                                        label={
+                                            item.is_late
+                                                ? `Terlambat ${item.late_minutes} Menit`
+                                                : "Tepat Waktu"
+                                        }
+                                        color={
+                                            item.is_late
+                                                ? "error"
+                                                : "success"
+                                        }
+                                        size="small"
+                                        sx={{
+                                            flexShrink: 0,
+                                            fontWeight: 700,
+                                            borderRadius: "999px"
+                                        }}
+                                    />
+
+                                </Box>
+
+                                {/* <Divider sx={{ mb: 2 }} /> */}
+
+                                <Box
                                     sx={{
-                                        flexShrink: 0,
-                                        fontWeight: 700,
-                                        borderRadius: "999px"
+                                        display: "grid",
+                                        gridTemplateColumns: "repeat(3,1fr)",
+                                        gap: 2,
+                                        textAlign: "center"
                                     }}
-                                />
+                                >
 
-                            </Box>
+                                    <Box>
 
-                            {/* <Divider sx={{ mb: 2 }} /> */}
-
-                            <Box
-                                sx={{
-                                    display: "grid",
-                                    gridTemplateColumns: "repeat(3,1fr)",
-                                    gap: 2,
-                                    textAlign: "center"
-                                }}
-                            >
-
-                                <Box>
-
-                                    {/* <LoginIcon
+                                        {/* <LoginIcon
                                         color="success"
                                         sx={{ mb: .5 }}
                                     /> */}
 
-                                    <Typography
-                                        fontWeight={700}
-                                        fontSize={20}
-                                    >
-                                        {formatTime(item.check_in)}
-                                    </Typography>
+                                        <Typography
+                                            fontWeight={700}
+                                            fontSize={20}
+                                        >
+                                            {formatTime(item.check_in)}
+                                        </Typography>
 
-                                    <Typography
-                                        variant="caption"
-                                        color="text.secondary"
-                                    >
-                                        Check In
-                                    </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
+                                            Check In
+                                        </Typography>
 
-                                </Box>
+                                    </Box>
 
-                                <Box>
+                                    <Box>
 
-                                    {/* <LogoutIcon
+                                        {/* <LogoutIcon
                                         color="error"
                                         sx={{ mb: .5 }}
                                     /> */}
 
-                                    <Typography
-                                        fontWeight={700}
-                                        fontSize={20}
-                                    >
-                                        {formatTime(item.check_out)}
-                                    </Typography>
+                                        <Typography
+                                            fontWeight={700}
+                                            fontSize={20}
+                                        >
+                                            {formatTime(item.check_out)}
+                                        </Typography>
 
-                                    <Typography
-                                        variant="caption"
-                                        color="text.secondary"
-                                    >
-                                        Check Out
-                                    </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
+                                            Check Out
+                                        </Typography>
 
-                                </Box>
+                                    </Box>
 
-                                <Box>
+                                    <Box>
 
-                                    {/* <ScheduleIcon
+                                        {/* <ScheduleIcon
                                         color="primary"
                                         sx={{ mb: .5 }}
                                     /> */}
 
-                                    <Typography
-                                        fontWeight={700}
-                                        fontSize={20}
-                                    >
-                                        {item.working_hours || "-"}
-                                    </Typography>
+                                        <Typography
+                                            fontWeight={700}
+                                            fontSize={20}
+                                        >
+                                            {item.working_hours || "-"}
+                                        </Typography>
 
-                                    <Typography
-                                        variant="caption"
-                                        color="text.secondary"
-                                    >
-                                        Durasi
-                                    </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
+                                            Durasi
+                                        </Typography>
+
+                                    </Box>
 
                                 </Box>
 
-                            </Box>
+                            </CardContent>
 
-                        </CardContent>
+                        </Card>
 
-                    </Card>
-
-                ))
+                    ))
 
                 )}
-             
+
 
 
 
