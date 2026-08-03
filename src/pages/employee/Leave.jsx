@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import leaveService from "../../services/leaveService";
 import LeaveDialog from "../../components/attendance/LeaveDialog";
+import LeaveCard from "../../components/layout/LeaveCard";
 import {
     Box,
     Card,
@@ -72,14 +73,14 @@ export default function Leave() {
 
     const leaveTypeLabel = {
 
-        SAKIT: "🏥 Sakit",
-        IZIN: "📝 Izin",
-        CUTI: "🌴 Cuti",
-        DINAS: "🚗 Dinas",
-        BUSINESS_TRIP: "✈️ Perjalanan Dinas",
-        CLIENT: "🤝 Kunjungan Client",
-        MEETING: "👥 Meeting",
-        WFH: "🏠 Work From Home"
+        SAKIT: "Sakit",
+        IZIN: "Izin",
+        CUTI: "Cuti",
+        DINAS: "Dinas",
+        BUSINESS_TRIP: "Perjalanan Dinas",
+        CLIENT: "Kunjungan Client",
+        MEETING: "Meeting",
+        WFH: "Work From Home"
 
     };
 
@@ -304,91 +305,21 @@ export default function Leave() {
 
                         history.map((item) => (
 
-                            <Card
+                            <LeaveCard
+
                                 key={item.id}
-                                sx={{
-                                    mb: 2,
-                                    borderRadius: 3
+
+                                item={item}
+
+                                onClick={() => {
+
+                                    setSelectedLeave(item);
+
+                                    setOpenDetail(true);
+
                                 }}
-                            >
 
-                                <CardContent>
-
-                                    <Box
-                                        display="flex"
-                                        justifyContent="space-between"
-                                        alignItems="center"
-                                    >
-
-                                        <Typography
-                                            fontWeight={700}
-                                        >
-                                            {
-                                                leaveTypeLabel[item.leave_type] ||
-                                                item.leave_type
-                                            }
-                                        </Typography>
-
-                                        <Chip
-                                            size="small"
-                                            label={
-                                                item.status === "APPROVED"
-
-                                                    ? "Disetujui"
-
-                                                    : item.status === "REJECTED"
-
-                                                        ? "Ditolak"
-
-                                                        : "Menunggu"
-                                            }
-                                            color={
-                                                item.status === "APPROVED"
-
-                                                    ? "success"
-
-                                                    : item.status === "REJECTED"
-
-                                                        ? "error"
-
-                                                        : "warning"
-                                            }
-                                        />
-
-                                    </Box>
-
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                        sx={{
-                                            mt: 1
-                                        }}
-                                    >
-                                        {formatDate(item.start_date)}
-                                        {" - "}
-                                        {formatDate(item.end_date)}
-                                    </Typography>
-
-                                    {
-
-                                        item.reason && (
-
-                                            <Typography
-                                                variant="body2"
-                                                sx={{
-                                                    mt: 1
-                                                }}
-                                            >
-                                                {item.reason}
-                                            </Typography>
-
-                                        )
-
-                                    }
-
-                                </CardContent>
-
-                            </Card>
+                            />
 
                         ))
 
