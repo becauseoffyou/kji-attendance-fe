@@ -26,10 +26,13 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import authService from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Profile() {
 
-    const [user, setUser] = useState(null);
+    const { setUser } = useAuth();
+
+    // const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [openLogout, setOpenLogout] = useState(false);
     const navigate = useNavigate();
@@ -40,128 +43,128 @@ export default function Profile() {
 
     const loadProfile = async () => {
 
-    setLoading(true);
+        setLoading(true);
 
-    try {
+        try {
 
-        const token = localStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
-        const result = await authService.getMe(token);
+            const result = await authService.getMe(token);
 
-        setUser(result.user);
+            setUser(result.user);
 
-    } catch (err) {
+        } catch (err) {
 
-        console.error(err);
+            console.error(err);
 
-        setUser(null);
+            setUser(null);
 
-    } finally {
+        } finally {
 
-        setLoading(false);
+            setLoading(false);
 
-    }
+        }
 
-};
+    };
 
-if (loading) {
+    if (loading) {
 
-    return (
+        return (
 
-        <Box p={2}>
+            <Box p={2}>
 
-            <Card sx={{ borderRadius: 4 }}>
+                <Card sx={{ borderRadius: 4 }}>
 
-                <CardContent>
+                    <CardContent>
 
-                    <Box
-                        display="flex"
-    flexDirection="column"
-    alignItems="center"
-    justifyContent="center"
-                    >
-
-                        <Skeleton
-                            variant="circular"
-                            width={90}
-                            height={90}
-                               sx={{
-        mx: "auto"
-    }}
-                        />
-
-                        <Skeleton
-                            width={180}
-                            height={40}
-                            sx={{ mx:  "auto" }}
-                        />
-
-                        <Skeleton
-                            width={120}
-                            height={30}
-                              sx={{mx: "auto" }}
-                        />
-
-                    </Box>
-
-                </CardContent>
-
-            </Card>
-
-            <Card
-                sx={{
-                    mt: 2,
-                    borderRadius: 4
-                }}
-            >
-
-                <CardContent>
-
-                    {[1,2,3,4].map(i => (
-
-                        <Box key={i} mb={2}>
-
-                            <Skeleton width={80} />
+                        <Box
+                            display="flex"
+                            flexDirection="column"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
 
                             <Skeleton
-                                width="100%"
+                                variant="circular"
+                                width={90}
+                                height={90}
+                                sx={{
+                                    mx: "auto"
+                                }}
+                            />
+
+                            <Skeleton
+                                width={180}
+                                height={40}
+                                sx={{ mx: "auto" }}
+                            />
+
+                            <Skeleton
+                                width={120}
                                 height={30}
+                                sx={{ mx: "auto" }}
                             />
 
                         </Box>
 
-                    ))}
+                    </CardContent>
 
-                </CardContent>
+                </Card>
 
-            </Card>
+                <Card
+                    sx={{
+                        mt: 2,
+                        borderRadius: 4
+                    }}
+                >
 
-        </Box>
+                    <CardContent>
 
-    );
+                        {[1, 2, 3, 4].map(i => (
 
-}
+                            <Box key={i} mb={2}>
 
-if (!user) {
+                                <Skeleton width={80} />
 
-    return (
+                                <Skeleton
+                                    width="100%"
+                                    height={30}
+                                />
 
-        <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="70vh"
-        >
+                            </Box>
 
-            <Typography color="error">
-                Data profil tidak ditemukan.
-            </Typography>
+                        ))}
 
-        </Box>
+                    </CardContent>
 
-    );
+                </Card>
 
-}
+            </Box>
+
+        );
+
+    }
+
+    if (!user) {
+
+        return (
+
+            <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                height="70vh"
+            >
+
+                <Typography color="error">
+                    Data profil tidak ditemukan.
+                </Typography>
+
+            </Box>
+
+        );
+
+    }
 
 
     const handleLogout = () => {
@@ -169,7 +172,11 @@ if (!user) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
 
-        navigate("/");
+        setUser(null);
+
+        navigate("/", {
+            replace: true
+        });
 
     };
 
