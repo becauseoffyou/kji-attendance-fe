@@ -114,10 +114,7 @@ export default function AppRoutes() {
                         element={<EmployeeProfile />}
                     />
 
-                    <Route
-                        path="/test"
-                        element={<div style={{ padding: 40 }}>TEST BERHASIL</div>}
-                    />
+
                 </Route>
 
                 {/* 404 */}
