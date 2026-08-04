@@ -141,26 +141,13 @@ export default function Approval() {
                 >
                     {requests.filter(x => x.status === "PENDING_SUPERVISOR").length} Menunggu Persetujuan
                 </Typography>
-
-            </Box>
-
-            {/* ================= FILTER ================= */}
-
-            <Box
-                sx={{
-                    position: "sticky",
-                    top: 60,
-                    zIndex: 19,
-                    bgcolor: "#F5F7FA",
-                    py: 2
-                }}
-            >
-
                 <Stack
                     direction="row"
                     spacing={1}
+                    mt={2}
                     sx={{
                         overflowX: "auto",
+                        flexWrap: "nowrap",
                         "&::-webkit-scrollbar": {
                             display: "none"
                         }
@@ -196,6 +183,21 @@ export default function Approval() {
                     ))}
 
                 </Stack>
+
+            </Box>
+
+            {/* ================= FILTER ================= */}
+
+            <Box
+                sx={{
+                    position: "sticky",
+                    top: 60,
+                    zIndex: 19,
+                    bgcolor: "#F5F7FA",
+                    py: 2
+                }}
+            >
+
 
             </Box>
 
