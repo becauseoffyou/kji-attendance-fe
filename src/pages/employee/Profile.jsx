@@ -172,8 +172,6 @@ export default function Profile() {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
 
-        setUser(null);
-
         navigate("/", {
             replace: true
         });
