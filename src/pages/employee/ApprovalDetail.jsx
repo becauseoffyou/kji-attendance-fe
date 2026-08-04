@@ -9,11 +9,14 @@ import {
     TextField,
     Skeleton
 } from "@mui/material";
-
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import leaderService from "../../services/leaderService";
+import Drawer from "@mui/material/Drawer";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function ApprovalDetail() {
 
@@ -25,10 +28,25 @@ export default function ApprovalDetail() {
 
     const [loading, setLoading] = useState(true);
 
+    const [action, setAction] = useState(null);
+    // "APPROVE" | "REJECT"
+
     const [note, setNote] = useState("");
+
+    const [saving, setSaving] = useState(false);
     const [openApprove, setOpenApprove] = useState(false);
 
     const [openReject, setOpenReject] = useState(false);
+
+    const [snackbar, setSnackbar] = useState({
+
+        open: false,
+
+        severity: "success",
+
+        message: ""
+
+    });
 
     const loadDetail = async () => {
 
@@ -113,6 +131,64 @@ export default function ApprovalDetail() {
         );
 
     }
+
+    const handleSubmit = async () => {
+
+        try {
+
+            setSaving(true);
+
+            if (action === "APPROVE") {
+
+                await leaderService.approve(
+                    id,
+                    note
+                );
+
+            } else {
+
+                await leaderService.reject(
+                    id,
+                    note
+                );
+
+            }
+
+            setSnackbar({
+
+                open: true,
+
+                severity: "success",
+
+                message:
+                    action === "APPROVE"
+
+                        ? "Pengajuan berhasil disetujui."
+
+                        : "Pengajuan berhasil ditolak."
+
+            });
+            setTimeout(() => {
+
+                navigate("/employee/approval");
+
+            }, 1000);
+
+
+        } catch (err) {
+
+            alert(
+                err.response?.data?.message ||
+                "Terjadi kesalahan."
+            );
+
+        } finally {
+
+            setSaving(false);
+
+        }
+
+    };
 
     return (
         <Box
@@ -279,56 +355,167 @@ export default function ApprovalDetail() {
                     }}
                 >
 
-                    <Button
-                        fullWidth
-                        size="large"
-                        variant="outlined"
-                        color="error"
-                        onClick={() => setOpenReject(true)}
+                    <Stack spacing={2} mt={4}>
 
-                        sx={{
-                            height: 52,
-                            borderRadius: 3,
-                            fontWeight: 600,
-                            textTransform: "none"
-                        }}
-                    >
-                        Reject
-                    </Button>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            color="error"
+                            size="large"
+                            onClick={() => {
+                                setAction("REJECT");
+                                setNote("");
+                            }}
+                        >
+                            Reject
+                        </Button>
 
-                    <Button
-                        fullWidth
-                        size="large"
-                        variant="contained"
-                        color="success"
-                        onClick={() => setOpenApprove(true)}
-                        sx={{
-                            height: 52,
-                            borderRadius: 3,
-                            fontWeight: 600,
-                            textTransform: "none"
-                        }}
-                    >
-                        Approve
-                    </Button>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="success"
+                            size="large"
+                            disabled={!detail.can_approve}
+                            onClick={() => {
+                                setAction("APPROVE");
+                                setNote("");
+                            }}
+                        >
+                            Approve
+                        </Button>
+
+                    </Stack>
 
                 </Stack>
                 <Drawer
 
                     anchor="bottom"
 
-                    open={openApprove}
+                    open={Boolean(action)}
 
-                    onClose={() => setOpenApprove(false)}
+                    onClose={() => setAction(null)}
 
                 >
 
-                    ....
+                    <Box
+                        p={3}
+                    >
+
+                        <Typography
+                            variant="h6"
+                            fontWeight={700}
+                        >
+
+                            {
+                                action === "APPROVE"
+
+                                    ? "Approve Pengajuan"
+
+                                    : "Reject Pengajuan"
+
+                            }
+
+                        </Typography>
+
+                        <Typography
+                            mt={1}
+                            color="text.secondary"
+                        >
+
+                            {
+                                action === "APPROVE"
+
+                                    ? "Catatan (opsional)"
+
+                                    : "Alasan penolakan"
+                            }
+
+                        </Typography>
+
+                        <TextField
+
+                            fullWidth
+
+                            multiline
+
+                            rows={4}
+
+                            sx={{
+                                mt: 2
+                            }}
+
+                            value={note}
+
+                            onChange={(e) => setNote(e.target.value)}
+
+                        />
+
+                        <Stack
+
+                            direction="row"
+
+                            spacing={2}
+
+                            mt={3}
+
+                        >
+
+                            <Button
+
+                                fullWidth
+
+                                variant="outlined"
+
+                                onClick={() => setAction(null)}
+
+                            >
+
+                                Batal
+
+                            </Button>
+
+                            <LoadingButton
+
+                                loading={saving}
+
+                                fullWidth
+
+                                variant="contained"
+
+                                color={
+                                    action === "APPROVE"
+
+                                        ? "success"
+
+                                        : "error"
+                                }
+
+                                onClick={handleSubmit}
+
+                            >
+
+                                {
+
+                                    action === "APPROVE"
+
+                                        ? "Approve"
+
+                                        : "Reject"
+
+                                }
+
+                            </LoadingButton>
+
+                        </Stack>
+
+                    </Box>
 
                 </Drawer>
             </Box>
         </Box>
     );
+
+
 
 }
 
@@ -373,3 +560,34 @@ function InfoItem({
     );
 
 }
+
+<Snackbar
+
+    open={snackbar.open}
+
+    autoHideDuration={2500}
+
+    onClose={() =>
+
+        setSnackbar({
+            ...snackbar,
+            open: false
+        })
+
+    }
+
+>
+
+    <Alert
+
+        severity={snackbar.severity}
+
+        variant="filled"
+
+    >
+
+        {snackbar.message}
+
+    </Alert>
+
+</Snackbar>
