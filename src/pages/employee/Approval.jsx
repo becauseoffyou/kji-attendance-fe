@@ -338,34 +338,42 @@ export default function Approval() {
 
                                                 <Stack
                                                     direction="row"
-                                                    justifyContent="space-between"
-                                                    alignItems="flex-start"
+                                                    alignItems="center"
                                                 >
 
                                                     <Typography
                                                         fontWeight="bold"
                                                         fontSize={17}
+                                                        sx={{
+                                                            flexGrow: 1
+                                                        }}
                                                     >
                                                         {item.name}
                                                     </Typography>
 
-                                                    <Chip
-                                                        size="small"
-                                                        label={
-                                                            item.status === "PENDING_SUPERVISOR"
-                                                                ? "Pending"
-                                                                : item.status === "APPROVED"
-                                                                    ? "Approved"
-                                                                    : "Rejected"
-                                                        }
-                                                        color={
-                                                            item.status === "PENDING_SUPERVISOR"
-                                                                ? "warning"
-                                                                : item.status === "APPROVED"
-                                                                    ? "success"
-                                                                    : "error"
-                                                        }
-                                                    />
+                                                    <Box
+                                                        sx={{
+                                                            ml: "auto"
+                                                        }}
+                                                    >
+                                                        <Chip
+                                                            size="small"
+                                                            label={
+                                                                item.status === "PENDING_SUPERVISOR"
+                                                                    ? "Pending"
+                                                                    : item.status === "APPROVED"
+                                                                        ? "Approved"
+                                                                        : "Rejected"
+                                                            }
+                                                            color={
+                                                                item.status === "PENDING_SUPERVISOR"
+                                                                    ? "warning"
+                                                                    : item.status === "APPROVED"
+                                                                        ? "success"
+                                                                        : "error"
+                                                            }
+                                                        />
+                                                    </Box>
 
                                                 </Stack>
 
