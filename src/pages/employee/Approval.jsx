@@ -19,7 +19,15 @@ export default function Approval() {
 
     const [requests, setRequests] = useState([]);
 
-    const [statusFilter, setStatusFilter] = useState("ALL");
+    const [status, setStatus] = useState("PENDING_SUPERVISOR");
+
+    const [summary, setSummary] = useState({
+        pending: 0,
+        approved: 0,
+        rejected: 0,
+        total: 0
+    });
+
 
     const loadData = async () => {
 
@@ -27,9 +35,11 @@ export default function Approval() {
 
             setLoading(true);
 
-            const { data } = await leaderService.getLeaveApprovals();
+            const { data } = await leaderService.getLeaveApprovals(status);
 
             setRequests(data.data);
+
+            setSummary(data.summary);
 
         } catch (err) {
 
@@ -47,15 +57,7 @@ export default function Approval() {
 
         loadData();
 
-    }, []);
-
-    const filtered = requests.filter((item) => {
-
-        if (statusFilter === "ALL") return true;
-
-        return item.status === statusFilter;
-
-    });
+    }, [status]);
 
     const formatDate = (date) => {
 
@@ -81,34 +83,7 @@ export default function Approval() {
 
     };
 
-    const filters = [
-        {
-            label: "Semua",
-            value: "ALL",
-            count: requests.length
-        },
-        {
-            label: "Pending",
-            value: "PENDING_SUPERVISOR",
-            count: requests.filter(
-                x => x.status === "PENDING_SUPERVISOR"
-            ).length
-        },
-        {
-            label: "Approved",
-            value: "APPROVED",
-            count: requests.filter(
-                x => x.status === "APPROVED"
-            ).length
-        },
-        {
-            label: "Rejected",
-            value: "REJECTED",
-            count: requests.filter(
-                x => x.status === "REJECTED"
-            ).length
-        }
-    ];
+
 
     return (
 
@@ -140,8 +115,12 @@ export default function Approval() {
                 <Typography
                     color="text.secondary"
                 >
-                    {requests.filter(x => x.status === "PENDING_SUPERVISOR").length} Menunggu Persetujuan
+                    {summary.pending} Menunggu Persetujuan
                 </Typography>
+
+
+
+
                 <Stack
                     direction="row"
                     spacing={1}
@@ -155,35 +134,60 @@ export default function Approval() {
                     }}
                 >
 
-                    {filters.map((item) => (
+                    <Chip
+                        label={`Pending (${summary.pending})`}
+                        clickable
+                        color={
+                            status === "PENDING_SUPERVISOR"
+                                ? "success"
+                                : "default"
+                        }
+                        onClick={() =>
+                            setStatus("PENDING_SUPERVISOR")
+                        }
+                    />
 
-                        <Chip
+                    <Chip
+                        label={`Approved (${summary.approved})`}
+                        clickable
+                        color={
+                            status === "APPROVED"
+                                ? "success"
+                                : "default"
+                        }
+                        onClick={() =>
+                            setStatus("APPROVED")
+                        }
+                    />
 
-                            key={item.value}
+                    <Chip
+                        label={`Rejected (${summary.rejected})`}
+                        clickable
+                        color={
+                            status === "REJECTED"
+                                ? "success"
+                                : "default"
+                        }
+                        onClick={() =>
+                            setStatus("REJECTED")
+                        }
+                    />
 
-                            clickable
-
-                            label={`${item.label} (${item.count})`}
-
-                            color={
-                                statusFilter === item.value
-                                    ? "success"
-                                    : "default"
-                            }
-
-                            onClick={() => setStatusFilter(item.value)}
-
-                            sx={{
-                                borderRadius: 5,
-                                fontWeight: 600,
-                                flexShrink: 0
-                            }}
-
-                        />
-
-                    ))}
+                    <Chip
+                        label={`All (${summary.total})`}
+                        clickable
+                        color={
+                            status === "ALL"
+                                ? "success"
+                                : "default"
+                        }
+                        onClick={() =>
+                            setStatus("ALL")
+                        }
+                    />
 
                 </Stack>
+
 
             </Box>
 
@@ -279,7 +283,7 @@ export default function Approval() {
 
                             {
 
-                                filtered.length === 0
+                                requests.length === 0
 
                                     ?
 
@@ -305,7 +309,7 @@ export default function Approval() {
 
                                     :
 
-                                    filtered.map((item) => (
+                                    requests.map((item) => (
 
                                         <Card
                                             key={item.id}
@@ -319,11 +323,15 @@ export default function Approval() {
                                                 }
                                             }}
 
-                                            onClick={() =>
+                                            onClick={() => {
 
-                                                navigate(`/employee/approval/${item.id}`)
+                                                if (item.status === "PENDING_SUPERVISOR") {
 
-                                            }
+                                                    navigate(`/employee/approval/${item.id}`);
+
+                                                }
+
+                                            }}
                                         >
 
                                             <CardContent>
@@ -357,8 +365,20 @@ export default function Approval() {
 
                                                 <Chip
                                                     size="small"
-                                                    label="Pending"
-                                                    color="warning"
+                                                    label={
+                                                        item.status === "PENDING_SUPERVISOR"
+                                                            ? "Pending"
+                                                            : item.status === "APPROVED"
+                                                                ? "Approved"
+                                                                : "Rejected"
+                                                    }
+                                                    color={
+                                                        item.status === "PENDING_SUPERVISOR"
+                                                            ? "warning"
+                                                            : item.status === "APPROVED"
+                                                                ? "success"
+                                                                : "error"
+                                                    }
                                                     sx={{
                                                         mt: 2
                                                     }}

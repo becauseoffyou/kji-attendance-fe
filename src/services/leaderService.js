@@ -1,8 +1,12 @@
 import api from "./api";
 
 const leaderService = {
-  getLeaveApprovals() {
-    return api.get("/leader/leave");
+  getLeaveApprovals(status = "PENDING_SUPERVISOR") {
+    return api.get("/leader/leave", {
+      params: {
+        status,
+      },
+    });
   },
 
   reject(id, note) {
