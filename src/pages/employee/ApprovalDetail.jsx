@@ -511,6 +511,37 @@ export default function ApprovalDetail() {
                     </Box>
 
                 </Drawer>
+
+                <Snackbar
+
+                    open={snackbar.open}
+
+                    autoHideDuration={2500}
+
+                    onClose={() =>
+
+                        setSnackbar({
+                            ...snackbar,
+                            open: false
+                        })
+
+                    }
+
+                >
+
+                    <Alert
+
+                        severity={snackbar.severity}
+
+                        variant="filled"
+
+                    >
+
+                        {snackbar.message}
+
+                    </Alert>
+
+                </Snackbar>
             </Box>
         </Box>
     );
@@ -560,34 +591,3 @@ function InfoItem({
     );
 
 }
-
-<Snackbar
-
-    open={snackbar.open}
-
-    autoHideDuration={2500}
-
-    onClose={() =>
-
-        setSnackbar({
-            ...snackbar,
-            open: false
-        })
-
-    }
-
->
-
-    <Alert
-
-        severity={snackbar.severity}
-
-        variant="filled"
-
-    >
-
-        {snackbar.message}
-
-    </Alert>
-
-</Snackbar>
