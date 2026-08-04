@@ -144,7 +144,7 @@ export default function ApprovalDetail() {
                             title="Nama Karyawan"
                             value={detail.name + "/" + detail.department + "/" + detail.position}
                         />
-
+                        <Divider sx={{ my: 2 }} />
                         <InfoItem
                             title="Jenis Pengajuan"
                             value={detail.leave_type}
@@ -305,8 +305,8 @@ function InfoItem({
             <Typography
 
                 fontSize={13}
-
-                color="text.secondary"
+                fontWeight={700}
+                color="text.primary"
 
             >
 
