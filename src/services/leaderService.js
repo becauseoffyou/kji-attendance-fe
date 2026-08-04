@@ -5,6 +5,16 @@ const leaderService = {
     return api.get("/leader/leave");
   },
 
+  reject(id, note) {
+    return api.patch(`/leader/leave/${id}/reject`, {
+      note,
+    });
+  },
+
+  getLeaveDetail(id) {
+    return api.get(`/leader/leave/${id}`);
+  },
+
   approve(id, note) {
     return api.patch(`/leader/leave/${id}/approve`, {
       note,
@@ -15,10 +25,6 @@ const leaderService = {
     return api.patch(`/leader/leave/${id}/reject`, {
       note,
     });
-  },
-
-  getLeaveDetail(id) {
-    return api.get(`/leader/leave/${id}`);
   },
 };
 

@@ -26,6 +26,9 @@ export default function ApprovalDetail() {
     const [loading, setLoading] = useState(true);
 
     const [note, setNote] = useState("");
+    const [openApprove, setOpenApprove] = useState(false);
+
+    const [openReject, setOpenReject] = useState(false);
 
     const loadDetail = async () => {
 
@@ -59,6 +62,19 @@ export default function ApprovalDetail() {
             month: "long",
             year: "numeric",
         });
+
+    const formatDateRange = (start, end) => {
+
+        const startFormatted = formatDate(start);
+        const endFormatted = formatDate(end);
+
+        if (startFormatted === endFormatted) {
+            return startFormatted;
+        }
+
+        return `${startFormatted} - ${endFormatted}`;
+
+    };
 
     const getDuration = (start, end) => {
 
@@ -154,7 +170,7 @@ export default function ApprovalDetail() {
 
                         <InfoItem
                             title="Tanggal"
-                            value={formatDate(detail.start_date)}
+                            value={formatDateRange(detail.start_date, detail.end_date)}
                         />
 
                         <Divider sx={{ my: 2 }} />
@@ -169,9 +185,20 @@ export default function ApprovalDetail() {
 
                         <Divider sx={{ my: 2 }} />
 
+
                         <InfoItem
-                            title="Sisa Cuti"
+                            title="Hak Cuti Saat Ini"
                             value={`${detail.leave_balance} Hari`}
+                        />
+                        <Divider sx={{ my: 2 }} />
+                        <InfoItem
+                            title="Durasi Pengajuan"
+                            value={`${detail.leave_days} Hari`}
+                        />
+                        <Divider sx={{ my: 2 }} />
+                        <InfoItem
+                            title="Sisa Setelah Disetujui"
+                            value={`${detail.remaining_leave} Hari`}
                         />
 
                         <Divider sx={{ my: 2 }} />
@@ -257,6 +284,8 @@ export default function ApprovalDetail() {
                         size="large"
                         variant="outlined"
                         color="error"
+                        onClick={() => setOpenReject(true)}
+
                         sx={{
                             height: 52,
                             borderRadius: 3,
@@ -272,6 +301,7 @@ export default function ApprovalDetail() {
                         size="large"
                         variant="contained"
                         color="success"
+                        onClick={() => setOpenApprove(true)}
                         sx={{
                             height: 52,
                             borderRadius: 3,
@@ -283,7 +313,19 @@ export default function ApprovalDetail() {
                     </Button>
 
                 </Stack>
+                <Drawer
 
+                    anchor="bottom"
+
+                    open={openApprove}
+
+                    onClose={() => setOpenApprove(false)}
+
+                >
+
+                    ....
+
+                </Drawer>
             </Box>
         </Box>
     );
