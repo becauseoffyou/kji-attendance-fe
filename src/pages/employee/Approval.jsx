@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { leaderService } from "../../services/leaderService";
+import leaderService from "../../services/leaderService";
 
 export default function Approval() {
     const [loading, setLoading] = useState(false);
