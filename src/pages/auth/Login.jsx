@@ -30,22 +30,23 @@ export default function Login() {
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
-    
+    const DASHBOARD_ROLES = ["ADMIN", "HR"];
+
     useEffect(() => {
-          const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
+        const token = localStorage.getItem("token");
+        const user = JSON.parse(localStorage.getItem("user"));
 
-    if (!token || !user) return;
+        if (!token || !user) return;
 
-    if (user.role === 1) {
+        if (DASHBOARD_ROLES.includes(user.role)) {
 
-        navigate("/dashboard");
+            navigate("/dashboard");
 
-    } else {
+        } else {
 
-        navigate("/employee/attendance");
+            navigate("/employee/attendance");
 
-    }
+        }
     }, [navigate]);
 
     const handleLogin = async () => {
@@ -53,19 +54,19 @@ export default function Login() {
             setLoading(true);
             const data = await authService.login(email, password);
 
-           localStorage.setItem("token", data.token);
-localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
 
             await loadUser();
-if (data.user.role === 1) {
+            if (DASHBOARD_ROLES.includes(data.user.role)) {
 
-    navigate("/dashboard");
+                navigate("/dashboard");
 
-} else {
+            } else {
 
-    navigate("/employee/attendance");
+                navigate("/employee/attendance");
 
-}
+            }
         } catch (err) {
             alert(err.response?.data?.message || "Login gagal");
         } finally {
