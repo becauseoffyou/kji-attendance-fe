@@ -107,15 +107,27 @@ export default function ApprovalDetail() {
             }}
         >
 
-            <Typography
-                variant="h5"
-                fontWeight={700}
-                mb={2}
+            <Box
+                sx={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 20,
+                    bgcolor: "#F5F7FA",
+                    pt: 1,
+                    pb: 2,
+                    mb: 2
+                }}
             >
 
-                Detail Approval
+                <Typography
+                    variant="h5"
+                    fontWeight={700}
+                    fontstyle="bold"
+                >
+                    Detail Approval
+                </Typography>
 
-            </Typography>
+            </Box>
 
             <Card
                 sx={{
