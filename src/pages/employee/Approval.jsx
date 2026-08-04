@@ -102,7 +102,6 @@ export default function Approval() {
                     top: 0,
                     zIndex: 20,
                     bgcolor: "#F5F7FA",
-                    pb: 2
                 }}
             >
 
@@ -126,7 +125,7 @@ export default function Approval() {
             <Box
                 sx={{
                     position: "sticky",
-                    top: 68,
+                    top: 60,
                     zIndex: 19,
                     bgcolor: "#F5F7FA",
                     py: 2
