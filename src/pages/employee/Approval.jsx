@@ -315,6 +315,7 @@ export default function Approval() {
 
                                                 <Typography
                                                     fontWeight={700}
+                                                    fontstyle="bold"
                                                     fontSize={17}
                                                 >
                                                     {item.name}
@@ -324,15 +325,9 @@ export default function Approval() {
                                                     color="text.secondary"
                                                     mt={0.5}
                                                 >
-                                                    {item.leave_type}
+                                                    <strong>Pengajuan :</strong> {item.leave_type} {getDuration(item.start_date, item.end_date)}
                                                 </Typography>
 
-                                                <Typography
-                                                    color="text.secondary"
-                                                    mt={1}
-                                                >
-                                                    <strong>Durasi :</strong> {getDuration(item.start_date, item.end_date)}
-                                                </Typography>
 
                                                 <Typography
                                                     color="text.secondary"
