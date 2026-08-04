@@ -319,24 +319,6 @@ export default function ApprovalDetail() {
 
                         }
 
-                        <Divider sx={{ my: 2 }} />
-
-                        <TextField
-
-                            fullWidth
-
-                            multiline
-
-                            rows={4}
-
-                            label="Catatan Supervisor"
-
-                            value={note}
-
-                            onChange={(e) => setNote(e.target.value)}
-
-                        />
-
                     </CardContent>
 
                 </Card>
