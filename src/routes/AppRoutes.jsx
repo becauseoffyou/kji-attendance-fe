@@ -92,11 +92,7 @@ export default function AppRoutes() {
 
                 <Route
                     path="/employee"
-                    element={
-                        <ProtectedEmployeeRoute>
-                            <EmployeeLayout />
-                        </ProtectedEmployeeRoute>
-                    }
+                    element={<EmployeeLayout />}
                 >
                     <Route
                         path="attendance"
@@ -116,6 +112,11 @@ export default function AppRoutes() {
                     <Route
                         path="profile"
                         element={<EmployeeProfile />}
+                    />
+
+                    <Route
+                        path="/test"
+                        element={<div style={{ padding: 40 }}>TEST BERHASIL</div>}
                     />
                 </Route>
 
