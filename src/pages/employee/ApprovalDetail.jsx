@@ -103,7 +103,7 @@ export default function ApprovalDetail() {
         <Box
             sx={{
                 p: 2,
-                pb: 12
+                pb: 12 // supaya tidak ketutup Bottom Navigation
             }}
         >
 
@@ -256,67 +256,45 @@ export default function ApprovalDetail() {
 
             </Card>
 
-            <Box
-
+            <Stack
+                spacing={2}
                 sx={{
-
-                    position: "fixed",
-
-                    bottom: 0,
-
-                    left: 0,
-
-                    right: 0,
-
-                    bgcolor: "#fff",
-
-                    p: 2,
-
-                    borderTop: "1px solid #eee"
-
+                    mt: 4,
+                    mb: 2
                 }}
-
             >
 
-                <Stack
-
-                    direction="row"
-
-                    spacing={2}
-
+                <Button
+                    fullWidth
+                    size="large"
+                    variant="outlined"
+                    color="error"
+                    sx={{
+                        height: 52,
+                        borderRadius: 3,
+                        fontWeight: 600,
+                        textTransform: "none"
+                    }}
                 >
+                    Reject
+                </Button>
 
-                    <Button
+                <Button
+                    fullWidth
+                    size="large"
+                    variant="contained"
+                    color="success"
+                    sx={{
+                        height: 52,
+                        borderRadius: 3,
+                        fontWeight: 600,
+                        textTransform: "none"
+                    }}
+                >
+                    Approve
+                </Button>
 
-                        fullWidth
-
-                        variant="outlined"
-
-                        color="error"
-
-                    >
-
-                        Reject
-
-                    </Button>
-
-                    <Button
-
-                        fullWidth
-
-                        variant="contained"
-
-                        color="success"
-
-                    >
-
-                        Approve
-
-                    </Button>
-
-                </Stack>
-
-            </Box>
+            </Stack>
 
         </Box>
 
