@@ -55,7 +55,7 @@ export default function Leave() {
         ALL: history.length,
 
         PENDING: history.filter(
-            item => item.status === "PENDING"
+            item => item.status === "PENDING_SUPERVISOR"
         ).length,
 
         APPROVED: history.filter(
