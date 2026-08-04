@@ -5,7 +5,8 @@ import {
     Chip,
     CircularProgress,
     Stack,
-    Typography
+    Typography,
+    Skeleton
 } from "@mui/material";
 
 import { useEffect, useState } from "react";
@@ -172,15 +173,62 @@ export default function Approval() {
 
                     (
 
-                        <Box
-                            py={6}
-                            display="flex"
-                            justifyContent="center"
-                        >
+                        <Stack spacing={2} mt={2}>
 
-                            <CircularProgress />
+                            {[1, 2, 3, 4, 5].map((item) => (
 
-                        </Box>
+                                <Card
+                                    key={item}
+                                    sx={{
+                                        borderRadius: 4
+                                    }}
+                                >
+
+                                    <CardContent>
+
+                                        <Stack
+                                            direction="row"
+                                            justifyContent="space-between"
+                                            alignItems="center"
+                                        >
+
+                                            <Box flex={1}>
+
+                                                <Skeleton
+                                                    width="45%"
+                                                    height={32}
+                                                />
+
+                                                <Skeleton
+                                                    width="30%"
+                                                    height={22}
+                                                />
+
+                                                <Skeleton
+                                                    width="55%"
+                                                    height={20}
+                                                />
+
+                                            </Box>
+
+                                            <Skeleton
+                                                variant="rounded"
+                                                width={70}
+                                                height={28}
+                                                sx={{
+                                                    borderRadius: 5
+                                                }}
+                                            />
+
+                                        </Stack>
+
+                                    </CardContent>
+
+                                </Card>
+
+                            ))}
+
+                        </Stack>
 
                     )
 
