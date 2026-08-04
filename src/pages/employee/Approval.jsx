@@ -12,7 +12,7 @@ export default function Approval() {
             setLoading(true);
 
             const { data } = await leaderService.getLeaveApprovals();
-
+            console.log(data);
             setRequests(data.data);
 
         } catch (err) {
