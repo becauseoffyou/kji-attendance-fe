@@ -171,7 +171,7 @@ export default function ApprovalDetail() {
 
                 navigate("/employee/approval");
 
-            }, 1000);
+            }, 2000);
 
         } catch (err) {
 
@@ -364,127 +364,96 @@ export default function ApprovalDetail() {
 
                 </Stack>
                 <Drawer
-
                     anchor="bottom"
-
                     open={Boolean(action)}
-
                     onClose={() => setAction(null)}
-
+                    PaperProps={{
+                        sx: {
+                            borderTopLeftRadius: 24,
+                            borderTopRightRadius: 24,
+                        }
+                    }}
                 >
-
-                    <Box
-                        p={3}
+                    <Stack
+                        spacing={3}
+                        sx={{
+                            p: 3
+                        }}
                     >
 
-                        <Typography
-                            variant="h6"
-                            fontWeight={700}
-                        >
+                        <Box>
 
-                            {
-                                action === "APPROVE"
+                            <Typography
+                                variant="h6"
+                                fontWeight={700}
+                            >
+                                {
+                                    action === "APPROVE"
+                                        ? "Approve Pengajuan"
+                                        : "Reject Pengajuan"
+                                }
+                            </Typography>
 
-                                    ? "Approve Pengajuan"
+                            <Typography
+                                color="text.secondary"
+                                mt={1}
+                            >
+                                {
+                                    action === "APPROVE"
+                                        ? "Catatan (Opsional)"
+                                        : "Alasan Penolakan"
+                                }
+                            </Typography>
 
-                                    : "Reject Pengajuan"
-
-                            }
-
-                        </Typography>
-
-                        <Typography
-                            mt={1}
-                            color="text.secondary"
-                        >
-
-                            {
-                                action === "APPROVE"
-
-                                    ? "Catatan (opsional)"
-
-                                    : "Alasan penolakan"
-                            }
-
-                        </Typography>
+                        </Box>
 
                         <TextField
-
                             fullWidth
-
                             multiline
-
-                            rows={4}
-
-                            sx={{
-                                mt: 2
-                            }}
-
+                            rows={5}
+                            placeholder={
+                                action === "APPROVE"
+                                    ? "Tambahkan catatan..."
+                                    : "Masukkan alasan penolakan..."
+                            }
                             value={note}
-
                             onChange={(e) => setNote(e.target.value)}
-
                         />
 
                         <Stack
-
                             direction="row"
-
                             spacing={2}
-
-                            mt={3}
-
                         >
 
                             <Button
-
                                 fullWidth
-
                                 variant="outlined"
-
                                 onClick={() => setAction(null)}
-
                             >
-
                                 Batal
-
                             </Button>
 
-                            <LoadingButton
-
-                                loading={saving}
-
+                            <Button
                                 fullWidth
-
                                 variant="contained"
-
                                 color={
                                     action === "APPROVE"
-
                                         ? "success"
-
                                         : "error"
                                 }
-
+                                disabled={saving}
                                 onClick={handleSubmit}
-
                             >
-
-                                {
-
-                                    action === "APPROVE"
-
+                                {saving
+                                    ? "Memproses..."
+                                    : action === "APPROVE"
                                         ? "Approve"
-
-                                        : "Reject"
-
-                                }
-
-                            </LoadingButton>
+                                        : "Reject"}
+                            </Button>
 
                         </Stack>
 
-                    </Box>
+                    </Stack>
 
                 </Drawer>
 
