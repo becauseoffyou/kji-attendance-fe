@@ -56,6 +56,35 @@ export default function Approval() {
 
     });
 
+    const filters = [
+        {
+            label: "Semua",
+            value: "ALL",
+            count: requests.length
+        },
+        {
+            label: "Pending",
+            value: "PENDING_SUPERVISOR",
+            count: requests.filter(
+                x => x.status === "PENDING_SUPERVISOR"
+            ).length
+        },
+        {
+            label: "Approved",
+            value: "APPROVED",
+            count: requests.filter(
+                x => x.status === "APPROVED"
+            ).length
+        },
+        {
+            label: "Rejected",
+            value: "REJECTED",
+            count: requests.filter(
+                x => x.status === "REJECTED"
+            ).length
+        }
+    ];
+
     return (
 
         <Box
@@ -115,24 +144,7 @@ export default function Approval() {
                     }}
                 >
 
-                    {[
-                        {
-                            label: "Semua",
-                            value: "ALL"
-                        },
-                        {
-                            label: "Pending",
-                            value: "PENDING_SUPERVISOR"
-                        },
-                        {
-                            label: "Approved",
-                            value: "APPROVED"
-                        },
-                        {
-                            label: "Rejected",
-                            value: "REJECTED"
-                        }
-                    ].map((item) => (
+                    {filters.map((item) => (
 
                         <Chip
 
@@ -140,7 +152,7 @@ export default function Approval() {
 
                             clickable
 
-                            label={item.label}
+                            label={`${item.label} (${item.count})`}
 
                             color={
                                 statusFilter === item.value
@@ -152,7 +164,8 @@ export default function Approval() {
 
                             sx={{
                                 borderRadius: 5,
-                                fontWeight: 600
+                                fontWeight: 600,
+                                flexShrink: 0
                             }}
 
                         />
