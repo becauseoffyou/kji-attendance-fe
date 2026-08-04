@@ -99,14 +99,11 @@ export default function ApprovalDetail() {
     }
 
     return (
-
         <Box
             sx={{
-                p: 2,
-                pb: 12 // supaya tidak ketutup Bottom Navigation
+                height: "100%"
             }}
         >
-
             <Box
                 sx={{
                     position: "sticky",
@@ -128,188 +125,196 @@ export default function ApprovalDetail() {
                 </Typography>
 
             </Box>
-
-            <Card
+            <Box
                 sx={{
-                    borderRadius: 4
+                    p: 2,
+                    pb: 12 // supaya tidak ketutup Bottom Navigation
                 }}
             >
 
-                <CardContent>
 
-                    <Typography
-                        fontWeight={700}
-                        fontSize={20}
-                    >
-                        {detail.name}
-                    </Typography>
 
-                    <Typography
-                        color="text.secondary"
-                    >
-                        {detail.department}
-                    </Typography>
+                <Card
+                    sx={{
+                        borderRadius: 4
+                    }}
+                >
 
-                    <Typography
-                        color="text.secondary"
-                    >
-                        {detail.position}
-                    </Typography>
+                    <CardContent>
 
-                </CardContent>
+                        <Typography
+                            fontWeight={700}
+                            fontSize={20}
+                        >
+                            {detail.name}
+                        </Typography>
 
-            </Card>
+                        <Typography
+                            color="text.secondary"
+                        >
+                            {detail.department}
+                        </Typography>
 
-            <Card
-                sx={{
-                    mt: 2,
-                    borderRadius: 4
-                }}
-            >
+                        <Typography
+                            color="text.secondary"
+                        >
+                            {detail.position}
+                        </Typography>
 
-                <CardContent>
+                    </CardContent>
 
-                    <InfoItem
-                        title="Jenis Pengajuan"
-                        value={detail.leave_type}
-                    />
+                </Card>
 
-                    <Divider sx={{ my: 2 }} />
+                <Card
+                    sx={{
+                        mt: 2,
+                        borderRadius: 4
+                    }}
+                >
 
-                    <InfoItem
-                        title="Tanggal"
-                        value={formatDate(detail.start_date)}
-                    />
+                    <CardContent>
 
-                    <Divider sx={{ my: 2 }} />
+                        <InfoItem
+                            title="Jenis Pengajuan"
+                            value={detail.leave_type}
+                        />
 
-                    <InfoItem
-                        title="Durasi"
-                        value={`${getDuration(
-                            detail.start_date,
-                            detail.end_date
-                        )} Hari`}
-                    />
+                        <Divider sx={{ my: 2 }} />
 
-                    <Divider sx={{ my: 2 }} />
+                        <InfoItem
+                            title="Tanggal"
+                            value={formatDate(detail.start_date)}
+                        />
 
-                    <InfoItem
-                        title="Sisa Cuti"
-                        value={`${detail.leave_balance} Hari`}
-                    />
+                        <Divider sx={{ my: 2 }} />
 
-                    <Divider sx={{ my: 2 }} />
+                        <InfoItem
+                            title="Durasi"
+                            value={`${getDuration(
+                                detail.start_date,
+                                detail.end_date
+                            )} Hari`}
+                        />
 
-                    <Typography
-                        fontWeight={600}
-                        mb={1}
-                    >
-                        Alasan
-                    </Typography>
+                        <Divider sx={{ my: 2 }} />
 
-                    <Typography
-                        color="text.secondary"
-                    >
-                        {detail.reason}
-                    </Typography>
+                        <InfoItem
+                            title="Sisa Cuti"
+                            value={`${detail.leave_balance} Hari`}
+                        />
 
-                    <Divider sx={{ my: 2 }} />
+                        <Divider sx={{ my: 2 }} />
 
-                    <Typography
-                        fontWeight={600}
-                        mb={1}
-                    >
-                        Lampiran
-                    </Typography>
+                        <Typography
+                            fontWeight={600}
+                            mb={1}
+                        >
+                            Alasan
+                        </Typography>
 
-                    {
+                        <Typography
+                            color="text.secondary"
+                        >
+                            {detail.reason}
+                        </Typography>
 
-                        detail.attachment
+                        <Divider sx={{ my: 2 }} />
 
-                            ?
+                        <Typography
+                            fontWeight={600}
+                            mb={1}
+                        >
+                            Lampiran
+                        </Typography>
 
-                            <Button>
+                        {
 
-                                Lihat Lampiran
+                            detail.attachment
 
-                            </Button>
+                                ?
 
-                            :
+                                <Button>
 
-                            <Typography
-                                color="text.secondary"
-                            >
+                                    Lihat Lampiran
 
-                                Tidak ada lampiran
+                                </Button>
 
-                            </Typography>
+                                :
 
-                    }
+                                <Typography
+                                    color="text.secondary"
+                                >
 
-                    <Divider sx={{ my: 2 }} />
+                                    Tidak ada lampiran
 
-                    <TextField
+                                </Typography>
 
+                        }
+
+                        <Divider sx={{ my: 2 }} />
+
+                        <TextField
+
+                            fullWidth
+
+                            multiline
+
+                            rows={4}
+
+                            label="Catatan Supervisor"
+
+                            value={note}
+
+                            onChange={(e) => setNote(e.target.value)}
+
+                        />
+
+                    </CardContent>
+
+                </Card>
+
+                <Stack
+                    spacing={2}
+                    sx={{
+                        mt: 4,
+                        mb: 2
+                    }}
+                >
+
+                    <Button
                         fullWidth
+                        size="large"
+                        variant="outlined"
+                        color="error"
+                        sx={{
+                            height: 52,
+                            borderRadius: 3,
+                            fontWeight: 600,
+                            textTransform: "none"
+                        }}
+                    >
+                        Reject
+                    </Button>
 
-                        multiline
+                    <Button
+                        fullWidth
+                        size="large"
+                        variant="contained"
+                        color="success"
+                        sx={{
+                            height: 52,
+                            borderRadius: 3,
+                            fontWeight: 600,
+                            textTransform: "none"
+                        }}
+                    >
+                        Approve
+                    </Button>
 
-                        rows={4}
+                </Stack>
 
-                        label="Catatan Supervisor"
-
-                        value={note}
-
-                        onChange={(e) => setNote(e.target.value)}
-
-                    />
-
-                </CardContent>
-
-            </Card>
-
-            <Stack
-                spacing={2}
-                sx={{
-                    mt: 4,
-                    mb: 2
-                }}
-            >
-
-                <Button
-                    fullWidth
-                    size="large"
-                    variant="outlined"
-                    color="error"
-                    sx={{
-                        height: 52,
-                        borderRadius: 3,
-                        fontWeight: 600,
-                        textTransform: "none"
-                    }}
-                >
-                    Reject
-                </Button>
-
-                <Button
-                    fullWidth
-                    size="large"
-                    variant="contained"
-                    color="success"
-                    sx={{
-                        height: 52,
-                        borderRadius: 3,
-                        fontWeight: 600,
-                        textTransform: "none"
-                    }}
-                >
-                    Approve
-                </Button>
-
-            </Stack>
-
+            </Box>
         </Box>
-
     );
 
 }
