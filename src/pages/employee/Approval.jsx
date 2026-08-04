@@ -259,7 +259,7 @@ export default function Approval() {
                                                 width={70}
                                                 height={28}
                                                 sx={{
-                                                    borderRadius: 5
+                                                    borderRadius: 2
                                                 }}
                                             />
 
@@ -336,53 +336,56 @@ export default function Approval() {
 
                                             <CardContent>
 
-                                                <Typography
-                                                    fontWeight={700}
-                                                    fontstyle="bold"
-                                                    fontSize={17}
+                                                <Stack
+                                                    direction="row"
+                                                    justifyContent="space-between"
+                                                    alignItems="flex-start"
                                                 >
-                                                    {item.name}
+
+                                                    <Typography
+                                                        fontWeight="bold"
+                                                        fontSize={17}
+                                                    >
+                                                        {item.name}
+                                                    </Typography>
+
+                                                    <Chip
+                                                        size="small"
+                                                        label={
+                                                            item.status === "PENDING_SUPERVISOR"
+                                                                ? "Pending"
+                                                                : item.status === "APPROVED"
+                                                                    ? "Approved"
+                                                                    : "Rejected"
+                                                        }
+                                                        color={
+                                                            item.status === "PENDING_SUPERVISOR"
+                                                                ? "warning"
+                                                                : item.status === "APPROVED"
+                                                                    ? "success"
+                                                                    : "error"
+                                                        }
+                                                    />
+
+                                                </Stack>
+
+                                                <Typography
+                                                    color="text.secondary"
+                                                    mt={1}
+                                                >
+                                                    <strong>Pengajuan :</strong>{" "}
+                                                    {item.leave_type} • {getDuration(item.start_date, item.end_date)}
                                                 </Typography>
 
                                                 <Typography
                                                     color="text.secondary"
                                                     mt={0.5}
                                                 >
-                                                    <strong>Pengajuan :</strong> {item.leave_type} {getDuration(item.start_date, item.end_date)}
+                                                    <strong>Tanggal :</strong>{" "}
+                                                    {formatDate(item.start_date)}
+                                                    {item.start_date !== item.end_date &&
+                                                        ` - ${formatDate(item.end_date)}`}
                                                 </Typography>
-
-
-                                                <Typography
-                                                    color="text.secondary"
-                                                    mt={0.5}
-                                                >
-                                                    <strong>Tanggal :</strong> {formatDate(item.start_date)}
-                                                    {
-                                                        item.start_date !== item.end_date &&
-                                                        ` - ${formatDate(item.end_date)}`
-                                                    }
-                                                </Typography>
-
-                                                <Chip
-                                                    size="small"
-                                                    label={
-                                                        item.status === "PENDING_SUPERVISOR"
-                                                            ? "Pending"
-                                                            : item.status === "APPROVED"
-                                                                ? "Approved"
-                                                                : "Rejected"
-                                                    }
-                                                    color={
-                                                        item.status === "PENDING_SUPERVISOR"
-                                                            ? "warning"
-                                                            : item.status === "APPROVED"
-                                                                ? "success"
-                                                                : "error"
-                                                    }
-                                                    sx={{
-                                                        mt: 2
-                                                    }}
-                                                />
 
                                             </CardContent>
 
