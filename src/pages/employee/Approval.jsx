@@ -14,7 +14,7 @@ export default function Approval() {
             const { data } = await leaderService.getLeaveApprovals();
             console.log(data);
             setRequests(data.data);
-
+            console.log("REQUESTS", data.data);
         } catch (err) {
 
             console.error(err);
