@@ -345,9 +345,9 @@ export default function Leave() {
                             label={`Pending (${statusCount.PENDING})`}
                             clickable
 
-                            sx={chipStyle("PENDING")}
-                            color={statusFilter === "PENDING" ? "warning" : "default"}
-                            onClick={() => setStatusFilter("PENDING")}
+                            sx={chipStyle("PENDING_SUPERVISOR")}
+                            color={statusFilter === "PENDING_SUPERVISOR" ? "warning" : "default"}
+                            onClick={() => setStatusFilter("PENDING_SUPERVISOR")}
                         />
 
                         <Chip
