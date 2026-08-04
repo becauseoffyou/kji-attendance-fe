@@ -71,13 +71,10 @@ export default function LeaveCard({
 
             <CardContent>
 
-                <Box
-                    sx={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(3,1fr)",
-                        gap: 2,
-                        textAlign: "center"
-                    }}
+                <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
                 >
 
                     <Typography
@@ -105,7 +102,7 @@ export default function LeaveCard({
                         }
                     />
 
-                </Box>
+                </Stack>
 
                 <Box sx={{ mt: 1.5 }}>
 

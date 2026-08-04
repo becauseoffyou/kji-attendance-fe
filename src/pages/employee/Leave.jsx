@@ -384,109 +384,116 @@ export default function Leave() {
 
                         /></Stack>  </Box>
             </Box>
-            {
+            <Box
+                sx={{
+                    px: 2,
+                    pt: 2,
+                    pb: 12
+                }}
+            >
+                {
 
-                loading ?
+                    loading ?
 
-                    [...Array(4)].map((_, index) => (
+                        [...Array(4)].map((_, index) => (
 
-                        <Card
-                            key={index}
-                            sx={{
-                                mb: 2,
-                                borderRadius: 3
-                            }}
-                        >
+                            <Card
+                                key={index}
+                                sx={{
+                                    mb: 2,
+                                    borderRadius: 3
+                                }}
+                            >
 
-                            <CardContent>
+                                <CardContent>
 
-                                <Box
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                >
+                                    <Box
+                                        display="flex"
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+
+                                        <Skeleton
+                                            variant="text"
+                                            width={130}
+                                            height={28}
+                                        />
+
+                                        <Skeleton
+                                            variant="rounded"
+                                            width={90}
+                                            height={28}
+                                        />
+
+                                    </Box>
 
                                     <Skeleton
                                         variant="text"
-                                        width={130}
-                                        height={28}
+                                        width="70%"
+                                        height={24}
+                                        sx={{ mt: 1 }}
                                     />
 
                                     <Skeleton
-                                        variant="rounded"
-                                        width={90}
-                                        height={28}
+                                        variant="text"
+                                        width="90%"
+                                        height={18}
+                                        sx={{ mt: .5 }}
                                     />
 
-                                </Box>
+                                </CardContent>
 
-                                <Skeleton
-                                    variant="text"
-                                    width="70%"
-                                    height={24}
-                                    sx={{ mt: 1 }}
-                                />
-
-                                <Skeleton
-                                    variant="text"
-                                    width="90%"
-                                    height={18}
-                                    sx={{ mt: .5 }}
-                                />
-
-                            </CardContent>
-
-                        </Card>
-
-                    ))
-
-                    :
-
-                    filteredHistory.length === 0 ?
-
-                        <Card
-                            sx={{
-                                borderRadius: 3
-                            }}
-                        >
-
-                            <CardContent>
-
-                                <Typography
-                                    align="center"
-                                    color="text.secondary"
-                                >
-                                    Belum ada riwayat pengajuan.
-                                </Typography>
-
-                            </CardContent>
-
-                        </Card>
-
-                        :
-
-                        filteredHistory.map(item => (
-
-                            <LeaveCard
-
-                                key={item.id}
-
-                                item={item}
-
-                                onClick={() => {
-
-                                    setSelectedLeave(item);
-
-                                    setOpenDetail(true);
-
-                                }}
-
-                            />
+                            </Card>
 
                         ))
 
-            }
+                        :
 
+                        filteredHistory.length === 0 ?
+
+                            <Card
+                                sx={{
+                                    borderRadius: 3
+                                }}
+                            >
+
+                                <CardContent>
+
+                                    <Typography
+                                        align="center"
+                                        color="text.secondary"
+                                    >
+                                        Belum ada riwayat pengajuan.
+                                    </Typography>
+
+                                </CardContent>
+
+                            </Card>
+
+                            :
+
+                            filteredHistory.map(item => (
+
+                                <LeaveCard
+
+                                    key={item.id}
+
+                                    item={item}
+
+                                    onClick={() => {
+
+                                        setSelectedLeave(item);
+
+                                        setOpenDetail(true);
+
+                                    }}
+
+                                />
+
+                            ))
+
+                }
+            </Box>
             <Fab
                 color="primary"
                 onClick={() => setOpenDialog(true)}
