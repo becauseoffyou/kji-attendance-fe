@@ -231,7 +231,18 @@ export default function ApprovalDetail() {
                     <CardContent>
                         <InfoItem
                             title="Nama Karyawan"
-                            value={detail.name + "/" + detail.department + "/" + detail.position}
+                            value={<>
+                                <Typography fontWeight={600}>
+                                    {detail.name}
+                                </Typography>
+
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    {detail.department} • {detail.position}
+                                </Typography>
+                            </>}
                         />
                         <Divider sx={{ my: 2 }} />
                         <InfoItem
@@ -257,19 +268,22 @@ export default function ApprovalDetail() {
 
 
                         <InfoItem
-                            title="Hak Cuti Saat Ini"
+                            title="Hak Cuti Tahunan"
                             value={`${detail.leave_balance} Hari`}
                         />
-                        <Divider sx={{ my: 2 }} />
-                        <InfoItem
-                            title="Durasi Pengajuan"
-                            value={`${detail.leave_days} Hari`}
-                        />
-                        <Divider sx={{ my: 2 }} />
-                        <InfoItem
-                            title="Sisa Setelah Disetujui"
-                            value={`${detail.remaining_leave} Hari`}
-                        />
+
+                        {
+                            detail.leave_type === "CUTI" && (
+                                <>
+                                    <Divider sx={{ my: 2 }} />
+
+                                    <InfoItem
+                                        title="Sisa Setelah Disetujui"
+                                        value={`${detail.remaining_leave} Hari`}
+                                    />
+                                </>
+                            )
+                        }
 
                         <Divider sx={{ my: 2 }} />
 
