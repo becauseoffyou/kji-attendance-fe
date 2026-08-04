@@ -16,6 +16,10 @@ const leaderService = {
       note,
     });
   },
+
+  getLeaveDetail(id) {
+    return api.get(`/leader/leave/${id}`);
+  },
 };
 
 export default leaderService;

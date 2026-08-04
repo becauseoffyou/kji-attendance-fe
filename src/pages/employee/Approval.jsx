@@ -288,7 +288,13 @@ export default function Approval() {
                                         <Typography
                                             textAlign="center"
                                             color="text.secondary"
-                                            mt={5}
+                                            sx={{
+                                                mt: 5,
+                                                textAlign: "center",
+                                                height: "50vh",
+                                                display: "grid",
+                                                placeItems: "center",
+                                            }}
                                         >
 
                                             Tidak ada data

@@ -1,20 +1,362 @@
 import {
     Box,
-    Typography
+    Card,
+    CardContent,
+    Typography,
+    Divider,
+    Button,
+    Stack,
+    TextField,
+    Skeleton
 } from "@mui/material";
+
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+import leaderService from "../../services/leaderService";
 
 export default function ApprovalDetail() {
 
+    const { id } = useParams();
+
+    const navigate = useNavigate();
+
+    const [detail, setDetail] = useState(null);
+
+    const [loading, setLoading] = useState(true);
+
+    const [note, setNote] = useState("");
+
+    const loadDetail = async () => {
+
+        try {
+
+            const { data } = await leaderService.getLeaveDetail(id);
+
+            setDetail(data.data);
+
+        } catch (err) {
+
+            console.error(err);
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
+    useEffect(() => {
+
+        loadDetail();
+
+    }, []);
+
+    const formatDate = (date) =>
+        new Date(date).toLocaleDateString("id-ID", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+        });
+
+    const getDuration = (start, end) => {
+
+        const s = new Date(start);
+
+        const e = new Date(end);
+
+        return (
+            Math.ceil(
+                (e - s) / (1000 * 60 * 60 * 24)
+            ) + 1
+        );
+
+    };
+
+    if (loading) {
+
+        return (
+
+            <Box p={2}>
+
+                <Skeleton height={50} />
+
+                <Skeleton
+                    height={120}
+                    sx={{ mt: 2 }}
+                />
+
+                <Skeleton
+                    height={250}
+                    sx={{ mt: 2 }}
+                />
+
+            </Box>
+
+        );
+
+    }
+
     return (
 
-        <Box p={2}>
+        <Box
+            sx={{
+                p: 2,
+                pb: 12
+            }}
+        >
 
             <Typography
                 variant="h5"
                 fontWeight={700}
+                mb={2}
             >
 
                 Detail Approval
+
+            </Typography>
+
+            <Card
+                sx={{
+                    borderRadius: 4
+                }}
+            >
+
+                <CardContent>
+
+                    <Typography
+                        fontWeight={700}
+                        fontSize={20}
+                    >
+                        {detail.name}
+                    </Typography>
+
+                    <Typography
+                        color="text.secondary"
+                    >
+                        {detail.department}
+                    </Typography>
+
+                    <Typography
+                        color="text.secondary"
+                    >
+                        {detail.position}
+                    </Typography>
+
+                </CardContent>
+
+            </Card>
+
+            <Card
+                sx={{
+                    mt: 2,
+                    borderRadius: 4
+                }}
+            >
+
+                <CardContent>
+
+                    <InfoItem
+                        title="Jenis Pengajuan"
+                        value={detail.leave_type}
+                    />
+
+                    <Divider sx={{ my: 2 }} />
+
+                    <InfoItem
+                        title="Tanggal"
+                        value={formatDate(detail.start_date)}
+                    />
+
+                    <Divider sx={{ my: 2 }} />
+
+                    <InfoItem
+                        title="Durasi"
+                        value={`${getDuration(
+                            detail.start_date,
+                            detail.end_date
+                        )} Hari`}
+                    />
+
+                    <Divider sx={{ my: 2 }} />
+
+                    <InfoItem
+                        title="Sisa Cuti"
+                        value={`${detail.leave_balance} Hari`}
+                    />
+
+                    <Divider sx={{ my: 2 }} />
+
+                    <Typography
+                        fontWeight={600}
+                        mb={1}
+                    >
+                        Alasan
+                    </Typography>
+
+                    <Typography
+                        color="text.secondary"
+                    >
+                        {detail.reason}
+                    </Typography>
+
+                    <Divider sx={{ my: 2 }} />
+
+                    <Typography
+                        fontWeight={600}
+                        mb={1}
+                    >
+                        Lampiran
+                    </Typography>
+
+                    {
+
+                        detail.attachment
+
+                            ?
+
+                            <Button>
+
+                                Lihat Lampiran
+
+                            </Button>
+
+                            :
+
+                            <Typography
+                                color="text.secondary"
+                            >
+
+                                Tidak ada lampiran
+
+                            </Typography>
+
+                    }
+
+                    <Divider sx={{ my: 2 }} />
+
+                    <TextField
+
+                        fullWidth
+
+                        multiline
+
+                        rows={4}
+
+                        label="Catatan Supervisor"
+
+                        value={note}
+
+                        onChange={(e) => setNote(e.target.value)}
+
+                    />
+
+                </CardContent>
+
+            </Card>
+
+            <Box
+
+                sx={{
+
+                    position: "fixed",
+
+                    bottom: 0,
+
+                    left: 0,
+
+                    right: 0,
+
+                    bgcolor: "#fff",
+
+                    p: 2,
+
+                    borderTop: "1px solid #eee"
+
+                }}
+
+            >
+
+                <Stack
+
+                    direction="row"
+
+                    spacing={2}
+
+                >
+
+                    <Button
+
+                        fullWidth
+
+                        variant="outlined"
+
+                        color="error"
+
+                    >
+
+                        Reject
+
+                    </Button>
+
+                    <Button
+
+                        fullWidth
+
+                        variant="contained"
+
+                        color="success"
+
+                    >
+
+                        Approve
+
+                    </Button>
+
+                </Stack>
+
+            </Box>
+
+        </Box>
+
+    );
+
+}
+
+function InfoItem({
+
+    title,
+
+    value
+
+}) {
+
+    return (
+
+        <Box>
+
+            <Typography
+
+                fontSize={13}
+
+                color="text.secondary"
+
+            >
+
+                {title}
+
+            </Typography>
+
+            <Typography
+
+                mt={.5}
+
+                fontWeight={600}
+
+            >
+
+                {value}
 
             </Typography>
 
