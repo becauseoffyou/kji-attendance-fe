@@ -102,7 +102,7 @@ export default function LeaveDetailDialog({
 
                     <BoxItem
                         title="💬 Catatan HR"
-                        value={data.admin_note || "-"}
+                        value={data.approval_note || "-"}
                     />
 
                 </Stack>
