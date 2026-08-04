@@ -12,10 +12,13 @@ export default function BottomNav() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const role = user?.role?.toUpperCase() || "";
+
+
   const canApproval = [
     "SUPERVISOR",
-    "MANAGER"
-  ].includes(user.role.toUpperCase());
+    "MANAGER",
+  ].includes(role);
   const menus = [
     {
       label: "Absen",
