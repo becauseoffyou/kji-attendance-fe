@@ -15,7 +15,9 @@ export default function ProtectedEmployeeRoute({ children }) {
         return <Navigate to="/" replace />;
     }
 
-    if (!EMPLOYEE_ROLES.includes(user.role)) {
+    const role = user.role?.toUpperCase();
+
+    if (!EMPLOYEE_ROLES.includes(role)) {
         return <Navigate to="/dashboard" replace />;
     }
 

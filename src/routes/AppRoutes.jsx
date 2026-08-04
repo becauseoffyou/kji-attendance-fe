@@ -92,7 +92,11 @@ export default function AppRoutes() {
 
                 <Route
                     path="/employee"
-                    element={<EmployeeLayout />}
+                    element={
+                        <ProtectedEmployeeRoute>
+                            <EmployeeLayout />
+                        </ProtectedEmployeeRoute>
+                    }
                 >
                     <Route
                         path="attendance"
@@ -113,8 +117,6 @@ export default function AppRoutes() {
                         path="profile"
                         element={<EmployeeProfile />}
                     />
-
-
                 </Route>
 
                 {/* 404 */}
