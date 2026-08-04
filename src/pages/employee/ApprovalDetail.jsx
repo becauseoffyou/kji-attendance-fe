@@ -110,10 +110,9 @@ export default function ApprovalDetail() {
                     top: 0,
                     zIndex: 20,
                     bgcolor: "#F5F7FA",
-                    pt: 1,
-                    pb: 2,
                     px: 2,
-                    mb: 2
+                    py: 1,
+                    borderBottom: "1px solid #E5E7EB"
                 }}
             >
 
@@ -129,6 +128,7 @@ export default function ApprovalDetail() {
             <Box
                 sx={{
                     p: 2,
+                    pt: 1,
                     pb: 12 // supaya tidak ketutup Bottom Navigation
                 }}
             >
