@@ -465,7 +465,7 @@ export default function ApprovalDetail() {
                         horizontal: "center"
                     }}
                     sx={{
-                        bottom: 90
+                        bottom: action ? 320 : 90
                     }}
                     onClose={() =>
                         setSnackbar({
