@@ -193,7 +193,7 @@ export default function Approval() {
                                 <Card
                                     key={item}
                                     sx={{
-                                        borderRadius: 4
+                                        borderRadius: 1
                                     }}
                                 >
 
@@ -278,7 +278,7 @@ export default function Approval() {
                                         <Card
                                             key={item.id}
                                             sx={{
-                                                borderRadius: 4,
+                                                borderRadius: 1,
                                                 cursor: "pointer",
                                                 transition: ".2s",
 
