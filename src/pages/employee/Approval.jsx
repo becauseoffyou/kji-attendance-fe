@@ -56,6 +56,30 @@ export default function Approval() {
 
     });
 
+    const formatDate = (date) => {
+
+        return new Date(date).toLocaleDateString("id-ID", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric"
+        });
+
+    };
+
+    const getDuration = (start, end) => {
+
+        const s = new Date(start);
+        const e = new Date(end);
+
+        const diff =
+            Math.ceil(
+                (e - s) / (1000 * 60 * 60 * 24)
+            ) + 1;
+
+        return `${diff} Hari`;
+
+    };
+
     const filters = [
         {
             label: "Semua",
@@ -298,42 +322,36 @@ export default function Approval() {
 
                                                 <Typography
                                                     color="text.secondary"
-                                                    mt={.5}
+                                                    mt={0.5}
                                                 >
                                                     {item.leave_type}
                                                 </Typography>
 
                                                 <Typography
                                                     color="text.secondary"
-                                                    mt={.5}
+                                                    mt={1}
                                                 >
-                                                    {item.start_date}
-                                                    {" - "}
-                                                    {item.end_date}
+                                                    <strong>Durasi :</strong> {getDuration(item.start_date, item.end_date)}
+                                                </Typography>
+
+                                                <Typography
+                                                    color="text.secondary"
+                                                    mt={0.5}
+                                                >
+                                                    <strong>Tanggal :</strong> {formatDate(item.start_date)}
+                                                    {
+                                                        item.start_date !== item.end_date &&
+                                                        ` - ${formatDate(item.end_date)}`
+                                                    }
                                                 </Typography>
 
                                                 <Chip
-
                                                     size="small"
-
-                                                    label={item.status}
-
-                                                    color={
-                                                        item.status === "PENDING_SUPERVISOR"
-
-                                                            ? "warning"
-
-                                                            : item.status === "APPROVED"
-
-                                                                ? "success"
-
-                                                                : "error"
-                                                    }
-
+                                                    label="Pending"
+                                                    color="warning"
                                                     sx={{
                                                         mt: 2
                                                     }}
-
                                                 />
 
                                             </CardContent>
