@@ -112,6 +112,7 @@ export default function ApprovalDetail() {
                     bgcolor: "#F5F7FA",
                     pt: 1,
                     pb: 2,
+                    px: 2,
                     mb: 2
                 }}
             >
@@ -132,47 +133,17 @@ export default function ApprovalDetail() {
                 }}
             >
 
-
-
-                <Card
-                    sx={{
-                        borderRadius: 4
-                    }}
-                >
-
-                    <CardContent>
-
-                        <Typography
-                            fontWeight={700}
-                            fontSize={20}
-                        >
-                            {detail.name}
-                        </Typography>
-
-                        <Typography
-                            color="text.secondary"
-                        >
-                            {detail.department}
-                        </Typography>
-
-                        <Typography
-                            color="text.secondary"
-                        >
-                            {detail.position}
-                        </Typography>
-
-                    </CardContent>
-
-                </Card>
-
                 <Card
                     sx={{
                         mt: 2,
-                        borderRadius: 4
                     }}
                 >
 
                     <CardContent>
+                        <InfoItem
+                            title="Nama Karyawan"
+                            value={detail.name + "/" + detail.department + "/" + detail.position}
+                        />
 
                         <InfoItem
                             title="Jenis Pengajuan"
