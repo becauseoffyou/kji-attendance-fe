@@ -30,7 +30,7 @@ import { useAuth } from "../../context/AuthContext";
 
 export default function Profile() {
 
-    const { setUser } = useAuth();
+    const { user, setUser } = useAuth();
 
     // const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
