@@ -249,7 +249,7 @@ export default function Leave() {
             <Box
                 sx={{
                     position: "sticky",
-                    top: 0,
+                    top: 8,
                     zIndex: 1000,
                     bgcolor: "#F5F7FA",
                     px: 2,
