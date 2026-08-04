@@ -19,6 +19,7 @@ import EmployeeHistory from "../pages/employee/History";
 import EmployeeProfile from "../pages/employee/Profile";
 import Leave from "../pages/employee/Leave";
 import Approval from "../pages/employee/Approval";
+import ApprovalDetail from "../pages/employee/ApprovalDetail";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
@@ -117,6 +118,11 @@ export default function AppRoutes() {
                     <Route
                         path="approval"
                         element={<Approval />}
+                    />
+
+                    <Route
+                        path="approval/:id"
+                        element={<ApprovalDetail />}
                     />
 
                     <Route

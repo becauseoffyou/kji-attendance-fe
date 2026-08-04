@@ -11,9 +11,10 @@ import {
 
 import { useEffect, useState } from "react";
 import leaderService from "../../services/leaderService";
+import { useNavigate } from "react-router-dom";
 
 export default function Approval() {
-
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
     const [requests, setRequests] = useState([]);
@@ -311,6 +312,12 @@ export default function Approval() {
                                                     transform: "translateY(-2px)"
                                                 }
                                             }}
+
+                                            onClick={() =>
+
+                                                navigate(`/employee/approval/${item.id}`)
+
+                                            }
                                         >
 
                                             <CardContent>
