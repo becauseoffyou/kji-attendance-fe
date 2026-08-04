@@ -34,9 +34,6 @@ export default function ApprovalDetail() {
     const [note, setNote] = useState("");
 
     const [saving, setSaving] = useState(false);
-    const [openApprove, setOpenApprove] = useState(false);
-
-    const [openReject, setOpenReject] = useState(false);
 
     const [snackbar, setSnackbar] = useState({
 
@@ -168,12 +165,13 @@ export default function ApprovalDetail() {
                         : "Pengajuan berhasil ditolak."
 
             });
+            setAction(null);
+
             setTimeout(() => {
 
                 navigate("/employee/approval");
 
             }, 1000);
-
 
         } catch (err) {
 
@@ -211,7 +209,6 @@ export default function ApprovalDetail() {
                 <Typography
                     variant="h5"
                     fontWeight={700}
-                    fontstyle="bold"
                 >
                     Detail Approval
                 </Typography>
@@ -253,10 +250,7 @@ export default function ApprovalDetail() {
 
                         <InfoItem
                             title="Durasi"
-                            value={`${getDuration(
-                                detail.start_date,
-                                detail.end_date
-                            )} Hari`}
+                            value={`${detail.leave_days} Hari`}
                         />
 
                         <Divider sx={{ my: 2 }} />
