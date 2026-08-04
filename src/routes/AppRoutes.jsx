@@ -18,6 +18,7 @@ import EmployeeAttendance from "../pages/attendance/Attendance";
 import EmployeeHistory from "../pages/employee/History";
 import EmployeeProfile from "../pages/employee/Profile";
 import Leave from "../pages/employee/Leave";
+import Approval from "../pages/employee/Approval";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
@@ -111,6 +112,11 @@ export default function AppRoutes() {
                     <Route
                         path="leave"
                         element={<Leave />}
+                    />
+
+                    <Route
+                        path="approval"
+                        element={<Approval />}
                     />
 
                     <Route

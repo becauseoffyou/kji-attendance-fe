@@ -3,35 +3,51 @@ import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import FactCheckRoundedIcon from "@mui/icons-material/FactCheckRounded";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
-const menus = [
-  {
-    label: "Absen",
-    value: "/employee/attendance",
-    icon: <AccessTimeRoundedIcon />,
-  },
-  {
-    label: "History",
-    value: "/employee/history",
-    icon: <HistoryRoundedIcon />,
-  },
-  {
-    label: "Request",
-    value: "/employee/leave",
-    icon: <DescriptionRoundedIcon />,
-    path: "/leave"
-  },
-  {
+
+export default function BottomNav() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const canApproval = [
+    "SUPERVISOR",
+    "MANAGER"
+  ].includes(user.role.toUpperCase());
+  const menus = [
+    {
+      label: "Absen",
+      value: "/employee/attendance",
+      icon: <AccessTimeRoundedIcon />,
+    },
+    {
+      label: "History",
+      value: "/employee/history",
+      icon: <HistoryRoundedIcon />,
+    },
+    {
+      label: "Request",
+      value: "/employee/leave",
+      icon: <DescriptionRoundedIcon />,
+    }
+  ];
+  if (canApproval) {
+
+    menus.push({
+      label: "Approval",
+      value: "/employee/approval",
+      icon: <FactCheckRoundedIcon />
+    });
+
+  }
+  menus.push({
     label: "Profil",
     value: "/employee/profile",
     icon: <PersonRoundedIcon />,
-  },
-];
+  });
 
-export default function BottomNav() {
-  const navigate = useNavigate();
-  const location = useLocation();
 
   return (
     <Paper
