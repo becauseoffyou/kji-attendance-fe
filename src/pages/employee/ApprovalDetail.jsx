@@ -458,34 +458,31 @@ export default function ApprovalDetail() {
                 </Drawer>
 
                 <Snackbar
-
                     open={snackbar.open}
-
                     autoHideDuration={2500}
-
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "center"
+                    }}
+                    sx={{
+                        bottom: 90
+                    }}
                     onClose={() =>
-
                         setSnackbar({
                             ...snackbar,
                             open: false
                         })
-
                     }
-
                 >
-
                     <Alert
-
                         severity={snackbar.severity}
-
                         variant="filled"
-
+                        sx={{
+                            width: "100%"
+                        }}
                     >
-
                         {snackbar.message}
-
                     </Alert>
-
                 </Snackbar>
             </Box>
         </Box>
