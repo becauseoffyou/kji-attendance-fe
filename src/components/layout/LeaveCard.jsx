@@ -72,9 +72,12 @@ export default function LeaveCard({
             <CardContent>
 
                 <Box
+
                     sx={{
-                        display: "flex",
+                        display: "grid",
+                        gridTemplateColumns: "repeat(3,1fr)",
                         justifyContent: "space-between",
+                        textAlign: "center",
                         alignItems: "flex-start",
                         mb: 2,
                         gap: 2
