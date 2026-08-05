@@ -32,6 +32,7 @@ export default function Attendance() {
     const [loading, setLoading] = useState(false);
     const [insideRadius, setInsideRadius] = useState(null);
     const [refreshingLocation, setRefreshingLocation] = useState(false);
+    const [dialogAction, setDialogAction] = useState(null);
 
     useEffect(() => {
 
@@ -422,7 +423,17 @@ export default function Attendance() {
                 gpsReady={gpsReady}
                 onRetryLocation={loadLocation}
                 refreshingLocation={refreshingLocation}
-                onOpenAttendance={() => setOpenDialog(true)}
+                onOpenAttendance={() => {
+
+                    setDialogAction(
+                        status === "checked-in"
+                            ? "CHECK_OUT"
+                            : "CHECK_IN"
+                    );
+
+                    setOpenDialog(true);
+
+                }}
             />
             {/* <Box sx={{ mt: 3 }}>
                 <LocationCard />
@@ -456,13 +467,9 @@ export default function Attendance() {
                 status={status}
 
                 onConfirm={
-
-                    status === "checked-in"
-
+                    dialogAction === "CHECK_OUT"
                         ? handleCheckOut
-
                         : handleCheckIn
-
                 }
 
             />
