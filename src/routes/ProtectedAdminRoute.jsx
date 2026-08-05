@@ -11,7 +11,9 @@ export default function ProtectedAdminRoute({ children }) {
         return <Navigate to="/" replace />;
     }
 
-    if (!DASHBOARD_ROLES.includes(user.role)) {
+    const role = user?.role?.toUpperCase();
+
+    if (!DASHBOARD_ROLES.includes(role)) {
         return <Navigate to="/employee/attendance" replace />;
     }
 
