@@ -51,13 +51,24 @@ export default function Header() {
         <>
             <Box
                 sx={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1200,
+
                     height: 80,
+
                     px: 4,
-                    bgcolor: "#fff",
-                    borderBottom: "1px solid #E5E7EB",
+
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
+
+                    bgcolor: "rgba(255,255,255,.95)",
+                    backdropFilter: "blur(10px)",
+
+                    borderBottom: "1px solid #E5E7EB",
+
+                    transition: ".25s",
                 }}
             >
                 {/* LEFT */}
