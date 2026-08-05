@@ -46,13 +46,16 @@ export default function AttendanceTable({ data }) {
                                     bgcolor: "#F8FAFC",
                                 }}
                             >
-                                <TableCell><strong>Tanggal</strong></TableCell>
-                                <TableCell><strong>Check In</strong></TableCell>
-                                <TableCell><strong>Check Out</strong></TableCell>
-                                <TableCell><strong>Status</strong></TableCell>
-                                <TableCell><strong>Durasi</strong></TableCell>
-                            </TableRow>
+                                <TableCell><strong>Nama</strong></TableCell>
 
+                                <TableCell><strong>Divisi</strong></TableCell>
+
+                                <TableCell><strong>Check In</strong></TableCell>
+
+                                <TableCell><strong>Check Out</strong></TableCell>
+
+                                <TableCell><strong>Status</strong></TableCell>
+                            </TableRow>
                         </TableHead>
 
                         <TableBody>
@@ -71,21 +74,13 @@ export default function AttendanceTable({ data }) {
                                 >
 
                                     <TableCell>
-                                        {item.tanggal}
+                                        <Typography fontWeight={600}>
+                                            {item.name}
+                                        </Typography>
                                     </TableCell>
 
                                     <TableCell>
-
-                                        <LoginIcon
-                                            color="success"
-                                            sx={{
-                                                mr: 1,
-                                                fontSize: 18
-                                            }}
-                                        />
-
-                                        {item.checkIn}
-
+                                        {item.department || "-"}
                                     </TableCell>
 
                                     <TableCell>
