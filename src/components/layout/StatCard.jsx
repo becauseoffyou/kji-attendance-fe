@@ -10,6 +10,8 @@ export default function StatCard({
     title,
     value,
     icon,
+    subtitle,
+
     color = "#1976d2"
 }) {
 
@@ -19,12 +21,11 @@ export default function StatCard({
             elevation={0}
             sx={{
                 borderRadius: 3,
-                height: "100%",
                 border: "1px solid #E5E7EB",
                 transition: ".25s",
                 "&:hover": {
                     transform: "translateY(-3px)",
-                    boxShadow: "0 10px 30px rgba(0,0,0,.08)"
+                    boxShadow: "0 10px 25px rgba(0,0,0,.08)"
                 }
             }}
         >
@@ -42,17 +43,15 @@ export default function StatCard({
                         <Typography
                             variant="body2"
                             color="text.secondary"
-                            fontWeight={500}
                         >
                             {title}
                         </Typography>
 
                         <Typography
                             sx={{
-                                fontSize: 36,
+                                fontSize: 44,
                                 fontWeight: 700,
-                                mt: 1,
-                                lineHeight: 1
+                                lineHeight: 1.2
                             }}
                         >
                             {value}
@@ -61,12 +60,8 @@ export default function StatCard({
                         <Typography
                             variant="caption"
                             color="text.secondary"
-                            sx={{
-                                display: "block",
-                                mt: 1
-                            }}
                         >
-                            Tahun {new Date().getFullYear()}
+                            {subtitle}
                         </Typography>
 
                     </Box>

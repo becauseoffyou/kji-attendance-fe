@@ -20,13 +20,13 @@ export default function Dashboard() {
     const { user, loading } = useAuth();
 
     const [dashboard, setDashboard] = useState({
-    totalEmployee: 0,
-    present: 0,
-    leave: 0,
-    late: 0,
-    chart: [],
-    attendance: []
-});
+        totalEmployee: 0,
+        present: 0,
+        leave: 0,
+        late: 0,
+        chart: [],
+        attendance: []
+    });
 
     const [loadingToday, setLoadingToday] = useState(true);
 
@@ -38,7 +38,7 @@ export default function Dashboard() {
 
                 const result = await dashboardService.getDashboard();
 
-           setDashboard(result.data);
+                setDashboard(result.data);
             } catch (err) {
 
                 console.error(err);
@@ -62,42 +62,58 @@ export default function Dashboard() {
     return (
         <>
 
-         
+
 
             <Grid container spacing={3}>
 
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
-                      title="Total Karyawan"
-value={dashboard.totalEmployee}
-                        icon={<LoginIcon />}
+                        title="Total Karyawan"
+                        value={dashboard.totalEmployee}
+                        subtitle="Tahun 2026"
+                        icon={<GroupsRoundedIcon />}
                         color="#2E7D32"
                     />
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
-                     title="Hadir Hari Ini"
-value={dashboard.present}
-                        icon={<LogoutIcon />}
+                        title="Hadir Hari Ini"
+                        value={dashboard.present}
+                        subtitle={new Date().toLocaleDateString("id-ID", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric"
+                        })}
+                        icon={<FactCheckRoundedIcon />}
                         color="#EF6C00"
                     />
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
-                       title="Izin"
-value={dashboard.leave}
-                        icon={<EventAvailableIcon />}
+                        title="Cuti dan Izin"
+                        value={dashboard.leave}
+                        subtitle={new Date().toLocaleDateString("id-ID", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric"
+                        })}
+                        icon={<EventBusyRoundedIcon />}
                         color="#1565C0"
                     />
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
                     <StatCard
-                      title="Terlambat"
-value={dashboard.late}
-                        icon={<ScheduleIcon />}
+                        title="Terlambat"
+                        value={dashboard.late}
+                        subtitle={new Date().toLocaleDateString("id-ID", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric"
+                        })}
+                        icon={<AccessTimeFilledRoundedIcon />}
                         color="#6A1B9A"
                     />
                 </Grid>
@@ -112,7 +128,7 @@ value={dashboard.late}
 
                 <Grid size={{ xs: 12, lg: 9 }}>
                     <AttendanceChart
-                      data={dashboard.chart}
+                        data={dashboard.chart}
                     />
                 </Grid>
 
@@ -129,7 +145,7 @@ value={dashboard.late}
 
                 <Grid size={12}>
                     <AttendanceTable
-                       data={dashboard.attendance}
+                        data={dashboard.attendance}
                     />
                 </Grid>
 
