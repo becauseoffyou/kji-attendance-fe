@@ -25,8 +25,9 @@ export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user") || "null");
-    const DASHBOARD_ROLES = ["ADMIN", "HR"];
+    const role = user?.role?.toUpperCase();
 
+    const DASHBOARD_ROLES = ["ADMIN", "HR"];
     return (
         <BrowserRouter>
             <Routes>
@@ -39,7 +40,7 @@ export default function AppRoutes() {
                             ? (
                                 <Login />
                             )
-                            : DASHBOARD_ROLES.includes(user?.role)
+                            : DASHBOARD_ROLES.includes(role)
                                 ? (
                                     <Navigate
                                         to="/dashboard"
