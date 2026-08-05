@@ -63,7 +63,10 @@ export default function AppRoutes() {
                     path="/dashboard"
                     element={
                         <ProtectedAdminRoute>
-                            <DashboardLayout>
+                            <DashboardLayout
+                                title="Dashboard"
+                                subtitle={`Selamat Datang, ${user?.name} 👋`}
+                            >
                                 <Dashboard />
                             </DashboardLayout>
                         </ProtectedAdminRoute>
@@ -73,7 +76,10 @@ export default function AppRoutes() {
                     path="/admin/attendance"
                     element={
                         <ProtectedAdminRoute>
-                            <DashboardLayout>
+                            <DashboardLayout
+                                title="Absensi"
+                                subtitle="Kelola data absensi karyawan"
+                            >
                                 <AdminAttendance />
                             </DashboardLayout>
                         </ProtectedAdminRoute>

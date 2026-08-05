@@ -12,13 +12,12 @@ export default function SummaryCard({
 }) {
 
     return (
-
         <Card
             elevation={0}
             sx={{
-                borderRadius: 4,
+                borderRadius: 1,
                 border: "1px solid #E5E7EB",
-                height: "100%"
+                height: 90
             }}
         >
 
@@ -34,10 +33,11 @@ export default function SummaryCard({
                     </Typography>
 
                     <Typography
-                        variant="h4"
+                        variant="h3"
                         fontWeight={700}
                         sx={{
-                            color
+                            color,
+                            lineHeight: 1
                         }}
                     >
                         {value}

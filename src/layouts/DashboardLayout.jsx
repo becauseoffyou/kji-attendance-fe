@@ -2,7 +2,11 @@ import { Box } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout({
+    children,
+    title,
+    subtitle
+}) {
     return (
         <Box sx={{ display: "flex" }}>
             <Sidebar />
@@ -15,7 +19,10 @@ export default function DashboardLayout({ children }) {
                     minHeight: "100vh",
                 }}
             >
-                <Header />
+                <Header
+                    title={title}
+                    subtitle={subtitle}
+                />
 
                 <Box
                     sx={{

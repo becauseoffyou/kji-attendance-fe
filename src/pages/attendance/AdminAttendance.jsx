@@ -41,36 +41,11 @@ export default function AdminAttendance() {
             <Box
                 sx={{
                     display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    mb: 3,
-                    flexWrap: "wrap",
-                    gap: 2
+                    justifyContent: "flex-end",
+                    mb: 3
                 }}
             >
-
-                <Box>
-
-                    <Typography
-                        variant="h3"
-                        fontWeight={700}
-                    >
-                        Absensi
-                    </Typography>
-
-                    <Typography
-                        color="text.secondary"
-                    >
-                        Kelola data absensi karyawan
-                    </Typography>
-
-                </Box>
-
-                <Stack
-                    direction="row"
-                    spacing={2}
-                >
-
+                <Stack direction="row" spacing={2}>
                     <Button
                         variant="outlined"
                         startIcon={<DownloadIcon />}
@@ -84,9 +59,7 @@ export default function AdminAttendance() {
                     >
                         Export PDF
                     </Button>
-
                 </Stack>
-
             </Box>
 
             {/* ================= FILTER ================= */}

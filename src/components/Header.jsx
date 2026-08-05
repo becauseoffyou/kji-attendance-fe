@@ -19,8 +19,10 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
-export default function Header() {
+export default function Header({
+    title = "Dashboard",
+    subtitle
+}) {
     const [notifAnchor, setNotifAnchor] = useState(null);
     const [profileAnchor, setProfileAnchor] = useState(null);
     const navigate = useNavigate();
@@ -73,15 +75,22 @@ export default function Header() {
             >
                 {/* LEFT */}
                 <Box>
-                    <Typography variant="h4" fontWeight={700}>
-                        Dashboard
+
+                    <Typography
+                        variant="h4"
+                        fontWeight={700}
+                    >
+                        {title}
                     </Typography>
 
-                    <Typography variant="body2" color="text.secondary">
-                        Selamat Datang, {user?.name} 👋
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                    >
+                        {subtitle || `Selamat Datang, ${user?.name} 👋`}
                     </Typography>
+
                 </Box>
-
                 {/* RIGHT */}
                 <Box
                     sx={{
