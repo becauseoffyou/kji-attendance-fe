@@ -133,10 +133,6 @@ export default function AttendanceTable({ data }) {
 
                                     </TableCell>
 
-                                    <TableCell>
-                                        {item.durasi}
-                                    </TableCell>
-
                                 </TableRow>
 
                             ))}
