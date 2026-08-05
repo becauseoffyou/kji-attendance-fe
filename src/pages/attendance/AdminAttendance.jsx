@@ -86,10 +86,6 @@ export default function AdminAttendance() {
                             <TextField
                                 fullWidth
                                 type="date"
-                                label="Tanggal"
-                                InputLabelProps={{
-                                    shrink: true
-                                }}
                             />
                         </Grid>
 
