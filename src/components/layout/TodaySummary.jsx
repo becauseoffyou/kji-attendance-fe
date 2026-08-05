@@ -15,7 +15,13 @@ import EventBusyIcon from "@mui/icons-material/EventBusy";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
-export default function TodaySummary() {
+export default function TodaySummary({ data }) {
+
+    const today = new Date().toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
     return (
         <Card
             elevation={2}
@@ -43,7 +49,7 @@ export default function TodaySummary() {
 
                         <ListItemText
                             primary="Tanggal"
-                            secondary="24 Juli 2026"
+                            secondary={today}
                         />
                     </ListItem>
 
@@ -56,7 +62,7 @@ export default function TodaySummary() {
 
                         <ListItemText
                             primary="Hadir"
-                            secondary="123 Orang"
+                            secondary={`${data.present} Orang`}
                         />
                     </ListItem>
 

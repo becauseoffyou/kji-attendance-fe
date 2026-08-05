@@ -129,7 +129,7 @@ export default function Dashboard() {
                 </Grid>
 
                 <Grid size={{ xs: 12, lg: 3 }}>
-                    <TodaySummary />
+                    <TodaySummary data={dashboard} />
                 </Grid>
 
             </Grid>
