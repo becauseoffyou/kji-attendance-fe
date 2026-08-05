@@ -61,7 +61,20 @@ export default function AttendanceChart({ data }) {
                             bottom: 0
                         }}
                     >
-
+                        <defs>
+                            <linearGradient id="attendanceGradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop
+                                    offset="5%"
+                                    stopColor="#16A34A"
+                                    stopOpacity={0.35}
+                                />
+                                <stop
+                                    offset="95%"
+                                    stopColor="#16A34A"
+                                    stopOpacity={0}
+                                />
+                            </linearGradient>
+                        </defs>
                         <CartesianGrid
                             strokeDasharray="3 3"
                             vertical={false}
@@ -89,7 +102,7 @@ export default function AttendanceChart({ data }) {
                             dataKey="total"
                             stroke="#16A34A"
                             strokeWidth={3}
-                            fill="#16A34A22"
+                            fill="url(#attendanceGradient)"
 
                             dot={{
                                 r: 4,
