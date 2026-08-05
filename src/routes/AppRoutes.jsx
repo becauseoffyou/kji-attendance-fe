@@ -20,6 +20,7 @@ import EmployeeProfile from "../pages/employee/Profile";
 import Leave from "../pages/employee/Leave";
 import Approval from "../pages/employee/Approval";
 import ApprovalDetail from "../pages/employee/ApprovalDetail";
+import AdminAttendance from "../pages/attendance/AdminAttendance";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
@@ -64,6 +65,16 @@ export default function AppRoutes() {
                         <ProtectedAdminRoute>
                             <DashboardLayout>
                                 <Dashboard />
+                            </DashboardLayout>
+                        </ProtectedAdminRoute>
+                    }
+                />
+                <Route
+                    path="/admin/attendance"
+                    element={
+                        <ProtectedAdminRoute>
+                            <DashboardLayout>
+                                <AdminAttendance />
                             </DashboardLayout>
                         </ProtectedAdminRoute>
                     }

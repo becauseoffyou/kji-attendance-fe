@@ -13,7 +13,7 @@ const menu = [
     {
         title: "Absensi",
         icon: <LocationOnIcon />,
-        path: "/attendance",
+        path: "/admin/attendance",
     },
     {
         title: "Karyawan",
