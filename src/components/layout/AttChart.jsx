@@ -22,7 +22,7 @@ export default function AttendanceChart({ data }) {
         <Card
             elevation={0}
             sx={{
-                borderRadius: 3,
+                borderRadius: 1,
                 border: "1px solid #E5E7EB"
             }}
         >

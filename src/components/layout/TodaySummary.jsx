@@ -26,7 +26,7 @@ export default function TodaySummary({ data }) {
         <Card
             elevation={2}
             sx={{
-                borderRadius: 4,
+                borderRadius: 1,
                 height: "100%",
             }}
         >
