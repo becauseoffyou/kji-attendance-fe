@@ -16,7 +16,7 @@ import {
 } from "recharts";
 
 export default function AttendanceChart({ data }) {
-
+    console.log(data);
     return (
 
         <Card
