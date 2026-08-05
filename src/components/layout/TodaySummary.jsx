@@ -15,7 +15,7 @@ import EventBusyIcon from "@mui/icons-material/EventBusy";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
-
+import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 export default function TodaySummary({ data }) {
 
     const today = new Date().toLocaleDateString("id-ID", {
