@@ -67,7 +67,7 @@ export default function AdminAttendance() {
             <Card
                 elevation={0}
                 sx={{
-                    borderRadius: 4,
+                    borderRadius: 1,
                     border: "1px solid #E5E7EB"
                 }}
             >
