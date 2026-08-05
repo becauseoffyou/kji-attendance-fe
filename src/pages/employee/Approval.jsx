@@ -41,7 +41,6 @@ export default function Approval() {
             setRequests(data.data);
             await notificationService.readPending();
 
-
             setSummary(data.summary);
 
         } catch (err) {
@@ -59,7 +58,6 @@ export default function Approval() {
     useEffect(() => {
 
         loadData();
-        await notificationService.readPending();
 
     }, [status]);
 
