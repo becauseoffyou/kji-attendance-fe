@@ -158,7 +158,7 @@ export default function AdminAttendance() {
 
                             {/* Search */}
 
-                            <Grid size={{ xs: 12, md: 2 }}>
+                            <Grid size={{ xs: 12, md: 2.5 }}>
 
                                 <TextField
                                     fullWidth
