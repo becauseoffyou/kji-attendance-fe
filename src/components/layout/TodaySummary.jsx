@@ -74,21 +74,8 @@ export default function TodaySummary({ data }) {
                         </ListItemIcon>
 
                         <ListItemText
-                            primary="Izin"
-                            secondary="5 Orang"
-                        />
-                    </ListItem>
-
-                    <Divider />
-
-                    <ListItem disableGutters>
-                        <ListItemIcon sx={{ minWidth: 40 }}>
-                            <BeachAccessIcon color="info" />
-                        </ListItemIcon>
-
-                        <ListItemText
-                            primary="Cuti"
-                            secondary="2 Orang"
+                            primary="Cuti & Izin"
+                            secondary={`${data.leave} Orang`}
                         />
                     </ListItem>
 
@@ -101,7 +88,7 @@ export default function TodaySummary({ data }) {
 
                         <ListItemText
                             primary="Terlambat"
-                            secondary="3 Orang"
+                            secondary={`${data.late} Orang`}
                         />
                     </ListItem>
 
