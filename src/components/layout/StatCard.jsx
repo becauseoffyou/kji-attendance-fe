@@ -1,4 +1,10 @@
-import { Card, CardContent, Typography, Box } from "@mui/material";
+import {
+    Card,
+    CardContent,
+    Typography,
+    Box,
+    Avatar
+} from "@mui/material";
 
 export default function StatCard({
     title,
@@ -6,53 +12,82 @@ export default function StatCard({
     icon,
     color = "#1976d2"
 }) {
+
     return (
+
         <Card
-            elevation={2}
+            elevation={0}
             sx={{
                 borderRadius: 3,
-                height: "100%"
+                height: "100%",
+                border: "1px solid #E5E7EB",
+                transition: ".25s",
+                "&:hover": {
+                    transform: "translateY(-3px)",
+                    boxShadow: "0 10px 30px rgba(0,0,0,.08)"
+                }
             }}
         >
-            <CardContent>
+
+            <CardContent sx={{ p: 3 }}>
+
                 <Box
                     display="flex"
                     justifyContent="space-between"
-                    alignItems="center"
+                    alignItems="flex-start"
                 >
+
                     <Box>
+
                         <Typography
                             variant="body2"
                             color="text.secondary"
+                            fontWeight={500}
                         >
                             {title}
                         </Typography>
 
                         <Typography
-                            variant="h5"
-                            fontWeight={700}
-                            mt={1}
+                            sx={{
+                                fontSize: 36,
+                                fontWeight: 700,
+                                mt: 1,
+                                lineHeight: 1
+                            }}
                         >
                             {value}
                         </Typography>
+
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{
+                                display: "block",
+                                mt: 1
+                            }}
+                        >
+                            Tahun {new Date().getFullYear()}
+                        </Typography>
+
                     </Box>
 
-                    <Box
+                    <Avatar
                         sx={{
-                            width: 55,
-                            height: 55,
-                            borderRadius: "50%",
-                            bgcolor: color,
-                            color: "#fff",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center"
+                            width: 54,
+                            height: 54,
+                            bgcolor: `${color}20`,
+                            color: color
                         }}
                     >
                         {icon}
-                    </Box>
+                    </Avatar>
+
                 </Box>
+
             </CardContent>
+
         </Card>
+
     );
+
 }
