@@ -71,7 +71,6 @@ export default function Dashboard() {
                         title="Total Karyawan"
                         value={dashboard.totalEmployee}
                         subtitle="Tahun 2026"
-                        icon={<GroupsRoundedIcon />}
                         color="#2E7D32"
                     />
                 </Grid>
@@ -85,7 +84,6 @@ export default function Dashboard() {
                             month: "long",
                             year: "numeric"
                         })}
-                        icon={<FactCheckRoundedIcon />}
                         color="#EF6C00"
                     />
                 </Grid>
@@ -99,7 +97,6 @@ export default function Dashboard() {
                             month: "long",
                             year: "numeric"
                         })}
-                        icon={<EventBusyRoundedIcon />}
                         color="#1565C0"
                     />
                 </Grid>
@@ -113,7 +110,6 @@ export default function Dashboard() {
                             month: "long",
                             year: "numeric"
                         })}
-                        icon={<AccessTimeFilledRoundedIcon />}
                         color="#6A1B9A"
                     />
                 </Grid>
