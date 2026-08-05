@@ -18,8 +18,11 @@ export default function BottomNav() {
   const role = user?.role?.toUpperCase() || "";
   const [badge, setBadge] = useState(0);
   const showBadge =
-    (user.role === "SUPERVISOR" && item.value === "/employee/approval") ||
-    (user.role === "EMPLOYEE" && item.value === "/employee/leave");
+    (user?.role === "SUPERVISOR" &&
+      item.value === "/employee/approval") ||
+
+    (user?.role === "EMPLOYEE" &&
+      item.value === "/employee/leave");
 
 
   const canApproval = [
