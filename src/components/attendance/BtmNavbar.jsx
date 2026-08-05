@@ -17,12 +17,7 @@ export default function BottomNav() {
   const location = useLocation();
   const role = user?.role?.toUpperCase() || "";
   const [badge, setBadge] = useState(0);
-  const showBadge =
-    (user?.role === "Manager" &&
-      item.value === "/employee/approval") ||
 
-    (user?.role === "Employee" &&
-      item.value === "/employee/leave");
 
 
   const canApproval = [
@@ -123,25 +118,40 @@ export default function BottomNav() {
           },
         }}
       >
-        {menus.map((item) => (
-          <BottomNavigationAction
-            key={item.value}
-            value={item.value}
-            label={item.label}
-            icon={
-              showBadge ? (
-                <Badge
-                  badgeContent={badge}
-                  color="error"
-                >
-                  {item.icon}
-                </Badge>
-              ) : (
-                item.icon
-              )
-            }
-          />
-        ))}
+        {
+          menus.map((item) => {
+
+            const role = user?.role?.toLowerCase();
+
+            const isLeader = ["supervisor", "manager"].includes(role);
+
+            const showBadge =
+              (isLeader && item.value === "/employee/approval") ||
+              (role === "employee" && item.value === "/employee/leave");
+
+            return (
+              <BottomNavigationAction
+                key={item.value}
+                value={item.value}
+                label={item.label}
+                icon={
+                  showBadge ? (
+                    <Badge
+                      badgeContent={badge}
+                      color="error"
+                      invisible={badge === 0}
+                    >
+                      {item.icon}
+                    </Badge>
+                  ) : (
+                    item.icon
+                  )
+                }
+              />
+            );
+
+          })
+        }
       </BottomNavigation>
     </Paper>
   );
