@@ -31,14 +31,14 @@ export default function StatCard({
         >
 
             <CardContent sx={{ p: 3 }}>
-
                 <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="flex-start"
+                    sx={{
+                        display: "flex",
+                        alignItems: "flex-start"
+                    }}
                 >
 
-                    <Box>
+                    <Box sx={{ flex: 1 }}>
 
                         <Typography
                             variant="body2"
@@ -49,9 +49,10 @@ export default function StatCard({
 
                         <Typography
                             sx={{
-                                fontSize: 44,
+                                fontSize: 42,
                                 fontWeight: 700,
-                                lineHeight: 1.2
+                                lineHeight: 1.2,
+                                mt: .5
                             }}
                         >
                             {value}
@@ -71,7 +72,8 @@ export default function StatCard({
                             width: 54,
                             height: 54,
                             bgcolor: `${color}20`,
-                            color: color
+                            color,
+                            ml: 2
                         }}
                     >
                         {icon}
