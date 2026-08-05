@@ -17,6 +17,9 @@ export default function BottomNav() {
   const location = useLocation();
   const role = user?.role?.toUpperCase() || "";
   const [badge, setBadge] = useState(0);
+  const showBadge =
+    (user.role === "SUPERVISOR" && item.value === "/employee/approval") ||
+    (user.role === "EMPLOYEE" && item.value === "/employee/leave");
 
 
   const canApproval = [
@@ -58,7 +61,7 @@ export default function BottomNav() {
 
     loadBadge();
 
-  }, []);
+  }, [location.pathname]);
 
   const loadBadge = async () => {
 
@@ -123,24 +126,16 @@ export default function BottomNav() {
             value={item.value}
             label={item.label}
             icon={
-
-              item.value === "/employee/approval"
-
-                ?
-
+              showBadge ? (
                 <Badge
                   badgeContent={badge}
                   color="error"
                 >
-
                   {item.icon}
-
                 </Badge>
-
-                :
-
+              ) : (
                 item.icon
-
+              )
             }
           />
         ))}

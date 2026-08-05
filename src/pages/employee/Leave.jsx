@@ -17,6 +17,7 @@ import {
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import Swal from "sweetalert2";
+import notificationService from "../../services/notificationService";
 
 export default function Leave() {
 
@@ -88,7 +89,7 @@ export default function Leave() {
             const { data } = await leaveService.history();
 
             setHistory(data.data);
-
+            await notificationService.readResult();
             setSummary(data.summary);
         } catch (err) {
 

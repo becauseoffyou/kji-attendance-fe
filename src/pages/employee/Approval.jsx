@@ -11,7 +11,8 @@ import {
 
 import { useEffect, useState } from "react";
 import leaderService from "../../services/leaderService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import notificationService from "../../services/notificationService";
 
 export default function Approval() {
     const navigate = useNavigate();
@@ -38,6 +39,8 @@ export default function Approval() {
             const { data } = await leaderService.getLeaveApprovals(status);
 
             setRequests(data.data);
+            await notificationService.readPending();
+
 
             setSummary(data.summary);
 
@@ -56,6 +59,7 @@ export default function Approval() {
     useEffect(() => {
 
         loadData();
+        await notificationService.readPending();
 
     }, [status]);
 
