@@ -92,14 +92,7 @@ export default function AttendanceTable({ data }) {
                                             }}
                                         />
 
-                                        {
-                                            item.check_in
-                                                ? new Date(item.check_in).toLocaleTimeString("id-ID", {
-                                                    hour: "2-digit",
-                                                    minute: "2-digit",
-                                                })
-                                                : "-"
-                                        }
+                                        {item.check_in || "-"}
 
                                     </TableCell>
                                     <TableCell>
@@ -112,14 +105,7 @@ export default function AttendanceTable({ data }) {
                                             }}
                                         />
 
-                                        {
-                                            item.check_out
-                                                ? new Date(item.check_out).toLocaleTimeString("id-ID", {
-                                                    hour: "2-digit",
-                                                    minute: "2-digit",
-                                                })
-                                                : "-"
-                                        }
+                                        {item.check_out || "-"}
 
                                     </TableCell>
 
