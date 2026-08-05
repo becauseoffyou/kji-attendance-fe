@@ -79,7 +79,10 @@ export default function AttendanceChart({ data }) {
                             allowDecimals={false}
                         />
 
-                        <Tooltip />
+                        <Tooltip
+                            formatter={(value) => [`${value} Karyawan`, "Hadir"]}
+                            labelFormatter={(label) => `Hari ${label}`}
+                        />
 
                         <Area
                             type="monotone"
