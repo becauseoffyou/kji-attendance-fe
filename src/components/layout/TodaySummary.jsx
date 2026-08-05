@@ -14,6 +14,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import PersonOffIcon from "@mui/icons-material/PersonOff";
 
 export default function TodaySummary({ data }) {
 
@@ -55,6 +56,18 @@ export default function TodaySummary({ data }) {
 
                     <Divider />
 
+
+                    <ListItem disableGutters>
+                        <ListItemIcon sx={{ minWidth: 40 }}>
+                            <WorkHistoryIcon color="primary" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary="Jam Kerja"
+                            secondary="09:00 - 18:00 WIB"
+                        />
+                    </ListItem>
+                    <Divider />
                     <ListItem disableGutters>
                         <ListItemIcon sx={{ minWidth: 40 }}>
                             <GroupsIcon color="success" />
@@ -63,6 +76,17 @@ export default function TodaySummary({ data }) {
                         <ListItemText
                             primary="Hadir"
                             secondary={`${data.present} Orang`}
+                        />
+                    </ListItem>
+                    <Divider />
+                    <ListItem disableGutters>
+                        <ListItemIcon sx={{ minWidth: 40 }}>
+                            <PersonOffIcon color="error" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary="Belum Check In"
+                            secondary={`${data.notCheckIn} Orang`}
                         />
                     </ListItem>
 
@@ -76,19 +100,6 @@ export default function TodaySummary({ data }) {
                         <ListItemText
                             primary="Cuti & Izin"
                             secondary={`${data.leave} Orang`}
-                        />
-                    </ListItem>
-
-                    <Divider />
-
-                    <ListItem disableGutters>
-                        <ListItemIcon sx={{ minWidth: 40 }}>
-                            <AccessTimeIcon color="error" />
-                        </ListItemIcon>
-
-                        <ListItemText
-                            primary="Terlambat"
-                            secondary={`${data.late} Orang`}
                         />
                     </ListItem>
 
