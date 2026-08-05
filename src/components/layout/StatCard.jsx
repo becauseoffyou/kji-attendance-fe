@@ -20,7 +20,7 @@ export default function StatCard({
         <Card
             elevation={0}
             sx={{
-                borderRadius: 3,
+                borderRadius: 1,
                 border: "1px solid #E5E7EB",
                 transition: ".25s",
                 "&:hover": {
