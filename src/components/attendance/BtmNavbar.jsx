@@ -137,7 +137,7 @@ export default function BottomNav() {
                 icon={
                   showBadge ? (
                     <Badge
-                      badgeContent={badge}
+                      badgeContent={badge > 99 ? "99+" : badge}
                       color="error"
                       invisible={badge === 0}
                     >
