@@ -21,7 +21,7 @@ export default function AttendanceTable({ data }) {
             elevation={0}
             sx={{
                 mt: 3,
-                borderRadius: 4,
+                borderRadius: 1,
                 border: "1px solid #E5E7EB",
             }}
         >
@@ -82,7 +82,26 @@ export default function AttendanceTable({ data }) {
                                     <TableCell>
                                         {item.department || "-"}
                                     </TableCell>
+                                    <TableCell>
 
+                                        <LoginIcon
+                                            color="success"
+                                            sx={{
+                                                mr: 1,
+                                                fontSize: 18
+                                            }}
+                                        />
+
+                                        {
+                                            item.check_in
+                                                ? new Date(item.check_in).toLocaleTimeString("id-ID", {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                })
+                                                : "-"
+                                        }
+
+                                    </TableCell>
                                     <TableCell>
 
                                         <LogoutIcon
@@ -93,7 +112,14 @@ export default function AttendanceTable({ data }) {
                                             }}
                                         />
 
-                                        {item.checkOut}
+                                        {
+                                            item.check_out
+                                                ? new Date(item.check_out).toLocaleTimeString("id-ID", {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                })
+                                                : "-"
+                                        }
 
                                     </TableCell>
 
