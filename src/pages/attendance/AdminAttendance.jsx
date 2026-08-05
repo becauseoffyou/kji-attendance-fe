@@ -22,6 +22,7 @@ import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import SummaryCard from "../../components/attendance/SummaryCard";
 
 export default function AdminAttendance() {
 
@@ -277,6 +278,48 @@ export default function AdminAttendance() {
                 </CardContent>
 
             </Card>
+
+            <Grid
+                container
+                spacing={2}
+                sx={{
+                    mt: 2
+                }}
+            >
+
+                <Grid size={{ xs: 12, md: 3 }}>
+                    <SummaryCard
+                        title="Hadir"
+                        value={120}
+                        color="#16A34A"
+                    />
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 3 }}>
+                    <SummaryCard
+                        title="Terlambat"
+                        value={15}
+                        color="#F59E0B"
+                    />
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 3 }}>
+                    <SummaryCard
+                        title="Cuti"
+                        value={4}
+                        color="#2563EB"
+                    />
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 3 }}>
+                    <SummaryCard
+                        title="Izin"
+                        value={2}
+                        color="#8B5CF6"
+                    />
+                </Grid>
+
+            </Grid>
 
         </>
     );
