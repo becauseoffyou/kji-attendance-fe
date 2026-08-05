@@ -38,10 +38,13 @@ export default function Header() {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
 
         setUser(null);
 
-        navigate("/");
+        // Paksa reload ke login
+        window.location.replace("/");
     };
 
     return (

@@ -172,10 +172,8 @@ export default function Profile() {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
 
-        navigate("/", {
-            replace: true
-        });
-
+        // Paksa reload ke login
+        window.location.replace("/");
     };
 
     return (
