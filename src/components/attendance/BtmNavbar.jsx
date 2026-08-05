@@ -6,6 +6,9 @@ import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import FactCheckRoundedIcon from "@mui/icons-material/FactCheckRounded";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import Badge from "@mui/material/Badge";
+import { useEffect, useState } from "react";
+import notificationService from "../../services/notificationService";
 
 
 export default function BottomNav() {
@@ -13,6 +16,7 @@ export default function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
   const role = user?.role?.toUpperCase() || "";
+  const [badge, setBadge] = useState(0);
 
 
   const canApproval = [
@@ -50,7 +54,27 @@ export default function BottomNav() {
     value: "/employee/profile",
     icon: <PersonRoundedIcon />,
   });
+  useEffect(() => {
 
+    loadBadge();
+
+  }, []);
+
+  const loadBadge = async () => {
+
+    try {
+
+      const { data } = await notificationService.getBadge();
+
+      setBadge(data.badge);
+
+    } catch (err) {
+
+      console.error(err);
+
+    }
+
+  };
 
   return (
     <Paper
@@ -98,7 +122,26 @@ export default function BottomNav() {
             key={item.value}
             value={item.value}
             label={item.label}
-            icon={item.icon}
+            icon={
+
+              item.value === "/employee/approval"
+
+                ?
+
+                <Badge
+                  badgeContent={badge}
+                  color="error"
+                >
+
+                  {item.icon}
+
+                </Badge>
+
+                :
+
+                item.icon
+
+            }
           />
         ))}
       </BottomNavigation>
