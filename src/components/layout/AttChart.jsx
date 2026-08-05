@@ -90,6 +90,17 @@ export default function AttendanceChart({ data }) {
                             stroke="#16A34A"
                             strokeWidth={3}
                             fill="#16A34A22"
+
+                            dot={{
+                                r: 4,
+                                strokeWidth: 2,
+                                fill: "#16A34A",
+                                stroke: "#fff"
+                            }}
+
+                            activeDot={{
+                                r: 7
+                            }}
                         />
 
                     </AreaChart>
