@@ -116,13 +116,19 @@ export default function AttendanceTable({ data }) {
                                         <Chip
                                             size="small"
                                             label={item.status}
-                                            color={
-                                                item.status === "Hadir"
-                                                    ? "success"
-                                                    : item.status === "Belum Pulang"
-                                                        ? "warning"
-                                                        : "error"
-                                            }
+                                            sx={{
+                                                minWidth: 95,
+                                                fontWeight: 600,
+                                                color: "#fff",
+                                                bgcolor:
+                                                    item.status === "Hadir"
+                                                        ? "#16A34A"
+                                                        : item.status === "Terlambat"
+                                                            ? "#F59E0B"
+                                                            : item.status === "Pulang"
+                                                                ? "#2563EB"
+                                                                : "#6B7280"
+                                            }}
                                         />
 
                                     </TableCell>
