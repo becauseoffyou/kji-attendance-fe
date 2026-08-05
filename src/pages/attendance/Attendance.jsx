@@ -152,16 +152,19 @@ export default function Attendance() {
 
             const result =
                 await attendanceService.checkIn(formData);
+            setOpenDialog(false);
+            setPhoto(null);
+            setAttendanceType("OFFICE");
 
+            setNotes("");
             await loadToday();
 
             await loadLocation();
             // Reset dialog
-            setPhoto(null);
-            setAttendanceType("OFFICE");
-            setNotes("");
 
-            setOpenDialog(false);
+
+
+
             Swal.fire({
                 icon: "success",
                 title: "Check In Berhasil",
@@ -245,12 +248,12 @@ export default function Attendance() {
             );
 
             const result = await attendanceService.checkOut(formData);
-
+            setOpenDialog(false);
+            setPhoto(null);
             await loadToday();
             await loadLocation();
 
-            setOpenDialog(false);
-            setPhoto(null);
+
 
             Swal.fire({
                 icon: "success",
