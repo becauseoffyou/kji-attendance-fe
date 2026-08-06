@@ -23,11 +23,10 @@ export default function AdminAttendance() {
     const [dailyAttendance, setDailyAttendance] = useState([]);
     const [summaryData, setSummaryData] = useState([]);
     const [filters, setFilters] = useState({
-        startDate: dayjs(),
-        endDate: dayjs(),
-        search: "",
+        date: dayjs(),
         department: "",
-        status: ""
+        status: "",
+        search: ""
     });
     const [dailySummary, setDailySummary] = useState({
         present: 0,
@@ -56,20 +55,17 @@ export default function AdminAttendance() {
         };
 
         loadSummary();
-        loadDailyAttendance();
+        loadDailyAttendance(filters);
     }, []);
 
-    const loadDailyAttendance = async () => {
-
+    const loadDailyAttendance = async (params = {}) => {
+        console.log(filters);
         try {
-
             const result =
-                await attendanceService.getDailyAttendance();
 
-            console.log(result);
+                await attendanceService.getDailyAttendance(params);
 
             setDailyAttendance(result.data);
-            console.log("Daily Attendance :", result.data);
         } catch (err) {
 
             console.error(err);
@@ -125,7 +121,11 @@ export default function AdminAttendance() {
 
                 <>
 
-                    <DailyFilter />
+                    <DailyFilter filters={filters}
+
+                        setFilters={setFilters}
+
+                        onSearch={() => loadDailyAttendance(filters)} />
 
                     <DailySummaryCards
                         data={dailySummary}

@@ -42,8 +42,14 @@ const attendanceService = {
 
     return data;
   },
-  getDailyAttendance: async () => {
-    const { data } = await api.get("/attendance/daily");
+  getDailyAttendance: async (params) => {
+    const { data } = await api.get(
+      "/attendance/daily",
+
+      {
+        params,
+      },
+    );
 
     return data;
   },

@@ -17,7 +17,15 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export default function DailyFilter() {
+export default function DailyFilter({
+
+    filters,
+
+    setFilters,
+
+    onSearch
+
+}) {
     const [date, setDate] = useState(dayjs());
     return (
 
@@ -46,8 +54,13 @@ export default function DailyFilter() {
                         >
                             <DatePicker
                                 label="Tanggal"
-                                value={date}
-                                onChange={setDate}
+                                value={filters.date}
+                                onChange={(value) =>
+                                    setFilters((prev) => ({
+                                        ...prev,
+                                        date: value
+                                    }))
+                                }
                                 format="DD/MM/YYYY"
                                 slotProps={{
                                     textField: {
@@ -66,7 +79,13 @@ export default function DailyFilter() {
                             size="small"
                             select
                             label="Divisi"
-                            defaultValue=""
+                            value={filters.department}
+                            onChange={(e) =>
+                                setFilters((prev) => ({
+                                    ...prev,
+                                    department: e.target.value
+                                }))
+                            }
                         >
 
                             <MenuItem value="">
@@ -84,7 +103,13 @@ export default function DailyFilter() {
                             size="small"
                             select
                             label="Status"
-                            defaultValue=""
+                            value={filters.status}
+                            onChange={(e) =>
+                                setFilters((prev) => ({
+                                    ...prev,
+                                    status: e.target.value
+                                }))
+                            }
                         >
 
                             <MenuItem value="">
@@ -117,7 +142,13 @@ export default function DailyFilter() {
                             fullWidth
                             size="small"
                             label="Cari Karyawan"
-                            placeholder="Nama..."
+                            value={filters.search}
+                            onChange={(e) =>
+                                setFilters((prev) => ({
+                                    ...prev,
+                                    search: e.target.value
+                                }))
+                            }
                         />
 
                     </Grid>
@@ -140,9 +171,9 @@ export default function DailyFilter() {
                         </Button>
 
                         <Button
-                            size="small"
                             variant="contained"
                             startIcon={<SearchIcon />}
+                            onClick={onSearch}
                         >
                             Cari
                         </Button>
