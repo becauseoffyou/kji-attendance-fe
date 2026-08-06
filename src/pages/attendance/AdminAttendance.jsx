@@ -42,8 +42,6 @@ export default function AdminAttendance() {
 
                 const result = await attendanceService.getSummary();
 
-                console.log(result);
-                console.log(result.data);
                 setSummaryData(result.data);
 
             } catch (err) {
