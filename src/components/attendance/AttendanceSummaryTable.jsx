@@ -88,25 +88,44 @@ export default function AttendanceSummaryTable({ data = [] }) {
                                 <TableCell>
 
                                     <Box
-                                        display="flex"
-                                        alignItems="center"
-                                        gap={2}
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 2,
+                                        }}
                                     >
 
-                                        <Avatar>
+                                        <Avatar
+                                            sx={{
+                                                width: 42,
+                                                height: 42,
+                                                bgcolor: "#D1D5DB",
+                                                color: "#fff",
+                                                fontWeight: 600,
+                                                flexShrink: 0
+                                            }}
+                                        >
                                             {item.name.charAt(0)}
                                         </Avatar>
 
-                                        <Box>
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                justifyContent: "center"
+                                            }}
+                                        >
 
                                             <Typography
+                                                variant="body1"
                                                 fontWeight={600}
+                                                lineHeight={1.2}
                                             >
                                                 {item.name}
                                             </Typography>
 
                                             <Typography
-                                                variant="caption"
+                                                variant="body2"
                                                 color="text.secondary"
                                             >
                                                 {item.department}
@@ -132,6 +151,23 @@ export default function AttendanceSummaryTable({ data = [] }) {
                                         color="warning"
                                         size="small"
                                     />
+                                </TableCell><TableCell align="center">
+
+                                    <Chip
+                                        label={`${item.late}x`}
+                                        color="warning"
+                                        size="small"
+                                    />
+
+                                    <Typography
+                                        variant="caption"
+                                        display="block"
+                                        color="text.secondary"
+                                        mt={0.5}
+                                    >
+                                        {item.late_minutes} menit
+                                    </Typography>
+
                                 </TableCell>
 
                                 <TableCell align="center">
