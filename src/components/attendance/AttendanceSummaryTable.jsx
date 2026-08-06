@@ -24,9 +24,15 @@ export default function AttendanceSummaryTable({ data = [] }) {
 
     const handleDetail = (item) => {
 
-        setSelected(item);
+        setOpen(false);
 
-        setOpen(true);
+        setTimeout(() => {
+
+            setSelected(item);
+
+            setOpen(true);
+
+        }, 100);
 
     };
     return (

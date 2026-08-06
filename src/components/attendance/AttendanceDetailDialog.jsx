@@ -11,11 +11,15 @@ import {
     TableHead,
     TableRow,
     TableCell,
-    TableBody
+    TableBody,
+    TableContainer,
+    Paper,
 } from "@mui/material";
 
 import { useEffect, useState } from "react";
-
+import {
+    CircularProgress
+} from "@mui/material";
 import attendanceService from "../../services/attService";
 
 
@@ -25,6 +29,7 @@ export default function AttendanceDetailDialog({
     data
 }) {
     const [history, setHistory] = useState([]);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
 
         if (!open || !data) return;
@@ -32,6 +37,10 @@ export default function AttendanceDetailDialog({
         const loadHistory = async () => {
 
             try {
+
+                setLoading(true);
+
+                setHistory([]);
 
                 const result =
                     await attendanceService.getEmployeeAttendance(data.id);
@@ -41,6 +50,10 @@ export default function AttendanceDetailDialog({
             } catch (err) {
 
                 console.error(err);
+
+            } finally {
+
+                setLoading(false);
 
             }
 
@@ -143,70 +156,105 @@ export default function AttendanceDetailDialog({
                     </Grid>
 
                 </Grid>
-                <Typography
-                    variant="h6"
-                    mt={4}
-                    mb={2}
+                <Box
+                    sx={{
+                        position: "sticky",
+                        top: 0,
+                        bgcolor: "#fff",
+                        zIndex: 10,
+                        py: 1
+                    }}
                 >
-                    Riwayat Absensi
-                </Typography>
 
-                <Table size="small">
+                    <Typography
+                        variant="h6"
+                        fontWeight={700}
+                    >
+                        Riwayat Absensi
+                    </Typography>
 
-                    <TableHead>
+                </Box>
 
-                        <TableRow>
+                {loading ? (
 
-                            <TableCell>Tanggal</TableCell>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: 250
+                        }}
+                    >
 
-                            <TableCell>Masuk</TableCell>
+                        <CircularProgress />
 
-                            <TableCell>Pulang</TableCell>
+                    </Box>
 
-                            <TableCell>Status</TableCell>
+                ) : (
 
-                        </TableRow>
+                    <TableContainer
+                        component={Paper}
+                        elevation={0}
+                        sx={{
+                            maxHeight: 320,
+                            overflowY: "auto",
+                            border: "1px solid #E5E7EB",
+                            borderRadius: 2
+                        }}
+                    >
 
-                    </TableHead>
+                        <Table
+                            stickyHeader
+                            size="small"
+                        >
+                            <TableHead>
 
-                    <TableBody>
+                                <TableRow>
 
-                        {history.map((item, index) => (
+                                    <TableCell>Tanggal</TableCell>
 
-                            <TableRow key={index}>
+                                    <TableCell>Masuk</TableCell>
 
-                                <TableCell>
+                                    <TableCell>Pulang</TableCell>
 
-                                    {new Date(item.attendance_date)
-                                        .toLocaleDateString("id-ID")}
+                                    <TableCell>Status</TableCell>
 
-                                </TableCell>
+                                </TableRow>
 
-                                <TableCell>
+                            </TableHead>
 
-                                    {item.check_in || "-"}
+                            <TableBody>
 
-                                </TableCell>
+                                {history.map((item, index) => (
 
-                                <TableCell>
+                                    <TableRow key={index}>
 
-                                    {item.check_out || "-"}
+                                        <TableCell>
+                                            {new Date(item.attendance_date)
+                                                .toLocaleDateString("id-ID")}
+                                        </TableCell>
 
-                                </TableCell>
+                                        <TableCell>
+                                            {item.check_in || "-"}
+                                        </TableCell>
 
-                                <TableCell>
+                                        <TableCell>
+                                            {item.check_out || "-"}
+                                        </TableCell>
 
-                                    {item.status}
+                                        <TableCell>
+                                            {item.status}
+                                        </TableCell>
 
-                                </TableCell>
+                                    </TableRow>
 
-                            </TableRow>
+                                ))}
 
-                        ))}
+                            </TableBody>
 
-                    </TableBody>
-
-                </Table>
+                        </Table>
+                    </TableContainer>
+                )}
             </DialogContent>
 
             <DialogActions>
