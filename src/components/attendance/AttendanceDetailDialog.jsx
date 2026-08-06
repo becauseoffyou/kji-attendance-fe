@@ -130,7 +130,7 @@ export default function AttendanceDetailDialog({
                                 elevation={0}
                                 sx={{
                                     border: "1px solid #E5E7EB",
-                                    borderRadius: 3
+                                    borderRadius: 1
                                 }}
                             >
 
@@ -171,7 +171,7 @@ export default function AttendanceDetailDialog({
                                 elevation={0}
                                 sx={{
                                     border: "1px solid #E5E7EB",
-                                    borderRadius: 3
+                                    borderRadius: 1
                                 }}
                             >
 
@@ -212,7 +212,7 @@ export default function AttendanceDetailDialog({
                                 elevation={0}
                                 sx={{
                                     border: "1px solid #E5E7EB",
-                                    borderRadius: 3,
+                                    borderRadius: 1,
                                     height: 90
                                 }}
                             >
@@ -254,7 +254,7 @@ export default function AttendanceDetailDialog({
                                 elevation={0}
                                 sx={{
                                     border: "1px solid #E5E7EB",
-                                    borderRadius: 3
+                                    borderRadius: 1
                                 }}
                             >
 
@@ -295,7 +295,7 @@ export default function AttendanceDetailDialog({
                                 elevation={0}
                                 sx={{
                                     border: "1px solid #E5E7EB",
-                                    borderRadius: 3
+                                    borderRadius: 1
                                 }}
                             >
 
@@ -336,7 +336,7 @@ export default function AttendanceDetailDialog({
                                 elevation={0}
                                 sx={{
                                     border: "1px solid #E5E7EB",
-                                    borderRadius: 3
+                                    borderRadius: 1
                                 }}
                             >
 
