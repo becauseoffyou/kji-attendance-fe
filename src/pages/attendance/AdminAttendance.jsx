@@ -24,6 +24,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import SummaryCard from "../../components/attendance/SummaryCard";
+import AttendanceSummaryTable from "../../components/attendance/AttendanceSummaryTable";
 
 export default function AdminAttendance() {
 
@@ -34,6 +35,20 @@ export default function AdminAttendance() {
         department: "",
         status: ""
     });
+
+    const summaryData = [
+        {
+            id: 1,
+            name: "Budi",
+            department: "IT",
+            present: 20,
+            late: 2,
+            leave: 1,
+            permission: 0,
+            alpha: 0,
+            percent: 91
+        }
+    ];
 
     const [tab, setTab] = useState(0);
 
@@ -80,237 +95,246 @@ export default function AdminAttendance() {
                 </Tabs>
 
             </Box>
-            <Card
-                elevation={0}
-                sx={{
-                    borderRadius: 1,
-                    border: "1px solid #E5E7EB"
-                }}
-            >
+            {tab === 0 && (<>
+                <Card
+                    elevation={0}
+                    sx={{
+                        borderRadius: 1,
+                        border: "1px solid #E5E7EB"
+                    }}
+                >
 
-                <CardContent>
+                    <CardContent>
 
-                    <LocalizationProvider
-                        dateAdapter={AdapterDayjs}
-                    >
-
-                        <Grid
-                            container
-                            spacing={2}
-                            alignItems="center"
+                        <LocalizationProvider
+                            dateAdapter={AdapterDayjs}
                         >
 
-                            {/* Dari */}
-
-                            <Grid size={{ xs: 12, md: 2 }}>
-
-                                <DatePicker
-                                    label="Dari"
-                                    value={filters.startDate}
-                                    onChange={(value) =>
-                                        setFilters({
-                                            ...filters,
-                                            startDate: value
-                                        })
-                                    }
-                                    slotProps={{
-                                        textField: {
-                                            fullWidth: true,
-                                            size: "small"
-                                        }
-                                    }}
-                                />
-
-                            </Grid>
-
-                            {/* Sampai */}
-
-                            <Grid size={{ xs: 12, md: 2 }}>
-
-                                <DatePicker
-                                    label="Sampai"
-                                    value={filters.endDate}
-                                    onChange={(value) =>
-                                        setFilters({
-                                            ...filters,
-                                            endDate: value
-                                        })
-                                    }
-                                    slotProps={{
-                                        textField: {
-                                            fullWidth: true,
-                                            size: "small"
-                                        }
-                                    }}
-                                />
-
-                            </Grid>
-
-                            {/* Search */}
-
-                            <Grid size={{ xs: 12, md: 2.5 }}>
-
-                                <TextField
-                                    fullWidth
-                                    size="small"
-                                    label="Cari Karyawan"
-                                    value={filters.search}
-                                    onChange={(e) =>
-                                        setFilters({
-                                            ...filters,
-                                            search: e.target.value
-                                        })
-                                    }
-                                />
-
-                            </Grid>
-
-                            {/* Divisi */}
-
-                            <Grid size={{ xs: 12, md: 2 }}>
-
-                                <TextField
-                                    fullWidth
-                                    select
-                                    size="small"
-                                    label="Divisi"
-                                    value={filters.department}
-                                    onChange={(e) =>
-                                        setFilters({
-                                            ...filters,
-                                            department: e.target.value
-                                        })
-                                    }
-                                >
-
-                                    <MenuItem value="">
-                                        Semua Divisi
-                                    </MenuItem>
-
-                                </TextField>
-
-                            </Grid>
-
-                            {/* Status */}
-
-                            <Grid size={{ xs: 12, md: 2 }}>
-
-                                <TextField
-                                    fullWidth
-                                    select
-                                    size="small"
-                                    label="Status"
-                                    value={filters.status}
-                                    onChange={(e) =>
-                                        setFilters({
-                                            ...filters,
-                                            status: e.target.value
-                                        })
-                                    }
-                                >
-
-                                    <MenuItem value="">
-                                        Semua Status
-                                    </MenuItem>
-
-                                    <MenuItem value="Hadir">
-                                        Hadir
-                                    </MenuItem>
-
-                                    <MenuItem value="Terlambat">
-                                        Terlambat
-                                    </MenuItem>
-
-                                    <MenuItem value="Cuti">
-                                        Cuti
-                                    </MenuItem>
-
-                                    <MenuItem value="Izin">
-                                        Izin
-                                    </MenuItem>
-
-                                </TextField>
-
-                            </Grid>
-
-                            {/* Button */}
-
                             <Grid
-                                size={{ xs: 12, md: 1 }}
-                                sx={{
-                                    display: "flex",
-                                    gap: 1
-                                }}
+                                container
+                                spacing={2}
+                                alignItems="center"
                             >
 
-                                <Button
-                                    variant="outlined"
-                                    color="inherit"
-                                    fullWidth
-                                >
-                                    <RestartAltIcon />
-                                </Button>
+                                {/* Dari */}
 
-                                <Button
-                                    variant="contained"
-                                    fullWidth
+                                <Grid size={{ xs: 12, md: 2 }}>
+
+                                    <DatePicker
+                                        label="Dari"
+                                        value={filters.startDate}
+                                        onChange={(value) =>
+                                            setFilters({
+                                                ...filters,
+                                                startDate: value
+                                            })
+                                        }
+                                        slotProps={{
+                                            textField: {
+                                                fullWidth: true,
+                                                size: "small"
+                                            }
+                                        }}
+                                    />
+
+                                </Grid>
+
+                                {/* Sampai */}
+
+                                <Grid size={{ xs: 12, md: 2 }}>
+
+                                    <DatePicker
+                                        label="Sampai"
+                                        value={filters.endDate}
+                                        onChange={(value) =>
+                                            setFilters({
+                                                ...filters,
+                                                endDate: value
+                                            })
+                                        }
+                                        slotProps={{
+                                            textField: {
+                                                fullWidth: true,
+                                                size: "small"
+                                            }
+                                        }}
+                                    />
+
+                                </Grid>
+
+                                {/* Search */}
+
+                                <Grid size={{ xs: 12, md: 2.5 }}>
+
+                                    <TextField
+                                        fullWidth
+                                        size="small"
+                                        label="Cari Karyawan"
+                                        value={filters.search}
+                                        onChange={(e) =>
+                                            setFilters({
+                                                ...filters,
+                                                search: e.target.value
+                                            })
+                                        }
+                                    />
+
+                                </Grid>
+
+                                {/* Divisi */}
+
+                                <Grid size={{ xs: 12, md: 2 }}>
+
+                                    <TextField
+                                        fullWidth
+                                        select
+                                        size="small"
+                                        label="Divisi"
+                                        value={filters.department}
+                                        onChange={(e) =>
+                                            setFilters({
+                                                ...filters,
+                                                department: e.target.value
+                                            })
+                                        }
+                                    >
+
+                                        <MenuItem value="">
+                                            Semua Divisi
+                                        </MenuItem>
+
+                                    </TextField>
+
+                                </Grid>
+
+                                {/* Status */}
+
+                                <Grid size={{ xs: 12, md: 2 }}>
+
+                                    <TextField
+                                        fullWidth
+                                        select
+                                        size="small"
+                                        label="Status"
+                                        value={filters.status}
+                                        onChange={(e) =>
+                                            setFilters({
+                                                ...filters,
+                                                status: e.target.value
+                                            })
+                                        }
+                                    >
+
+                                        <MenuItem value="">
+                                            Semua Status
+                                        </MenuItem>
+
+                                        <MenuItem value="Hadir">
+                                            Hadir
+                                        </MenuItem>
+
+                                        <MenuItem value="Terlambat">
+                                            Terlambat
+                                        </MenuItem>
+
+                                        <MenuItem value="Cuti">
+                                            Cuti
+                                        </MenuItem>
+
+                                        <MenuItem value="Izin">
+                                            Izin
+                                        </MenuItem>
+
+                                    </TextField>
+
+                                </Grid>
+
+                                {/* Button */}
+
+                                <Grid
+                                    size={{ xs: 12, md: 1 }}
+                                    sx={{
+                                        display: "flex",
+                                        gap: 1
+                                    }}
                                 >
-                                    <SearchIcon />
-                                </Button>
+
+                                    <Button
+                                        variant="outlined"
+                                        color="inherit"
+                                        fullWidth
+                                    >
+                                        <RestartAltIcon />
+                                    </Button>
+
+                                    <Button
+                                        variant="contained"
+                                        fullWidth
+                                    >
+                                        <SearchIcon />
+                                    </Button>
+
+                                </Grid>
 
                             </Grid>
 
-                        </Grid>
+                        </LocalizationProvider>
 
-                    </LocalizationProvider>
+                    </CardContent>
 
-                </CardContent>
+                </Card>
 
-            </Card>
+                <Grid
+                    container
+                    spacing={2}
+                    sx={{
+                        mt: 2
+                    }}
+                >
 
-            <Grid
-                container
-                spacing={2}
-                sx={{
-                    mt: 2
-                }}
-            >
+                    <Grid size={{ xs: 12, md: 3 }}>
+                        <SummaryCard
+                            title="Hadir"
+                            value={120}
+                            color="#16A34A"
+                        />
+                    </Grid>
 
-                <Grid size={{ xs: 12, md: 3 }}>
-                    <SummaryCard
-                        title="Hadir"
-                        value={120}
-                        color="#16A34A"
-                    />
+                    <Grid size={{ xs: 12, md: 3 }}>
+                        <SummaryCard
+                            title="Terlambat"
+                            value={15}
+                            color="#F59E0B"
+                        />
+                    </Grid>
+
+                    <Grid size={{ xs: 12, md: 3 }}>
+                        <SummaryCard
+                            title="Cuti"
+                            value={4}
+                            color="#2563EB"
+                        />
+                    </Grid>
+
+                    <Grid size={{ xs: 12, md: 3 }}>
+                        <SummaryCard
+                            title="Izin"
+                            value={2}
+                            color="#8B5CF6"
+                        />
+                    </Grid>
+
                 </Grid>
+            </>
+            )}
+            {tab === 1 && (
 
-                <Grid size={{ xs: 12, md: 3 }}>
-                    <SummaryCard
-                        title="Terlambat"
-                        value={15}
-                        color="#F59E0B"
-                    />
-                </Grid>
-
-                <Grid size={{ xs: 12, md: 3 }}>
-                    <SummaryCard
-                        title="Cuti"
-                        value={4}
-                        color="#2563EB"
-                    />
-                </Grid>
-
-                <Grid size={{ xs: 12, md: 3 }}>
-                    <SummaryCard
-                        title="Izin"
-                        value={2}
-                        color="#8B5CF6"
-                    />
-                </Grid>
-
-            </Grid>
-
+                <AttendanceSummaryTable
+                    data={summaryData}
+                />
+            )}
         </>
+
     );
 
 }
