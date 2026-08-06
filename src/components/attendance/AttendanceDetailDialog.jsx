@@ -14,7 +14,9 @@ import {
     TableBody,
     TableContainer,
     Paper,
-    Box
+    Box,
+    Card,
+    CardContent
 } from "@mui/material";
 
 import { useEffect, useState } from "react";
@@ -89,6 +91,7 @@ export default function AttendanceDetailDialog({
                 sx={{
                     display: "flex",
                     flexDirection: "column",
+                    height: "100%",
                     overflow: "hidden",
                     p: 3
                 }}
@@ -112,74 +115,211 @@ export default function AttendanceDetailDialog({
                         {data.department}
                     </Typography>
 
-                    <Grid container spacing={2}>
+                    <Grid
+                        container
+                        spacing={2}
+                    >
 
-                        <Grid size={6}>
-                            <Typography>Hadir</Typography>
+                        <Grid size={{ xs: 6, md: 4 }}>
+
+                            <Card
+                                elevation={0}
+                                sx={{
+                                    border: "1px solid #E5E7EB",
+                                    borderRadius: 3
+                                }}
+                            >
+
+                                <CardContent>
+
+                                    <Typography
+                                        variant="h4"
+                                        color="success.main"
+                                        fontWeight={700}
+                                    >
+                                        {data.present}
+                                    </Typography>
+
+                                    <Typography
+                                        color="text.secondary"
+                                    >
+                                        Hari Hadir
+                                    </Typography>
+
+                                </CardContent>
+
+                            </Card>
+
                         </Grid>
 
-                        <Grid size={6}>
-                            <Typography fontWeight={600}>
-                                {data.present} Hari
-                            </Typography>
+                        <Grid size={{ xs: 6, md: 4 }}>
+
+                            <Card
+                                elevation={0}
+                                sx={{
+                                    border: "1px solid #E5E7EB",
+                                    borderRadius: 3
+                                }}
+                            >
+
+                                <CardContent>
+
+                                    <Typography
+                                        variant="h4"
+                                        color="warning.main"
+                                        fontWeight={700}
+                                    >
+                                        {data.late}x
+                                    </Typography>
+
+                                    <Typography
+                                        color="text.secondary"
+                                    >
+                                        Terlambat
+                                    </Typography>
+
+                                </CardContent>
+
+                            </Card>
+
                         </Grid>
 
-                        <Grid size={6}>
-                            <Typography>Terlambat</Typography>
+                        <Grid size={{ xs: 6, md: 4 }}>
+
+                            <Card
+                                elevation={0}
+                                sx={{
+                                    border: "1px solid #E5E7EB",
+                                    borderRadius: 3
+                                }}
+                            >
+
+                                <CardContent>
+
+                                    <Typography
+                                        variant="h4"
+                                        color="error.main"
+                                        fontWeight={700}
+                                    >
+                                        {data.late_minutes}
+                                    </Typography>
+
+                                    <Typography
+                                        color="text.secondary"
+                                    >
+                                        Menit Telat
+                                    </Typography>
+
+                                </CardContent>
+
+                            </Card>
+
                         </Grid>
 
-                        <Grid size={6}>
-                            <Typography fontWeight={600}>
-                                {data.late}x
-                            </Typography>
+                        <Grid size={{ xs: 4 }}>
+
+                            <Card
+                                elevation={0}
+                                sx={{
+                                    border: "1px solid #E5E7EB",
+                                    borderRadius: 3
+                                }}
+                            >
+
+                                <CardContent>
+
+                                    <Typography
+                                        variant="h4"
+                                        color="info.main"
+                                        fontWeight={700}
+                                    >
+                                        {data.leave}
+                                    </Typography>
+
+                                    <Typography
+                                        color="text.secondary"
+                                    >
+                                        Cuti
+                                    </Typography>
+
+                                </CardContent>
+
+                            </Card>
+
                         </Grid>
 
-                        <Grid size={6}>
-                            <Typography>Total Menit Telat</Typography>
+                        <Grid size={{ xs: 4 }}>
+
+                            <Card
+                                elevation={0}
+                                sx={{
+                                    border: "1px solid #E5E7EB",
+                                    borderRadius: 3
+                                }}
+                            >
+
+                                <CardContent>
+
+                                    <Typography
+                                        variant="h4"
+                                        color="primary.main"
+                                        fontWeight={700}
+                                    >
+                                        {data.permission}
+                                    </Typography>
+
+                                    <Typography
+                                        color="text.secondary"
+                                    >
+                                        Izin
+                                    </Typography>
+
+                                </CardContent>
+
+                            </Card>
+
                         </Grid>
 
-                        <Grid size={6}>
-                            <Typography fontWeight={600}>
-                                {data.late_minutes} Menit
-                            </Typography>
-                        </Grid>
+                        <Grid size={{ xs: 4 }}>
 
-                        <Grid size={6}>
-                            <Typography>Cuti</Typography>
-                        </Grid>
+                            <Card
+                                elevation={0}
+                                sx={{
+                                    border: "1px solid #E5E7EB",
+                                    borderRadius: 3
+                                }}
+                            >
 
-                        <Grid size={6}>
-                            <Typography fontWeight={600}>
-                                {data.leave} Hari
-                            </Typography>
-                        </Grid>
+                                <CardContent>
 
-                        <Grid size={6}>
-                            <Typography>Izin</Typography>
-                        </Grid>
+                                    <Typography
+                                        variant="h4"
+                                        color="secondary.main"
+                                        fontWeight={700}
+                                    >
+                                        {data.sick}
+                                    </Typography>
 
-                        <Grid size={6}>
-                            <Typography fontWeight={600}>
-                                {data.permission} Hari
-                            </Typography>
-                        </Grid>
+                                    <Typography
+                                        color="text.secondary"
+                                    >
+                                        Sakit
+                                    </Typography>
 
-                        <Grid size={6}>
-                            <Typography>Sakit</Typography>
-                        </Grid>
+                                </CardContent>
 
-                        <Grid size={6}>
-                            <Typography fontWeight={600}>
-                                {data.sick} Hari
-                            </Typography>
+                            </Card>
+
                         </Grid>
 
                     </Grid>
                 </Box>
                 <Box
                     sx={{
+                        display: "flex",
+                        flexDirection: "column",
                         flex: 1,
-                        overflow: "hidden",
+                        minHeight: 0,
                         mt: 3
                     }}
                 >
@@ -223,7 +363,8 @@ export default function AttendanceDetailDialog({
                             component={Paper}
                             elevation={0}
                             sx={{
-                                maxHeight: 320,
+                                flex: 1,
+                                minHeight: 0,
                                 overflowY: "auto",
                                 border: "1px solid #E5E7EB",
                                 borderRadius: 2
@@ -257,18 +398,33 @@ export default function AttendanceDetailDialog({
                                         <TableRow key={index}>
 
                                             <TableCell>
-                                                {new Date(item.attendance_date)
-                                                    .toLocaleDateString("id-ID")}
+                                                {new Date(item.attendance_date).toLocaleDateString(
+                                                    "id-ID",
+                                                    {
+                                                        day: "2-digit",
+                                                        month: "long",
+                                                        year: "numeric"
+                                                    }
+                                                )}
                                             </TableCell>
 
                                             <TableCell>
-                                                {item.check_in || "-"}
+                                                {item.check_in
+                                                    ? new Date(item.check_in).toLocaleTimeString("id-ID", {
+                                                        hour: "2-digit",
+                                                        minute: "2-digit"
+                                                    })
+                                                    : "-"}
                                             </TableCell>
 
                                             <TableCell>
-                                                {item.check_out || "-"}
+                                                {item.check_in
+                                                    ? new Date(item.check_out).toLocaleTimeString("id-ID", {
+                                                        hour: "2-digit",
+                                                        minute: "2-digit"
+                                                    })
+                                                    : "-"}
                                             </TableCell>
-
                                             <TableCell>
                                                 {item.status}
                                             </TableCell>
@@ -286,9 +442,17 @@ export default function AttendanceDetailDialog({
                 </Box>
             </DialogContent>
 
-            <DialogActions>
+            <DialogActions
+                sx={{
+                    flexShrink: 0,
+                    borderTop: "1px solid #E5E7EB",
+                    px: 3,
+                    py: 2
+                }}
+            >
 
                 <Button
+                    variant="contained"
                     onClick={onClose}
                 >
                     Tutup
