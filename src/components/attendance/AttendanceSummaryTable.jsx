@@ -54,6 +54,9 @@ export default function AttendanceSummaryTable({ data = [] }) {
                             <TableCell align="center">
                                 Terlambat
                             </TableCell>
+                            <TableCell align="center">
+                                Menit Telat
+                            </TableCell>
 
                             <TableCell align="center">
                                 Cuti
@@ -61,6 +64,9 @@ export default function AttendanceSummaryTable({ data = [] }) {
 
                             <TableCell align="center">
                                 Izin
+                            </TableCell>
+                            <TableCell align="center">
+                                Sakit
                             </TableCell>
 
                             <TableCell align="center">
@@ -151,27 +157,28 @@ export default function AttendanceSummaryTable({ data = [] }) {
                                         color="warning"
                                         size="small"
                                     />
-                                </TableCell><TableCell align="center">
+                                </TableCell>
+                                <TableCell align="center">
 
                                     <Chip
                                         label={`${item.late}x`}
                                         color="warning"
                                         size="small"
                                     />
-
-                                    <Typography
-                                        variant="caption"
-                                        display="block"
-                                        color="text.secondary"
-                                        mt={0.5}
-                                    >
-                                        {item.late_minutes} menit
-                                    </Typography>
-
                                 </TableCell>
-
+                                <TableCell align="center">
+                                    <Chip
+                                        label={`${item.late_minutes} mnt`}
+                                        size="small"
+                                        variant="outlined"
+                                        color="warning"
+                                    />
+                                </TableCell>
                                 <TableCell align="center">
                                     {item.leave}
+                                </TableCell>
+                                <TableCell align="center">
+                                    {item.sick}
                                 </TableCell>
 
                                 <TableCell align="center">
