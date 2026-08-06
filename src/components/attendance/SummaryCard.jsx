@@ -15,9 +15,9 @@ export default function SummaryCard({
         <Card
             elevation={0}
             sx={{
-                borderRadius: 1,
+                borderRadius: 3,
                 border: "1px solid #E5E7EB",
-                height: 90
+                height: 80
             }}
         >
 

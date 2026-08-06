@@ -44,11 +44,16 @@ export default function DailyAttendanceTable({
                     Data Absensi Hari Ini
                 </Typography>
 
-                <Table>
+                <Table >
 
                     <TableHead>
 
-                        <TableRow>
+                        <TableRow hover
+                            sx={{
+                                "& td": {
+                                    py: 1
+                                }
+                            }}>
 
                             <TableCell>Karyawan</TableCell>
 
@@ -80,7 +85,12 @@ export default function DailyAttendanceTable({
 
                         {data.length === 0 ? (
 
-                            <TableRow>
+                            <TableRow hover
+                                sx={{
+                                    "& td": {
+                                        py: 1
+                                    }
+                                }}>
 
                                 <TableCell
                                     colSpan={8}
@@ -97,7 +107,12 @@ export default function DailyAttendanceTable({
 
                                 <TableRow
                                     key={item.id}
-                                    hover
+                                    hover hover
+                                    sx={{
+                                        "& td": {
+                                            py: 1
+                                        }
+                                    }}
                                 >
 
                                     {/* Karyawan */}
@@ -105,21 +120,36 @@ export default function DailyAttendanceTable({
                                     <TableCell>
 
                                         <Box
-                                            display="flex"
-                                            alignItems="center"
-                                            gap={2}
+                                            sx={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: 1.5
+                                            }}
                                         >
 
-                                            <Avatar>
-
+                                            <Avatar
+                                                sx={{
+                                                    width: 38,
+                                                    height: 38,
+                                                    fontSize: 16,
+                                                    bgcolor: "#D1D5DB",
+                                                    color: "#374151"
+                                                }}
+                                            >
                                                 {item.name.charAt(0)}
-
                                             </Avatar>
 
-                                            <Box>
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: 1
+                                                }}
+                                            >
 
                                                 <Typography
                                                     fontWeight={600}
+                                                    fontSize={14}
                                                 >
                                                     {item.name}
                                                 </Typography>
@@ -127,6 +157,12 @@ export default function DailyAttendanceTable({
                                                 <Typography
                                                     variant="caption"
                                                     color="text.secondary"
+                                                    sx={{
+                                                        bgcolor: "#F3F4F6",
+                                                        px: 1,
+                                                        py: .2,
+                                                        borderRadius: 10
+                                                    }}
                                                 >
                                                     {item.department}
                                                 </Typography>
