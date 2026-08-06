@@ -25,6 +25,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import SummaryCard from "../../components/attendance/SummaryCard";
 import AttendanceSummaryTable from "../../components/attendance/AttendanceSummaryTable";
+import attendanceService from "../../services/attService";
 
 export default function AdminAttendance() {
     const [summaryData, setSummaryData] = useState([]);
@@ -46,6 +47,8 @@ export default function AdminAttendance() {
 
                 const result = await attendanceService.getSummary();
 
+                console.log(result);
+                console.log(result.data);
                 setSummaryData(result.data);
 
             } catch (err) {
