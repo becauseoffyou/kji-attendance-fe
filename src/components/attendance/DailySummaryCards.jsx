@@ -1,69 +1,59 @@
-import { Grid } from "@mui/material";
-import SummaryCard from "./SummaryCard";
+import {
+    Stack,
+    Chip
+} from "@mui/material";
+
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import LogoutIcon from "@mui/icons-material/Logout";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 export default function DailySummaryCards({
-
     data = {
         present: 0,
         late: 0,
         checkout: 0,
         absent: 0
     }
-
 }) {
 
     return (
 
-        <Grid
-            container
-            spacing={2}
+        <Stack
+            direction="row"
+            spacing={1.5}
+            flexWrap="wrap"
+            useFlexGap
             sx={{
-                mt: 2,
                 mb: 2
             }}
         >
 
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Chip
+                color="success"
+                icon={<CheckCircleIcon />}
+                label={`Hadir (${data.present} Orang)`}
+            />
 
-                <SummaryCard
-                    title="Hadir"
-                    value={data.present}
-                    color="#16A34A"
-                />
+            <Chip
+                color="warning"
+                icon={<AccessTimeIcon />}
+                label={`Terlambat (${data.late} Orang)`}
+            />
 
-            </Grid>
+            <Chip
+                color="primary"
+                icon={<LogoutIcon />}
+                label={`Belum Pulang (${data.checkout} Orang)`}
+            />
 
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <Chip
+                color="error"
+                icon={<HighlightOffIcon />}
+                label={`Belum Check In (${data.absent} Orang)`}
+            />
 
-                <SummaryCard
-                    title="Terlambat"
-                    value={data.late}
-                    color="#F59E0B"
-                />
-
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-
-                <SummaryCard
-                    title="Belum Pulang"
-                    value={data.checkout}
-                    color="#2563EB"
-                />
-
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-
-                <SummaryCard
-                    title="Tidak Hadir"
-                    value={data.absent}
-                    color="#DC2626"
-                />
-
-            </Grid>
-
-        </Grid>
+        </Stack>
 
     );
 
