@@ -10,7 +10,7 @@ import {
     Avatar,
     Box,
     Chip,
-    IconButton
+    IconButton, Skeleton
 } from "@mui/material";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -19,7 +19,8 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
 export default function DailyAttendanceTable({
 
-    data = []
+    data = [], loading = false
+
 
 }) {
 
@@ -83,7 +84,49 @@ export default function DailyAttendanceTable({
 
                     <TableBody>
 
-                        {data.length === 0 ? (
+                        {loading ? (
+
+                            [...Array(6)].map((_, index) => (
+
+                                <TableRow key={index}>
+
+                                    <TableCell>
+                                        <Skeleton variant="circular" width={38} height={38} />
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <Skeleton width={70} />
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <Skeleton width={70} />
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <Skeleton width={100} />
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <Skeleton width={50} />
+                                    </TableCell>
+
+                                    <TableCell align="center">
+                                        <Skeleton width={30} />
+                                    </TableCell>
+
+                                    <TableCell align="center">
+                                        <Skeleton width={30} />
+                                    </TableCell>
+
+                                    <TableCell align="center">
+                                        <Skeleton width={30} />
+                                    </TableCell>
+
+                                </TableRow>
+
+                            ))
+
+                        ) : data.length === 0 ? (
 
                             <TableRow hover
                                 sx={{

@@ -20,6 +20,7 @@ import DailyAttendanceTable from "../../components/DailyAttendanceTable";
 
 
 export default function AdminAttendance() {
+    const [loadingDaily, setLoadingDaily] = useState(false);
     const [dailyAttendance, setDailyAttendance] = useState([]);
     const [summaryData, setSummaryData] = useState([]);
     const [filters, setFilters] = useState({
@@ -67,22 +68,31 @@ export default function AdminAttendance() {
     };
     const loadDailyAttendance = async (params = filters) => {
 
-        const payload = {
-            ...params,
-            date: params.date
-                ? dayjs(params.date).format("YYYY-MM-DD")
-                : null
-        };
+        try {
 
-        console.log("FILTERS :", filters);
-        console.log("PARAMS :", params);
-        console.log("PAYLOAD :", payload);
+            setLoadingDaily(true);
 
-        const result = await attendanceService.getDailyAttendance(payload);
+            const payload = {
+                ...params,
+                date: params.date
+                    ? dayjs(params.date).format("YYYY-MM-DD")
+                    : null
+            };
 
-        console.log("RESULT :", result);
+            const result =
+                await attendanceService.getDailyAttendance(payload);
 
-        setDailyAttendance(result.data);
+            setDailyAttendance(result.data);
+
+        } catch (err) {
+
+            console.error(err);
+
+        } finally {
+
+            setLoadingDaily(false);
+
+        }
 
     }
 
@@ -145,6 +155,7 @@ export default function AdminAttendance() {
 
                     <DailyAttendanceTable
                         data={dailyAttendance}
+                        loading={loadingDaily}
                     />
 
                 </>
