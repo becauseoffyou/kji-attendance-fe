@@ -34,15 +34,22 @@ export default function AdminAttendance() {
         checkout: 0,
         absent: 0
     });
-
+    const [departments, setDepartments] = useState([]);
     const [tab, setTab] = useState(0);
     useEffect(() => {
 
         loadSummary();
-
+        loadDepartments();
         loadDailyAttendance(filters);
 
     }, []);
+    const loadDepartments = async () => {
+
+        const result = await attendanceService.getDepartments();
+
+        setDepartments(result.data);
+
+    };
     const loadSummary = async () => {
 
         try {
@@ -129,7 +136,7 @@ export default function AdminAttendance() {
                     <DailyFilter filters={filters}
 
                         setFilters={setFilters}
-
+                        departments={departments}
                         onSearch={() => loadDailyAttendance(filters)} />
 
                     <DailySummaryCards

@@ -53,6 +53,11 @@ const attendanceService = {
 
     return data;
   },
+  getDepartments: async () => {
+    const { data } = await api.get("/attendance/departments");
+
+    return data;
+  },
 };
 
 export default attendanceService;

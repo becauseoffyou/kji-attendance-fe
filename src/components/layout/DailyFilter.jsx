@@ -22,7 +22,9 @@ export default function DailyFilter({
 
     setFilters,
 
-    onSearch
+    onSearch,
+
+    departments
 
 }) {
     return (
@@ -89,6 +91,17 @@ export default function DailyFilter({
                             <MenuItem value="">
                                 Semua Divisi
                             </MenuItem>
+
+                            {departments.map((item) => (
+
+                                <MenuItem
+                                    key={item.department}
+                                    value={item.department}
+                                >
+                                    {item.department}
+                                </MenuItem>
+
+                            ))}
 
                         </TextField>
 
