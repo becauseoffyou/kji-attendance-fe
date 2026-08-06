@@ -59,20 +59,20 @@ export default function AdminAttendance() {
     }, []);
 
     const loadDailyAttendance = async (params = {}) => {
-        console.log(filters);
-        try {
-            const result =
 
-                await attendanceService.getDailyAttendance(params);
+        const result = await attendanceService.getDailyAttendance({
 
-            setDailyAttendance(result.data);
-        } catch (err) {
+            ...params,
 
-            console.error(err);
+            date: params.date
+                ? params.date.format("YYYY-MM-DD")
+                : ""
 
-        }
+        });
 
-    };
+        setDailyAttendance(result.data);
+
+    }
 
     return (
         <>

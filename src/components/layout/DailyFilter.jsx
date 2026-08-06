@@ -128,8 +128,8 @@ export default function DailyFilter({
                                 Belum Pulang
                             </MenuItem>
 
-                            <MenuItem value="Tidak Hadir">
-                                Tidak Hadir
+                            <MenuItem value="Belum Check In">
+                                Belum Check In
                             </MenuItem>
 
                         </TextField>
