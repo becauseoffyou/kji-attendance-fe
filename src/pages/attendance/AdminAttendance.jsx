@@ -55,7 +55,7 @@ export default function AdminAttendance() {
         };
 
         loadSummary();
-        loadDailyAttendance(filters);
+        loadDailyAttendance();
     }, []);
 
     const loadDailyAttendance = async (params = {}) => {
