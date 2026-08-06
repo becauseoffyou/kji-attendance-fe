@@ -27,7 +27,7 @@ import SummaryCard from "../../components/attendance/SummaryCard";
 import AttendanceSummaryTable from "../../components/attendance/AttendanceSummaryTable";
 
 export default function AdminAttendance() {
-
+    const [summaryData, setSummaryData] = useState([]);
     const [filters, setFilters] = useState({
         startDate: dayjs(),
         endDate: dayjs(),
@@ -36,21 +36,29 @@ export default function AdminAttendance() {
         status: ""
     });
 
-    const summaryData = [
-        {
-            id: 1,
-            name: "Budi",
-            department: "IT",
-            present: 20,
-            late: 2,
-            leave: 1,
-            permission: 0,
-            alpha: 0,
-            percent: 91
-        }
-    ];
 
     const [tab, setTab] = useState(0);
+    useEffect(() => {
+
+        const loadSummary = async () => {
+
+            try {
+
+                const result = await attendanceService.getSummary();
+
+                setSummaryData(result.data);
+
+            } catch (err) {
+
+                console.error(err);
+
+            }
+
+        };
+
+        loadSummary();
+
+    }, []);
 
     return (
         <>

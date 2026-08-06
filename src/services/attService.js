@@ -31,6 +31,12 @@ const attendanceService = {
 
     return data;
   },
+
+  getSummary: async () => {
+    const response = await api.get("/attendance/summary");
+
+    return response.data;
+  },
 };
 
 export default attendanceService;
