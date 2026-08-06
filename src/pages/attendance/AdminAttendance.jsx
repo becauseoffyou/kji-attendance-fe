@@ -17,7 +17,10 @@ import DailySummaryCards from "../../components/attendance/DailySummaryCards";
 
 import attendanceService from "../../services/attService";
 import DailyAttendanceTable from "../../components/DailyAttendanceTable";
+
+
 export default function AdminAttendance() {
+    const [dailyAttendance, setDailyAttendance] = useState([]);
     const [summaryData, setSummaryData] = useState([]);
     const [filters, setFilters] = useState({
         startDate: dayjs(),
@@ -53,8 +56,27 @@ export default function AdminAttendance() {
         };
 
         loadSummary();
-
+        loadDailyAttendance();
     }, []);
+
+    const loadDailyAttendance = async () => {
+
+        try {
+
+            const result =
+                await attendanceService.getDailyAttendance();
+
+            console.log(result);
+
+            setDailyAttendance(result.data);
+
+        } catch (err) {
+
+            console.error(err);
+
+        }
+
+    };
 
     return (
         <>
@@ -110,7 +132,7 @@ export default function AdminAttendance() {
                     />
 
                     <DailyAttendanceTable
-                        data={[]}
+                        data={dailyAttendance}
                     />
 
                 </>
