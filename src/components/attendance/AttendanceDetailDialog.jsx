@@ -213,7 +213,6 @@ export default function AttendanceDetailDialog({
                                 sx={{
                                     border: "1px solid #E5E7EB",
                                     borderRadius: 1,
-                                    height: 90
                                 }}
                             >
 
