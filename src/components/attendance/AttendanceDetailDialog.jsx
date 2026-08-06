@@ -120,7 +120,11 @@ export default function AttendanceDetailDialog({
                         spacing={2}
                     >
 
-                        <Grid size={{ xs: 6, md: 4 }}>
+                        <Grid size={{
+                            xs: 6,
+                            sm: 4,
+                            md: 2
+                        }}>
 
                             <Card
                                 elevation={0}
@@ -130,10 +134,15 @@ export default function AttendanceDetailDialog({
                                 }}
                             >
 
-                                <CardContent>
+                                <CardContent sx={{
+                                    py: 1.5,
+                                    "&:last-child": {
+                                        pb: 1.5
+                                    }
+                                }}>
 
                                     <Typography
-                                        variant="h4"
+                                        variant="h5"
                                         color="success.main"
                                         fontWeight={700}
                                     >
@@ -152,7 +161,11 @@ export default function AttendanceDetailDialog({
 
                         </Grid>
 
-                        <Grid size={{ xs: 6, md: 4 }}>
+                        <Grid size={{
+                            xs: 6,
+                            sm: 4,
+                            md: 2
+                        }}>
 
                             <Card
                                 elevation={0}
@@ -162,10 +175,15 @@ export default function AttendanceDetailDialog({
                                 }}
                             >
 
-                                <CardContent>
+                                <CardContent sx={{
+                                    py: 1.5,
+                                    "&:last-child": {
+                                        pb: 1.5
+                                    }
+                                }}>
 
                                     <Typography
-                                        variant="h4"
+                                        variant="h5"
                                         color="warning.main"
                                         fontWeight={700}
                                     >
@@ -184,20 +202,30 @@ export default function AttendanceDetailDialog({
 
                         </Grid>
 
-                        <Grid size={{ xs: 6, md: 4 }}>
+                        <Grid size={{
+                            xs: 6,
+                            sm: 4,
+                            md: 2
+                        }}>
 
                             <Card
                                 elevation={0}
                                 sx={{
                                     border: "1px solid #E5E7EB",
-                                    borderRadius: 3
+                                    borderRadius: 3,
+                                    height: 90
                                 }}
                             >
 
-                                <CardContent>
+                                <CardContent sx={{
+                                    py: 1.5,
+                                    "&:last-child": {
+                                        pb: 1.5
+                                    }
+                                }}>
 
                                     <Typography
-                                        variant="h4"
+                                        variant="h5"
                                         color="error.main"
                                         fontWeight={700}
                                     >
@@ -216,7 +244,11 @@ export default function AttendanceDetailDialog({
 
                         </Grid>
 
-                        <Grid size={{ xs: 4 }}>
+                        <Grid size={{
+                            xs: 6,
+                            sm: 4,
+                            md: 2
+                        }}>
 
                             <Card
                                 elevation={0}
@@ -226,10 +258,15 @@ export default function AttendanceDetailDialog({
                                 }}
                             >
 
-                                <CardContent>
+                                <CardContent sx={{
+                                    py: 1.5,
+                                    "&:last-child": {
+                                        pb: 1.5
+                                    }
+                                }}>
 
                                     <Typography
-                                        variant="h4"
+                                        variant="h5"
                                         color="info.main"
                                         fontWeight={700}
                                     >
@@ -248,7 +285,11 @@ export default function AttendanceDetailDialog({
 
                         </Grid>
 
-                        <Grid size={{ xs: 4 }}>
+                        <Grid size={{
+                            xs: 6,
+                            sm: 4,
+                            md: 2
+                        }}>
 
                             <Card
                                 elevation={0}
@@ -258,10 +299,15 @@ export default function AttendanceDetailDialog({
                                 }}
                             >
 
-                                <CardContent>
+                                <CardContent sx={{
+                                    py: 1.5,
+                                    "&:last-child": {
+                                        pb: 1.5
+                                    }
+                                }}>
 
                                     <Typography
-                                        variant="h4"
+                                        variant="h5"
                                         color="primary.main"
                                         fontWeight={700}
                                     >
@@ -280,7 +326,11 @@ export default function AttendanceDetailDialog({
 
                         </Grid>
 
-                        <Grid size={{ xs: 4 }}>
+                        <Grid size={{
+                            xs: 6,
+                            sm: 4,
+                            md: 2
+                        }}>
 
                             <Card
                                 elevation={0}
@@ -290,10 +340,15 @@ export default function AttendanceDetailDialog({
                                 }}
                             >
 
-                                <CardContent>
+                                <CardContent sx={{
+                                    py: 1.5,
+                                    "&:last-child": {
+                                        pb: 1.5
+                                    }
+                                }}>
 
                                     <Typography
-                                        variant="h4"
+                                        variant="h5"
                                         color="secondary.main"
                                         fontWeight={700}
                                     >
