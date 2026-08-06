@@ -69,7 +69,7 @@ export default function AdminAttendance() {
             console.log(result);
 
             setDailyAttendance(result.data);
-
+            console.log("Daily Attendance :", result.data);
         } catch (err) {
 
             console.error(err);
