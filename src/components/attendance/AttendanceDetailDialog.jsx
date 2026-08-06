@@ -70,192 +70,220 @@ export default function AttendanceDetailDialog({
         <Dialog
             open={open}
             onClose={onClose}
-            maxWidth="sm"
+            maxWidth="md"
             fullWidth
+            PaperProps={{
+                sx: {
+                    height: "85vh",
+                    display: "flex"
+                }
+            }}
         >
 
             <DialogTitle>
                 Detail Rekap Absensi
             </DialogTitle>
 
-            <DialogContent dividers>
-
-                <Typography
-                    variant="h6"
-                    fontWeight={700}
-                >
-                    {data.name}
-                </Typography>
-
-                <Typography
-                    color="text.secondary"
-                    mb={3}
-                >
-                    {data.department}
-                </Typography>
-
-                <Grid container spacing={2}>
-
-                    <Grid size={6}>
-                        <Typography>Hadir</Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography fontWeight={600}>
-                            {data.present} Hari
-                        </Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography>Terlambat</Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography fontWeight={600}>
-                            {data.late}x
-                        </Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography>Total Menit Telat</Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography fontWeight={600}>
-                            {data.late_minutes} Menit
-                        </Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography>Cuti</Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography fontWeight={600}>
-                            {data.leave} Hari
-                        </Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography>Izin</Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography fontWeight={600}>
-                            {data.permission} Hari
-                        </Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography>Sakit</Typography>
-                    </Grid>
-
-                    <Grid size={6}>
-                        <Typography fontWeight={600}>
-                            {data.sick} Hari
-                        </Typography>
-                    </Grid>
-
-                </Grid>
+            <DialogContent
+                dividers
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    overflow: "hidden",
+                    p: 3
+                }}
+            >
                 <Box
                     sx={{
-                        position: "sticky",
-                        top: 0,
-                        bgcolor: "#fff",
-                        zIndex: 10,
-                        py: 1
+                        flexShrink: 0
                     }}
                 >
-
                     <Typography
                         variant="h6"
                         fontWeight={700}
                     >
-                        Riwayat Absensi
+                        {data.name}
                     </Typography>
 
+                    <Typography
+                        color="text.secondary"
+                        mb={3}
+                    >
+                        {data.department}
+                    </Typography>
+
+                    <Grid container spacing={2}>
+
+                        <Grid size={6}>
+                            <Typography>Hadir</Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography fontWeight={600}>
+                                {data.present} Hari
+                            </Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography>Terlambat</Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography fontWeight={600}>
+                                {data.late}x
+                            </Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography>Total Menit Telat</Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography fontWeight={600}>
+                                {data.late_minutes} Menit
+                            </Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography>Cuti</Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography fontWeight={600}>
+                                {data.leave} Hari
+                            </Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography>Izin</Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography fontWeight={600}>
+                                {data.permission} Hari
+                            </Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography>Sakit</Typography>
+                        </Grid>
+
+                        <Grid size={6}>
+                            <Typography fontWeight={600}>
+                                {data.sick} Hari
+                            </Typography>
+                        </Grid>
+
+                    </Grid>
                 </Box>
-
-                {loading ? (
-
+                <Box
+                    sx={{
+                        flex: 1,
+                        overflow: "hidden",
+                        mt: 3
+                    }}
+                >
                     <Box
                         sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: 250
+                            position: "sticky",
+                            top: 0,
+                            bgcolor: "#fff",
+                            zIndex: 10,
+                            py: 1
                         }}
                     >
 
-                        <CircularProgress />
+                        <Typography
+                            variant="h6"
+                            fontWeight={700}
+                        >
+                            Riwayat Absensi
+                        </Typography>
 
                     </Box>
 
-                ) : (
+                    {loading ? (
 
-                    <TableContainer
-                        component={Paper}
-                        elevation={0}
-                        sx={{
-                            maxHeight: 320,
-                            overflowY: "auto",
-                            border: "1px solid #E5E7EB",
-                            borderRadius: 2
-                        }}
-                    >
-
-                        <Table
-                            stickyHeader
-                            size="small"
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: 250
+                            }}
                         >
-                            <TableHead>
 
-                                <TableRow>
+                            <CircularProgress />
 
-                                    <TableCell>Tanggal</TableCell>
+                        </Box>
 
-                                    <TableCell>Masuk</TableCell>
+                    ) : (
 
-                                    <TableCell>Pulang</TableCell>
+                        <TableContainer
+                            component={Paper}
+                            elevation={0}
+                            sx={{
+                                maxHeight: 320,
+                                overflowY: "auto",
+                                border: "1px solid #E5E7EB",
+                                borderRadius: 2
+                            }}
+                        >
 
-                                    <TableCell>Status</TableCell>
+                            <Table
+                                stickyHeader
+                                size="small"
+                            >
+                                <TableHead>
 
-                                </TableRow>
+                                    <TableRow>
 
-                            </TableHead>
+                                        <TableCell>Tanggal</TableCell>
 
-                            <TableBody>
+                                        <TableCell>Masuk</TableCell>
 
-                                {history.map((item, index) => (
+                                        <TableCell>Pulang</TableCell>
 
-                                    <TableRow key={index}>
-
-                                        <TableCell>
-                                            {new Date(item.attendance_date)
-                                                .toLocaleDateString("id-ID")}
-                                        </TableCell>
-
-                                        <TableCell>
-                                            {item.check_in || "-"}
-                                        </TableCell>
-
-                                        <TableCell>
-                                            {item.check_out || "-"}
-                                        </TableCell>
-
-                                        <TableCell>
-                                            {item.status}
-                                        </TableCell>
+                                        <TableCell>Status</TableCell>
 
                                     </TableRow>
 
-                                ))}
+                                </TableHead>
 
-                            </TableBody>
+                                <TableBody>
 
-                        </Table>
-                    </TableContainer>
-                )}
+                                    {history.map((item, index) => (
+
+                                        <TableRow key={index}>
+
+                                            <TableCell>
+                                                {new Date(item.attendance_date)
+                                                    .toLocaleDateString("id-ID")}
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {item.check_in || "-"}
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {item.check_out || "-"}
+                                            </TableCell>
+
+                                            <TableCell>
+                                                {item.status}
+                                            </TableCell>
+
+                                        </TableRow>
+
+                                    ))}
+
+                                </TableBody>
+
+                            </Table>
+                        </TableContainer>
+
+                    )}
+                </Box>
             </DialogContent>
 
             <DialogActions>
