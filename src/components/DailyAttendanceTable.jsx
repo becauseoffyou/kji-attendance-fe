@@ -78,7 +78,7 @@ export default function DailyAttendanceTable({
 
                     <TableBody>
 
-                        {data.length === 0 && (
+                        {data.length === 0 ? (
 
                             <TableRow>
 
@@ -90,6 +90,144 @@ export default function DailyAttendanceTable({
                                 </TableCell>
 
                             </TableRow>
+
+                        ) : (
+
+                            data.map((item) => (
+
+                                <TableRow
+                                    key={item.id}
+                                    hover
+                                >
+
+                                    {/* Karyawan */}
+
+                                    <TableCell>
+
+                                        <Box
+                                            display="flex"
+                                            alignItems="center"
+                                            gap={2}
+                                        >
+
+                                            <Avatar>
+
+                                                {item.name.charAt(0)}
+
+                                            </Avatar>
+
+                                            <Box>
+
+                                                <Typography
+                                                    fontWeight={600}
+                                                >
+                                                    {item.name}
+                                                </Typography>
+
+                                                <Typography
+                                                    variant="caption"
+                                                    color="text.secondary"
+                                                >
+                                                    {item.department}
+                                                </Typography>
+
+                                            </Box>
+
+                                        </Box>
+
+                                    </TableCell>
+
+                                    {/* Check In */}
+
+                                    <TableCell>
+
+                                        {item.check_in
+                                            ? new Date(item.check_in)
+                                                .toLocaleTimeString("id-ID", {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit"
+                                                })
+                                            : "-"}
+
+                                    </TableCell>
+
+                                    {/* Check Out */}
+
+                                    <TableCell>
+
+                                        {item.check_out
+                                            ? new Date(item.check_out)
+                                                .toLocaleTimeString("id-ID", {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit"
+                                                })
+                                            : "-"}
+
+                                    </TableCell>
+
+                                    {/* Status */}
+
+                                    <TableCell>
+
+                                        <Chip
+                                            label={item.status}
+                                            size="small"
+                                            color={
+                                                item.status === "Belum Check In"
+                                                    ? "default"
+                                                    : "success"
+                                            }
+                                        />
+
+                                    </TableCell>
+
+                                    {/* Telat */}
+
+                                    <TableCell>
+
+                                        {item.late_minutes} menit
+
+                                    </TableCell>
+
+                                    {/* Lokasi */}
+
+                                    <TableCell align="center">
+
+                                        <IconButton>
+
+                                            <LocationOnIcon />
+
+                                        </IconButton>
+
+                                    </TableCell>
+
+                                    {/* Foto */}
+
+                                    <TableCell align="center">
+
+                                        <IconButton>
+
+                                            <PhotoCameraIcon />
+
+                                        </IconButton>
+
+                                    </TableCell>
+
+                                    {/* Detail */}
+
+                                    <TableCell align="center">
+
+                                        <IconButton>
+
+                                            <VisibilityIcon />
+
+                                        </IconButton>
+
+                                    </TableCell>
+
+                                </TableRow>
+
+                            ))
 
                         )}
 
