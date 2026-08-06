@@ -13,18 +13,29 @@ import {
     LinearProgress,
     IconButton
 } from "@mui/material";
-
+import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import AttendanceDetailDialog from "./AttendanceDetailDialog";
 
 export default function AttendanceSummaryTable({ data = [] }) {
+    const [selected, setSelected] = useState(null);
 
+    const [open, setOpen] = useState(false);
+
+    const handleDetail = (item) => {
+
+        setSelected(item);
+
+        setOpen(true);
+
+    };
     return (
 
         <Card
             elevation={0}
             sx={{
                 mt: 2,
-                borderRadius: 4,
+                borderRadius: 1,
                 border: "1px solid #E5E7EB"
             }}
         >
@@ -204,7 +215,10 @@ export default function AttendanceSummaryTable({ data = [] }) {
 
                                 <TableCell align="center">
 
-                                    <IconButton>
+                                    <IconButton
+                                        color="primary"
+                                        onClick={() => handleDetail(item)}
+                                    >
 
                                         <VisibilityIcon />
 
@@ -221,7 +235,11 @@ export default function AttendanceSummaryTable({ data = [] }) {
                 </Table>
 
             </CardContent>
-
+            <AttendanceDetailDialog
+                open={open}
+                onClose={() => setOpen(false)}
+                data={selected}
+            />
         </Card>
 
     );
