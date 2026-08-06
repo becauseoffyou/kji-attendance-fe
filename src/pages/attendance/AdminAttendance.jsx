@@ -9,9 +9,10 @@ import {
     CardContent,
     TextField,
     MenuItem,
-    Grid
+    Grid,
+    Tabs,
+    Tab
 } from "@mui/material";
-
 import DownloadIcon from "@mui/icons-material/Download";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import SearchIcon from "@mui/icons-material/Search";
@@ -33,6 +34,8 @@ export default function AdminAttendance() {
         department: "",
         status: ""
     });
+
+    const [tab, setTab] = useState(0);
 
     return (
         <>
@@ -63,7 +66,20 @@ export default function AdminAttendance() {
             </Box>
 
             {/* ================= FILTER ================= */}
+            <Box sx={{ mb: 3 }}>
 
+                <Tabs
+                    value={tab}
+                    onChange={(e, value) => setTab(value)}
+                >
+
+                    <Tab label="Absensi Harian" />
+
+                    <Tab label="Rekap Absensi" />
+
+                </Tabs>
+
+            </Box>
             <Card
                 elevation={0}
                 sx={{
