@@ -158,14 +158,7 @@ export default function AttendanceSummaryTable({ data = [] }) {
                                         size="small"
                                     />
                                 </TableCell>
-                                <TableCell align="center">
 
-                                    <Chip
-                                        label={`${item.late}x`}
-                                        color="warning"
-                                        size="small"
-                                    />
-                                </TableCell>
                                 <TableCell align="center">
                                     <Chip
                                         label={`${item.late_minutes} mnt`}
