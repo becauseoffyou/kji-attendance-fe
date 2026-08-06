@@ -59,18 +59,21 @@ export default function AdminAttendance() {
 
     };
     const loadDailyAttendance = async (params = filters) => {
-        console.log("FILTERS:", filters);
-        console.log("PARAMS:", params);
-        console.log("PAYLOAD:", payload);
-        const result = await attendanceService.getDailyAttendance({
 
+        const payload = {
             ...params,
-
             date: params.date
                 ? dayjs(params.date).format("YYYY-MM-DD")
                 : null
+        };
 
-        });
+        console.log("FILTERS :", filters);
+        console.log("PARAMS :", params);
+        console.log("PAYLOAD :", payload);
+
+        const result = await attendanceService.getDailyAttendance(payload);
+
+        console.log("RESULT :", result);
 
         setDailyAttendance(result.data);
 
