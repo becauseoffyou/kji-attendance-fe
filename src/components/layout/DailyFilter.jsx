@@ -10,7 +10,6 @@ import {
 
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { useState } from "react";
 import dayjs from "dayjs";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -26,7 +25,6 @@ export default function DailyFilter({
     onSearch
 
 }) {
-    const [date, setDate] = useState(dayjs());
     return (
 
         <Card

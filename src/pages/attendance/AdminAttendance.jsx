@@ -38,35 +38,37 @@ export default function AdminAttendance() {
     const [tab, setTab] = useState(0);
     useEffect(() => {
 
-        const loadSummary = async () => {
-
-            try {
-
-                const result = await attendanceService.getSummary();
-
-                setSummaryData(result.data);
-
-            } catch (err) {
-
-                console.error(err);
-
-            }
-
-        };
-
         loadSummary();
-        loadDailyAttendance();
+
+        loadDailyAttendance(filters);
+
     }, []);
+    const loadSummary = async () => {
 
-    const loadDailyAttendance = async (params = {}) => {
+        try {
 
+            const result = await attendanceService.getSummary();
+
+            setSummaryData(result.data);
+
+        } catch (err) {
+
+            console.error(err);
+
+        }
+
+    };
+    const loadDailyAttendance = async (params = filters) => {
+        console.log("FILTERS:", filters);
+        console.log("PARAMS:", params);
+        console.log("PAYLOAD:", payload);
         const result = await attendanceService.getDailyAttendance({
 
             ...params,
 
             date: params.date
-                ? params.date.format("YYYY-MM-DD")
-                : ""
+                ? dayjs(params.date).format("YYYY-MM-DD")
+                : null
 
         });
 
