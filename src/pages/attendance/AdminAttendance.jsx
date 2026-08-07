@@ -188,10 +188,16 @@ export default function AdminAttendance() {
             {tab === 1 && (
                 <>
                     <SummaryFilter
+
                         filters={summaryFilters}
+
                         setFilters={setSummaryFilters}
+
                         departments={departments}
-                        onSearch={() => loadSummary(summaryFilters)}
+
+                        onSearch={(filter) =>
+                            loadSummary(filter || summaryFilters)
+                        }
                     />
 
                     <AttendanceSummaryTable

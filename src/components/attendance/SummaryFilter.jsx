@@ -9,6 +9,7 @@ import {
 
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import dayjs from "dayjs";
 
 export default function SummaryFilter({
 
@@ -192,6 +193,25 @@ export default function SummaryFilter({
                         <Button
                             variant="outlined"
                             startIcon={<RefreshIcon />}
+                            onClick={() => {
+
+                                const reset = {
+
+                                    month: dayjs().month() + 1,
+
+                                    year: dayjs().year(),
+
+                                    department: "",
+
+                                    search: ""
+
+                                };
+
+                                setFilters(reset);
+
+                                onSearch(reset);
+
+                            }}
                         >
                             Reset
                         </Button>
@@ -199,7 +219,7 @@ export default function SummaryFilter({
                         <Button
                             variant="contained"
                             startIcon={<SearchIcon />}
-                            onClick={onSearch}
+                            onClick={() => onSearch(filters)}
                         >
                             Cari
                         </Button>
