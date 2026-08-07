@@ -32,10 +32,12 @@ const attendanceService = {
     return data;
   },
 
-  getSummary: async () => {
-    const response = await api.get("/attendance/summary");
+  getSummary: async (params) => {
+    const { data } = await api.get("/attendance/summary", {
+      params,
+    });
 
-    return response.data;
+    return data;
   },
   getEmployeeAttendance: async (id) => {
     const { data } = await api.get(`/attendance/employee/${id}`);

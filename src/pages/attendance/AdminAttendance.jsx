@@ -13,6 +13,7 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
 import AttendanceSummaryTable from "../../components/attendance/AttendanceSummaryTable";
 import DailyFilter from "../../components/layout/DailyFilter";
+import SummaryFilter from "../../components/attendance/SummaryFilter";
 import DailySummaryCards from "../../components/attendance/DailySummaryCards";
 
 import attendanceService from "../../services/attService";
@@ -35,15 +36,34 @@ export default function AdminAttendance() {
         checkout: 0,
         absent: 0
     });
+    const [summaryFilters, setSummaryFilters] = useState({
+
+        month: dayjs().month() + 1,
+
+        year: dayjs().year(),
+
+        department: "",
+
+        search: ""
+
+    });
     const [departments, setDepartments] = useState([]);
     const [tab, setTab] = useState(0);
     useEffect(() => {
 
-        loadSummary();
+        loadSummary(summaryFilters);
         loadDepartments();
         loadDailyAttendance(filters);
 
     }, []);
+    const loadSummary = async (params = {}) => {
+
+        const result =
+            await attendanceService.getSummary(params);
+
+        setSummaryData(result.data);
+
+    };
     const loadDepartments = async () => {
 
         const result = await attendanceService.getDepartments();
@@ -162,10 +182,17 @@ export default function AdminAttendance() {
 
             )}
             {tab === 1 && (
+                <>
+                    <SummaryFilter
+                        filters={summaryFilters}
+                        setFilters={setSummaryFilters}
+                        departments={departments}
+                        onSearch={() => loadSummary(summaryFilters)}
+                    />
 
-                <AttendanceSummaryTable
-                    data={summaryData}
-                />
+                    <AttendanceSummaryTable
+                        data={summaryData}
+                    /></>
             )}
         </>
 
