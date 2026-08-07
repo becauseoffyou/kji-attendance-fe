@@ -174,13 +174,32 @@ export default function DailyFilter({
 
 
                         <Button
-                            size="small"
                             variant="outlined"
                             startIcon={<RefreshIcon />}
-                        >
-                            Reset
-                        </Button>
+                            onClick={() => {
 
+                                const reset = {
+
+                                    date: dayjs(),
+
+                                    department: "",
+
+                                    status: "",
+
+                                    search: ""
+
+                                };
+
+                                setFilters(reset);
+
+                                onSearch(reset);
+
+                            }}
+                        >
+
+                            Reset
+
+                        </Button>
                         <Button
                             variant="contained"
                             startIcon={<SearchIcon />}

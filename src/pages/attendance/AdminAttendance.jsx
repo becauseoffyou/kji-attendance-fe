@@ -97,10 +97,13 @@ export default function AdminAttendance() {
             setLoadingDaily(true);
 
             const payload = {
+
                 ...params,
+
                 date: params.date
                     ? dayjs(params.date).format("YYYY-MM-DD")
-                    : null
+                    : ""
+
             };
 
             const result =
@@ -118,7 +121,7 @@ export default function AdminAttendance() {
 
         }
 
-    }
+    };
 
     return (
         <>
@@ -171,7 +174,9 @@ export default function AdminAttendance() {
 
                         setFilters={setFilters}
                         departments={departments}
-                        onSearch={() => loadDailyAttendance(filters)} />
+                        onSearch={(filter) =>
+                            loadDailyAttendance(filter || filters)
+                        } />
 
                     <DailySummaryCards
                         data={dailySummary}
