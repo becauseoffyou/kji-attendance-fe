@@ -15,8 +15,11 @@ import AttendanceTable from "../../components/layout/DataTable";
 
 import { useAuth } from "../../context/AuthContext";
 import dashboardService from "../../services/dashboardService";
-export default function Dashboard() {
+import EmployeeOfMonth from "../../components/layout/EmployeeOfMonth";
 
+export default function Dashboard() {
+    const [employeeOfMonth, setEmployeeOfMonth] = useState([]);
+    const [employeeLoading, setEmployeeLoading] = useState(false);
     const { user, loading } = useAuth();
 
     const [dashboard, setDashboard] = useState({
@@ -31,29 +34,50 @@ export default function Dashboard() {
     const [loadingToday, setLoadingToday] = useState(true);
 
     useEffect(() => {
-
-        const loadToday = async () => {
-
-            try {
-
-                const result = await dashboardService.getDashboard();
-
-                setDashboard(result.data);
-            } catch (err) {
-
-                console.error(err);
-
-            } finally {
-
-                setLoadingToday(false);
-
-            }
-
-        };
-
         loadToday();
-
+        loadEmployeeOfMonth();
     }, []);
+
+    const loadToday = async () => {
+
+        try {
+
+            const result = await dashboardService.getDashboard();
+
+            setDashboard(result.data);
+        } catch (err) {
+
+            console.error(err);
+
+        } finally {
+
+            setLoadingToday(false);
+
+        }
+
+    };
+
+    const loadEmployeeOfMonth = async () => {
+
+        try {
+
+            setEmployeeLoading(true);
+
+            const result = await attendanceService.getEmployeeOfMonth();
+
+            setEmployeeOfMonth(result.data);
+
+        } catch (err) {
+
+            console.error(err);
+
+        } finally {
+
+            setEmployeeLoading(false);
+
+        }
+
+    };
 
     if (loading) {
         return <Typography>Loading...</Typography>;
@@ -140,8 +164,12 @@ export default function Dashboard() {
             >
 
                 <Grid size={12}>
-                    <AttendanceTable
+                    {/* <AttendanceTable
                         data={dashboard.attendance}
+                    /> */}
+                    <EmployeeOfMonth
+                        data={employeeOfMonth}
+                        loading={employeeLoading}
                     />
                 </Grid>
 

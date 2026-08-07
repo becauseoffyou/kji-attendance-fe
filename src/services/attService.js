@@ -60,6 +60,10 @@ const attendanceService = {
 
     return data;
   },
+  getEmployeeOfMonth: async () => {
+    const { data } = await api.get("/attendance/employee-of-month");
+    return data;
+  },
 };
 
 export default attendanceService;
