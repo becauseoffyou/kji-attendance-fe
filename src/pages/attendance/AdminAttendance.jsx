@@ -56,14 +56,7 @@ export default function AdminAttendance() {
         loadDailyAttendance(filters);
 
     }, []);
-    const loadSummary = async (params = {}) => {
 
-        const result =
-            await attendanceService.getSummary(params);
-
-        setSummaryData(result.data);
-
-    };
     const loadDepartments = async () => {
 
         const result = await attendanceService.getDepartments();
