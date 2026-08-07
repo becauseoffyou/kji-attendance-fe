@@ -142,7 +142,8 @@ export default function EmployeeOfMonth({
                                 <Card
                                     elevation={0}
                                     sx={{
-                                        borderRadius: 4,
+                                        position: "relative",
+                                        borderRadius: 1,
                                         border: `2px solid ${colors[index].border}`,
                                         bgcolor: colors[index].bg,
                                         transition: ".25s",
@@ -157,12 +158,33 @@ export default function EmployeeOfMonth({
 
                                     <CardContent>
 
-                                        <Typography
-                                            align="center"
-                                            fontSize={30}
+                                        <Box
+                                            sx={{
+                                                position: "absolute",
+                                                top: 12,
+                                                right: 12,
+                                                width: 30,
+                                                height: 30,
+                                                borderRadius: "50%",
+                                                bgcolor:
+                                                    index === 0
+                                                        ? "#F59E0B"
+                                                        : index === 1
+                                                            ? "#9CA3AF"
+                                                            : index === 2
+                                                                ? "#B45309"
+                                                                : "#0F766E",
+                                                color: "#fff",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                fontWeight: 700,
+                                                fontSize: 14,
+                                                boxShadow: 2
+                                            }}
                                         >
-                                            {medals[index]}
-                                        </Typography>
+                                            {index + 1}
+                                        </Box>
 
                                         <Avatar
                                             sx={{
