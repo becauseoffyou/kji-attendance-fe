@@ -72,13 +72,11 @@ export default function AdminAttendance() {
 
             setLoadingSummary(true);
 
-            console.log("SUMMARY FILTER :", params);
-
             const result =
                 await attendanceService.getSummary(params);
-
+            console.log("RESULT :", result);
             setSummaryData(result.data);
-
+            console.log("SUMMARY DATA :", result.data);
         } catch (err) {
 
             console.error(err);
