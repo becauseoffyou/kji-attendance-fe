@@ -22,6 +22,7 @@ import DailyAttendanceTable from "../../components/DailyAttendanceTable";
 
 export default function AdminAttendance() {
     const [loadingDaily, setLoadingDaily] = useState(false);
+    const [loadingSummary, setLoadingSummary] = useState(false);
     const [dailyAttendance, setDailyAttendance] = useState([]);
     const [summaryData, setSummaryData] = useState([]);
     const [filters, setFilters] = useState({
@@ -69,6 +70,8 @@ export default function AdminAttendance() {
 
         try {
 
+            setLoadingSummary(true);
+
             console.log("SUMMARY FILTER :", params);
 
             const result =
@@ -79,6 +82,10 @@ export default function AdminAttendance() {
         } catch (err) {
 
             console.error(err);
+
+        } finally {
+
+            setLoadingSummary(false);
 
         }
 
@@ -189,6 +196,7 @@ export default function AdminAttendance() {
 
                     <AttendanceSummaryTable
                         data={summaryData}
+                        loading={loadingSummary}
                     /></>
             )}
         </>
