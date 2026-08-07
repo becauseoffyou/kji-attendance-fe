@@ -177,7 +177,7 @@ export default function AdminAttendance() {
                         } />
 
                     <DailySummaryCards
-                        data={dailySummary}
+                        data={summaryData}
                     />
 
                     <DailyAttendanceTable
