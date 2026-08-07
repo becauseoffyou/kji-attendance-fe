@@ -196,7 +196,11 @@ export default function AttendanceSummaryTable({ data = [] }) {
                                 </TableCell>
 
                                 <TableCell align="center">
-                                    {item.alpha}
+                                    <Chip
+                                        label={`${item.alpha} Hari`}
+                                        color={item.alpha > 0 ? "error" : "success"}
+                                        size="small"
+                                    />
                                 </TableCell>
 
                                 <TableCell>
