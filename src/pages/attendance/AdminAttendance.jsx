@@ -32,10 +32,10 @@ export default function AdminAttendance() {
         search: ""
     });
     const [dailySummary, setDailySummary] = useState({
-        present: 0,
-        late: 0,
-        checkout: 0,
-        absent: 0
+        hadir: 0,
+        terlambat: 0,
+        belum_pulang: 0,
+        belum_checkin: 0
     });
     const [summaryFilters, setSummaryFilters] = useState({
 

@@ -10,10 +10,10 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 export default function DailySummaryCards({
     data = {
-        present: 0,
-        late: 0,
-        checkout: 0,
-        absent: 0
+        hadir: 0,
+        terlambat: 0,
+        belum_pulang: 0,
+        belum_checkin: 0
     }
 }) {
 
@@ -32,25 +32,25 @@ export default function DailySummaryCards({
             <Chip
                 color="success"
                 icon={<CheckCircleIcon />}
-                label={`Hadir (${data.present} Orang)`}
+                label={`Hadir (${data.hadir} Orang)`}
             />
 
             <Chip
                 color="warning"
                 icon={<AccessTimeIcon />}
-                label={`Terlambat (${data.late} Orang)`}
+                label={`Terlambat (${data.terlambat} Orang)`}
             />
 
             <Chip
                 color="primary"
                 icon={<LogoutIcon />}
-                label={`Belum Pulang (${data.checkout} Orang)`}
+                label={`Belum Pulang (${data.belum_pulang} Orang)`}
             />
 
             <Chip
                 color="error"
                 icon={<HighlightOffIcon />}
-                label={`Belum Check In (${data.absent} Orang)`}
+                label={`Belum Check In (${data.belum_checkin} Orang)`}
             />
 
         </Stack>
