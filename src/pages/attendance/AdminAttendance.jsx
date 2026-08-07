@@ -64,11 +64,15 @@ export default function AdminAttendance() {
         setDepartments(result.data);
 
     };
-    const loadSummary = async () => {
+
+    const loadSummary = async (params = summaryFilters) => {
 
         try {
 
-            const result = await attendanceService.getSummary();
+            console.log("SUMMARY FILTER :", params);
+
+            const result =
+                await attendanceService.getSummary(params);
 
             setSummaryData(result.data);
 
