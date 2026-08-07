@@ -10,6 +10,7 @@ import StatCard from "../../components/layout/StatCard";
 import AttendanceChart from "../../components/layout/AttChart";
 import TodaySummary from "../../components/layout/TodaySummary";
 import AttendanceTable from "../../components/layout/DataTable";
+import attendanceService from "../../services/attService";
 
 // import attendanceChart from "../../data/charts";
 
