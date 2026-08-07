@@ -114,18 +114,17 @@ export default function AttendanceSummaryTable({ data = [] }) {
                                         sx={{
                                             display: "flex",
                                             alignItems: "center",
-                                            gap: 2,
+                                            gap: 1.5
                                         }}
                                     >
 
                                         <Avatar
                                             sx={{
-                                                width: 42,
-                                                height: 42,
+                                                width: 38,
+                                                height: 38,
+                                                fontSize: 16,
                                                 bgcolor: "#D1D5DB",
-                                                color: "#fff",
-                                                fontWeight: 600,
-                                                flexShrink: 0
+                                                color: "#374151"
                                             }}
                                         >
                                             {item.name.charAt(0)}
@@ -134,22 +133,27 @@ export default function AttendanceSummaryTable({ data = [] }) {
                                         <Box
                                             sx={{
                                                 display: "flex",
-                                                flexDirection: "column",
-                                                justifyContent: "center"
+                                                alignItems: "center",
+                                                gap: 1
                                             }}
                                         >
 
                                             <Typography
-                                                variant="body1"
                                                 fontWeight={600}
-                                                lineHeight={1.2}
+                                                fontSize={14}
                                             >
                                                 {item.name}
                                             </Typography>
 
                                             <Typography
-                                                variant="body2"
+                                                variant="caption"
                                                 color="text.secondary"
+                                                sx={{
+                                                    bgcolor: "#F3F4F6",
+                                                    px: 1,
+                                                    py: .2,
+                                                    borderRadius: 10
+                                                }}
                                             >
                                                 {item.department}
                                             </Typography>
