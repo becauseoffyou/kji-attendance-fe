@@ -203,7 +203,7 @@ export default function DailyFilter({
                         <Button
                             variant="contained"
                             startIcon={<SearchIcon />}
-                            onClick={onSearch}
+                            onClick={() => onSearch(filters)}
                         >
                             Cari
                         </Button>
