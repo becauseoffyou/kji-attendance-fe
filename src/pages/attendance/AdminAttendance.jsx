@@ -24,7 +24,6 @@ export default function AdminAttendance() {
     const [loadingDaily, setLoadingDaily] = useState(false);
     const [loadingSummary, setLoadingSummary] = useState(false);
     const [dailyAttendance, setDailyAttendance] = useState([]);
-    const [summaryData, setSummaryData] = useState([]);
     const [filters, setFilters] = useState({
         date: dayjs(),
         department: "",
@@ -37,6 +36,8 @@ export default function AdminAttendance() {
         belum_pulang: 0,
         belum_checkin: 0
     });
+
+    const [summaryData, setSummaryData] = useState([]);
     const [summaryFilters, setSummaryFilters] = useState({
 
         month: dayjs().month() + 1,
@@ -52,8 +53,12 @@ export default function AdminAttendance() {
     const [tab, setTab] = useState(0);
     useEffect(() => {
 
+        loadDailySummary();
+
         loadSummary(summaryFilters);
+
         loadDepartments();
+
         loadDailyAttendance(filters);
 
     }, []);
@@ -118,6 +123,22 @@ export default function AdminAttendance() {
         }
 
     };
+    const loadDailySummary = async () => {
+
+        try {
+
+            const result =
+                await attendanceService.getSummary();
+
+            setDailySummary(result.data);
+
+        } catch (err) {
+
+            console.error(err);
+
+        }
+
+    };
 
     return (
         <>
@@ -175,7 +196,7 @@ export default function AdminAttendance() {
                         } />
 
                     <DailySummaryCards
-                        data={summaryData}
+                        data={dailySummary}
                     />
 
                     <DailyAttendanceTable
