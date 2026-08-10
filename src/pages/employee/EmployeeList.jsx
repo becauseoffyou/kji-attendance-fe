@@ -128,8 +128,16 @@ export default function EmployeeList() {
 
                 <Button
                     variant="contained"
+                    size="small"
                     startIcon={<AddIcon />}
                     onClick={() => setOpenCreate(true)}
+                    sx={{
+                        px: 1.8,
+                        py: 0.8,
+                        borderRadius: 2,
+                        textTransform: "none",
+                        fontWeight: 600,
+                    }}
                 >
                     Tambah Karyawan
                 </Button>
@@ -142,7 +150,7 @@ export default function EmployeeList() {
                 elevation={0}
                 sx={{
                     border: "1px solid #E5E7EB",
-                    borderRadius: 3,
+                    borderRadius: 1,
                 }}
             >
 
