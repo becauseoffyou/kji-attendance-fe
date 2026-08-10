@@ -18,7 +18,7 @@ const menu = [
     {
         title: "Karyawan",
         icon: <GroupsIcon />,
-        path: "/employee",
+        path: "/admin/employees",
     },
     {
         title: "Laporan",
