@@ -517,6 +517,7 @@ export default function EmployeeList() {
             <EmployeeCreate
                 open={openCreate}
                 onClose={() => setOpenCreate(false)}
+                onSuccess={loadEmployees}
             />
         </Box>
     );

@@ -14,12 +14,14 @@ import {
 } from "@mui/material";
 
 import SaveIcon from "@mui/icons-material/Save";
+import attendanceService from "../../services/attService";
 
 export default function EmployeeCreate({
     open,
     onClose,
+    onSuccess,
 }) {
-
+    const [saving, setSaving] = useState(false);
     const [form, setForm] = useState({
         nik: "",
         name: "",
@@ -41,7 +43,10 @@ export default function EmployeeCreate({
         photo: null,
         ktp: null,
     });
-
+    const generatedPassword =
+        form.nik.length >= 4
+            ? `kancha${form.nik.slice(-4)}`
+            : "";
 
     const handleChange = (e) => {
 
@@ -77,10 +82,114 @@ export default function EmployeeCreate({
 
         e.preventDefault();
 
-        console.log(
-            "EMPLOYEE FORM:",
-            form
-        );
+        try {
+
+            setSaving(true);
+
+            const formData = new FormData();
+
+            formData.append("nik", form.nik);
+            formData.append("name", form.name);
+            formData.append("email", form.email);
+            formData.append("phone", form.phone);
+            formData.append("department", form.department);
+            formData.append("position", form.position);
+            formData.append("join_date", form.join_date);
+            formData.append("address", form.address);
+            formData.append(
+                "employee_type",
+                form.employee_type
+            );
+
+            if (form.employee_type === "KONTRAK") {
+
+                formData.append(
+                    "contract_start_date",
+                    form.contract_start_date
+                );
+
+                formData.append(
+                    "contract_end_date",
+                    form.contract_end_date
+                );
+
+            }
+
+            if (form.office_location_id) {
+
+                formData.append(
+                    "office_location_id",
+                    form.office_location_id
+                );
+
+            }
+
+            if (form.supervisor_id) {
+
+                formData.append(
+                    "supervisor_id",
+                    form.supervisor_id
+                );
+
+            }
+
+            if (form.photo) {
+
+                formData.append(
+                    "photo",
+                    form.photo
+                );
+
+            }
+
+            if (form.ktp) {
+
+                formData.append(
+                    "ktp",
+                    form.ktp
+                );
+
+            }
+
+            const result =
+                await attendanceService.createEmployee(
+                    formData
+                );
+
+            console.log(
+                "CREATE EMPLOYEE RESULT:",
+                result
+            );
+
+            if (result.success) {
+
+                alert(
+                    "Karyawan berhasil ditambahkan"
+                );
+
+                onSuccess?.();
+
+                onClose();
+
+            }
+
+        } catch (err) {
+
+            console.error(
+                "CREATE EMPLOYEE ERROR:",
+                err
+            );
+
+            alert(
+                err.response?.data?.message ||
+                "Gagal menambahkan karyawan"
+            );
+
+        } finally {
+
+            setSaving(false);
+
+        }
 
     };
 
@@ -90,6 +199,7 @@ export default function EmployeeCreate({
         onClose();
 
     };
+
 
 
     return (
@@ -460,8 +570,12 @@ export default function EmployeeCreate({
                         type="submit"
                         variant="contained"
                         startIcon={<SaveIcon />}
+                        disabled={saving}
                     >
-                        Simpan Karyawan
+                        {saving
+                            ? "Menyimpan..."
+                            : "Simpan Karyawan"
+                        }
                     </Button>
 
                 </DialogActions>
