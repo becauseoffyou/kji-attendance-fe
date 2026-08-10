@@ -64,6 +64,13 @@ const attendanceService = {
     const { data } = await api.get("/attendance/employee-of-month");
     return data;
   },
+  getAttendanceSummary: async (params) => {
+    const { data } = await api.get("/attendance/attendance-summary", {
+      params,
+    });
+
+    return data;
+  },
 };
 
 export default attendanceService;
