@@ -23,11 +23,12 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import EmployeeCreate from "./EmployeeCreate";
 
 export default function EmployeeList() {
 
     const [search, setSearch] = useState("");
-
+    const [openCreate, setOpenCreate] = useState(false);
     // Dummy dulu
     const employees = [
         {
@@ -96,13 +97,10 @@ export default function EmployeeList() {
                 <Button
                     variant="contained"
                     startIcon={<AddIcon />}
-                    onClick={() => {
-                        console.log("Tambah Karyawan");
-                    }}
+                    onClick={() => setOpenCreate(true)}
                 >
                     Tambah Karyawan
                 </Button>
-
             </Stack>
 
 
@@ -376,7 +374,10 @@ export default function EmployeeList() {
                 </CardContent>
 
             </Card>
-
+            <EmployeeCreate
+                open={openCreate}
+                onClose={() => setOpenCreate(false)}
+            />
         </Box>
     );
 }

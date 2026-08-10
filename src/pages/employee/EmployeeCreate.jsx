@@ -1,9 +1,12 @@
 import { useState } from "react";
+
 import {
     Box,
     Button,
-    Card,
-    CardContent,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     Grid,
     MenuItem,
     TextField,
@@ -12,7 +15,10 @@ import {
 
 import SaveIcon from "@mui/icons-material/Save";
 
-export default function EmployeeCreate() {
+export default function EmployeeCreate({
+    open,
+    onClose,
+}) {
 
     const [form, setForm] = useState({
         nik: "",
@@ -36,9 +42,13 @@ export default function EmployeeCreate() {
         ktp: null,
     });
 
+
     const handleChange = (e) => {
 
-        const { name, value } = e.target;
+        const {
+            name,
+            value
+        } = e.target;
 
         setForm((prev) => ({
             ...prev,
@@ -47,9 +57,13 @@ export default function EmployeeCreate() {
 
     };
 
+
     const handleFileChange = (e) => {
 
-        const { name, files } = e.target;
+        const {
+            name,
+            files
+        } = e.target;
 
         setForm((prev) => ({
             ...prev,
@@ -58,361 +72,404 @@ export default function EmployeeCreate() {
 
     };
 
+
     const handleSubmit = async (e) => {
 
         e.preventDefault();
 
-        console.log("EMPLOYEE FORM :", form);
+        console.log(
+            "EMPLOYEE FORM:",
+            form
+        );
 
     };
 
+
+    const handleClose = () => {
+
+        onClose();
+
+    };
+
+
     return (
 
-        <Box>
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            fullWidth
+            maxWidth="md"
+        >
 
-            <Typography
-                variant="h5"
-                fontWeight={700}
-                mb={3}
+            <DialogTitle>
+
+                <Typography
+                    fontWeight={700}
+                >
+                    Tambah Karyawan
+                </Typography>
+
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                >
+                    Masukkan data karyawan dan akun login
+                </Typography>
+
+            </DialogTitle>
+
+
+            <Box
+                component="form"
+                onSubmit={handleSubmit}
             >
-                Tambah Karyawan
-            </Typography>
 
+                <DialogContent>
 
-            <Card
-                elevation={0}
-                sx={{
-                    border: "1px solid #E5E7EB",
-                    borderRadius: 3,
-                }}
-            >
-
-                <CardContent>
-
-                    <Box
-                        component="form"
-                        onSubmit={handleSubmit}
+                    <Grid
+                        container
+                        spacing={2}
                     >
 
-                        <Grid
-                            container
-                            spacing={2}
-                        >
+                        {/* FOTO */}
 
-                            {/* FOTO */}
+                        <Grid size={{ xs: 12 }}>
 
-                            <Grid size={{ xs: 12 }}>
+                            <Typography
+                                fontWeight={600}
+                                mb={1}
+                            >
+                                Foto Karyawan
+                            </Typography>
+
+                            <Button
+                                variant="outlined"
+                                component="label"
+                            >
+                                Pilih Foto
+
+                                <input
+                                    hidden
+                                    type="file"
+                                    name="photo"
+                                    accept="image/jpeg,image/png,image/webp"
+                                    onChange={handleFileChange}
+                                />
+
+                            </Button>
+
+                            {form.photo && (
 
                                 <Typography
-                                    fontWeight={600}
-                                    mb={1}
+                                    variant="caption"
+                                    display="block"
+                                    mt={1}
+                                    color="text.secondary"
                                 >
-                                    Foto Karyawan
+                                    {form.photo.name}
                                 </Typography>
-
-                                <Button
-                                    variant="outlined"
-                                    component="label"
-                                >
-                                    Pilih Foto
-
-                                    <input
-                                        hidden
-                                        type="file"
-                                        name="photo"
-                                        accept="image/jpeg,image/png,image/webp"
-                                        onChange={handleFileChange}
-                                    />
-
-                                </Button>
-
-                                {form.photo && (
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                        mt={1}
-                                    >
-                                        {form.photo.name}
-                                    </Typography>
-                                )}
-
-                            </Grid>
-
-
-                            {/* KTP */}
-
-                            <Grid size={{ xs: 12 }}>
-
-                                <Typography
-                                    fontWeight={600}
-                                    mb={1}
-                                >
-                                    KTP
-                                </Typography>
-
-                                <Button
-                                    variant="outlined"
-                                    component="label"
-                                >
-                                    Pilih KTP
-
-                                    <input
-                                        hidden
-                                        type="file"
-                                        name="ktp"
-                                        accept="image/jpeg,image/png,image/webp"
-                                        onChange={handleFileChange}
-                                    />
-
-                                </Button>
-
-                                {form.ktp && (
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                        mt={1}
-                                    >
-                                        {form.ktp.name}
-                                    </Typography>
-                                )}
-
-                            </Grid>
-
-
-                            {/* NIK */}
-
-                            <Grid size={{ xs: 12, md: 6 }}>
-
-                                <TextField
-                                    fullWidth
-                                    required
-                                    label="NIK KTP"
-                                    name="nik"
-                                    value={form.nik}
-                                    onChange={handleChange}
-                                    inputProps={{
-                                        maxLength: 16,
-                                    }}
-                                />
-
-                            </Grid>
-
-
-                            {/* NAMA */}
-
-                            <Grid size={{ xs: 12, md: 6 }}>
-
-                                <TextField
-                                    fullWidth
-                                    required
-                                    label="Nama Lengkap"
-                                    name="name"
-                                    value={form.name}
-                                    onChange={handleChange}
-                                />
-
-                            </Grid>
-
-
-                            {/* EMAIL */}
-
-                            <Grid size={{ xs: 12, md: 6 }}>
-
-                                <TextField
-                                    fullWidth
-                                    required
-                                    type="email"
-                                    label="Email"
-                                    name="email"
-                                    value={form.email}
-                                    onChange={handleChange}
-                                />
-
-                            </Grid>
-
-
-                            {/* PHONE */}
-
-                            <Grid size={{ xs: 12, md: 6 }}>
-
-                                <TextField
-                                    fullWidth
-                                    label="No. HP"
-                                    name="phone"
-                                    value={form.phone}
-                                    onChange={handleChange}
-                                />
-
-                            </Grid>
-
-
-                            {/* DEPARTMENT */}
-
-                            <Grid size={{ xs: 12, md: 6 }}>
-
-                                <TextField
-                                    fullWidth
-                                    required
-                                    label="Departemen"
-                                    name="department"
-                                    value={form.department}
-                                    onChange={handleChange}
-                                />
-
-                            </Grid>
-
-
-                            {/* POSITION */}
-
-                            <Grid size={{ xs: 12, md: 6 }}>
-
-                                <TextField
-                                    fullWidth
-                                    label="Jabatan"
-                                    name="position"
-                                    value={form.position}
-                                    onChange={handleChange}
-                                />
-
-                            </Grid>
-
-
-                            {/* JOIN DATE */}
-
-                            <Grid size={{ xs: 12, md: 6 }}>
-
-                                <TextField
-                                    fullWidth
-                                    type="date"
-                                    label="Tanggal Masuk"
-                                    name="join_date"
-                                    value={form.join_date}
-                                    onChange={handleChange}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-
-                            </Grid>
-
-
-                            {/* EMPLOYEE TYPE */}
-
-                            <Grid size={{ xs: 12, md: 6 }}>
-
-                                <TextField
-                                    fullWidth
-                                    select
-                                    label="Jenis Karyawan"
-                                    name="employee_type"
-                                    value={form.employee_type}
-                                    onChange={handleChange}
-                                >
-
-                                    <MenuItem value="TETAP">
-                                        Pegawai Tetap
-                                    </MenuItem>
-
-                                    <MenuItem value="KONTRAK">
-                                        Pegawai Kontrak
-                                    </MenuItem>
-
-                                </TextField>
-
-                            </Grid>
-
-
-                            {/* CONTRACT START */}
-
-                            {form.employee_type === "KONTRAK" && (
-
-                                <>
-
-                                    <Grid size={{ xs: 12, md: 6 }}>
-
-                                        <TextField
-                                            fullWidth
-                                            type="date"
-                                            label="Mulai Kontrak"
-                                            name="contract_start_date"
-                                            value={form.contract_start_date}
-                                            onChange={handleChange}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                        />
-
-                                    </Grid>
-
-
-                                    <Grid size={{ xs: 12, md: 6 }}>
-
-                                        <TextField
-                                            fullWidth
-                                            type="date"
-                                            label="Akhir Kontrak"
-                                            name="contract_end_date"
-                                            value={form.contract_end_date}
-                                            onChange={handleChange}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                        />
-
-                                    </Grid>
-
-                                </>
 
                             )}
 
+                        </Grid>
 
-                            {/* ALAMAT */}
 
-                            <Grid size={{ xs: 12 }}>
+                        {/* KTP */}
 
-                                <TextField
-                                    fullWidth
-                                    multiline
-                                    rows={3}
-                                    label="Alamat"
-                                    name="address"
-                                    value={form.address}
-                                    onChange={handleChange}
+                        <Grid size={{ xs: 12 }}>
+
+                            <Typography
+                                fontWeight={600}
+                                mb={1}
+                            >
+                                Foto KTP
+                            </Typography>
+
+                            <Button
+                                variant="outlined"
+                                component="label"
+                            >
+                                Pilih KTP
+
+                                <input
+                                    hidden
+                                    type="file"
+                                    name="ktp"
+                                    accept="image/jpeg,image/png,image/webp"
+                                    onChange={handleFileChange}
                                 />
 
-                            </Grid>
+                            </Button>
 
+                            {form.ktp && (
 
-                            {/* SAVE */}
-
-                            <Grid size={{ xs: 12 }}>
-
-                                <Box
-                                    display="flex"
-                                    justifyContent="flex-end"
+                                <Typography
+                                    variant="caption"
+                                    display="block"
+                                    mt={1}
+                                    color="text.secondary"
                                 >
+                                    {form.ktp.name}
+                                </Typography>
 
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        startIcon={<SaveIcon />}
-                                    >
-                                        Simpan Karyawan
-                                    </Button>
-
-                                </Box>
-
-                            </Grid>
+                            )}
 
                         </Grid>
 
-                    </Box>
 
-                </CardContent>
+                        {/* NIK */}
 
-            </Card>
+                        <Grid size={{ xs: 12, md: 6 }}>
 
-        </Box>
+                            <TextField
+                                fullWidth
+                                required
+                                label="NIK KTP"
+                                name="nik"
+                                value={form.nik}
+                                onChange={handleChange}
+                                inputProps={{
+                                    maxLength: 16,
+                                }}
+                            />
+
+                        </Grid>
+
+
+                        {/* NAMA */}
+
+                        <Grid size={{ xs: 12, md: 6 }}>
+
+                            <TextField
+                                fullWidth
+                                required
+                                label="Nama Lengkap"
+                                name="name"
+                                value={form.name}
+                                onChange={handleChange}
+                            />
+
+                        </Grid>
+
+
+                        {/* EMAIL */}
+
+                        <Grid size={{ xs: 12, md: 6 }}>
+
+                            <TextField
+                                fullWidth
+                                required
+                                type="email"
+                                label="Email"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                            />
+
+                        </Grid>
+
+
+                        {/* PHONE */}
+
+                        <Grid size={{ xs: 12, md: 6 }}>
+
+                            <TextField
+                                fullWidth
+                                label="No. HP"
+                                name="phone"
+                                value={form.phone}
+                                onChange={handleChange}
+                            />
+
+                        </Grid>
+
+
+                        {/* DEPARTMENT */}
+
+                        <Grid size={{ xs: 12, md: 6 }}>
+
+                            <TextField
+                                fullWidth
+                                required
+                                label="Departemen"
+                                name="department"
+                                value={form.department}
+                                onChange={handleChange}
+                            />
+
+                        </Grid>
+
+
+                        {/* POSITION */}
+
+                        <Grid size={{ xs: 12, md: 6 }}>
+
+                            <TextField
+                                fullWidth
+                                label="Jabatan"
+                                name="position"
+                                value={form.position}
+                                onChange={handleChange}
+                            />
+
+                        </Grid>
+
+
+                        {/* JOIN DATE */}
+
+                        <Grid size={{ xs: 12, md: 6 }}>
+
+                            <TextField
+                                fullWidth
+                                type="date"
+                                label="Tanggal Masuk"
+                                name="join_date"
+                                value={form.join_date}
+                                onChange={handleChange}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+
+                        </Grid>
+
+
+                        {/* TIPE */}
+
+                        <Grid size={{ xs: 12, md: 6 }}>
+
+                            <TextField
+                                fullWidth
+                                select
+                                label="Jenis Karyawan"
+                                name="employee_type"
+                                value={form.employee_type}
+                                onChange={handleChange}
+                            >
+
+                                <MenuItem value="TETAP">
+                                    Pegawai Tetap
+                                </MenuItem>
+
+                                <MenuItem value="KONTRAK">
+                                    Pegawai Kontrak
+                                </MenuItem>
+
+                            </TextField>
+
+                        </Grid>
+
+
+                        {/* KONTRAK */}
+
+                        {form.employee_type === "KONTRAK" && (
+
+                            <>
+
+                                <Grid
+                                    size={{
+                                        xs: 12,
+                                        md: 6
+                                    }}
+                                >
+
+                                    <TextField
+                                        fullWidth
+                                        type="date"
+                                        label="Mulai Kontrak"
+                                        name="contract_start_date"
+                                        value={
+                                            form.contract_start_date
+                                        }
+                                        onChange={
+                                            handleChange
+                                        }
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+
+                                </Grid>
+
+
+                                <Grid
+                                    size={{
+                                        xs: 12,
+                                        md: 6
+                                    }}
+                                >
+
+                                    <TextField
+                                        fullWidth
+                                        type="date"
+                                        label="Akhir Kontrak"
+                                        name="contract_end_date"
+                                        value={
+                                            form.contract_end_date
+                                        }
+                                        onChange={
+                                            handleChange
+                                        }
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+
+                                </Grid>
+
+                            </>
+
+                        )}
+
+
+                        {/* ALAMAT */}
+
+                        <Grid size={{ xs: 12 }}>
+
+                            <TextField
+                                fullWidth
+                                multiline
+                                rows={3}
+                                label="Alamat"
+                                name="address"
+                                value={form.address}
+                                onChange={handleChange}
+                            />
+
+                        </Grid>
+
+                    </Grid>
+
+                </DialogContent>
+
+
+                <DialogActions
+                    sx={{
+                        px: 3,
+                        pb: 2
+                    }}
+                >
+
+                    <Button
+                        onClick={handleClose}
+                    >
+                        Batal
+                    </Button>
+
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        startIcon={<SaveIcon />}
+                    >
+                        Simpan Karyawan
+                    </Button>
+
+                </DialogActions>
+
+            </Box>
+
+        </Dialog>
 
     );
+
 }
