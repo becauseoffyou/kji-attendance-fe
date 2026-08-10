@@ -378,6 +378,16 @@ export default function EmployeeCreate({
 
                         </Grid>
 
+                        <Grid size={{ xs: 12, md: 6 }}>
+                            <TextField
+                                fullWidth
+                                label="Password Awal"
+                                value={generatedPassword}
+                                disabled
+                                helperText="Otomatis dari 4 digit terakhir NIK"
+                            />
+                        </Grid>
+
 
                         {/* PHONE */}
 
@@ -428,7 +438,6 @@ export default function EmployeeCreate({
                         {/* JOIN DATE */}
 
                         <Grid size={{ xs: 12, md: 6 }}>
-
                             <TextField
                                 fullWidth
                                 type="date"
@@ -440,7 +449,6 @@ export default function EmployeeCreate({
                                     shrink: true,
                                 }}
                             />
-
                         </Grid>
 
 
@@ -473,62 +481,35 @@ export default function EmployeeCreate({
                         {/* KONTRAK */}
 
                         {form.employee_type === "KONTRAK" && (
-
                             <>
-
-                                <Grid
-                                    size={{
-                                        xs: 12,
-                                        md: 6
-                                    }}
-                                >
-
+                                <Grid size={{ xs: 12, md: 6 }}>
                                     <TextField
                                         fullWidth
                                         type="date"
-                                        label="Mulai Kontrak"
+                                        label="Tanggal Mulai Kontrak"
                                         name="contract_start_date"
-                                        value={
-                                            form.contract_start_date
-                                        }
-                                        onChange={
-                                            handleChange
-                                        }
+                                        value={form.contract_start_date}
+                                        onChange={handleChange}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
                                     />
-
                                 </Grid>
 
-
-                                <Grid
-                                    size={{
-                                        xs: 12,
-                                        md: 6
-                                    }}
-                                >
-
+                                <Grid size={{ xs: 12, md: 6 }}>
                                     <TextField
                                         fullWidth
                                         type="date"
-                                        label="Akhir Kontrak"
+                                        label="Tanggal Akhir Kontrak"
                                         name="contract_end_date"
-                                        value={
-                                            form.contract_end_date
-                                        }
-                                        onChange={
-                                            handleChange
-                                        }
+                                        value={form.contract_end_date}
+                                        onChange={handleChange}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
                                     />
-
                                 </Grid>
-
                             </>
-
                         )}
 
 
