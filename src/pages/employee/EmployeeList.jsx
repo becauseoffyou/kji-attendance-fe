@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
     Avatar,
@@ -24,6 +24,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EmployeeCreate from "./EmployeeCreate";
+import attendanceService from "../../services/attService";
 
 export default function EmployeeList() {
 
@@ -31,27 +32,38 @@ export default function EmployeeList() {
     const [openCreate, setOpenCreate] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
-    // Dummy dulu
-    const employees = [
-        {
-            id: 1,
-            name: "Budi",
-            nik: "3276011234567890",
-            department: "IT",
-            position: "Programmer",
-            employee_type: "TETAP",
-            status: true,
-        },
-        {
-            id: 2,
-            name: "User",
-            nik: "3276011234567891",
-            department: "Grippel",
-            position: "Staff",
-            employee_type: "KONTRAK",
-            status: true,
-        },
-    ];
+    const [employees, setEmployees] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        loadEmployees();
+    }, []);
+
+    const loadEmployees = async () => {
+
+        try {
+
+            setLoading(true);
+
+            const result =
+                await attendanceService.getEmployees();
+
+            console.log("EMPLOYEES :", result.data);
+
+            setEmployees(result.data);
+
+        } catch (err) {
+
+            console.error("GET EMPLOYEES ERROR:", err);
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
     const handleSort = (property) => {
 
         const isAsc =

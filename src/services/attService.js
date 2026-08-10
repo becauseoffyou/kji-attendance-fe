@@ -71,6 +71,11 @@ const attendanceService = {
 
     return data;
   },
+  getEmployees: async () => {
+    const { data } = await api.get("/auth/employees");
+
+    return data;
+  },
 };
 
 export default attendanceService;
