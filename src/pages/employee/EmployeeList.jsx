@@ -182,7 +182,6 @@ export default function EmployeeList() {
                     >
 
                         <Table>
-
                             <TableHead>
 
                                 <TableRow>
@@ -190,71 +189,83 @@ export default function EmployeeList() {
                                     <TableCell>
                                         <TableSortLabel
                                             active={orderBy === "name"}
-                                            direction={
-                                                orderBy === "name"
-                                                    ? order
-                                                    : "asc"
-                                            }
+                                            direction={orderBy === "name" ? order : "asc"}
                                             onClick={() => handleSort("name")}
+                                            sx={{
+                                                "& .MuiTableSortLabel-icon": {
+                                                    opacity: 0.5,
+                                                },
+                                                "&.Mui-active .MuiTableSortLabel-icon": {
+                                                    opacity: 1,
+                                                },
+                                            }}
                                         >
                                             Karyawan
                                         </TableSortLabel>
                                     </TableCell>
+
+
                                     <TableCell>
                                         <TableSortLabel
                                             active={orderBy === "nik"}
-                                            direction={
-                                                orderBy === "nik"
-                                                    ? order
-                                                    : "asc"
-                                            }
+                                            direction={orderBy === "nik" ? order : "asc"}
                                             onClick={() => handleSort("nik")}
+                                            sx={{
+                                                "& .MuiTableSortLabel-icon": {
+                                                    opacity: 0.5,
+                                                },
+                                                "&.Mui-active .MuiTableSortLabel-icon": {
+                                                    opacity: 1,
+                                                },
+                                            }}
                                         >
                                             NIK
                                         </TableSortLabel>
                                     </TableCell>
 
+
                                     <TableCell>
                                         <TableSortLabel
                                             active={orderBy === "department"}
-                                            direction={
-                                                orderBy === "department"
-                                                    ? order
-                                                    : "asc"
-                                            }
+                                            direction={orderBy === "department" ? order : "asc"}
                                             onClick={() => handleSort("department")}
+                                            sx={{
+                                                "& .MuiTableSortLabel-icon": {
+                                                    opacity: 0.5,
+                                                },
+                                                "&.Mui-active .MuiTableSortLabel-icon": {
+                                                    opacity: 1,
+                                                },
+                                            }}
                                         >
                                             Departemen
                                         </TableSortLabel>
                                     </TableCell>
 
+
                                     <TableCell>
                                         <TableSortLabel
                                             active={orderBy === "position"}
-                                            direction={
-                                                orderBy === "position"
-                                                    ? order
-                                                    : "asc"
-                                            }
+                                            direction={orderBy === "position" ? order : "asc"}
                                             onClick={() => handleSort("position")}
+                                            sx={{
+                                                "& .MuiTableSortLabel-icon": {
+                                                    opacity: 0.5,
+                                                },
+                                                "&.Mui-active .MuiTableSortLabel-icon": {
+                                                    opacity: 1,
+                                                },
+                                            }}
                                         >
                                             Jabatan
                                         </TableSortLabel>
                                     </TableCell>
 
+
                                     <TableCell>
-                                        <TableSortLabel
-                                            active={orderBy === "status"}
-                                            direction={
-                                                orderBy === "status"
-                                                    ? order
-                                                    : "asc"
-                                            }
-                                            onClick={() => handleSort("status")}
-                                        >
-                                            Status
-                                        </TableSortLabel>
+                                        Status
                                     </TableCell>
+
 
                                     <TableCell>
                                         <TableSortLabel
@@ -264,7 +275,17 @@ export default function EmployeeList() {
                                                     ? order
                                                     : "asc"
                                             }
-                                            onClick={() => handleSort("employee_type")}
+                                            onClick={() =>
+                                                handleSort("employee_type")
+                                            }
+                                            sx={{
+                                                "& .MuiTableSortLabel-icon": {
+                                                    opacity: 0.5,
+                                                },
+                                                "&.Mui-active .MuiTableSortLabel-icon": {
+                                                    opacity: 1,
+                                                },
+                                            }}
                                         >
                                             Tipe
                                         </TableSortLabel>
