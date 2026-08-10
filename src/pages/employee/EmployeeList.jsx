@@ -105,7 +105,6 @@ export default function EmployeeList() {
                     sm: "center"
                 }}
                 spacing={2}
-                mb={5}
             >
 
                 <Box>
@@ -149,8 +148,9 @@ export default function EmployeeList() {
             <Card
                 elevation={0}
                 sx={{
+                    mt: 3,
                     border: "1px solid #E5E7EB",
-                    borderRadius: 1,
+                    borderRadius: 3,
                 }}
             >
 
