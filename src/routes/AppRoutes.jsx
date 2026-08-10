@@ -21,7 +21,7 @@ import Leave from "../pages/employee/Leave";
 import Approval from "../pages/employee/Approval";
 import ApprovalDetail from "../pages/employee/ApprovalDetail";
 import AdminAttendance from "../pages/attendance/AdminAttendance";
-import EmployeeCreate from "../pages/employee/EmployeeCreate";
+import EmployeeList from "../pages/employee/EmployeeList";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
@@ -86,7 +86,6 @@ export default function AppRoutes() {
                         </ProtectedAdminRoute>
                     }
                 />
-
                 <Route
                     path="/admin/employees"
                     element={
@@ -95,7 +94,7 @@ export default function AppRoutes() {
                                 title="Karyawan"
                                 subtitle="Kelola data karyawan"
                             >
-                                <EmployeeCreate />
+                                <EmployeeList />
                             </DashboardLayout>
                         </ProtectedAdminRoute>
                     }
