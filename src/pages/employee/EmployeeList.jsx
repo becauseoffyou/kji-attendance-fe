@@ -13,7 +13,7 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableHead,
+    TableHead, TableSortLabel,
     TableRow,
     TextField,
     Typography,
@@ -29,6 +29,8 @@ export default function EmployeeList() {
 
     const [search, setSearch] = useState("");
     const [openCreate, setOpenCreate] = useState(false);
+    const [order, setOrder] = useState("asc");
+    const [orderBy, setOrderBy] = useState("name");
     // Dummy dulu
     const employees = [
         {
@@ -50,12 +52,42 @@ export default function EmployeeList() {
             status: true,
         },
     ];
+    const handleSort = (property) => {
 
+        const isAsc =
+            orderBy === property && order === "asc";
+
+        setOrder(isAsc ? "desc" : "asc");
+        setOrderBy(property);
+
+    };
     const filteredEmployees = employees.filter((item) =>
         item.name
             .toLowerCase()
             .includes(search.toLowerCase())
     );
+
+    const sortedEmployees = [...filteredEmployees].sort((a, b) => {
+
+        const valueA = a[orderBy] ?? "";
+        const valueB = b[orderBy] ?? "";
+
+        return (
+            valueA
+                .toString()
+                .localeCompare(
+                    valueB.toString(),
+                    "id",
+                    {
+                        numeric: true,
+                        sensitivity: "base"
+                    }
+                )
+            *
+            (order === "asc" ? 1 : -1)
+        );
+
+    });
 
     return (
         <Box>
@@ -156,28 +188,88 @@ export default function EmployeeList() {
                                 <TableRow>
 
                                     <TableCell>
-                                        Karyawan
+                                        <TableSortLabel
+                                            active={orderBy === "name"}
+                                            direction={
+                                                orderBy === "name"
+                                                    ? order
+                                                    : "asc"
+                                            }
+                                            onClick={() => handleSort("name")}
+                                        >
+                                            Karyawan
+                                        </TableSortLabel>
+                                    </TableCell>
+                                    <TableCell>
+                                        <TableSortLabel
+                                            active={orderBy === "nik"}
+                                            direction={
+                                                orderBy === "nik"
+                                                    ? order
+                                                    : "asc"
+                                            }
+                                            onClick={() => handleSort("nik")}
+                                        >
+                                            NIK
+                                        </TableSortLabel>
                                     </TableCell>
 
                                     <TableCell>
-                                        NIK
+                                        <TableSortLabel
+                                            active={orderBy === "department"}
+                                            direction={
+                                                orderBy === "department"
+                                                    ? order
+                                                    : "asc"
+                                            }
+                                            onClick={() => handleSort("department")}
+                                        >
+                                            Departemen
+                                        </TableSortLabel>
                                     </TableCell>
 
                                     <TableCell>
-                                        Departemen
+                                        <TableSortLabel
+                                            active={orderBy === "position"}
+                                            direction={
+                                                orderBy === "position"
+                                                    ? order
+                                                    : "asc"
+                                            }
+                                            onClick={() => handleSort("position")}
+                                        >
+                                            Jabatan
+                                        </TableSortLabel>
                                     </TableCell>
 
                                     <TableCell>
-                                        Jabatan
+                                        <TableSortLabel
+                                            active={orderBy === "status"}
+                                            direction={
+                                                orderBy === "status"
+                                                    ? order
+                                                    : "asc"
+                                            }
+                                            onClick={() => handleSort("status")}
+                                        >
+                                            Status
+                                        </TableSortLabel>
                                     </TableCell>
 
                                     <TableCell>
-                                        Status
+                                        <TableSortLabel
+                                            active={orderBy === "employee_type"}
+                                            direction={
+                                                orderBy === "employee_type"
+                                                    ? order
+                                                    : "asc"
+                                            }
+                                            onClick={() => handleSort("employee_type")}
+                                        >
+                                            Tipe
+                                        </TableSortLabel>
                                     </TableCell>
 
-                                    <TableCell>
-                                        Tipe
-                                    </TableCell>
 
                                     <TableCell align="center">
                                         Aksi
@@ -190,7 +282,7 @@ export default function EmployeeList() {
 
                             <TableBody>
 
-                                {filteredEmployees.map((item) => (
+                                {sortedEmployees.map((item) => (
 
                                     <TableRow
                                         key={item.id}
