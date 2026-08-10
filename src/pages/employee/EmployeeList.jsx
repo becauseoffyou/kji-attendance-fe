@@ -105,7 +105,7 @@ export default function EmployeeList() {
                     sm: "center"
                 }}
                 spacing={2}
-                mb={3}
+                mb={5}
             >
 
                 <Box>
@@ -132,7 +132,7 @@ export default function EmployeeList() {
                     startIcon={<AddIcon />}
                     onClick={() => setOpenCreate(true)}
                     sx={{
-                        px: 1.8,
+                        px: 1,
                         py: 0.8,
                         borderRadius: 2,
                         textTransform: "none",
@@ -193,7 +193,12 @@ export default function EmployeeList() {
                             <TableHead>
 
                                 <TableRow>
-
+                                    <TableCell
+                                        align="center"
+                                        sx={{ width: 60 }}
+                                    >
+                                        No.
+                                    </TableCell>
                                     <TableCell>
                                         <TableSortLabel
                                             active={orderBy === "name"}
@@ -311,7 +316,7 @@ export default function EmployeeList() {
 
                             <TableBody>
 
-                                {sortedEmployees.map((item) => (
+                                {sortedEmployees.map((item, index) => (
 
                                     <TableRow
                                         key={item.id}
@@ -319,7 +324,9 @@ export default function EmployeeList() {
                                     >
 
                                         {/* KARYAWAN */}
-
+                                        <TableCell align="center">
+                                            {index + 1}
+                                        </TableCell>
                                         <TableCell>
 
                                             <Stack
@@ -469,7 +476,7 @@ export default function EmployeeList() {
                                     <TableRow>
 
                                         <TableCell
-                                            colSpan={7}
+                                            colSpan={8}
                                             align="center"
                                         >
 
