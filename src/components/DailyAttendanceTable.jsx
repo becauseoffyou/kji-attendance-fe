@@ -288,174 +288,208 @@ export default function DailyAttendanceTable({
                 </CardContent>
 
             </Card>
-            <DialogContent>
-                <Stack spacing={2}>
+            <Dialog
+                open={openAttendanceDetail}
+                onClose={() => {
+                    setOpenAttendanceDetail(false);
+                    setSelectedAttendance(null);
+                }}
+                maxWidth="sm"
+                fullWidth
+            >
+                <DialogTitle>
+                    Detail Absensi
+                </DialogTitle>
 
-                    <Box>
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                        >
-                            Karyawan
-                        </Typography>
+                <DialogContent dividers>
+                    <Stack spacing={2}>
 
-                        <Typography fontWeight={600}>
-                            {selectedAttendance?.name || "-"}
-                        </Typography>
-                    </Box>
-
-                    <Box>
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                        >
-                            Department
-                        </Typography>
-
-                        <Typography fontWeight={600}>
-                            {selectedAttendance?.department || "-"}
-                        </Typography>
-                    </Box>
-
-                    <Box>
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                        >
-                            Check In
-                        </Typography>
-
-                        <Typography fontWeight={600}>
-                            {selectedAttendance?.check_in || "-"}
-                        </Typography>
-                    </Box>
-
-                    <Box>
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                        >
-                            Check Out
-                        </Typography>
-
-                        <Typography fontWeight={600}>
-                            {selectedAttendance?.check_out || "-"}
-                        </Typography>
-                    </Box>
-
-                    <Box>
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                        >
-                            Status
-                        </Typography>
-
-                        <Typography fontWeight={600}>
-                            {selectedAttendance?.status || "-"}
-                        </Typography>
-                    </Box>
-                    <Divider sx={{ my: 1 }} />
-
-                    {/* LOKASI */}
-                    {/* LOKASI CHECK IN */}
-                    <Box>
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            mb={1}
-                        >
-                            Lokasi Check In
-                        </Typography>
-
-                        {selectedAttendance?.check_in_lat != null &&
-                            selectedAttendance?.check_in_lng != null ? (
-                            <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<LocationOnIcon />}
-                                component="a"
-                                href={`https://www.google.com/maps?q=${selectedAttendance.check_in_lat},${selectedAttendance.check_in_lng}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Lihat Lokasi Check In
-                            </Button>
-                        ) : (
+                        {/* Karyawan */}
+                        <Box>
                             <Typography
                                 variant="body2"
                                 color="text.secondary"
                             >
-                                Lokasi check in tidak tersedia
+                                Karyawan
                             </Typography>
-                        )}
-                    </Box>
 
-                    {/* LOKASI CHECK OUT */}
-                    <Box>
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            mb={1}
-                        >
-                            Lokasi Check Out
-                        </Typography>
+                            <Typography fontWeight={600}>
+                                {selectedAttendance?.name || "-"}
+                            </Typography>
+                        </Box>
 
-                        {selectedAttendance?.check_out_lat != null &&
-                            selectedAttendance?.check_out_lng != null ? (
-                            <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<LocationOnIcon />}
-                                component="a"
-                                href={`https://www.google.com/maps?q=${selectedAttendance.check_out_lat},${selectedAttendance.check_out_lng}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Lihat Lokasi Check Out
-                            </Button>
-                        ) : (
+                        {/* Department */}
+                        <Box>
                             <Typography
                                 variant="body2"
                                 color="text.secondary"
                             >
-                                Lokasi check out tidak tersedia
+                                Department
                             </Typography>
-                        )}
-                    </Box>
 
-                    {/* FOTO */}
-                    <Box>
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            mb={1}
-                        >
-                            Foto Absensi
-                        </Typography>
-
-                        {selectedAttendance?.photo_path ? (
-                            <Box
-                                component="img"
-                                src={`https://kji-attendance-be-production.up.railway.app${selectedAttendance.photo_path}`}
-                                alt="Foto absensi"
-                                sx={{
-                                    width: "100%",
-                                    maxHeight: 300,
-                                    objectFit: "contain",
-                                    borderRadius: 2,
-                                    border: "1px solid #E5E7EB",
-                                }}
-                            />
-                        ) : (
-                            <Typography color="text.secondary">
-                                Foto tidak tersedia
+                            <Typography fontWeight={600}>
+                                {selectedAttendance?.department || "-"}
                             </Typography>
-                        )}
-                    </Box>
+                        </Box>
 
-                </Stack>
-            </DialogContent>
+                        {/* Check In */}
+                        <Box>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                            >
+                                Check In
+                            </Typography>
+
+                            <Typography fontWeight={600}>
+                                {selectedAttendance?.check_in
+                                    ? selectedAttendance.check_in.substring(11, 16)
+                                    : "-"}
+                            </Typography>
+                        </Box>
+
+                        {/* Check Out */}
+                        <Box>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                            >
+                                Check Out
+                            </Typography>
+
+                            <Typography fontWeight={600}>
+                                {selectedAttendance?.check_out
+                                    ? selectedAttendance.check_out.substring(11, 16)
+                                    : "-"}
+                            </Typography>
+                        </Box>
+
+                        {/* Status */}
+                        <Box>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                            >
+                                Status
+                            </Typography>
+
+                            <Typography fontWeight={600}>
+                                {selectedAttendance?.status || "-"}
+                            </Typography>
+                        </Box>
+
+                        <Divider />
+
+                        {/* Lokasi Check In */}
+                        <Box>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                mb={1}
+                            >
+                                Lokasi Check In
+                            </Typography>
+
+                            {selectedAttendance?.check_in_lat != null &&
+                                selectedAttendance?.check_in_lng != null ? (
+                                <Button
+                                    variant="outlined"
+                                    size="small"
+                                    startIcon={<LocationOnIcon />}
+                                    component="a"
+                                    href={`https://www.google.com/maps?q=${selectedAttendance.check_in_lat},${selectedAttendance.check_in_lng}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Lihat Lokasi Check In
+                                </Button>
+                            ) : (
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    Lokasi check in tidak tersedia
+                                </Typography>
+                            )}
+                        </Box>
+
+                        {/* Lokasi Check Out */}
+                        <Box>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                mb={1}
+                            >
+                                Lokasi Check Out
+                            </Typography>
+
+                            {selectedAttendance?.check_out_lat != null &&
+                                selectedAttendance?.check_out_lng != null ? (
+                                <Button
+                                    variant="outlined"
+                                    size="small"
+                                    startIcon={<LocationOnIcon />}
+                                    component="a"
+                                    href={`https://www.google.com/maps?q=${selectedAttendance.check_out_lat},${selectedAttendance.check_out_lng}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Lihat Lokasi Check Out
+                                </Button>
+                            ) : (
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    Lokasi check out tidak tersedia
+                                </Typography>
+                            )}
+                        </Box>
+
+                        {/* Foto */}
+                        <Box>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                mb={1}
+                            >
+                                Foto Absensi
+                            </Typography>
+
+                            {selectedAttendance?.photo_path ? (
+                                <Box
+                                    component="img"
+                                    src={`https://kji-attendance-be-production.up.railway.app${selectedAttendance.photo_path}`}
+                                    alt="Foto absensi"
+                                    sx={{
+                                        width: "100%",
+                                        maxHeight: 300,
+                                        objectFit: "contain",
+                                        borderRadius: 2,
+                                        border: "1px solid #E5E7EB",
+                                    }}
+                                />
+                            ) : (
+                                <Typography color="text.secondary">
+                                    Foto tidak tersedia
+                                </Typography>
+                            )}
+                        </Box>
+
+                    </Stack>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button
+                        onClick={() => {
+                            setOpenAttendanceDetail(false);
+                            setSelectedAttendance(null);
+                        }}
+                    >
+                        Tutup
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 
