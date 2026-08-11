@@ -220,7 +220,9 @@ export default function DailyAttendanceTable({
 
                                     <TableCell>
 
-                                        {item.check_in || "-"}
+                                        {item.check_in
+                                            ? item.check_in.substring(11, 16)
+                                            : "-"}
 
                                     </TableCell>
 
@@ -228,7 +230,9 @@ export default function DailyAttendanceTable({
 
                                     <TableCell>
 
-                                        {item.check_out || "-"}
+                                        {item.check_out
+                                            ? item.check_out.substring(11, 16)
+                                            : "-"}
 
                                     </TableCell>
 
