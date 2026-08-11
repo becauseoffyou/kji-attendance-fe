@@ -6,6 +6,7 @@ import {
     TableRow,
     TableCell,
     TableBody,
+    Stack,
     Avatar,
     Box,
     Chip,
