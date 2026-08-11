@@ -230,7 +230,58 @@ export default function EmployeeDetail({
 
                 <Divider sx={{ mb: 3 }} />
 
+                <Typography
+                    fontWeight={700}
+                    mb={2}
+                >
+                    Dokumen
+                </Typography>
 
+                <Box sx={{ mb: 3 }}>
+
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        mb={1}
+                    >
+                        Kartu Tanda Penduduk (KTP)
+                    </Typography>
+
+                    {employee.ktp ? (
+                        <Box
+                            component="img"
+                            src={employee.ktp}
+                            alt="KTP"
+                            sx={{
+                                width: "100%",
+                                maxWidth: 600,
+                                maxHeight: 350,
+                                objectFit: "contain",
+                                borderRadius: 2,
+                                border: "1px solid #E5E7EB",
+                                cursor: "pointer",
+                            }}
+                            onClick={() =>
+                                window.open(
+                                    employee.ktp,
+                                    "_blank"
+                                )
+                            }
+                        />
+                    ) : (
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            KTP belum tersedia
+                        </Typography>
+                    )}
+
+                </Box>
+
+
+
+                <Divider sx={{ mb: 3 }} />
                 {/* DATA PEKERJAAN */}
 
                 <Typography
