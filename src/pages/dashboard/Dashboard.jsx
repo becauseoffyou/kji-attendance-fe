@@ -31,11 +31,14 @@ export default function Dashboard() {
         chart: [],
         attendance: []
     });
-
+    const [chartPeriod, setChartPeriod] = useState(7);
     const [loadingToday, setLoadingToday] = useState(true);
 
     useEffect(() => {
         loadToday();
+    }, [chartPeriod]);
+
+    useEffect(() => {
         loadEmployeeOfMonth();
     }, []);
 
@@ -43,7 +46,8 @@ export default function Dashboard() {
 
         try {
 
-            const result = await dashboardService.getDashboard();
+            const result =
+                await dashboardService.getDashboard(chartPeriod);
 
             setDashboard(result.data);
         } catch (err) {
@@ -150,6 +154,8 @@ export default function Dashboard() {
                 <Grid size={{ xs: 12, lg: 9 }}>
                     <AttendanceChart
                         data={dashboard.chart}
+                        period={chartPeriod}
+                        onPeriodChange={setChartPeriod}
                     />
                 </Grid>
 

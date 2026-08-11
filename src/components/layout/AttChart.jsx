@@ -2,7 +2,9 @@ import {
     Card,
     CardContent,
     Typography,
-    Box
+    Box, FormControl,
+    Select,
+    MenuItem
 } from "@mui/material";
 
 import {
@@ -15,7 +17,9 @@ import {
     YAxis
 } from "recharts";
 
-export default function AttendanceChart({ data }) {
+export default function AttendanceChart({ data,
+    period,
+    onPeriodChange }) {
     return (
 
         <Card
@@ -30,20 +34,52 @@ export default function AttendanceChart({ data }) {
 
                 <Box
                     mb={3}
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    gap={2}
                 >
-                    <Typography
-                        variant="h6"
-                        fontWeight={700}
-                    >
-                        Kehadiran 7 Hari Terakhir
-                    </Typography>
+                    <Box>
+                        <Typography
+                            variant="h6"
+                            fontWeight={700}
+                        >
+                            Kehadiran
+                        </Typography>
 
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Jumlah karyawan yang melakukan absensi.
+                        </Typography>
+                    </Box>
+
+                    <FormControl
+                        size="small"
+                        sx={{
+                            minWidth: 130
+                        }}
                     >
-                        Jumlah karyawan yang melakukan absensi.
-                    </Typography>
+                        <Select
+                            value={period}
+                            onChange={(e) =>
+                                onPeriodChange(e.target.value)
+                            }
+                        >
+                            <MenuItem value={7}>
+                                7 Hari
+                            </MenuItem>
+
+                            <MenuItem value={14}>
+                                14 Hari
+                            </MenuItem>
+
+                            <MenuItem value={30}>
+                                30 Hari
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
                 </Box>
 
                 <ResponsiveContainer

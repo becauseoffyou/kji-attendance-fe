@@ -1,15 +1,11 @@
 import api from "./api";
 
 const dashboardService = {
+  getDashboard: async (period = 7) => {
+    const { data } = await api.get(`/dashboard/admin?period=${period}`);
 
-    getDashboard: async () => {
-
-        const { data } = await api.get("/dashboard/admin");
-
-        return data;
-
-    }
-
+    return data;
+  },
 };
 
 export default dashboardService;
