@@ -438,21 +438,27 @@ export default function EmployeeCreate({
                         {/* JOIN DATE */}
 
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <TextField
-                                fullWidth
-                                type="date"
-                                label="Tanggal Masuk"
-                                name="join_date"
-                                value={form.join_date}
-                                onChange={handleChange}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <TextField
+                                    fullWidth
+                                    type="date"
+                                    label="Tanggal Masuk"
+                                    name="join_date"
+                                    value={form.join_date}
+                                    onChange={handleChange}
+                                    slotProps={{
+                                        inputLabel: {
+                                            shrink: true,
+                                        },
+                                    }}
+                                />
+                            </Grid>
                         </Grid>
 
 
                         {/* TIPE */}
+
+                        {/* JENIS KARYAWAN */}
 
                         <Grid size={{ xs: 12, md: 6 }}>
 
@@ -478,10 +484,17 @@ export default function EmployeeCreate({
                         </Grid>
 
 
-                        {/* KONTRAK */}
+                        {/* SPACER SEBELAH KANAN */}
+
+                        <Grid size={{ xs: 12, md: 6 }} />
+
+
+                        {/* TANGGAL KONTRAK */}
 
                         {form.employee_type === "KONTRAK" && (
+
                             <>
+
                                 <Grid size={{ xs: 12, md: 6 }}>
                                     <TextField
                                         fullWidth
@@ -490,12 +503,13 @@ export default function EmployeeCreate({
                                         name="contract_start_date"
                                         value={form.contract_start_date}
                                         onChange={handleChange}
-                                        InputLabelProps={{
-                                            shrink: true,
+                                        slotProps={{
+                                            inputLabel: {
+                                                shrink: true,
+                                            },
                                         }}
                                     />
                                 </Grid>
-
                                 <Grid size={{ xs: 12, md: 6 }}>
                                     <TextField
                                         fullWidth
@@ -504,14 +518,16 @@ export default function EmployeeCreate({
                                         name="contract_end_date"
                                         value={form.contract_end_date}
                                         onChange={handleChange}
-                                        InputLabelProps={{
-                                            shrink: true,
+                                        slotProps={{
+                                            inputLabel: {
+                                                shrink: true,
+                                            },
                                         }}
                                     />
                                 </Grid>
                             </>
-                        )}
 
+                        )}
 
                         {/* ALAMAT */}
 
