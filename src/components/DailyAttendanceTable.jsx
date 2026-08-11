@@ -1,7 +1,6 @@
 import {
     Card,
     CardContent,
-    Typography,
     Table,
     TableHead,
     TableRow,
