@@ -203,8 +203,7 @@ export default function EmployeeList() {
                     onClick={() => setOpenCreate(true)}
                     sx={{
                         px: 1,
-                        py: 0.8,
-                        borderRadius: 2,
+                        py: 0.5,
                         textTransform: "none",
                         fontWeight: 600,
                     }}
