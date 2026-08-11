@@ -48,6 +48,11 @@ export default function EmployeeCreate({
             ? `kancha${form.nik.slice(-4)}`
             : "";
 
+    const openDatePicker = (e) => {
+        if (e.currentTarget.showPicker) {
+            e.currentTarget.showPicker();
+        }
+    };
     const handleChange = (e) => {
 
         const {
@@ -446,9 +451,15 @@ export default function EmployeeCreate({
                                 name="join_date"
                                 value={form.join_date}
                                 onChange={handleChange}
+                                onClick={openDatePicker}
                                 slotProps={{
                                     inputLabel: {
                                         shrink: true,
+                                    },
+                                    htmlInput: {
+                                        style: {
+                                            cursor: "pointer",
+                                        },
                                     },
                                 }}
                             />
@@ -502,9 +513,15 @@ export default function EmployeeCreate({
                                         name="contract_start_date"
                                         value={form.contract_start_date}
                                         onChange={handleChange}
+                                        onClick={openDatePicker}
                                         slotProps={{
                                             inputLabel: {
                                                 shrink: true,
+                                            },
+                                            htmlInput: {
+                                                style: {
+                                                    cursor: "pointer",
+                                                },
                                             },
                                         }}
                                     />
@@ -517,9 +534,15 @@ export default function EmployeeCreate({
                                         name="contract_end_date"
                                         value={form.contract_end_date}
                                         onChange={handleChange}
+                                        onClick={openDatePicker}
                                         slotProps={{
                                             inputLabel: {
                                                 shrink: true,
+                                            },
+                                            htmlInput: {
+                                                style: {
+                                                    cursor: "pointer",
+                                                },
                                             },
                                         }}
                                     />
