@@ -40,20 +40,59 @@ export default function AttendanceChart({ data,
                     gap={2}
                 >
                     {/* JUDUL */}
-                    <Box>
-                        <Typography
-                            variant="h6"
-                            fontWeight={700}
-                        >
-                            Kehadiran
-                        </Typography>
+                    <Box
+                        mb={3}
+                        sx={{
+                            position: "relative",
+                            minHeight: 55,
+                        }}
+                    >
+                        {/* JUDUL */}
+                        <Box>
+                            <Typography
+                                variant="h6"
+                                fontWeight={700}
+                            >
+                                Kehadiran
+                            </Typography>
 
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                            >
+                                Jumlah karyawan yang melakukan absensi.
+                            </Typography>
+                        </Box>
+
+                        {/* FILTER - POJOK KANAN ATAS */}
+                        <FormControl
+                            size="small"
+                            sx={{
+                                position: "absolute",
+                                top: 0,
+                                right: 0,
+                                minWidth: 130,
+                            }}
                         >
-                            Jumlah karyawan yang melakukan absensi.
-                        </Typography>
+                            <Select
+                                value={period}
+                                onChange={(e) =>
+                                    onPeriodChange(e.target.value)
+                                }
+                            >
+                                <MenuItem value={7}>
+                                    7 Hari
+                                </MenuItem>
+
+                                <MenuItem value={14}>
+                                    14 Hari
+                                </MenuItem>
+
+                                <MenuItem value={30}>
+                                    30 Hari
+                                </MenuItem>
+                            </Select>
+                        </FormControl>
                     </Box>
 
                     {/* FILTER */}
