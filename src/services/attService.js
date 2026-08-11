@@ -81,6 +81,15 @@ const attendanceService = {
 
     return data;
   },
+  updateEmployee: async (id, formData) => {
+    const { data } = await api.put(`/auth/employees/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return data;
+  },
 };
 
 export default attendanceService;

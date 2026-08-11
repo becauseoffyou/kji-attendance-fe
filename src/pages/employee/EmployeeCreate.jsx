@@ -209,9 +209,36 @@ export default function EmployeeCreate({
             }
 
             const result =
-                await attendanceService.createEmployee(
-                    formData
+                mode === "edit"
+                    ? await attendanceService.updateEmployee(
+                        employee.id,
+                        formData
+                    )
+                    : await attendanceService.createEmployee(
+                        formData
+                    );
+
+            console.log(
+                "SAVE EMPLOYEE RESULT:",
+                result
+            );
+
+            if (!result.success) {
+                throw new Error(
+                    result.message ||
+                    "Gagal menyimpan data karyawan"
                 );
+
+            }
+
+            alert(
+                mode === "edit"
+                    ? "Data karyawan berhasil diperbarui"
+                    : "Karyawan berhasil ditambahkan"
+            );
+
+            onSuccess?.();
+            onClose();
 
             console.log(
                 "CREATE EMPLOYEE RESULT:",
