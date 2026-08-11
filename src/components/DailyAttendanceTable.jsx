@@ -352,6 +352,104 @@ export default function DailyAttendanceTable({
                             {selectedAttendance?.status || "-"}
                         </Typography>
                     </Box>
+                    <Divider sx={{ my: 1 }} />
+
+                    {/* LOKASI */}
+                    {/* LOKASI CHECK IN */}
+                    <Box>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            mb={1}
+                        >
+                            Lokasi Check In
+                        </Typography>
+
+                        {selectedAttendance?.check_in_lat != null &&
+                            selectedAttendance?.check_in_lng != null ? (
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<LocationOnIcon />}
+                                component="a"
+                                href={`https://www.google.com/maps?q=${selectedAttendance.check_in_lat},${selectedAttendance.check_in_lng}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Lihat Lokasi Check In
+                            </Button>
+                        ) : (
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                            >
+                                Lokasi check in tidak tersedia
+                            </Typography>
+                        )}
+                    </Box>
+
+                    {/* LOKASI CHECK OUT */}
+                    <Box>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            mb={1}
+                        >
+                            Lokasi Check Out
+                        </Typography>
+
+                        {selectedAttendance?.check_out_lat != null &&
+                            selectedAttendance?.check_out_lng != null ? (
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<LocationOnIcon />}
+                                component="a"
+                                href={`https://www.google.com/maps?q=${selectedAttendance.check_out_lat},${selectedAttendance.check_out_lng}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Lihat Lokasi Check Out
+                            </Button>
+                        ) : (
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                            >
+                                Lokasi check out tidak tersedia
+                            </Typography>
+                        )}
+                    </Box>
+
+                    {/* FOTO */}
+                    <Box>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            mb={1}
+                        >
+                            Foto Absensi
+                        </Typography>
+
+                        {selectedAttendance?.photo_path ? (
+                            <Box
+                                component="img"
+                                src={`https://kji-attendance-be-production.up.railway.app${selectedAttendance.photo_path}`}
+                                alt="Foto absensi"
+                                sx={{
+                                    width: "100%",
+                                    maxHeight: 300,
+                                    objectFit: "contain",
+                                    borderRadius: 2,
+                                    border: "1px solid #E5E7EB",
+                                }}
+                            />
+                        ) : (
+                            <Typography color="text.secondary">
+                                Foto tidak tersedia
+                            </Typography>
+                        )}
+                    </Box>
 
                 </Stack>
             </DialogContent>
