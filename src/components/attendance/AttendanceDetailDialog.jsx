@@ -464,19 +464,13 @@ export default function AttendanceDetailDialog({
 
                                             <TableCell>
                                                 {item.check_in
-                                                    ? new Date(item.check_in).toLocaleTimeString("id-ID", {
-                                                        hour: "2-digit",
-                                                        minute: "2-digit"
-                                                    })
+                                                    ? item.check_in.substring(11, 16)
                                                     : "-"}
                                             </TableCell>
 
                                             <TableCell>
-                                                {item.check_in
-                                                    ? new Date(item.check_out).toLocaleTimeString("id-ID", {
-                                                        hour: "2-digit",
-                                                        minute: "2-digit"
-                                                    })
+                                                {item.check_out
+                                                    ? item.check_out.substring(11, 16)
                                                     : "-"}
                                             </TableCell>
                                             <TableCell>
