@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import {
     Box,
@@ -15,6 +15,10 @@ import {
 
 import SaveIcon from "@mui/icons-material/Save";
 import attendanceService from "../../services/attService";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function EmployeeCreate({
     open,
@@ -444,25 +448,30 @@ export default function EmployeeCreate({
                         {/* JOIN DATE */}
 
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <TextField
-                                fullWidth
-                                type="date"
-                                label="Tanggal Masuk"
-                                name="join_date"
-                                value={form.join_date}
-                                onChange={handleChange}
-                                onClick={openDatePicker}
-                                slotProps={{
-                                    inputLabel: {
-                                        shrink: true,
-                                    },
-                                    htmlInput: {
-                                        style: {
-                                            cursor: "pointer",
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    label="Tanggal Masuk"
+                                    value={
+                                        form.join_date
+                                            ? dayjs(form.join_date)
+                                            : null
+                                    }
+                                    onChange={(value) =>
+                                        setForm((prev) => ({
+                                            ...prev,
+                                            join_date: value
+                                                ? value.format("YYYY-MM-DD")
+                                                : "",
+                                        }))
+                                    }
+                                    format="DD/MM/YYYY"
+                                    slotProps={{
+                                        textField: {
+                                            fullWidth: true,
                                         },
-                                    },
-                                }}
-                            />
+                                    }}
+                                />
+                            </LocalizationProvider>
                         </Grid>
 
 
@@ -506,46 +515,56 @@ export default function EmployeeCreate({
                             <>
 
                                 <Grid size={{ xs: 12, md: 6 }}>
-                                    <TextField
-                                        fullWidth
-                                        type="date"
-                                        label="Tanggal Mulai Kontrak"
-                                        name="contract_start_date"
-                                        value={form.contract_start_date}
-                                        onChange={handleChange}
-                                        onClick={openDatePicker}
-                                        slotProps={{
-                                            inputLabel: {
-                                                shrink: true,
-                                            },
-                                            htmlInput: {
-                                                style: {
-                                                    cursor: "pointer",
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Tanggal Mulai Kontrak"
+                                            value={
+                                                form.contract_start_date
+                                                    ? dayjs(form.contract_start_date)
+                                                    : null
+                                            }
+                                            onChange={(value) =>
+                                                setForm((prev) => ({
+                                                    ...prev,
+                                                    contract_start_date: value
+                                                        ? value.format("YYYY-MM-DD")
+                                                        : "",
+                                                }))
+                                            }
+                                            format="DD/MM/YYYY"
+                                            slotProps={{
+                                                textField: {
+                                                    fullWidth: true,
                                                 },
-                                            },
-                                        }}
-                                    />
+                                            }}
+                                        />
+                                    </LocalizationProvider>
                                 </Grid>
                                 <Grid size={{ xs: 12, md: 6 }}>
-                                    <TextField
-                                        fullWidth
-                                        type="date"
-                                        label="Tanggal Akhir Kontrak"
-                                        name="contract_end_date"
-                                        value={form.contract_end_date}
-                                        onChange={handleChange}
-                                        onClick={openDatePicker}
-                                        slotProps={{
-                                            inputLabel: {
-                                                shrink: true,
-                                            },
-                                            htmlInput: {
-                                                style: {
-                                                    cursor: "pointer",
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Tanggal Akhir Kontrak"
+                                            value={
+                                                form.contract_end_date
+                                                    ? dayjs(form.contract_end_date)
+                                                    : null
+                                            }
+                                            onChange={(value) =>
+                                                setForm((prev) => ({
+                                                    ...prev,
+                                                    contract_end_date: value
+                                                        ? value.format("YYYY-MM-DD")
+                                                        : "",
+                                                }))
+                                            }
+                                            format="DD/MM/YYYY"
+                                            slotProps={{
+                                                textField: {
+                                                    fullWidth: true,
                                                 },
-                                            },
-                                        }}
-                                    />
+                                            }}
+                                        />
+                                    </LocalizationProvider>
                                 </Grid>
                             </>
 
