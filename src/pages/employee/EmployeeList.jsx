@@ -14,7 +14,7 @@ import {
     TableBody,
     TableCell,
     TableHead, TableSortLabel,
-    TableRow,
+    TableRow, Skeleton,
     TextField,
     Typography,
 } from "@mui/material";
@@ -330,183 +330,331 @@ export default function EmployeeList() {
 
                             <TableBody>
 
-                                {sortedEmployees.map((item, index) => (
+                                {/* ================= SKELETON ================= */}
 
-                                    <TableRow
-                                        key={item.id}
-                                        hover
-                                    >
+                                {loading ? (
 
-                                        {/* KARYAWAN */}
-                                        <TableCell align="center">
-                                            {index + 1}
-                                        </TableCell>
-                                        <TableCell>
+                                    Array.from({ length: 5 }).map((_, index) => (
 
-                                            <Stack
-                                                direction="row"
-                                                spacing={1.5}
-                                                alignItems="center"
-                                            >
+                                        <TableRow key={`skeleton-${index}`}>
 
-                                                <Avatar
-                                                    sx={{
-                                                        width: 38,
-                                                        height: 38,
-                                                    }}
+                                            {/* NO */}
+                                            <TableCell align="center">
+                                                <Skeleton
+                                                    variant="text"
+                                                    width={20}
+                                                    sx={{ mx: "auto" }}
+                                                />
+                                            </TableCell>
+
+
+                                            {/* KARYAWAN */}
+                                            <TableCell>
+
+                                                <Stack
+                                                    direction="row"
+                                                    spacing={1.5}
+                                                    alignItems="center"
                                                 >
-                                                    {item.name
-                                                        .charAt(0)
-                                                        .toUpperCase()}
-                                                </Avatar>
 
-                                                <Box>
+                                                    <Skeleton
+                                                        variant="circular"
+                                                        width={38}
+                                                        height={38}
+                                                    />
 
-                                                    <Typography
-                                                        fontWeight={600}
-                                                        fontSize={14}
-                                                    >
-                                                        {item.name}
-                                                    </Typography>
+                                                    <Box>
 
-                                                    <Typography
-                                                        variant="caption"
-                                                        color="text.secondary"
-                                                    >
-                                                        {item.email ||
-                                                            "—"}
-                                                    </Typography>
+                                                        <Skeleton
+                                                            variant="text"
+                                                            width={120}
+                                                            height={22}
+                                                        />
 
-                                                </Box>
+                                                        <Skeleton
+                                                            variant="text"
+                                                            width={150}
+                                                            height={18}
+                                                        />
 
-                                            </Stack>
+                                                    </Box>
 
-                                        </TableCell>
+                                                </Stack>
 
-
-                                        {/* NIK */}
-
-                                        <TableCell>
-                                            {item.nik}
-                                        </TableCell>
+                                            </TableCell>
 
 
-                                        {/* DEPARTMENT */}
+                                            {/* NIK */}
+                                            <TableCell>
 
-                                        <TableCell>
+                                                <Skeleton
+                                                    variant="text"
+                                                    width={120}
+                                                />
 
-                                            <Chip
-                                                label={item.department}
-                                                size="small"
-                                            />
-
-                                        </TableCell>
-
-
-                                        {/* POSITION */}
-
-                                        <TableCell>
-                                            {item.position || "—"}
-                                        </TableCell>
+                                            </TableCell>
 
 
-                                        {/* STATUS */}
+                                            {/* DEPARTMENT */}
+                                            <TableCell>
 
-                                        <TableCell>
+                                                <Skeleton
+                                                    variant="rounded"
+                                                    width={90}
+                                                    height={24}
+                                                />
 
-                                            <Chip
-                                                label={
-                                                    item.status
-                                                        ? "Aktif"
-                                                        : "Nonaktif"
-                                                }
-                                                color={
-                                                    item.status
-                                                        ? "success"
-                                                        : "default"
-                                                }
-                                                size="small"
-                                            />
-
-                                        </TableCell>
+                                            </TableCell>
 
 
-                                        {/* TYPE */}
+                                            {/* POSITION */}
+                                            <TableCell>
 
-                                        <TableCell>
+                                                <Skeleton
+                                                    variant="text"
+                                                    width={90}
+                                                />
 
-                                            <Chip
-                                                label={
-                                                    item.employee_type ===
-                                                        "KONTRAK"
-                                                        ? "Kontrak"
-                                                        : "Tetap"
-                                                }
-                                                size="small"
-                                                variant="outlined"
-                                            />
-
-                                        </TableCell>
+                                            </TableCell>
 
 
-                                        {/* ACTION */}
+                                            {/* STATUS */}
+                                            <TableCell>
 
-                                        <TableCell align="center">
+                                                <Skeleton
+                                                    variant="rounded"
+                                                    width={65}
+                                                    height={24}
+                                                />
 
-                                            <IconButton
-                                                size="small"
-                                                color="primary"
-                                                onClick={() => {
-                                                    setSelectedEmployee(item);
-                                                    setOpenDetail(true);
-                                                }}
-                                            >
-                                                <VisibilityIcon />
-                                            </IconButton>
-
-                                            <IconButton
-                                                size="small"
-                                                onClick={() =>
-                                                    console.log(
-                                                        "Edit:",
-                                                        item
-                                                    )
-                                                }
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-
-                                        </TableCell>
-
-                                    </TableRow>
-
-                                ))}
+                                            </TableCell>
 
 
-                                {filteredEmployees.length === 0 && (
+                                            {/* TYPE */}
+                                            <TableCell>
 
-                                    <TableRow>
+                                                <Skeleton
+                                                    variant="rounded"
+                                                    width={70}
+                                                    height={24}
+                                                />
 
-                                        <TableCell
-                                            colSpan={8}
-                                            align="center"
+                                            </TableCell>
+
+
+                                            {/* ACTION */}
+                                            <TableCell align="center">
+
+                                                <Stack
+                                                    direction="row"
+                                                    spacing={0.5}
+                                                    justifyContent="center"
+                                                >
+
+                                                    <Skeleton
+                                                        variant="circular"
+                                                        width={32}
+                                                        height={32}
+                                                    />
+
+                                                    <Skeleton
+                                                        variant="circular"
+                                                        width={32}
+                                                        height={32}
+                                                    />
+
+                                                </Stack>
+
+                                            </TableCell>
+
+                                        </TableRow>
+
+                                    ))
+
+                                ) : (
+
+                                    /* ================= DATA ================= */
+
+                                    sortedEmployees.map((item, index) => (
+
+                                        <TableRow
+                                            key={item.id}
+                                            hover
                                         >
 
-                                            <Typography
-                                                color="text.secondary"
-                                                py={4}
-                                            >
-                                                Data karyawan tidak ditemukan
-                                            </Typography>
+                                            {/* NO */}
+                                            <TableCell align="center">
+                                                {index + 1}
+                                            </TableCell>
 
-                                        </TableCell>
 
-                                    </TableRow>
+                                            {/* KARYAWAN */}
+                                            <TableCell>
+
+                                                <Stack
+                                                    direction="row"
+                                                    spacing={1.5}
+                                                    alignItems="center"
+                                                >
+
+                                                    <Avatar
+                                                        sx={{
+                                                            width: 38,
+                                                            height: 38,
+                                                        }}
+                                                    >
+                                                        {item.name
+                                                            .charAt(0)
+                                                            .toUpperCase()}
+                                                    </Avatar>
+
+
+                                                    <Box>
+
+                                                        <Typography
+                                                            fontWeight={600}
+                                                            fontSize={14}
+                                                        >
+                                                            {item.name}
+                                                        </Typography>
+
+
+                                                        <Typography
+                                                            variant="caption"
+                                                            color="text.secondary"
+                                                        >
+                                                            {item.email || "—"}
+                                                        </Typography>
+
+                                                    </Box>
+
+                                                </Stack>
+
+                                            </TableCell>
+
+
+                                            {/* NIK */}
+                                            <TableCell>
+                                                {item.nik}
+                                            </TableCell>
+
+
+                                            {/* DEPARTMENT */}
+                                            <TableCell>
+
+                                                <Chip
+                                                    label={item.department}
+                                                    size="small"
+                                                />
+
+                                            </TableCell>
+
+
+                                            {/* POSITION */}
+                                            <TableCell>
+                                                {item.position || "—"}
+                                            </TableCell>
+
+
+                                            {/* STATUS */}
+                                            <TableCell>
+
+                                                <Chip
+                                                    label={
+                                                        item.status
+                                                            ? "Aktif"
+                                                            : "Nonaktif"
+                                                    }
+                                                    color={
+                                                        item.status
+                                                            ? "success"
+                                                            : "default"
+                                                    }
+                                                    size="small"
+                                                />
+
+                                            </TableCell>
+
+
+                                            {/* TYPE */}
+                                            <TableCell>
+
+                                                <Chip
+                                                    label={
+                                                        item.employee_type ===
+                                                            "KONTRAK"
+                                                            ? "Kontrak"
+                                                            : "Tetap"
+                                                    }
+                                                    size="small"
+                                                    variant="outlined"
+                                                />
+
+                                            </TableCell>
+
+
+                                            {/* ACTION */}
+                                            <TableCell align="center">
+
+                                                <IconButton
+                                                    size="small"
+                                                    color="primary"
+                                                    onClick={() => {
+                                                        setSelectedEmployee(item);
+                                                        setOpenDetail(true);
+                                                    }}
+                                                >
+                                                    <VisibilityIcon />
+                                                </IconButton>
+
+
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() =>
+                                                        console.log(
+                                                            "Edit:",
+                                                            item
+                                                        )
+                                                    }
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
+
+                                            </TableCell>
+
+                                        </TableRow>
+
+                                    ))
 
                                 )}
 
-                            </TableBody>
 
+                                {/* ================= EMPTY ================= */}
+
+                                {!loading &&
+                                    filteredEmployees.length === 0 && (
+
+                                        <TableRow>
+
+                                            <TableCell
+                                                colSpan={8}
+                                                align="center"
+                                            >
+
+                                                <Typography
+                                                    color="text.secondary"
+                                                    py={4}
+                                                >
+                                                    Data karyawan tidak ditemukan
+                                                </Typography>
+
+                                            </TableCell>
+
+                                        </TableRow>
+
+                                    )}
+
+                            </TableBody>
                         </Table>
 
                     </Box>
