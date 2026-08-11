@@ -36,9 +36,10 @@ export default function AttendanceChart({ data,
                     mb={3}
                     display="flex"
                     justifyContent="space-between"
-                    alignItems="center"
+                    alignItems="flex-start"
                     gap={2}
                 >
+                    {/* JUDUL */}
                     <Box>
                         <Typography
                             variant="h6"
@@ -55,10 +56,12 @@ export default function AttendanceChart({ data,
                         </Typography>
                     </Box>
 
+                    {/* FILTER */}
                     <FormControl
                         size="small"
                         sx={{
-                            minWidth: 130
+                            minWidth: 130,
+                            flexShrink: 0
                         }}
                     >
                         <Select
