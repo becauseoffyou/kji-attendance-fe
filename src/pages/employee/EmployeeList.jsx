@@ -25,6 +25,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EmployeeCreate from "./EmployeeCreate";
 import attendanceService from "../../services/attService";
+import EmployeeDetail from "./EmployeeDetail";
 
 export default function EmployeeList() {
 
@@ -34,6 +35,8 @@ export default function EmployeeList() {
     const [orderBy, setOrderBy] = useState("name");
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [openDetail, setOpenDetail] = useState(false);
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
 
     useEffect(() => {
         loadEmployees();
@@ -454,12 +457,10 @@ export default function EmployeeList() {
                                             <IconButton
                                                 size="small"
                                                 color="primary"
-                                                onClick={() =>
-                                                    console.log(
-                                                        "Detail:",
-                                                        item
-                                                    )
-                                                }
+                                                onClick={() => {
+                                                    setSelectedEmployee(item);
+                                                    setOpenDetail(true);
+                                                }}
                                             >
                                                 <VisibilityIcon />
                                             </IconButton>
@@ -518,6 +519,14 @@ export default function EmployeeList() {
                 open={openCreate}
                 onClose={() => setOpenCreate(false)}
                 onSuccess={loadEmployees}
+            />
+            <EmployeeDetail
+                open={openDetail}
+                employee={selectedEmployee}
+                onClose={() => {
+                    setOpenDetail(false);
+                    setSelectedEmployee(null);
+                }}
             />
         </Box>
     );
