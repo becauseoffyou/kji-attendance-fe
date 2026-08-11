@@ -23,7 +23,8 @@ export default function EmployeeDetail({
     if (!employee) {
         return null;
     }
-
+    const API_BASE_URL =
+        "https://kji-attendance-be-production.up.railway.app";
     const formatDate = (date) => {
 
         if (!date) {
@@ -104,7 +105,11 @@ export default function EmployeeDetail({
                 >
 
                     <Avatar
-                        src={employee.photo || undefined}
+                        src={
+                            employee.photo
+                                ? `${API_BASE_URL}${employee.photo}`
+                                : undefined
+                        }
                         sx={{
                             width: 80,
                             height: 80,
@@ -250,7 +255,7 @@ export default function EmployeeDetail({
                     {employee.ktp ? (
                         <Box
                             component="img"
-                            src={employee.ktp}
+                            src={`${API_BASE_URL}${employee.ktp}`}
                             alt="KTP"
                             sx={{
                                 width: "100%",
@@ -263,7 +268,7 @@ export default function EmployeeDetail({
                             }}
                             onClick={() =>
                                 window.open(
-                                    employee.ktp,
+                                    `${API_BASE_URL}${employee.ktp}`,
                                     "_blank"
                                 )
                             }
