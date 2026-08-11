@@ -263,6 +263,7 @@ export default function DailyAttendanceTable({
                                             size="small"
                                             color="primary"
                                             onClick={() => {
+                                                console.log("ATTENDANCE DETAIL:", item);
                                                 setSelectedAttendance(item);
                                                 setOpenAttendanceDetail(true);
                                             }}
@@ -283,36 +284,76 @@ export default function DailyAttendanceTable({
                 </Table>
 
             </CardContent>
-            <Dialog
-                open={openAttendanceDetail}
-                onClose={() => {
-                    setOpenAttendanceDetail(false);
-                    setSelectedAttendance(null);
-                }}
-                maxWidth="sm"
-                fullWidth
-            >
-                <DialogTitle>
-                    Detail Absensi
-                </DialogTitle>
+            <DialogContent>
+                <Stack spacing={2}>
 
-                <DialogContent>
-                    <Typography>
-                        {selectedAttendance?.name}
-                    </Typography>
-                </DialogContent>
+                    <Box>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Karyawan
+                        </Typography>
 
-                <DialogActions>
-                    <Button
-                        onClick={() => {
-                            setOpenAttendanceDetail(false);
-                            setSelectedAttendance(null);
-                        }}
-                    >
-                        Tutup
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                        <Typography fontWeight={600}>
+                            {selectedAttendance?.name || "-"}
+                        </Typography>
+                    </Box>
+
+                    <Box>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Department
+                        </Typography>
+
+                        <Typography fontWeight={600}>
+                            {selectedAttendance?.department || "-"}
+                        </Typography>
+                    </Box>
+
+                    <Box>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Check In
+                        </Typography>
+
+                        <Typography fontWeight={600}>
+                            {selectedAttendance?.check_in || "-"}
+                        </Typography>
+                    </Box>
+
+                    <Box>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Check Out
+                        </Typography>
+
+                        <Typography fontWeight={600}>
+                            {selectedAttendance?.check_out || "-"}
+                        </Typography>
+                    </Box>
+
+                    <Box>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Status
+                        </Typography>
+
+                        <Typography fontWeight={600}>
+                            {selectedAttendance?.status || "-"}
+                        </Typography>
+                    </Box>
+
+                </Stack>
+            </DialogContent>
 
         </Card>
 
