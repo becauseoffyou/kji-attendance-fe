@@ -95,6 +95,11 @@ const attendanceService = {
 
     return data;
   },
+  activateEmployee: async (id) => {
+    const { data } = await api.patch(`/auth/employees/${id}/activate`);
+
+    return data;
+  },
 };
 
 export default attendanceService;

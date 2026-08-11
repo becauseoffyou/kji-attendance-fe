@@ -31,6 +31,7 @@ import EmployeeCreate from "./EmployeeCreate";
 import attendanceService from "../../services/attService";
 import EmployeeDetail from "./EmployeeDetail";
 import BlockIcon from "@mui/icons-material/Block";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export default function EmployeeList() {
 
@@ -51,23 +52,28 @@ export default function EmployeeList() {
         loadEmployees();
     }, []);
 
-    const handleDeactivate = async () => {
+    const handleToggleStatus = async () => {
         if (!deactivateEmployee) {
             return;
         }
 
+        const isActive = deactivateEmployee.status;
+
         try {
             setDeactivating(true);
 
-            const result =
-                await attendanceService.deactivateEmployee(
+            const result = isActive
+                ? await attendanceService.deactivateEmployee(
+                    deactivateEmployee.id
+                )
+                : await attendanceService.activateEmployee(
                     deactivateEmployee.id
                 );
 
             if (!result.success) {
                 throw new Error(
                     result.message ||
-                    "Gagal menonaktifkan karyawan"
+                    "Gagal mengubah status karyawan"
                 );
             }
 
@@ -79,21 +85,20 @@ export default function EmployeeList() {
         } catch (err) {
 
             console.error(
-                "DEACTIVATE EMPLOYEE ERROR:",
+                "TOGGLE EMPLOYEE STATUS ERROR:",
                 err
             );
 
             alert(
                 err.response?.data?.message ||
                 err.message ||
-                "Gagal menonaktifkan karyawan"
+                "Gagal mengubah status karyawan"
             );
 
         } finally {
             setDeactivating(false);
         }
     };
-
     const loadEmployees = async () => {
 
         try {
@@ -671,13 +676,17 @@ export default function EmployeeList() {
                                                 </IconButton>
                                                 <IconButton
                                                     size="small"
-                                                    color="error"
+                                                    color={item.status ? "error" : "success"}
                                                     onClick={() => {
                                                         setDeactivateEmployee(item);
                                                         setOpenDeactivate(true);
                                                     }}
                                                 >
-                                                    <BlockIcon />
+                                                    {item.status ? (
+                                                        <BlockIcon />
+                                                    ) : (
+                                                        <CheckCircleIcon />
+                                                    )}
                                                 </IconButton>
 
                                             </TableCell>
@@ -757,13 +766,19 @@ export default function EmployeeList() {
                 fullWidth
             >
                 <DialogTitle>
-                    Nonaktifkan Karyawan
+                    {deactivateEmployee?.status
+                        ? "Nonaktifkan Karyawan"
+                        : "Aktifkan Karyawan"}
                 </DialogTitle>
 
                 <DialogContent>
 
                     <Typography>
-                        Apakah kamu yakin ingin menonaktifkan karyawan{" "}
+                        Apakah kamu yakin ingin{" "}
+                        {deactivateEmployee?.status
+                            ? "menonaktifkan"
+                            : "mengaktifkan"}{" "}
+                        karyawan{" "}
                         <strong>
                             {deactivateEmployee?.name}
                         </strong>
@@ -775,13 +790,12 @@ export default function EmployeeList() {
                         color="text.secondary"
                         sx={{ mt: 1 }}
                     >
-                        Karyawan tidak akan dapat digunakan sebagai
-                        karyawan aktif, tetapi seluruh data dan riwayat
-                        absensinya tetap tersimpan.
+                        {deactivateEmployee?.status
+                            ? "Karyawan tidak akan dapat digunakan sebagai karyawan aktif, tetapi seluruh data dan riwayat absensinya tetap tersimpan."
+                            : "Karyawan akan kembali menjadi karyawan aktif dan dapat menggunakan akun login."}
                     </Typography>
 
                 </DialogContent>
-
                 <DialogActions sx={{ px: 3, pb: 2 }}>
 
                     <Button
@@ -796,13 +810,19 @@ export default function EmployeeList() {
 
                     <Button
                         variant="contained"
-                        color="error"
-                        onClick={handleDeactivate}
+                        color={
+                            deactivateEmployee?.status
+                                ? "error"
+                                : "success"
+                        }
+                        onClick={handleToggleStatus}
                         disabled={deactivating}
                     >
                         {deactivating
-                            ? "Menonaktifkan..."
-                            : "Nonaktifkan"}
+                            ? "Memproses..."
+                            : deactivateEmployee?.status
+                                ? "Nonaktifkan"
+                                : "Aktifkan"}
                     </Button>
 
                 </DialogActions>
