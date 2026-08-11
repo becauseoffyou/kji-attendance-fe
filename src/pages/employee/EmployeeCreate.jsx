@@ -214,12 +214,13 @@ export default function EmployeeCreate({
             <DialogTitle>
 
                 <Typography
-                    fontWeight={700}
+                    fontWeight={"bold"}
                 >
                     Tambah Karyawan
                 </Typography>
 
                 <Typography
+                    fontWeight={"bold"}
                     variant="body2"
                     color="text.secondary"
                 >
@@ -438,21 +439,19 @@ export default function EmployeeCreate({
                         {/* JOIN DATE */}
 
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <Grid size={{ xs: 12, md: 6 }}>
-                                <TextField
-                                    fullWidth
-                                    type="date"
-                                    label="Tanggal Masuk"
-                                    name="join_date"
-                                    value={form.join_date}
-                                    onChange={handleChange}
-                                    slotProps={{
-                                        inputLabel: {
-                                            shrink: true,
-                                        },
-                                    }}
-                                />
-                            </Grid>
+                            <TextField
+                                fullWidth
+                                type="date"
+                                label="Tanggal Masuk"
+                                name="join_date"
+                                value={form.join_date}
+                                onChange={handleChange}
+                                slotProps={{
+                                    inputLabel: {
+                                        shrink: true,
+                                    },
+                                }}
+                            />
                         </Grid>
 
 
