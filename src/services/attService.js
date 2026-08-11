@@ -76,6 +76,15 @@ const attendanceService = {
 
     return data;
   },
+  createEmployee: async (formData) => {
+    const { data } = await api.post("/auth/employees", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return data;
+  },
 };
 
 export default attendanceService;
