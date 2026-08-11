@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
     Box,
@@ -24,6 +24,8 @@ export default function EmployeeCreate({
     open,
     onClose,
     onSuccess,
+    employee = null,
+    mode = "create",
 }) {
     const [saving, setSaving] = useState(false);
     const [form, setForm] = useState({
@@ -47,6 +49,53 @@ export default function EmployeeCreate({
         photo: null,
         ktp: null,
     });
+    useEffect(() => {
+
+        if (mode === "edit" && employee) {
+
+            setForm({
+                nik: employee.nik || "",
+                name: employee.name || "",
+                email: employee.email || "",
+                phone: employee.phone || "",
+                department: employee.department || "",
+                position: employee.position || "",
+                join_date: employee.join_date
+                    ? dayjs(employee.join_date).format("YYYY-MM-DD")
+                    : "",
+                address: employee.address || "",
+
+                employee_type:
+                    employee.employee_type || "TETAP",
+
+                contract_start_date:
+                    employee.contract_start_date
+                        ? dayjs(
+                            employee.contract_start_date
+                        ).format("YYYY-MM-DD")
+                        : "",
+
+                contract_end_date:
+                    employee.contract_end_date
+                        ? dayjs(
+                            employee.contract_end_date
+                        ).format("YYYY-MM-DD")
+                        : "",
+
+                office_location_id:
+                    employee.office_location_id || "",
+
+                supervisor_id:
+                    employee.supervisor_id || "",
+
+                // File tidak kita isi dari data lama
+                photo: null,
+                ktp: null,
+            });
+
+        }
+
+    }, [mode, employee]);
     const generatedPassword =
         form.nik.length >= 4
             ? `kancha${form.nik.slice(-4)}`
@@ -224,15 +273,18 @@ export default function EmployeeCreate({
                 <Typography
                     fontWeight={"bold"}
                 >
-                    Tambah Karyawan
+                    {mode === "edit"
+                        ? "Edit Karyawan"
+                        : "Tambah Karyawan"}
                 </Typography>
-
                 <Typography
                     fontWeight={"bold"}
                     variant="body2"
                     color="text.secondary"
                 >
-                    Masukkan data karyawan dan akun login
+                    {mode === "edit"
+                        ? "Perbarui data karyawan"
+                        : "Masukkan data karyawan dan akun login"}
                 </Typography>
 
             </DialogTitle>
@@ -388,13 +440,17 @@ export default function EmployeeCreate({
                         </Grid>
 
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Password Awal"
-                                value={generatedPassword}
-                                disabled
-                                helperText="Otomatis dari 4 digit terakhir NIK"
-                            />
+                            {mode === "create" && (
+                                <Grid size={{ xs: 12, md: 6 }}>
+                                    <TextField
+                                        fullWidth
+                                        label="Password Awal"
+                                        value={generatedPassword}
+                                        disabled
+                                        helperText="Otomatis dari 4 digit terakhir NIK"
+                                    />
+                                </Grid>
+                            )}
                         </Grid>
 
 

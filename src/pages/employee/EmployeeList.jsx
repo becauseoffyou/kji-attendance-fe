@@ -35,6 +35,7 @@ export default function EmployeeList() {
     const [orderBy, setOrderBy] = useState("name");
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
     const [openDetail, setOpenDetail] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
 
@@ -610,12 +611,10 @@ export default function EmployeeList() {
 
                                                 <IconButton
                                                     size="small"
-                                                    onClick={() =>
-                                                        console.log(
-                                                            "Edit:",
-                                                            item
-                                                        )
-                                                    }
+                                                    onClick={() => {
+                                                        setSelectedEmployee(item);
+                                                        setOpenEdit(true);
+                                                    }}
                                                 >
                                                     <EditIcon />
                                                 </IconButton>
@@ -665,6 +664,16 @@ export default function EmployeeList() {
             <EmployeeCreate
                 open={openCreate}
                 onClose={() => setOpenCreate(false)}
+                onSuccess={loadEmployees}
+            />
+            <EmployeeCreate
+                open={openEdit}
+                employee={selectedEmployee}
+                mode="edit"
+                onClose={() => {
+                    setOpenEdit(false);
+                    setSelectedEmployee(null);
+                }}
                 onSuccess={loadEmployees}
             />
             <EmployeeDetail
