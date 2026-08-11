@@ -17,6 +17,10 @@ import {
     TableRow, Skeleton,
     TextField,
     Typography,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -26,6 +30,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EmployeeCreate from "./EmployeeCreate";
 import attendanceService from "../../services/attService";
 import EmployeeDetail from "./EmployeeDetail";
+import BlockIcon from "@mui/icons-material/Block";
 
 export default function EmployeeList() {
 
@@ -38,10 +43,56 @@ export default function EmployeeList() {
     const [openEdit, setOpenEdit] = useState(false);
     const [openDetail, setOpenDetail] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
+    const [openDeactivate, setOpenDeactivate] = useState(false);
+    const [deactivateEmployee, setDeactivateEmployee] = useState(null);
+    const [deactivating, setDeactivating] = useState(false);
 
     useEffect(() => {
         loadEmployees();
     }, []);
+
+    const handleDeactivate = async () => {
+        if (!deactivateEmployee) {
+            return;
+        }
+
+        try {
+            setDeactivating(true);
+
+            const result =
+                await attendanceService.deactivateEmployee(
+                    deactivateEmployee.id
+                );
+
+            if (!result.success) {
+                throw new Error(
+                    result.message ||
+                    "Gagal menonaktifkan karyawan"
+                );
+            }
+
+            setOpenDeactivate(false);
+            setDeactivateEmployee(null);
+
+            await loadEmployees();
+
+        } catch (err) {
+
+            console.error(
+                "DEACTIVATE EMPLOYEE ERROR:",
+                err
+            );
+
+            alert(
+                err.response?.data?.message ||
+                err.message ||
+                "Gagal menonaktifkan karyawan"
+            );
+
+        } finally {
+            setDeactivating(false);
+        }
+    };
 
     const loadEmployees = async () => {
 
@@ -618,6 +669,16 @@ export default function EmployeeList() {
                                                 >
                                                     <EditIcon />
                                                 </IconButton>
+                                                <IconButton
+                                                    size="small"
+                                                    color="error"
+                                                    onClick={() => {
+                                                        setDeactivateEmployee(item);
+                                                        setOpenDeactivate(true);
+                                                    }}
+                                                >
+                                                    <BlockIcon />
+                                                </IconButton>
 
                                             </TableCell>
 
@@ -684,6 +745,69 @@ export default function EmployeeList() {
                     setSelectedEmployee(null);
                 }}
             />
+            <Dialog
+                open={openDeactivate}
+                onClose={() => {
+                    if (!deactivating) {
+                        setOpenDeactivate(false);
+                        setDeactivateEmployee(null);
+                    }
+                }}
+                maxWidth="xs"
+                fullWidth
+            >
+                <DialogTitle>
+                    Nonaktifkan Karyawan
+                </DialogTitle>
+
+                <DialogContent>
+
+                    <Typography>
+                        Apakah kamu yakin ingin menonaktifkan karyawan{" "}
+                        <strong>
+                            {deactivateEmployee?.name}
+                        </strong>
+                        ?
+                    </Typography>
+
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ mt: 1 }}
+                    >
+                        Karyawan tidak akan dapat digunakan sebagai
+                        karyawan aktif, tetapi seluruh data dan riwayat
+                        absensinya tetap tersimpan.
+                    </Typography>
+
+                </DialogContent>
+
+                <DialogActions sx={{ px: 3, pb: 2 }}>
+
+                    <Button
+                        onClick={() => {
+                            setOpenDeactivate(false);
+                            setDeactivateEmployee(null);
+                        }}
+                        disabled={deactivating}
+                    >
+                        Batal
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={handleDeactivate}
+                        disabled={deactivating}
+                    >
+                        {deactivating
+                            ? "Menonaktifkan..."
+                            : "Nonaktifkan"}
+                    </Button>
+
+                </DialogActions>
+
+            </Dialog>
         </Box>
     );
 }

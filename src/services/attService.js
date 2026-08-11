@@ -90,6 +90,11 @@ const attendanceService = {
 
     return data;
   },
+  deactivateEmployee: async (id) => {
+    const { data } = await api.patch(`/auth/employees/${id}/deactivate`);
+
+    return data;
+  },
 };
 
 export default attendanceService;
