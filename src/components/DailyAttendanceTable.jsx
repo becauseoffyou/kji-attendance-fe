@@ -34,94 +34,29 @@ export default function DailyAttendanceTable({
     const [selectedAttendance, setSelectedAttendance] = useState(null);
     const [openAttendanceDetail, setOpenAttendanceDetail] = useState(false);
     return (
+        <>
+            <Card
+                elevation={0}
+                sx={{
+                    mt: 2,
+                    borderRadius: 3,
+                    border: "1px solid #E5E7EB"
+                }}
+            >
 
-        <Card
-            elevation={0}
-            sx={{
-                mt: 2,
-                borderRadius: 3,
-                border: "1px solid #E5E7EB"
-            }}
-        >
+                <CardContent>
 
-            <CardContent>
+                    <Typography
+                        variant="h6"
+                        fontWeight={700}
+                        mb={2}
+                    >
+                        Data Absensi Hari Ini
+                    </Typography>
 
-                <Typography
-                    variant="h6"
-                    fontWeight={700}
-                    mb={2}
-                >
-                    Data Absensi Hari Ini
-                </Typography>
+                    <Table >
 
-                <Table >
-
-                    <TableHead>
-
-                        <TableRow hover
-                            sx={{
-                                "& td": {
-                                    py: 1
-                                }
-                            }}>
-
-                            <TableCell>Karyawan</TableCell>
-
-                            <TableCell>Check In</TableCell>
-
-                            <TableCell>Check Out</TableCell>
-
-                            <TableCell>Status</TableCell>
-
-                            <TableCell>Telat</TableCell>
-
-
-                            <TableCell align="center">
-                                Detail
-                            </TableCell>
-
-                        </TableRow>
-
-                    </TableHead>
-
-                    <TableBody>
-
-                        {loading ? (
-
-                            [...Array(6)].map((_, index) => (
-
-                                <TableRow key={index}>
-
-                                    <TableCell>
-                                        <Skeleton variant="circular" width={38} height={38} />
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <Skeleton width={70} />
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <Skeleton width={70} />
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <Skeleton width={100} />
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <Skeleton width={50} />
-                                    </TableCell>
-
-
-                                    <TableCell align="center">
-                                        <Skeleton width={30} />
-                                    </TableCell>
-
-                                </TableRow>
-
-                            ))
-
-                        ) : data.length === 0 ? (
+                        <TableHead>
 
                             <TableRow hover
                                 sx={{
@@ -130,162 +65,229 @@ export default function DailyAttendanceTable({
                                     }
                                 }}>
 
-                                <TableCell
-                                    colSpan={8}
-                                    align="center"
-                                >
-                                    Belum ada data absensi.
+                                <TableCell>Karyawan</TableCell>
+
+                                <TableCell>Check In</TableCell>
+
+                                <TableCell>Check Out</TableCell>
+
+                                <TableCell>Status</TableCell>
+
+                                <TableCell>Telat</TableCell>
+
+
+                                <TableCell align="center">
+                                    Detail
                                 </TableCell>
 
                             </TableRow>
 
-                        ) : (
+                        </TableHead>
 
-                            data.map((item) => (
+                        <TableBody>
 
-                                <TableRow
-                                    key={item.id}
-                                    hover hover
+                            {loading ? (
+
+                                [...Array(6)].map((_, index) => (
+
+                                    <TableRow key={index}>
+
+                                        <TableCell>
+                                            <Skeleton variant="circular" width={38} height={38} />
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <Skeleton width={70} />
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <Skeleton width={70} />
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <Skeleton width={100} />
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <Skeleton width={50} />
+                                        </TableCell>
+
+
+                                        <TableCell align="center">
+                                            <Skeleton width={30} />
+                                        </TableCell>
+
+                                    </TableRow>
+
+                                ))
+
+                            ) : data.length === 0 ? (
+
+                                <TableRow hover
                                     sx={{
                                         "& td": {
                                             py: 1
                                         }
-                                    }}
-                                >
+                                    }}>
 
-                                    {/* Karyawan */}
+                                    <TableCell
+                                        colSpan={8}
+                                        align="center"
+                                    >
+                                        Belum ada data absensi.
+                                    </TableCell>
 
-                                    <TableCell>
+                                </TableRow>
 
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                gap: 1.5
-                                            }}
-                                        >
+                            ) : (
 
-                                            <Avatar
-                                                sx={{
-                                                    width: 38,
-                                                    height: 38,
-                                                    fontSize: 16,
-                                                    bgcolor: "#D1D5DB",
-                                                    color: "#374151"
-                                                }}
-                                            >
-                                                {item.name.charAt(0)}
-                                            </Avatar>
+                                data.map((item) => (
+
+                                    <TableRow
+                                        key={item.id}
+                                        hover hover
+                                        sx={{
+                                            "& td": {
+                                                py: 1
+                                            }
+                                        }}
+                                    >
+
+                                        {/* Karyawan */}
+
+                                        <TableCell>
 
                                             <Box
                                                 sx={{
                                                     display: "flex",
                                                     alignItems: "center",
-                                                    gap: 1
+                                                    gap: 1.5
                                                 }}
                                             >
 
-                                                <Typography
-                                                    fontWeight={600}
-                                                    fontSize={14}
-                                                >
-                                                    {item.name}
-                                                </Typography>
-
-                                                <Typography
-                                                    variant="caption"
-                                                    color="text.secondary"
+                                                <Avatar
                                                     sx={{
-                                                        bgcolor: "#F3F4F6",
-                                                        px: 1,
-                                                        py: .2,
-                                                        borderRadius: 10
+                                                        width: 38,
+                                                        height: 38,
+                                                        fontSize: 16,
+                                                        bgcolor: "#D1D5DB",
+                                                        color: "#374151"
                                                     }}
                                                 >
-                                                    {item.department}
-                                                </Typography>
+                                                    {item.name.charAt(0)}
+                                                </Avatar>
+
+                                                <Box
+                                                    sx={{
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        gap: 1
+                                                    }}
+                                                >
+
+                                                    <Typography
+                                                        fontWeight={600}
+                                                        fontSize={14}
+                                                    >
+                                                        {item.name}
+                                                    </Typography>
+
+                                                    <Typography
+                                                        variant="caption"
+                                                        color="text.secondary"
+                                                        sx={{
+                                                            bgcolor: "#F3F4F6",
+                                                            px: 1,
+                                                            py: .2,
+                                                            borderRadius: 10
+                                                        }}
+                                                    >
+                                                        {item.department}
+                                                    </Typography>
+
+                                                </Box>
 
                                             </Box>
 
-                                        </Box>
+                                        </TableCell>
 
-                                    </TableCell>
+                                        {/* Check In */}
 
-                                    {/* Check In */}
+                                        <TableCell>
 
-                                    <TableCell>
+                                            {item.check_in
+                                                ? item.check_in.substring(11, 16)
+                                                : "-"}
 
-                                        {item.check_in
-                                            ? item.check_in.substring(11, 16)
-                                            : "-"}
+                                        </TableCell>
 
-                                    </TableCell>
+                                        {/* Check Out */}
 
-                                    {/* Check Out */}
+                                        <TableCell>
 
-                                    <TableCell>
+                                            {item.check_out
+                                                ? item.check_out.substring(11, 16)
+                                                : "-"}
 
-                                        {item.check_out
-                                            ? item.check_out.substring(11, 16)
-                                            : "-"}
+                                        </TableCell>
 
-                                    </TableCell>
+                                        {/* Status */}
 
-                                    {/* Status */}
+                                        <TableCell>
 
-                                    <TableCell>
+                                            <Chip
+                                                label={item.status}
+                                                size="small"
+                                                color={
+                                                    item.status === "Belum Check In"
+                                                        ? "default"
+                                                        : "success"
+                                                }
+                                            />
 
-                                        <Chip
-                                            label={item.status}
-                                            size="small"
-                                            color={
-                                                item.status === "Belum Check In"
-                                                    ? "default"
-                                                    : "success"
-                                            }
-                                        />
+                                        </TableCell>
 
-                                    </TableCell>
+                                        {/* Telat */}
 
-                                    {/* Telat */}
+                                        <TableCell>
 
-                                    <TableCell>
+                                            {item.late_minutes} menit
 
-                                        {item.late_minutes} menit
-
-                                    </TableCell>
+                                        </TableCell>
 
 
 
-                                    {/* Detail */}
+                                        {/* Detail */}
 
-                                    <TableCell align="center">
+                                        <TableCell align="center">
 
-                                        <IconButton
-                                            size="small"
-                                            color="primary"
-                                            onClick={() => {
-                                                console.log("ATTENDANCE DETAIL:", item);
-                                                setSelectedAttendance(item);
-                                                setOpenAttendanceDetail(true);
-                                            }}
-                                        >
-                                            <VisibilityIcon />
-                                        </IconButton>
+                                            <IconButton
+                                                size="small"
+                                                color="primary"
+                                                onClick={() => {
+                                                    console.log("ATTENDANCE DETAIL:", item);
+                                                    setSelectedAttendance(item);
+                                                    setOpenAttendanceDetail(true);
+                                                }}
+                                            >
+                                                <VisibilityIcon />
+                                            </IconButton>
 
-                                    </TableCell>
+                                        </TableCell>
 
-                                </TableRow>
+                                    </TableRow>
 
-                            ))
+                                ))
 
-                        )}
+                            )}
 
-                    </TableBody>
+                        </TableBody>
 
-                </Table>
+                    </Table>
 
-            </CardContent>
+                </CardContent>
+
+            </Card>
             <DialogContent>
                 <Stack spacing={2}>
 
@@ -454,9 +456,7 @@ export default function DailyAttendanceTable({
 
                 </Stack>
             </DialogContent>
-
-        </Card>
-
+        </>
     );
 
 }
