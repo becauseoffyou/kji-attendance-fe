@@ -17,6 +17,7 @@ import {
     DialogContent,
     DialogTitle,
     Typography,
+    Divider
 } from "@mui/material";
 import { useState } from 'react';
 
