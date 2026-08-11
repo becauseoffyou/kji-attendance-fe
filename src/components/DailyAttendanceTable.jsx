@@ -10,7 +10,13 @@ import {
     Avatar,
     Box,
     Chip,
-    IconButton, Skeleton
+    IconButton, Skeleton,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Typography,
 } from "@mui/material";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -23,7 +29,8 @@ export default function DailyAttendanceTable({
 
 
 }) {
-
+    const [selectedAttendance, setSelectedAttendance] = useState(null);
+    const [openAttendanceDetail, setOpenAttendanceDetail] = useState(false);
     return (
 
         <Card
@@ -66,13 +73,6 @@ export default function DailyAttendanceTable({
 
                             <TableCell>Telat</TableCell>
 
-                            <TableCell align="center">
-                                Lokasi
-                            </TableCell>
-
-                            <TableCell align="center">
-                                Foto
-                            </TableCell>
 
                             <TableCell align="center">
                                 Detail
@@ -110,13 +110,6 @@ export default function DailyAttendanceTable({
                                         <Skeleton width={50} />
                                     </TableCell>
 
-                                    <TableCell align="center">
-                                        <Skeleton width={30} />
-                                    </TableCell>
-
-                                    <TableCell align="center">
-                                        <Skeleton width={30} />
-                                    </TableCell>
 
                                     <TableCell align="center">
                                         <Skeleton width={30} />
@@ -260,38 +253,21 @@ export default function DailyAttendanceTable({
 
                                     </TableCell>
 
-                                    {/* Lokasi */}
 
-                                    <TableCell align="center">
-
-                                        <IconButton>
-
-                                            <LocationOnIcon />
-
-                                        </IconButton>
-
-                                    </TableCell>
-
-                                    {/* Foto */}
-
-                                    <TableCell align="center">
-
-                                        <IconButton>
-
-                                            <PhotoCameraIcon />
-
-                                        </IconButton>
-
-                                    </TableCell>
 
                                     {/* Detail */}
 
                                     <TableCell align="center">
 
-                                        <IconButton>
-
+                                        <IconButton
+                                            size="small"
+                                            color="primary"
+                                            onClick={() => {
+                                                setSelectedAttendance(item);
+                                                setOpenAttendanceDetail(true);
+                                            }}
+                                        >
                                             <VisibilityIcon />
-
                                         </IconButton>
 
                                     </TableCell>
@@ -307,6 +283,36 @@ export default function DailyAttendanceTable({
                 </Table>
 
             </CardContent>
+            <Dialog
+                open={openAttendanceDetail}
+                onClose={() => {
+                    setOpenAttendanceDetail(false);
+                    setSelectedAttendance(null);
+                }}
+                maxWidth="sm"
+                fullWidth
+            >
+                <DialogTitle>
+                    Detail Absensi
+                </DialogTitle>
+
+                <DialogContent>
+                    <Typography>
+                        {selectedAttendance?.name}
+                    </Typography>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button
+                        onClick={() => {
+                            setOpenAttendanceDetail(false);
+                            setSelectedAttendance(null);
+                        }}
+                    >
+                        Tutup
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
         </Card>
 
