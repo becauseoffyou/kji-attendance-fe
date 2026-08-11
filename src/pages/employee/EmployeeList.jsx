@@ -51,7 +51,6 @@ export default function EmployeeList() {
             const result =
                 await attendanceService.getEmployees();
 
-            console.log("EMPLOYEES :", result.data);
 
             setEmployees(result.data);
 

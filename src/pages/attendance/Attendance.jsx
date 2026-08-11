@@ -198,8 +198,6 @@ export default function Attendance() {
 
             const officeData = await officeService.getOffice();
 
-            console.log("Office API:", officeData);
-
             setOffice(officeData);
 
         } catch (err) {

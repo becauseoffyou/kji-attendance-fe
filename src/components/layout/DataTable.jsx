@@ -17,7 +17,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 export default function AttendanceTable({ data }) {
 
-    console.log(data);
     return (
         <Card
             elevation={0}

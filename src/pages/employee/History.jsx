@@ -86,8 +86,6 @@ export default function History() {
 
             const result = await attendanceService.getHistory();
 
-            console.log(result);
-
             setHistory(result.data);
 
         } catch (err) {
@@ -103,7 +101,6 @@ export default function History() {
     };
 
     const formatTime = (time) => {
-        console.log("RAW:", time);
         if (!time) return "-";
 
         return new Date(time).toLocaleTimeString("id-ID", {

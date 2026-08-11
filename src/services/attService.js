@@ -45,13 +45,9 @@ const attendanceService = {
     return data;
   },
   getDailyAttendance: async (params) => {
-    console.log("GET DAILY PARAMS:", params);
-
     const { data } = await api.get("/attendance/daily", {
       params,
     });
-
-    console.log("GET DAILY RESPONSE:", data);
 
     return data;
   },
