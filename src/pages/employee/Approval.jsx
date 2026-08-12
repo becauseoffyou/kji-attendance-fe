@@ -26,7 +26,7 @@ export default function Approval() {
         rejected: 0,
         total: 0
     });
-
+    const [statusFilter, setStatusFilter] = useState("ALL");
 
     const loadData = async () => {
 
@@ -73,12 +73,12 @@ export default function Approval() {
 
     const filtered = requests.filter((item) => {
 
-    if (statusFilter === "ALL") {
-        return true;
-    }
+        if (statusFilter === "ALL") {
+            return true;
+        }
 
-    return item.status === statusFilter;
-});
+        return item.status === statusFilter;
+    });
 
     const formatDate = (date) => {
 
