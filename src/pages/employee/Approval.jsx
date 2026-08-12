@@ -186,17 +186,23 @@ export default function Approval() {
             return "-";
         }
 
-        return new Date(value).toLocaleTimeString(
-            "id-ID",
-            {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false
-            }
+        const time = String(value);
+
+        // PostgreSQL timestamp:
+        // 2026-08-03 15:50:00
+        // atau
+        // 2026-08-03T15:50:00
+
+        const match = time.match(
+            /(?:T|\s)(\d{2}):(\d{2})/
         );
 
-    };
+        if (!match) {
+            return "-";
+        }
 
+        return `${match[1]}:${match[2]}`;
+    };
 
     // =========================
     // RENDER
