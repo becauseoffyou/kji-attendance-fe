@@ -236,6 +236,25 @@ export default function Approval() {
                         }
                     }}
                 >
+                    {/* ALL */}
+
+                    <Chip
+                        label={`All (${summary.total})`}
+                        clickable
+                        color={
+                            statusFilter === "ALL"
+                                ? "success"
+                                : "default"
+                        }
+                        variant={
+                            statusFilter === "ALL"
+                                ? "filled"
+                                : "outlined"
+                        }
+                        onClick={() =>
+                            setStatusFilter("ALL")
+                        }
+                    />
 
                     {/* PENDING */}
 
@@ -312,25 +331,7 @@ export default function Approval() {
                     />
 
 
-                    {/* ALL */}
 
-                    <Chip
-                        label={`All (${summary.total})`}
-                        clickable
-                        color={
-                            statusFilter === "ALL"
-                                ? "success"
-                                : "default"
-                        }
-                        variant={
-                            statusFilter === "ALL"
-                                ? "filled"
-                                : "outlined"
-                        }
-                        onClick={() =>
-                            setStatusFilter("ALL")
-                        }
-                    />
 
                 </Stack>
 
