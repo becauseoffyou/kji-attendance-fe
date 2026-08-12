@@ -159,6 +159,11 @@ export default function AppRoutes() {
                     />
 
                     <Route
+                        path="approval/attendance/:id"
+                        element={<ApprovalDetail />}
+                    />
+
+                    <Route
                         path="profile"
                         element={<EmployeeProfile />}
                     />

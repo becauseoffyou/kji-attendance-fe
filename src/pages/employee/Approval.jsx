@@ -329,7 +329,15 @@ export default function Approval() {
 
                                                 if (item.status === "PENDING_SUPERVISOR") {
 
-                                                    navigate(`/employee/approval/${item.id}`);
+                                                    if (item.request_type === "ATTENDANCE_EDIT") {
+
+                                                        navigate(`/employee/approval/attendance/${item.id}`);
+
+                                                    } else {
+
+                                                        navigate(`/employee/approval/${item.id}`);
+
+                                                    }
 
                                                 }
 
@@ -384,7 +392,16 @@ export default function Approval() {
                                                     mt={1}
                                                 >
                                                     <strong>Pengajuan :</strong>{" "}
-                                                    {item.leave_type} • {getDuration(item.start_date, item.end_date)}
+                                                    {item.request_type === "ATTENDANCE_EDIT"
+                                                        ? "Perubahan Absensi"
+                                                        : item.leave_type}
+
+                                                    {item.request_type === "ATTENDANCE_EDIT"
+                                                        ? ""
+                                                        : ` • ${getDuration(
+                                                            item.start_date,
+                                                            item.end_date
+                                                        )}`}
                                                 </Typography>
 
                                                 <Typography
@@ -396,6 +413,60 @@ export default function Approval() {
                                                     {item.start_date !== item.end_date &&
                                                         ` - ${formatDate(item.end_date)}`}
                                                 </Typography>
+
+                                                {item.request_type === "ATTENDANCE_EDIT" && (
+                                                    <Box mt={1}>
+
+                                                        <Typography
+                                                            color="text.secondary"
+                                                            fontSize={14}
+                                                        >
+                                                            <strong>Jam Masuk :</strong>{" "}
+                                                            {item.old_check_in
+                                                                ? new Date(
+                                                                    item.old_check_in
+                                                                ).toLocaleTimeString("id-ID", {
+                                                                    hour: "2-digit",
+                                                                    minute: "2-digit"
+                                                                })
+                                                                : "-"}
+                                                            {" → "}
+                                                            {item.new_check_in
+                                                                ? new Date(
+                                                                    item.new_check_in
+                                                                ).toLocaleTimeString("id-ID", {
+                                                                    hour: "2-digit",
+                                                                    minute: "2-digit"
+                                                                })
+                                                                : "-"}
+                                                        </Typography>
+
+                                                        <Typography
+                                                            color="text.secondary"
+                                                            fontSize={14}
+                                                        >
+                                                            <strong>Jam Pulang :</strong>{" "}
+                                                            {item.old_check_out
+                                                                ? new Date(
+                                                                    item.old_check_out
+                                                                ).toLocaleTimeString("id-ID", {
+                                                                    hour: "2-digit",
+                                                                    minute: "2-digit"
+                                                                })
+                                                                : "-"}
+                                                            {" → "}
+                                                            {item.new_check_out
+                                                                ? new Date(
+                                                                    item.new_check_out
+                                                                ).toLocaleTimeString("id-ID", {
+                                                                    hour: "2-digit",
+                                                                    minute: "2-digit"
+                                                                })
+                                                                : "-"}
+                                                        </Typography>
+
+                                                    </Box>
+                                                )}
 
                                             </CardContent>
 

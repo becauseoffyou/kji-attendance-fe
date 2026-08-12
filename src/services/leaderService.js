@@ -30,6 +30,21 @@ const leaderService = {
       note,
     });
   },
+  getAttendanceEditDetail(id) {
+    return api.get(`/leader/attendance/${id}`);
+  },
+
+  approveAttendanceEdit(id, note) {
+    return api.patch(`/leader/attendance/${id}/approve`, {
+      note,
+    });
+  },
+
+  rejectAttendanceEdit(id, note) {
+    return api.patch(`/leader/attendance/${id}/reject`, {
+      note,
+    });
+  },
 };
 
 export default leaderService;

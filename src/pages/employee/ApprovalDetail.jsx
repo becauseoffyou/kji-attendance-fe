@@ -11,7 +11,11 @@ import {
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+    useNavigate,
+    useParams,
+    useLocation
+} from "react-router-dom";
 
 import leaderService from "../../services/leaderService";
 import Drawer from "@mui/material/Drawer";
@@ -23,6 +27,10 @@ export default function ApprovalDetail() {
     const { id } = useParams();
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const isAttendanceEdit =
+        location.pathname.includes("/approval/attendance/");
 
     const [detail, setDetail] = useState(null);
 
@@ -49,7 +57,9 @@ export default function ApprovalDetail() {
 
         try {
 
-            const { data } = await leaderService.getLeaveDetail(id);
+            const { data } = isAttendanceEdit
+                ? await leaderService.getAttendanceEditDetail(id)
+                : await leaderService.getLeaveDetail(id);
 
             setDetail(data.data);
 
@@ -69,7 +79,7 @@ export default function ApprovalDetail() {
 
         loadDetail();
 
-    }, []);
+    }, [id, isAttendanceEdit]);
 
     const formatDate = (date) =>
         new Date(date).toLocaleDateString("id-ID", {
@@ -135,19 +145,41 @@ export default function ApprovalDetail() {
 
             setSaving(true);
 
-            if (action === "APPROVE") {
+            if (isAttendanceEdit) {
 
-                await leaderService.approve(
-                    id,
-                    note
-                );
+                if (action === "APPROVE") {
+
+                    await leaderService.approveAttendanceEdit(
+                        id,
+                        note
+                    );
+
+                } else {
+
+                    await leaderService.rejectAttendanceEdit(
+                        id,
+                        note
+                    );
+
+                }
 
             } else {
 
-                await leaderService.reject(
-                    id,
-                    note
-                );
+                if (action === "APPROVE") {
+
+                    await leaderService.approve(
+                        id,
+                        note
+                    );
+
+                } else {
+
+                    await leaderService.reject(
+                        id,
+                        note
+                    );
+
+                }
 
             }
 
@@ -186,6 +218,15 @@ export default function ApprovalDetail() {
 
         }
 
+    };
+
+    const formatTime = (date) => {
+        if (!date) return "-";
+
+        return new Date(date).toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
     };
 
     return (
@@ -244,47 +285,94 @@ export default function ApprovalDetail() {
                                 </Typography>
                             </>}
                         />
-                        <Divider sx={{ my: 2 }} />
-                        <InfoItem
-                            title="Jenis Pengajuan"
-                            value={detail.leave_type}
-                        />
+                        {!isAttendanceEdit && (
+                            <>
+                                <Divider sx={{ my: 2 }} />
 
-                        <Divider sx={{ my: 2 }} />
+                                <InfoItem
+                                    title="Jenis Pengajuan"
+                                    value={detail.leave_type}
+                                />
 
-                        <InfoItem
-                            title="Tanggal"
-                            value={formatDateRange(detail.start_date, detail.end_date)}
-                        />
+                                <Divider sx={{ my: 2 }} />
 
-                        <Divider sx={{ my: 2 }} />
+                                <InfoItem
+                                    title="Tanggal"
+                                    value={formatDateRange(
+                                        detail.start_date,
+                                        detail.end_date
+                                    )}
+                                />
 
-                        <InfoItem
-                            title="Durasi"
-                            value={`${detail.leave_days} Hari`}
-                        />
+                                <Divider sx={{ my: 2 }} />
 
-                        <Divider sx={{ my: 2 }} />
+                                <InfoItem
+                                    title="Durasi"
+                                    value={`${detail.leave_days} Hari`}
+                                />
 
+                                <Divider sx={{ my: 2 }} />
 
-                        <InfoItem
-                            title="Hak Cuti Tahunan"
-                            value={`${detail.leave_balance} Hari`}
-                        />
+                                <InfoItem
+                                    title="Hak Cuti Tahunan"
+                                    value={`${detail.leave_balance} Hari`}
+                                />
 
-                        {
-                            detail.leave_type === "CUTI" && (
-                                <>
-                                    <Divider sx={{ my: 2 }} />
+                                {detail.leave_type === "CUTI" && (
+                                    <>
+                                        <Divider sx={{ my: 2 }} />
 
-                                    <InfoItem
-                                        title="Sisa Setelah Disetujui"
-                                        value={`${detail.remaining_leave} Hari`}
-                                    />
-                                </>
-                            )
-                        }
+                                        <InfoItem
+                                            title="Sisa Setelah Disetujui"
+                                            value={`${detail.remaining_leave} Hari`}
+                                        />
+                                    </>
+                                )}
+                            </>
+                        )}
+                        {isAttendanceEdit && (
+                            <>
+                                <Divider sx={{ my: 2 }} />
 
+                                <InfoItem
+                                    title="Jenis Pengajuan"
+                                    value="Perubahan Absensi"
+                                />
+
+                                <Divider sx={{ my: 2 }} />
+
+                                <InfoItem
+                                    title="Tanggal"
+                                    value={formatDate(detail.attendance_date)}
+                                />
+
+                                <Divider sx={{ my: 2 }} />
+
+                                <InfoItem
+                                    title="Jam Masuk"
+                                    value={
+                                        <>
+                                            {formatTime(detail.old_check_in)}
+                                            {" → "}
+                                            {formatTime(detail.new_check_in)}
+                                        </>
+                                    }
+                                />
+
+                                <Divider sx={{ my: 2 }} />
+
+                                <InfoItem
+                                    title="Jam Pulang"
+                                    value={
+                                        <>
+                                            {formatTime(detail.old_check_out)}
+                                            {" → "}
+                                            {formatTime(detail.new_check_out)}
+                                        </>
+                                    }
+                                />
+                            </>
+                        )}
                         <Divider sx={{ my: 2 }} />
 
                         <Typography
@@ -365,7 +453,10 @@ export default function ApprovalDetail() {
                             variant="contained"
                             color="success"
                             size="large"
-                            disabled={!detail.can_approve}
+                            disabled={
+                                !isAttendanceEdit &&
+                                !detail.can_approve
+                            }
                             onClick={() => {
                                 setAction("APPROVE");
                                 setNote("");
