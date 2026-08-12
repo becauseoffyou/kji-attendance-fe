@@ -179,12 +179,43 @@ export default function History() {
 
     }, [filteredHistory]);
 
+    const isValidTime = (value) => {
+        if (!/^\d{2}:\d{2}$/.test(value)) {
+            return false;
+        }
+
+        const [hour, minute] = value.split(":").map(Number);
+
+        return (
+            hour >= 0 &&
+            hour <= 23 &&
+            minute >= 0 &&
+            minute <= 59
+        );
+    };
+
     const submitEditRequest = async () => {
 
         if (!editDialog) return;
 
         if (!editForm.reason.trim()) {
             alert("Alasan perubahan wajib diisi.");
+            return;
+        }
+
+        if (
+            editForm.check_in &&
+            !isValidTime(editForm.check_in)
+        ) {
+            alert("Jam masuk harus dalam format HH:mm, contoh 13:57.");
+            return;
+        }
+
+        if (
+            editForm.check_out &&
+            !isValidTime(editForm.check_out)
+        ) {
+            alert("Jam pulang harus dalam format HH:mm, contoh 17:00.");
             return;
         }
 
@@ -634,36 +665,39 @@ export default function History() {
 
                             <TextField
                                 fullWidth
-                                type="time"
                                 label="Jam Masuk"
+                                placeholder="HH:mm"
                                 value={editForm.check_in}
-                                onChange={(e) =>
-                                    setEditForm(prev => ({
-                                        ...prev,
-                                        check_in: e.target.value
-                                    }))
-                                }
-                                InputLabelProps={{
-                                    shrink: true
+                                onChange={(e) => {
+                                    const value = e.target.value;
+
+                                    if (/^\d{0,2}:?\d{0,2}$/.test(value)) {
+                                        setEditForm(prev => ({
+                                            ...prev,
+                                            check_in: value
+                                        }));
+                                    }
                                 }}
+                                helperText="Format 24 jam, contoh: 13:57"
                             />
 
                             <TextField
                                 fullWidth
-                                type="time"
                                 label="Jam Pulang"
+                                placeholder="HH:mm"
                                 value={editForm.check_out}
-                                onChange={(e) =>
-                                    setEditForm(prev => ({
-                                        ...prev,
-                                        check_out: e.target.value
-                                    }))
-                                }
-                                InputLabelProps={{
-                                    shrink: true
-                                }}
-                            />
+                                onChange={(e) => {
+                                    const value = e.target.value;
 
+                                    if (/^\d{0,2}:?\d{0,2}$/.test(value)) {
+                                        setEditForm(prev => ({
+                                            ...prev,
+                                            check_out: value
+                                        }));
+                                    }
+                                }}
+                                helperText="Format 24 jam, contoh: 17:00"
+                            />
                             <TextField
                                 fullWidth
                                 multiline
