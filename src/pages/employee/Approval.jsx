@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import leaderService from "../../services/leaderService";
 
 import { useNavigate } from "react-router-dom";
-
+import notificationService from "../../services/notificationService";
 
 export default function Approval() {
 
@@ -91,6 +91,25 @@ export default function Approval() {
     useEffect(() => {
 
         loadData();
+
+        const markNotificationsAsRead = async () => {
+
+            try {
+
+                await notificationService.readPending();
+
+            } catch (err) {
+
+                console.error(
+                    "Gagal menandai notification sebagai dibaca:",
+                    err
+                );
+
+            }
+
+        };
+
+        markNotificationsAsRead();
 
     }, []);
 
