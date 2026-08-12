@@ -63,7 +63,7 @@ export default function AttendanceSummaryTable({ data = [], loading = false, mon
                     <TableHead>
 
                         <TableRow>
-
+                            <TableCell>No.</TableCell>
                             <TableCell>Karyawan</TableCell>
 
                             <TableCell align="center">
@@ -202,10 +202,12 @@ export default function AttendanceSummaryTable({ data = [], loading = false, mon
                             </TableRow>
 
                         ) : (
-                            data.map((item) => (
+                            data.map((item, index) => (
 
                                 <TableRow key={item.id} hover>
-
+                                    <TableCell>
+                                        {index + 1}
+                                    </TableCell>
                                     <TableCell>
 
                                         <Box

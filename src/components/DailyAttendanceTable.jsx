@@ -64,6 +64,7 @@ export default function DailyAttendanceTable({
                                         py: 1
                                     }
                                 }}>
+                                <TableCell>No.</TableCell>
 
                                 <TableCell>Karyawan</TableCell>
 
@@ -91,6 +92,9 @@ export default function DailyAttendanceTable({
                                 [...Array(6)].map((_, index) => (
 
                                     <TableRow key={index}>
+                                        <TableCell>
+                                            <Skeleton width={20} />
+                                        </TableCell>
 
                                         <TableCell>
                                             <Skeleton variant="circular" width={38} height={38} />
@@ -141,7 +145,7 @@ export default function DailyAttendanceTable({
 
                             ) : (
 
-                                data.map((item) => (
+                                data.map((item, index) => (
 
                                     <TableRow
                                         key={item.id}
@@ -154,6 +158,9 @@ export default function DailyAttendanceTable({
                                     >
 
                                         {/* Karyawan */}
+                                        <TableCell>
+                                            {index + 1}
+                                        </TableCell>
 
                                         <TableCell>
 

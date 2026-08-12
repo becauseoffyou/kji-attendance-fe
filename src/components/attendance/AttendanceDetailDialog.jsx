@@ -459,7 +459,7 @@ export default function AttendanceDetailDialog({
                                     {history.map((item, index) => (
 
                                         <TableRow key={index}>
-                                            <TableCell align="center">
+                                            <TableCell>
                                                 {index + 1}
                                             </TableCell>
 
