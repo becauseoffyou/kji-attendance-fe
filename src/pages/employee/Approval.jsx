@@ -20,8 +20,6 @@ export default function Approval() {
 
     const [requests, setRequests] = useState([]);
 
-    const [status, setStatus] = useState("PENDING_SUPERVISOR");
-
     const [summary, setSummary] = useState({
         pending: 0,
         approved: 0,
@@ -36,16 +34,28 @@ export default function Approval() {
 
             setLoading(true);
 
-            const { data } = await leaderService.getLeaveApprovals(status);
+            const { data } =
+                await leaderService.getLeaveApprovals("ALL");
 
-            setRequests(data.data);
-            await notificationService.readPending();
+            setRequests(data.data || []);
 
-            setSummary(data.summary);
+            setSummary(
+                data.summary || {
+                    pending: 0,
+                    approved: 0,
+                    rejected: 0,
+                    total: 0
+                }
+            );
 
         } catch (err) {
 
-            console.error(err);
+            console.error(
+                "Gagal mengambil data approval:",
+                err
+            );
+
+            setRequests([]);
 
         } finally {
 
@@ -59,7 +69,7 @@ export default function Approval() {
 
         loadData();
 
-    }, [status]);
+    }, []);
 
     const formatDate = (date) => {
 
@@ -211,275 +221,248 @@ export default function Approval() {
             {/* ================= LIST ================= */}
 
             {
+                loading && requests.length === 0 ? (
 
-                loading
+                    <Stack spacing={2} mt={2}>
 
-                    ?
+                        {[1, 2, 3].map((item) => (
 
-                    (
+                            <Card
+                                key={item}
+                                sx={{
+                                    borderRadius: 1
+                                }}
+                            >
+                                <CardContent>
 
-                        <Stack spacing={2} mt={2}>
+                                    <Stack
+                                        direction="row"
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
 
-                            {[1, 2, 3, 4, 5].map((item) => (
+                                        <Box flex={1}>
+
+                                            <Skeleton
+                                                width="45%"
+                                                height={32}
+                                            />
+
+                                            <Skeleton
+                                                width="30%"
+                                                height={22}
+                                            />
+
+                                            <Skeleton
+                                                width="55%"
+                                                height={20}
+                                            />
+
+                                        </Box>
+
+                                        <Skeleton
+                                            variant="rounded"
+                                            width={70}
+                                            height={28}
+                                            sx={{
+                                                borderRadius: 1
+                                            }}
+                                        />
+
+                                    </Stack>
+
+                                </CardContent>
+                            </Card>
+
+                        ))}
+
+                    </Stack>
+
+                ) : (
+
+                    <Stack spacing={2}>
+
+                        {filtered.length === 0 ? (
+
+                            <Typography
+                                textAlign="center"
+                                color="text.secondary"
+                                sx={{
+                                    mt: 5,
+                                    height: "40vh",
+                                    display: "grid",
+                                    placeItems: "center"
+                                }}
+                            >
+                                Tidak ada data
+                            </Typography>
+
+                        ) : (
+
+                            filtered.map((item) => (
 
                                 <Card
                                     key={`${item.request_type}-${item.id}`}
                                     sx={{
-                                        borderRadius: 1
+                                        borderRadius: 1,
+                                        cursor: "pointer"
                                     }}
+                                    onClick={() =>
+                                        navigate(
+                                            item.request_type ===
+                                                "ATTENDANCE_EDIT"
+                                                ? `/employee/approval/attendance/${item.id}`
+                                                : `/employee/approval/${item.id}`
+                                        )
+                                    }
                                 >
 
                                     <CardContent>
 
-                                        <Stack
-                                            direction="row"
-                                            justifyContent="space-between"
-                                            alignItems="center"
+                                        <Typography
+                                            fontWeight={700}
+                                            fontSize={17}
                                         >
+                                            {item.name}
+                                        </Typography>
 
-                                            <Box flex={1}>
+                                        <Typography
+                                            color="text.secondary"
+                                            mt={0.5}
+                                        >
+                                            <strong>
+                                                Pengajuan :
+                                            </strong>{" "}
+                                            {item.leave_type}{" "}
+                                            {getDuration(
+                                                item.start_date,
+                                                item.end_date
+                                            )}
+                                        </Typography>
 
-                                                <Skeleton
-                                                    width="45%"
-                                                    height={32}
-                                                />
+                                        <Typography
+                                            color="text.secondary"
+                                            mt={0.5}
+                                        >
+                                            <strong>
+                                                Tanggal :
+                                            </strong>{" "}
+                                            {formatDate(
+                                                item.start_date
+                                            )}
 
-                                                <Skeleton
-                                                    width="30%"
-                                                    height={22}
-                                                />
+                                            {item.start_date !==
+                                                item.end_date &&
+                                                ` - ${formatDate(
+                                                    item.end_date
+                                                )}`}
+                                        </Typography>
 
-                                                <Skeleton
-                                                    width="55%"
-                                                    height={20}
-                                                />
+                                        {item.request_type ===
+                                            "ATTENDANCE_EDIT" && (
+                                                <>
+                                                    <Typography
+                                                        color="text.secondary"
+                                                        mt={0.5}
+                                                    >
+                                                        <strong>
+                                                            Jam Masuk :
+                                                        </strong>{" "}
+                                                        {item.old_check_in
+                                                            ? new Date(
+                                                                item.old_check_in
+                                                            ).toLocaleTimeString(
+                                                                "id-ID",
+                                                                {
+                                                                    hour: "2-digit",
+                                                                    minute: "2-digit"
+                                                                }
+                                                            )
+                                                            : "-"}{" "}
+                                                        →{" "}
+                                                        {item.new_check_in
+                                                            ? new Date(
+                                                                item.new_check_in
+                                                            ).toLocaleTimeString(
+                                                                "id-ID",
+                                                                {
+                                                                    hour: "2-digit",
+                                                                    minute: "2-digit"
+                                                                }
+                                                            )
+                                                            : "-"}
+                                                    </Typography>
 
-                                            </Box>
+                                                    <Typography
+                                                        color="text.secondary"
+                                                        mt={0.5}
+                                                    >
+                                                        <strong>
+                                                            Jam Pulang :
+                                                        </strong>{" "}
+                                                        {item.old_check_out
+                                                            ? new Date(
+                                                                item.old_check_out
+                                                            ).toLocaleTimeString(
+                                                                "id-ID",
+                                                                {
+                                                                    hour: "2-digit",
+                                                                    minute: "2-digit"
+                                                                }
+                                                            )
+                                                            : "-"}{" "}
+                                                        →{" "}
+                                                        {item.new_check_out
+                                                            ? new Date(
+                                                                item.new_check_out
+                                                            ).toLocaleTimeString(
+                                                                "id-ID",
+                                                                {
+                                                                    hour: "2-digit",
+                                                                    minute: "2-digit"
+                                                                }
+                                                            )
+                                                            : "-"}
+                                                    </Typography>
+                                                </>
+                                            )}
 
-                                            <Skeleton
-                                                variant="rounded"
-                                                width={70}
-                                                height={28}
-                                                sx={{
-                                                    borderRadius: 2
-                                                }}
-                                            />
-
-                                        </Stack>
+                                        <Chip
+                                            size="small"
+                                            label={
+                                                item.status ===
+                                                    "PENDING_SUPERVISOR"
+                                                    ? "Pending"
+                                                    : item.status ===
+                                                        "APPROVED"
+                                                        ? "Approved"
+                                                        : "Rejected"
+                                            }
+                                            color={
+                                                item.status ===
+                                                    "PENDING_SUPERVISOR"
+                                                    ? "warning"
+                                                    : item.status ===
+                                                        "APPROVED"
+                                                        ? "success"
+                                                        : "error"
+                                            }
+                                            sx={{
+                                                mt: 2
+                                            }}
+                                        />
 
                                     </CardContent>
 
                                 </Card>
 
-                            ))}
+                            ))
 
-                        </Stack>
+                        )}
 
-                    )
+                    </Stack>
 
-                    :
-
-                    (
-
-                        <Stack spacing={2}>
-
-                            {
-
-                                requests.length === 0
-
-                                    ?
-
-                                    (
-
-                                        <Typography
-                                            textAlign="center"
-                                            color="text.secondary"
-                                            sx={{
-                                                mt: 5,
-                                                textAlign: "center",
-                                                height: "50vh",
-                                                display: "grid",
-                                                placeItems: "center",
-                                            }}
-                                        >
-
-                                            Tidak ada data
-
-                                        </Typography>
-
-                                    )
-
-                                    :
-
-                                    requests.map((item) => (
-
-                                        <Card
-                                            key={`${item.request_type}-${item.id}`}
-                                            sx={{
-                                                borderRadius: 1,
-                                                cursor: "pointer",
-                                                transition: ".2s",
-
-                                                "&:hover": {
-                                                    transform: "translateY(-2px)"
-                                                }
-                                            }}
-
-                                            onClick={() => {
-
-                                                if (item.status === "PENDING_SUPERVISOR") {
-
-                                                    if (item.request_type === "ATTENDANCE_EDIT") {
-
-                                                        navigate(`/employee/approval/attendance/${item.id}`);
-
-                                                    } else {
-
-                                                        navigate(`/employee/approval/${item.id}`);
-
-                                                    }
-
-                                                }
-
-                                            }}
-                                        >
-
-                                            <CardContent>
-
-                                                <Stack
-                                                    direction="row"
-                                                    alignItems="center"
-                                                >
-
-                                                    <Typography
-                                                        fontWeight="bold"
-                                                        fontSize={17}
-                                                        sx={{
-                                                            flexGrow: 1
-                                                        }}
-                                                    >
-                                                        {item.name}
-                                                    </Typography>
-
-                                                    <Box
-                                                        sx={{
-                                                            ml: "auto"
-                                                        }}
-                                                    >
-                                                        <Chip
-                                                            size="small"
-                                                            label={
-                                                                item.status === "PENDING_SUPERVISOR"
-                                                                    ? "Pending"
-                                                                    : item.status === "APPROVED"
-                                                                        ? "Approved"
-                                                                        : "Rejected"
-                                                            }
-                                                            color={
-                                                                item.status === "PENDING_SUPERVISOR"
-                                                                    ? "warning"
-                                                                    : item.status === "APPROVED"
-                                                                        ? "success"
-                                                                        : "error"
-                                                            }
-                                                        />
-                                                    </Box>
-
-                                                </Stack>
-
-                                                <Typography
-                                                    color="text.secondary"
-                                                    mt={1}
-                                                >
-                                                    <strong>Pengajuan :</strong>{" "}
-                                                    {item.request_type === "ATTENDANCE_EDIT"
-                                                        ? "Perubahan Absensi"
-                                                        : item.leave_type}
-
-                                                    {item.request_type === "ATTENDANCE_EDIT"
-                                                        ? ""
-                                                        : ` • ${getDuration(
-                                                            item.start_date,
-                                                            item.end_date
-                                                        )}`}
-                                                </Typography>
-
-                                                <Typography
-                                                    color="text.secondary"
-                                                    mt={0.5}
-                                                >
-                                                    <strong>Tanggal :</strong>{" "}
-                                                    {formatDate(item.start_date)}
-                                                    {item.start_date !== item.end_date &&
-                                                        ` - ${formatDate(item.end_date)}`}
-                                                </Typography>
-
-                                                {item.request_type === "ATTENDANCE_EDIT" && (
-                                                    <Box mt={1}>
-
-                                                        <Typography
-                                                            color="text.secondary"
-                                                            fontSize={14}
-                                                        >
-                                                            <strong>Jam Masuk :</strong>{" "}
-                                                            {item.old_check_in
-                                                                ? new Date(
-                                                                    item.old_check_in
-                                                                ).toLocaleTimeString("id-ID", {
-                                                                    hour: "2-digit",
-                                                                    minute: "2-digit"
-                                                                })
-                                                                : "-"}
-                                                            {" → "}
-                                                            {item.new_check_in
-                                                                ? new Date(
-                                                                    item.new_check_in
-                                                                ).toLocaleTimeString("id-ID", {
-                                                                    hour: "2-digit",
-                                                                    minute: "2-digit"
-                                                                })
-                                                                : "-"}
-                                                        </Typography>
-
-                                                        <Typography
-                                                            color="text.secondary"
-                                                            fontSize={14}
-                                                        >
-                                                            <strong>Jam Pulang :</strong>{" "}
-                                                            {item.old_check_out
-                                                                ? new Date(
-                                                                    item.old_check_out
-                                                                ).toLocaleTimeString("id-ID", {
-                                                                    hour: "2-digit",
-                                                                    minute: "2-digit"
-                                                                })
-                                                                : "-"}
-                                                            {" → "}
-                                                            {item.new_check_out
-                                                                ? new Date(
-                                                                    item.new_check_out
-                                                                ).toLocaleTimeString("id-ID", {
-                                                                    hour: "2-digit",
-                                                                    minute: "2-digit"
-                                                                })
-                                                                : "-"}
-                                                        </Typography>
-
-                                                    </Box>
-                                                )}
-
-                                            </CardContent>
-
-                                        </Card>
-
-                                    ))
-
-                            }
-
-                        </Stack>
-
-                    )
-
+                )
             }
 
         </Box>
