@@ -438,6 +438,9 @@ export default function AttendanceDetailDialog({
                                 <TableHead>
 
                                     <TableRow>
+                                        <TableCell>
+                                            No.
+                                        </TableCell>
 
                                         <TableCell>Tanggal</TableCell>
 
@@ -456,6 +459,9 @@ export default function AttendanceDetailDialog({
                                     {history.map((item, index) => (
 
                                         <TableRow key={index}>
+                                            <TableCell align="center">
+                                                {index + 1}
+                                            </TableCell>
 
                                             <TableCell>
                                                 {new Date(item.attendance_date).toLocaleDateString(
