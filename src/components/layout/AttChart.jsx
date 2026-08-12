@@ -4,7 +4,8 @@ import {
     Typography,
     Box, FormControl,
     Select,
-    MenuItem
+    MenuItem,
+    Skeleton
 } from "@mui/material";
 
 import {
@@ -19,7 +20,7 @@ import {
 
 export default function AttendanceChart({ data,
     period,
-    onPeriodChange }) {
+    onPeriodChange, loading }) {
     return (
 
         <Card
@@ -87,79 +88,92 @@ export default function AttendanceChart({ data,
                     </FormControl>
                 </Box>
 
-                <ResponsiveContainer
-                    width="100%"
-                    height={300}
-                >
+                {loading ? (
+                    <Box sx={{ height: 300 }}>
+                        <Skeleton
+                            variant="rectangular"
+                            width="100%"
+                            height="100%"
+                            sx={{
+                                borderRadius: 2
+                            }}
+                        />
+                    </Box>
+                ) : (
 
-                    <AreaChart
-                        data={data}
-                        margin={{
-                            top: 10,
-                            right: 10,
-                            left: -20,
-                            bottom: 0
-                        }}
+                    <ResponsiveContainer
+                        width="100%"
+                        height={300}
                     >
-                        <defs>
-                            <linearGradient id="attendanceGradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop
-                                    offset="5%"
-                                    stopColor="#16A34A"
-                                    stopOpacity={0.35}
-                                />
-                                <stop
-                                    offset="95%"
-                                    stopColor="#16A34A"
-                                    stopOpacity={0}
-                                />
-                            </linearGradient>
-                        </defs>
-                        <CartesianGrid
-                            strokeDasharray="3 3"
-                            vertical={false}
-                        />
 
-                        <XAxis
-                            dataKey="day"
-                            tickLine={false}
-                            axisLine={false}
-                        />
-
-                        <YAxis
-                            tickLine={false}
-                            axisLine={false}
-                            allowDecimals={false}
-                        />
-
-                        <Tooltip
-                            formatter={(value) => [`${value} Karyawan`, "Hadir"]}
-                            labelFormatter={(label) => `Hari ${label}`}
-                        />
-
-                        <Area
-                            type="monotone"
-                            dataKey="total"
-                            stroke="#16A34A"
-                            strokeWidth={3}
-                            fill="url(#attendanceGradient)"
-
-                            dot={{
-                                r: 4,
-                                strokeWidth: 2,
-                                fill: "#16A34A",
-                                stroke: "#fff"
+                        <AreaChart
+                            data={data}
+                            margin={{
+                                top: 10,
+                                right: 10,
+                                left: -20,
+                                bottom: 0
                             }}
+                        >
+                            <defs>
+                                <linearGradient id="attendanceGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop
+                                        offset="5%"
+                                        stopColor="#16A34A"
+                                        stopOpacity={0.35}
+                                    />
+                                    <stop
+                                        offset="95%"
+                                        stopColor="#16A34A"
+                                        stopOpacity={0}
+                                    />
+                                </linearGradient>
+                            </defs>
+                            <CartesianGrid
+                                strokeDasharray="3 3"
+                                vertical={false}
+                            />
 
-                            activeDot={{
-                                r: 7
-                            }}
-                        />
+                            <XAxis
+                                dataKey="day"
+                                tickLine={false}
+                                axisLine={false}
+                            />
 
-                    </AreaChart>
+                            <YAxis
+                                tickLine={false}
+                                axisLine={false}
+                                allowDecimals={false}
+                            />
 
-                </ResponsiveContainer>
+                            <Tooltip
+                                formatter={(value) => [`${value} Karyawan`, "Hadir"]}
+                                labelFormatter={(label) => `Hari ${label}`}
+                            />
 
+                            <Area
+                                type="monotone"
+                                dataKey="total"
+                                stroke="#16A34A"
+                                strokeWidth={3}
+                                fill="url(#attendanceGradient)"
+
+                                dot={{
+                                    r: 4,
+                                    strokeWidth: 2,
+                                    fill: "#16A34A",
+                                    stroke: "#fff"
+                                }}
+
+                                activeDot={{
+                                    r: 7
+                                }}
+                            />
+
+                        </AreaChart>
+
+                    </ResponsiveContainer>
+                )}
             </CardContent>
 
         </Card>

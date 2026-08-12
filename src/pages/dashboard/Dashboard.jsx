@@ -156,6 +156,7 @@ export default function Dashboard() {
                         data={dashboard.chart}
                         period={chartPeriod}
                         onPeriodChange={setChartPeriod}
+                        loading={loadingToday}
                     />
                 </Grid>
 
