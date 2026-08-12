@@ -602,7 +602,7 @@ export default function History() {
                                     }}
                                 >
 
-                                    {item.edit_request_status === "PENDING" ? (
+                                    {item.edit_request_status === "PENDING_SUPERVISOR" ? (
 
                                         <Chip
                                             label="Menunggu Approval"
