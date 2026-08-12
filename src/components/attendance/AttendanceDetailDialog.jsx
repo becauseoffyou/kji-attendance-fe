@@ -29,7 +29,9 @@ import attendanceService from "../../services/attService";
 export default function AttendanceDetailDialog({
     open,
     onClose,
-    data
+    data,
+    month,
+    year
 }) {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -37,36 +39,40 @@ export default function AttendanceDetailDialog({
 
         if (!open || !data) return;
 
-        const loadHistory = async () => {
 
-            try {
-
-                setLoading(true);
-
-                setHistory([]);
-
-                const result =
-                    await attendanceService.getEmployeeAttendance(data.id);
-
-                setHistory(result.data);
-
-            } catch (err) {
-
-                console.error(err);
-
-            } finally {
-
-                setLoading(false);
-
-            }
-
-        };
 
         loadHistory();
 
-    }, [open, data]);
+    }, [open, data, month, year]);
     if (!data) return null;
+    const loadHistory = async () => {
 
+        try {
+
+            setLoading(true);
+
+            setHistory([]);
+
+            const result =
+                await attendanceService.getEmployeeAttendance(
+                    data.id,
+                    month,
+                    year
+                );
+
+            setHistory(result.data);
+
+        } catch (err) {
+
+            console.error(err);
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
     return (
 
         <Dialog

@@ -225,6 +225,8 @@ export default function AdminAttendance() {
                     <AttendanceSummaryTable
                         data={summaryData}
                         loading={loadingSummary}
+                        month={summaryFilters.month}
+                        year={summaryFilters.year}
                     /></>
             )}
         </>

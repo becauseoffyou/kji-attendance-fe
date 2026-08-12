@@ -39,8 +39,10 @@ const attendanceService = {
 
     return data;
   },
-  getEmployeeAttendance: async (id) => {
-    const { data } = await api.get(`/attendance/employee/${id}`);
+  getEmployeeAttendance: async (id, month, year) => {
+    const { data } = await api.get(
+      `/attendance/employee/${id}?month=${month}&year=${year}`,
+    );
 
     return data;
   },

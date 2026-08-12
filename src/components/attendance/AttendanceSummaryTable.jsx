@@ -18,7 +18,8 @@ import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import AttendanceDetailDialog from "./AttendanceDetailDialog";
 
-export default function AttendanceSummaryTable({ data = [], loading = false }) {
+export default function AttendanceSummaryTable({ data = [], loading = false, month,
+    year }) {
     const [selected, setSelected] = useState(null);
 
     const [open, setOpen] = useState(false);
@@ -351,6 +352,8 @@ export default function AttendanceSummaryTable({ data = [], loading = false }) {
                 open={open}
                 onClose={() => setOpen(false)}
                 data={selected}
+                month={month}
+                year={year}
             />
         </Card>
 
