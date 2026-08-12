@@ -194,6 +194,15 @@ export default function History() {
         );
     };
 
+    const buildDateTime = (date, time) => {
+        if (!time) return null;
+
+        const dateOnly = new Date(date)
+            .toLocaleDateString("en-CA");
+
+        return `${dateOnly} ${time}:00`;
+    };
+
     const submitEditRequest = async () => {
 
         if (!editDialog) return;
@@ -226,15 +235,22 @@ export default function History() {
             const attendanceDate =
                 editDialog.attendance_date;
 
-            const newCheckIn =
+            const newCheckIn = buildDateTime(
+                editDialog.attendance_date,
                 editForm.check_in
-                    ? `${attendanceDate}T${editForm.check_in}:00`
-                    : null;
+            );
 
-            const newCheckOut =
+            const newCheckOut = buildDateTime(
+                editDialog.attendance_date,
                 editForm.check_out
-                    ? `${attendanceDate}T${editForm.check_out}:00`
-                    : null;
+            );
+
+            console.log("EDIT REQUEST PAYLOAD", {
+                attendance_id: editDialog.id,
+                new_check_in: newCheckIn,
+                new_check_out: newCheckOut,
+                reason: editForm.reason
+            });
 
             await attendanceService.createEditRequest({
                 attendance_id: editDialog.id,
