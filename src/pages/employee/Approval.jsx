@@ -71,6 +71,15 @@ export default function Approval() {
 
     }, []);
 
+    const filtered = requests.filter((item) => {
+
+    if (statusFilter === "ALL") {
+        return true;
+    }
+
+    return item.status === statusFilter;
+});
+
     const formatDate = (date) => {
 
         return new Date(date).toLocaleDateString("id-ID", {
