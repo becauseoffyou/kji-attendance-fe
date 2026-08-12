@@ -589,6 +589,7 @@ export default function History() {
                                             color="text.secondary"
                                         >
                                             Durasi
+                                            {item.edit_request_status}
                                         </Typography>
 
                                     </Box>
@@ -601,6 +602,7 @@ export default function History() {
                                         justifyContent: "flex-end"
                                     }}
                                 >
+
                                     {item.edit_request_status === "PENDING" ? (
 
                                         <Chip
