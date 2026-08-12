@@ -223,7 +223,7 @@ export default function Approval() {
                             {[1, 2, 3, 4, 5].map((item) => (
 
                                 <Card
-                                    key={item}
+                                    key={`${item.request_type}-${item.id}`}
                                     sx={{
                                         borderRadius: 1
                                     }}
@@ -314,7 +314,7 @@ export default function Approval() {
                                     requests.map((item) => (
 
                                         <Card
-                                            key={item.id}
+                                            key={`${item.request_type}-${item.id}`}
                                             sx={{
                                                 borderRadius: 1,
                                                 cursor: "pointer",

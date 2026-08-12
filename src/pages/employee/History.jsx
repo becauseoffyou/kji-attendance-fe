@@ -589,7 +589,6 @@ export default function History() {
                                             color="text.secondary"
                                         >
                                             Durasi
-                                            {item.edit_request_status}
                                         </Typography>
 
                                     </Box>
