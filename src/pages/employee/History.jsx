@@ -1,25 +1,38 @@
 import { useEffect, useMemo, useState } from "react";
 import {
     Box,
+    Button,
     Card,
     CardContent,
     Chip,
     MenuItem,
     Stack,
     Typography,
-    Skeleton
+    Skeleton,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    TextField,
+    Alert
 } from "@mui/material";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import { IconButton } from "@mui/material";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 
 import attendanceService from "../../services/attService";
 
 export default function History() {
+    const [editDialog, setEditDialog] = useState(null);
+    const [editForm, setEditForm] = useState({
+        check_in: "",
+        check_out: "",
+        reason: ""
+    });
 
-
-
+    const [submittingEdit, setSubmittingEdit] = useState(false);
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -111,6 +124,26 @@ export default function History() {
 
     };
 
+    const formatInputTime = (time) => {
+        if (!time) return "";
+
+        const date = new Date(time);
+
+        return `${String(date.getHours()).padStart(2, "0")}:${String(
+            date.getMinutes()
+        ).padStart(2, "0")}`;
+    };
+
+    const openEditDialog = (item) => {
+        setEditDialog(item);
+
+        setEditForm({
+            check_in: formatInputTime(item.check_in),
+            check_out: formatInputTime(item.check_out),
+            reason: ""
+        });
+    };
+
 
 
     const filteredHistory = useMemo(() => {
@@ -145,6 +178,65 @@ export default function History() {
         };
 
     }, [filteredHistory]);
+
+    const submitEditRequest = async () => {
+
+        if (!editDialog) return;
+
+        if (!editForm.reason.trim()) {
+            alert("Alasan perubahan wajib diisi.");
+            return;
+        }
+
+        try {
+
+            setSubmittingEdit(true);
+
+            const attendanceDate =
+                editDialog.attendance_date;
+
+            const newCheckIn =
+                editForm.check_in
+                    ? `${attendanceDate}T${editForm.check_in}:00`
+                    : null;
+
+            const newCheckOut =
+                editForm.check_out
+                    ? `${attendanceDate}T${editForm.check_out}:00`
+                    : null;
+
+            await attendanceService.createEditRequest({
+                attendance_id: editDialog.id,
+                new_check_in: newCheckIn,
+                new_check_out: newCheckOut,
+                reason: editForm.reason
+            });
+
+            setEditDialog(null);
+
+            setEditForm({
+                check_in: "",
+                check_out: "",
+                reason: ""
+            });
+
+            await loadHistory();
+
+        } catch (err) {
+
+            console.error(err);
+
+            alert(
+                err.response?.data?.message ||
+                "Gagal mengajukan perubahan absensi."
+            );
+
+        } finally {
+
+            setSubmittingEdit(false);
+
+        }
+    };
 
     return (
 
@@ -455,6 +547,42 @@ export default function History() {
                                     </Box>
 
                                 </Box>
+                                <Box
+                                    sx={{
+                                        mt: 2,
+                                        display: "flex",
+                                        justifyContent: "flex-end"
+                                    }}
+                                >
+                                    {item.edit_request_status === "PENDING" ? (
+
+                                        <Chip
+                                            label="Menunggu Approval"
+                                            color="warning"
+                                            size="small"
+                                        />
+
+                                    ) : item.edit_request_status === "APPROVED" ? (
+
+                                        <Chip
+                                            label="Sudah Dikoreksi"
+                                            color="success"
+                                            size="small"
+                                        />
+
+                                    ) : (
+
+                                        <Button
+                                            variant="outlined"
+                                            size="small"
+                                            startIcon={<EditRoundedIcon />}
+                                            onClick={() => openEditDialog(item)}
+                                        >
+                                            Ajukan Perubahan
+                                        </Button>
+
+                                    )}
+                                </Box>
 
                             </CardContent>
 
@@ -469,6 +597,119 @@ export default function History() {
 
 
             </Stack>
+
+            <Dialog
+                open={Boolean(editDialog)}
+                onClose={() => {
+                    if (!submittingEdit) {
+                        setEditDialog(null);
+                    }
+                }}
+                fullWidth
+                maxWidth="sm"
+            >
+                <DialogTitle
+                    fontWeight={700}
+                >
+                    Ajukan Perubahan Absensi
+                </DialogTitle>
+
+                <DialogContent>
+
+                    {editDialog && (
+                        <Stack spacing={2} sx={{ mt: 1 }}>
+
+                            <Typography
+                                fontWeight={600}
+                            >
+                                {new Date(
+                                    editDialog.attendance_date
+                                ).toLocaleDateString("id-ID", {
+                                    weekday: "long",
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric"
+                                })}
+                            </Typography>
+
+                            <TextField
+                                fullWidth
+                                type="time"
+                                label="Jam Masuk"
+                                value={editForm.check_in}
+                                onChange={(e) =>
+                                    setEditForm(prev => ({
+                                        ...prev,
+                                        check_in: e.target.value
+                                    }))
+                                }
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                            />
+
+                            <TextField
+                                fullWidth
+                                type="time"
+                                label="Jam Pulang"
+                                value={editForm.check_out}
+                                onChange={(e) =>
+                                    setEditForm(prev => ({
+                                        ...prev,
+                                        check_out: e.target.value
+                                    }))
+                                }
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                            />
+
+                            <TextField
+                                fullWidth
+                                multiline
+                                minRows={3}
+                                label="Alasan Perubahan"
+                                placeholder="Jelaskan alasan perubahan jam absensi..."
+                                value={editForm.reason}
+                                onChange={(e) =>
+                                    setEditForm(prev => ({
+                                        ...prev,
+                                        reason: e.target.value
+                                    }))
+                                }
+                            />
+
+                        </Stack>
+                    )}
+
+                </DialogContent>
+
+                <DialogActions sx={{ px: 3, pb: 2 }}>
+
+                    <Button
+                        onClick={() => setEditDialog(null)}
+                        disabled={submittingEdit}
+                    >
+                        Batal
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        color="success"
+                        onClick={submitEditRequest}
+                        disabled={
+                            submittingEdit ||
+                            !editForm.reason.trim()
+                        }
+                    >
+                        {submittingEdit
+                            ? "Mengirim..."
+                            : "Ajukan Perubahan"}
+                    </Button>
+
+                </DialogActions>
+
+            </Dialog>
 
         </Box>
 

@@ -102,6 +102,11 @@ const attendanceService = {
 
     return data;
   },
+  createEditRequest: async (payload) => {
+    const { data } = await api.post("/attendance/edit-request", payload);
+
+    return data;
+  },
 };
 
 export default attendanceService;
