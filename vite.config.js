@@ -3,71 +3,63 @@ import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
+  plugins: [
+    react(),
 
-    plugins: [
+    VitePWA({
+      registerType: "autoUpdate",
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        navigateFallback: "/index.html",
+      },
+      includeAssets: [
+        "favicon.svg",
+        "icons.svg",
+        "pwa-192x192.png",
+        "pwa-512x512.png",
+      ],
 
-        react(),
+      manifest: {
+        id: "/",
+        name: "KJI Attendance",
 
-        VitePWA({
+        short_name: "KATAN",
 
-            registerType: "autoUpdate",
-workbox: {
-    globPatterns: ["**/*.{js,css,html,ico,png,svg}"]
-},
-           includeAssets: [
-    "favicon.svg",
-    "icons.svg",
-    "pwa-192x192.png",
-    "pwa-512x512.png"
-],
+        description: "Aplikasi Absensi PT KJI",
 
-            manifest: {
-  id: "/",
-                name: "KJI Attendance",
+        theme_color: "#0E7D63",
 
-                short_name: "KATAN",
+        background_color: "#ffffff",
 
-                description: "Aplikasi Absensi PT KJI",
+        display: "standalone",
+        prefer_related_applications: false,
+        orientation: "portrait",
 
-                theme_color: "#0E7D63",
+        scope: "/",
 
-                background_color: "#ffffff",
+        start_url: "/",
 
-                display: "standalone",
-prefer_related_applications: false,
-                orientation: "portrait",
+        icons: [
+          {
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
 
-                scope: "/",
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
 
-                start_url: "/",
-
-                icons: [
-
-                    {
-                        src: "pwa-192x192.png",
-                        sizes: "192x192",
-                        type: "image/png"
-                    },
-
-                    {
-                        src: "pwa-512x512.png",
-                        sizes: "512x512",
-                        type: "image/png"
-                    },
-
-                    {
-                        src: "pwa-512x512.png",
-                        sizes: "512x512",
-                        type: "image/png",
-                        purpose: "any maskable"
-                    }
-
-                ]
-
-            }
-
-        })
-
-    ]
-
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any maskable",
+          },
+        ],
+      },
+    }),
+  ],
 });
