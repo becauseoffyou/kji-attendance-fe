@@ -170,17 +170,17 @@ export default function AppRoutes() {
                         element={<EmployeeProfile />}
                     />
 
-                    <Route
-                        path="/forgot-password"
-                        element={<ForgotPassword />}
-                    />
 
-                    <Route
-                        path="/reset-password"
-                        element={<ResetPassword />}
-                    />
                 </Route>
+                <Route
+                    path="/forgot-password"
+                    element={<ForgotPassword />}
+                />
 
+                <Route
+                    path="/reset-password"
+                    element={<ResetPassword />}
+                />
                 {/* 404 */}
                 <Route
                     path="*"
