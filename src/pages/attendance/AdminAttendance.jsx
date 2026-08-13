@@ -467,10 +467,6 @@ export default function AdminAttendance() {
 
         const exportData = getExportData();
 
-        // =========================
-        // INFORMASI LAPORAN
-        // =========================
-
         const monthName = getMonthName();
 
         const department =
@@ -480,14 +476,16 @@ export default function AdminAttendance() {
             summaryFilters.search || "Semua Karyawan";
 
 
-        // =========================
-        // DATA SHEET
-        // =========================
+        // =====================================================
+        // DATA LAPORAN
+        // =====================================================
 
         const worksheetData = [
 
+            // Judul
             ["REKAP ABSENSI KARYAWAN"],
 
+            // Informasi
             [`Periode : ${monthName} ${summaryFilters.year}`],
 
             [`Divisi : ${department}`],
@@ -496,6 +494,7 @@ export default function AdminAttendance() {
 
             [],
 
+            // Header tabel
             [
                 "No.",
                 "Karyawan",
@@ -510,6 +509,7 @@ export default function AdminAttendance() {
                 "Kehadiran"
             ],
 
+            // Data
             ...exportData.map((item) => [
                 item["No."],
                 item["Karyawan"],
@@ -522,14 +522,21 @@ export default function AdminAttendance() {
                 item["Sakit"],
                 item["Alpha"],
                 item["Kehadiran"]
-            ])
+            ]),
+
+            [],
+
+            // Footer
+            [
+                `Total Karyawan : ${exportData.length}`
+            ]
 
         ];
 
 
-        // =========================
-        // CREATE WORKSHEET
-        // =========================
+        // =====================================================
+        // CREATE SHEET
+        // =====================================================
 
         const worksheet =
             XLSX.utils.aoa_to_sheet(
@@ -537,9 +544,9 @@ export default function AdminAttendance() {
             );
 
 
-        // =========================
+        // =====================================================
         // MERGE JUDUL
-        // =========================
+        // =====================================================
 
         worksheet["!merges"] = [
             {
@@ -555,54 +562,306 @@ export default function AdminAttendance() {
         ];
 
 
-        // =========================
-        // LEBAR KOLOM
-        // =========================
+        // =====================================================
+        // COLUMN WIDTH
+        // =====================================================
 
         worksheet["!cols"] = [
 
-            { wch: 6 },
+            { wch: 6 },   // No
 
-            { wch: 28 },
+            { wch: 25 },  // Karyawan
 
-            { wch: 20 },
+            { wch: 20 },  // Divisi
 
-            { wch: 10 },
+            { wch: 10 },  // Hadir
 
-            { wch: 12 },
+            { wch: 12 },  // Terlambat
 
-            { wch: 15 },
+            { wch: 15 },  // Menit Telat
 
-            { wch: 10 },
+            { wch: 10 },  // Cuti
 
-            { wch: 10 },
+            { wch: 10 },  // Izin
 
-            { wch: 10 },
+            { wch: 10 },  // Sakit
 
-            { wch: 10 },
+            { wch: 10 },  // Alpha
 
-            { wch: 15 }
+            { wch: 15 }   // Kehadiran
 
         ];
 
 
-        // =========================
+        // =====================================================
+        // STYLE JUDUL
+        // =====================================================
+
+        if (worksheet["A1"]) {
+
+            worksheet["A1"].s = {
+
+                font: {
+                    bold: true,
+                    sz: 18
+                },
+
+                alignment: {
+                    horizontal: "center",
+                    vertical: "center"
+                }
+
+            };
+
+        }
+
+
+        // =====================================================
+        // STYLE INFORMASI
+        // =====================================================
+
+        ["A2", "A3", "A4"].forEach(
+            (cell) => {
+
+                if (worksheet[cell]) {
+
+                    worksheet[cell].s = {
+
+                        font: {
+                            bold: true,
+                            sz: 11
+                        },
+
+                        alignment: {
+                            horizontal: "left",
+                            vertical: "center"
+                        }
+
+                    };
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // STYLE HEADER TABEL
+        // =====================================================
+
+        const headerRow = 6;
+
+        for (let col = 0; col <= 10; col++) {
+
+            const cell =
+                XLSX.utils.encode_cell({
+                    r: headerRow - 1,
+                    c: col
+                });
+
+            if (worksheet[cell]) {
+
+                worksheet[cell].s = {
+
+                    font: {
+                        bold: true,
+                        sz: 11
+                    },
+
+                    alignment: {
+                        horizontal: "center",
+                        vertical: "center",
+                        wrapText: true
+                    },
+
+                    border: {
+
+                        top: {
+                            style: "thin"
+                        },
+
+                        bottom: {
+                            style: "thin"
+                        },
+
+                        left: {
+                            style: "thin"
+                        },
+
+                        right: {
+                            style: "thin"
+                        }
+
+                    }
+
+                };
+
+            }
+
+        }
+
+
+        // =====================================================
+        // STYLE DATA
+        // =====================================================
+
+        const firstDataRow = 6;
+
+        const lastDataRow =
+            firstDataRow +
+            exportData.length -
+            1;
+
+
+        for (
+            let row = firstDataRow;
+            row <= lastDataRow;
+            row++
+        ) {
+
+            for (
+                let col = 0;
+                col <= 10;
+                col++
+            ) {
+
+                const cell =
+                    XLSX.utils.encode_cell({
+                        r: row - 1,
+                        c: col
+                    });
+
+                if (!worksheet[cell]) {
+                    continue;
+                }
+
+                worksheet[cell].s = {
+
+                    alignment: {
+
+                        horizontal:
+                            col === 1 ||
+                                col === 2
+                                ? "left"
+                                : "center",
+
+                        vertical: "center"
+
+                    },
+
+                    border: {
+
+                        top: {
+                            style: "thin"
+                        },
+
+                        bottom: {
+                            style: "thin"
+                        },
+
+                        left: {
+                            style: "thin"
+                        },
+
+                        right: {
+                            style: "thin"
+                        }
+
+                    }
+
+                };
+
+            }
+
+        }
+
+
+        // =====================================================
+        // STYLE TOTAL
+        // =====================================================
+
+        const totalRow =
+            lastDataRow + 2;
+
+        const totalCell =
+            `A${totalRow}`;
+
+        if (worksheet[totalCell]) {
+
+            worksheet[totalCell].s = {
+
+                font: {
+                    bold: true,
+                    sz: 11
+                },
+
+                alignment: {
+                    horizontal: "left"
+                }
+
+            };
+
+        }
+
+
+        // =====================================================
+        // ROW HEIGHT
+        // =====================================================
+
+        worksheet["!rows"] = [
+
+            {
+                hpt: 30
+            },
+
+            {
+                hpt: 20
+            },
+
+            {
+                hpt: 20
+            },
+
+            {
+                hpt: 20
+            },
+
+            {
+                hpt: 10
+            },
+
+            {
+                hpt: 30
+            }
+
+        ];
+
+
+        // =====================================================
         // FREEZE HEADER
-        // =========================
+        // =====================================================
 
         worksheet["!freeze"] = {
             xSplit: 0,
-            ySplit: 6
+            ySplit: 5
         };
 
 
-        // =========================
-        // CREATE WORKBOOK
-        // =========================
+        // =====================================================
+        // AUTO FILTER
+        // =====================================================
+
+        worksheet["!autofilter"] = {
+            ref: `A6:K${lastDataRow}`
+        };
+
+
+        // =====================================================
+        // WORKBOOK
+        // =====================================================
 
         const workbook =
             XLSX.utils.book_new();
-
 
         XLSX.utils.book_append_sheet(
             workbook,
@@ -611,13 +870,15 @@ export default function AdminAttendance() {
         );
 
 
-        // =========================
+        // =====================================================
         // FILE NAME
-        // =========================
+        // =====================================================
 
         const departmentName =
             summaryFilters.department
-                ? `_${summaryFilters.department}`
+                ? `_${summaryFilters.department
+                    .trim()
+                    .replace(/\s+/g, "_")}`
                 : "";
 
         const employeeName =
@@ -632,9 +893,9 @@ export default function AdminAttendance() {
             `Rekap_Absensi_${monthName}_${summaryFilters.year}${departmentName}${employeeName}.xlsx`;
 
 
-        // =========================
+        // =====================================================
         // DOWNLOAD
-        // =========================
+        // =====================================================
 
         XLSX.writeFile(
             workbook,
