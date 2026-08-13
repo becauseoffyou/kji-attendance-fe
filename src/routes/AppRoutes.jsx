@@ -22,6 +22,8 @@ import Approval from "../pages/employee/Approval";
 import ApprovalDetail from "../pages/employee/ApprovalDetail";
 import AdminAttendance from "../pages/attendance/AdminAttendance";
 import EmployeeList from "../pages/employee/EmployeeList";
+import ForgotPassword from "../pages/auth/ForgotPassword";
+import ResetPassword from "../pages/auth/ResetPassword";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
@@ -166,6 +168,16 @@ export default function AppRoutes() {
                     <Route
                         path="profile"
                         element={<EmployeeProfile />}
+                    />
+
+                    <Route
+                        path="/forgot-password"
+                        element={<ForgotPassword />}
+                    />
+
+                    <Route
+                        path="/reset-password"
+                        element={<ResetPassword />}
                     />
                 </Route>
 
