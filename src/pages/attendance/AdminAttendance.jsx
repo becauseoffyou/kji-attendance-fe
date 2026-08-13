@@ -810,48 +810,33 @@ export default function AdminAttendance() {
         <>
 
             {/* ================= HEADER ================= */}
-
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    mb: 3
-                }}
-            >
-
-                <Stack
-                    direction="row"
-                    spacing={2}
+            {tab === 1 && (
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        mb: 3
+                    }}
                 >
+                    <Stack direction="row" spacing={2}>
+                        <Button
+                            variant="outlined"
+                            startIcon={<DownloadIcon />}
+                            onClick={handleExportExcel}
+                        >
+                            Export Excel
+                        </Button>
 
-                    <Button
-                        variant="outlined"
-                        startIcon={
-                            <DownloadIcon />
-                        }
-                        onClick={
-                            handleExportExcel
-                        }
-                    >
-                        Export Excel
-                    </Button>
-
-
-                    <Button
-                        variant="contained"
-                        startIcon={
-                            <PictureAsPdfIcon />
-                        }
-                        onClick={
-                            handleExportPDF
-                        }
-                    >
-                        Export PDF
-                    </Button>
-
-                </Stack>
-
-            </Box>
+                        <Button
+                            variant="contained"
+                            startIcon={<PictureAsPdfIcon />}
+                            onClick={handleExportPDF}
+                        >
+                            Export PDF
+                        </Button>
+                    </Stack>
+                </Box>
+            )}
 
 
             {/* ================= FILTER ================= */}
