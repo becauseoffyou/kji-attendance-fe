@@ -460,38 +460,110 @@ export default function AdminAttendance() {
     // =====================================================
 
     const handleExportExcel = () => {
-
-        if (
-            !summaryData ||
-            summaryData.length === 0
-        ) {
-
-            alert(
-                "Tidak ada data rekap untuk diekspor."
-            );
-
+        if (!summaryData || summaryData.length === 0) {
+            alert("Tidak ada data rekap untuk diekspor.");
             return;
-
         }
 
+        const exportData = getExportData();
 
-        const exportData =
-            getExportData();
+        // =========================
+        // INFORMASI LAPORAN
+        // =========================
 
+        const monthName = getMonthName();
+
+        const department =
+            summaryFilters.department || "Semua Divisi";
+
+        const employee =
+            summaryFilters.search || "Semua Karyawan";
+
+
+        // =========================
+        // DATA SHEET
+        // =========================
+
+        const worksheetData = [
+
+            ["REKAP ABSENSI KARYAWAN"],
+
+            [`Periode : ${monthName} ${summaryFilters.year}`],
+
+            [`Divisi : ${department}`],
+
+            [`Karyawan : ${employee}`],
+
+            [],
+
+            [
+                "No.",
+                "Karyawan",
+                "Divisi",
+                "Hadir",
+                "Terlambat",
+                "Menit Telat",
+                "Cuti",
+                "Izin",
+                "Sakit",
+                "Alpha",
+                "Kehadiran"
+            ],
+
+            ...exportData.map((item) => [
+                item["No."],
+                item["Karyawan"],
+                item["Divisi"],
+                item["Hadir"],
+                item["Terlambat"],
+                item["Menit Telat"],
+                item["Cuti"],
+                item["Izin"],
+                item["Sakit"],
+                item["Alpha"],
+                item["Kehadiran"]
+            ])
+
+        ];
+
+
+        // =========================
+        // CREATE WORKSHEET
+        // =========================
 
         const worksheet =
-            XLSX.utils.json_to_sheet(
-                exportData
+            XLSX.utils.aoa_to_sheet(
+                worksheetData
             );
 
 
-        // Lebar kolom
+        // =========================
+        // MERGE JUDUL
+        // =========================
+
+        worksheet["!merges"] = [
+            {
+                s: {
+                    r: 0,
+                    c: 0
+                },
+                e: {
+                    r: 0,
+                    c: 10
+                }
+            }
+        ];
+
+
+        // =========================
+        // LEBAR KOLOM
+        // =========================
 
         worksheet["!cols"] = [
 
             { wch: 6 },
 
-            { wch: 25 },
+            { wch: 28 },
 
             { wch: 20 },
 
@@ -514,6 +586,20 @@ export default function AdminAttendance() {
         ];
 
 
+        // =========================
+        // FREEZE HEADER
+        // =========================
+
+        worksheet["!freeze"] = {
+            xSplit: 0,
+            ySplit: 6
+        };
+
+
+        // =========================
+        // CREATE WORKBOOK
+        // =========================
+
         const workbook =
             XLSX.utils.book_new();
 
@@ -524,26 +610,37 @@ export default function AdminAttendance() {
             "Rekap Absensi"
         );
 
-        const department =
+
+        // =========================
+        // FILE NAME
+        // =========================
+
+        const departmentName =
             summaryFilters.department
                 ? `_${summaryFilters.department}`
                 : "";
 
-        const employee =
+        const employeeName =
             summaryFilters.search
-                ? `_${summaryFilters.search}`
+                ? `_${summaryFilters.search
+                    .trim()
+                    .replace(/\s+/g, "_")}`
                 : "";
 
+
         const filename =
-            `Rekap_Absensi_${getMonthName()}_${summaryFilters.year}${department}${employee}.xlsx`;
+            `Rekap_Absensi_${monthName}_${summaryFilters.year}${departmentName}${employeeName}.xlsx`;
+
+
+        // =========================
+        // DOWNLOAD
+        // =========================
 
         XLSX.writeFile(
             workbook,
             filename
         );
-
     };
-
 
     // =====================================================
     // EXPORT PDF
