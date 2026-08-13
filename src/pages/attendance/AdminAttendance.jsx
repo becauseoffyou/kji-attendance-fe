@@ -908,43 +908,40 @@ export default function AdminAttendance() {
     // =====================================================
 
     const handleExportPDF = () => {
-
-        if (
-            !summaryData ||
-            summaryData.length === 0
-        ) {
-
-            alert(
-                "Tidak ada data rekap untuk diekspor."
-            );
-
+        if (!summaryData || summaryData.length === 0) {
+            alert("Tidak ada data rekap untuk diekspor.");
             return;
-
         }
 
+        const exportData = getExportData();
 
-        const exportData =
-            getExportData();
+        const monthName = getMonthName();
 
+        const department =
+            summaryFilters.department || "Semua Divisi";
 
-        const doc =
-            new jsPDF({
-                orientation: "landscape",
-                unit: "mm",
-                format: "a4"
-            });
+        const employee =
+            summaryFilters.search || "Semua Karyawan";
 
 
-        // =========================
-        // HEADER
-        // =========================
+        // =====================================================
+        // CREATE PDF
+        // =====================================================
 
-        doc.setFontSize(16);
+        const doc = new jsPDF({
+            orientation: "landscape",
+            unit: "mm",
+            format: "a4"
+        });
 
-        doc.setFont(
-            "helvetica",
-            "bold"
-        );
+
+        // =====================================================
+        // JUDUL
+        // =====================================================
+
+        doc.setFont("helvetica", "bold");
+
+        doc.setFontSize(18);
 
         doc.text(
             "REKAP ABSENSI KARYAWAN",
@@ -956,211 +953,274 @@ export default function AdminAttendance() {
         );
 
 
+        // =====================================================
+        // INFORMASI LAPORAN
+        // =====================================================
+
+        doc.setFont("helvetica", "normal");
+
         doc.setFontSize(10);
+
+        doc.text(
+            `Periode : ${monthName} ${summaryFilters.year}`,
+            14,
+            25
+        );
+
+        doc.text(
+            `Divisi : ${department}`,
+            14,
+            31
+        );
+
+        doc.text(
+            `Karyawan : ${employee}`,
+            14,
+            37
+        );
+
+
+        // =====================================================
+        // TABLE
+        // =====================================================
+
+        autoTable(doc, {
+
+            startY: 44,
+
+            head: [[
+                "No.",
+                "Karyawan",
+                "Divisi",
+                "Hadir",
+                "Terlambat",
+                "Menit Telat",
+                "Cuti",
+                "Izin",
+                "Sakit",
+                "Alpha",
+                "Kehadiran"
+            ]],
+
+            body: exportData.map((item) => [
+
+                item["No."],
+
+                item["Karyawan"],
+
+                item["Divisi"],
+
+                item["Hadir"],
+
+                item["Terlambat"],
+
+                item["Menit Telat"],
+
+                item["Cuti"],
+
+                item["Izin"],
+
+                item["Sakit"],
+
+                item["Alpha"],
+
+                item["Kehadiran"]
+
+            ]),
+
+
+            // =================================================
+            // TABLE STYLE
+            // =================================================
+
+            theme: "grid",
+
+            styles: {
+
+                font: "helvetica",
+
+                fontSize: 8,
+
+                cellPadding: 3,
+
+                valign: "middle",
+
+                lineWidth: 0.2
+
+            },
+
+
+            // =================================================
+            // HEADER STYLE
+            // =================================================
+
+            headStyles: {
+
+                fontStyle: "bold",
+
+                halign: "center",
+
+                valign: "middle",
+
+                fontSize: 8,
+
+                cellPadding: 3
+
+            },
+
+
+            // =================================================
+            // BODY ALIGNMENT
+            // =================================================
+
+            columnStyles: {
+
+                0: {
+                    halign: "center",
+                    cellWidth: 10
+                },
+
+                1: {
+                    halign: "left",
+                    cellWidth: 42
+                },
+
+                2: {
+                    halign: "left",
+                    cellWidth: 32
+                },
+
+                3: {
+                    halign: "center",
+                    cellWidth: 16
+                },
+
+                4: {
+                    halign: "center",
+                    cellWidth: 20
+                },
+
+                5: {
+                    halign: "center",
+                    cellWidth: 22
+                },
+
+                6: {
+                    halign: "center",
+                    cellWidth: 15
+                },
+
+                7: {
+                    halign: "center",
+                    cellWidth: 15
+                },
+
+                8: {
+                    halign: "center",
+                    cellWidth: 15
+                },
+
+                9: {
+                    halign: "center",
+                    cellWidth: 15
+                },
+
+                10: {
+                    halign: "center",
+                    cellWidth: 24
+                }
+
+            },
+
+
+            // =================================================
+            // PAGE HEADER / FOOTER
+            // =================================================
+
+            didDrawPage: (data) => {
+
+                const pageNumber =
+                    doc.internal.getNumberOfPages();
+
+                const pageWidth =
+                    doc.internal.pageSize.getWidth();
+
+                const pageHeight =
+                    doc.internal.pageSize.getHeight();
+
+
+                doc.setFontSize(8);
+
+                doc.setFont(
+                    "helvetica",
+                    "normal"
+                );
+
+
+                doc.text(
+                    `Halaman ${pageNumber}`,
+                    pageWidth - 14,
+                    pageHeight - 8,
+                    {
+                        align: "right"
+                    }
+                );
+
+            }
+
+        });
+
+
+        // =====================================================
+        // TOTAL KARYAWAN
+        // =====================================================
+
+        const finalY =
+            doc.lastAutoTable.finalY + 10;
+
 
         doc.setFont(
             "helvetica",
-            "normal"
+            "bold"
         );
 
-
-        const department =
-            summaryFilters.department
-                ? summaryFilters.department
-                : "Semua Divisi";
-
+        doc.setFontSize(10);
 
         doc.text(
-            `Periode: ${getMonthName()} ${summaryFilters.year}`,
+            `Total Karyawan : ${exportData.length}`,
             14,
-            24
+            finalY
         );
 
 
-        doc.text(
-            `Divisi: ${department}`,
-            14,
-            30
-        );
-
-
-        if (
-            summaryFilters.search
-        ) {
-
-            doc.text(
-                `Karyawan: ${summaryFilters.search}`,
-                14,
-                36
-            );
-
-        }
-
-
-        // =========================
-        // TABLE
-        // =========================
-
-        autoTable(
-            doc,
-            {
-
-                startY:
-                    summaryFilters.search
-                        ? 42
-                        : 36,
-
-                head: [[
-                    "No.",
-                    "Karyawan",
-                    "Divisi",
-                    "Hadir",
-                    "Terlambat",
-                    "Menit Telat",
-                    "Cuti",
-                    "Izin",
-                    "Sakit",
-                    "Alpha",
-                    "Kehadiran"
-                ]],
-
-                body:
-                    exportData.map(
-                        (item) => [
-
-                            item["No."],
-
-                            item["Karyawan"],
-
-                            item["Divisi"],
-
-                            item["Hadir"],
-
-                            item["Terlambat"],
-
-                            item["Menit Telat"],
-
-                            item["Cuti"],
-
-                            item["Izin"],
-
-                            item["Sakit"],
-
-                            item["Alpha"],
-
-                            item["Kehadiran"]
-
-                        ]
-                    ),
-
-                styles: {
-
-                    fontSize: 8,
-
-                    cellPadding: 3,
-
-                    valign: "middle"
-
-                },
-
-                headStyles: {
-
-                    fontSize: 8,
-
-                    fontStyle: "bold"
-
-                },
-
-                columnStyles: {
-
-                    0: {
-                        cellWidth: 10
-                    },
-
-                    1: {
-                        cellWidth: 38
-                    },
-
-                    2: {
-                        cellWidth: 30
-                    },
-
-                    3: {
-                        cellWidth: 16
-                    },
-
-                    4: {
-                        cellWidth: 20
-                    },
-
-                    5: {
-                        cellWidth: 22
-                    },
-
-                    6: {
-                        cellWidth: 15
-                    },
-
-                    7: {
-                        cellWidth: 15
-                    },
-
-                    8: {
-                        cellWidth: 15
-                    },
-
-                    9: {
-                        cellWidth: 15
-                    },
-
-                    10: {
-                        cellWidth: 25
-                    }
-
-                },
-
-                didDrawPage: () => {
-
-                    const pageCount =
-                        doc.internal
-                            .getNumberOfPages();
-
-                    doc.setFontSize(8);
-
-                    doc.text(
-                        `Halaman ${pageCount}`,
-                        280,
-                        200,
-                        {
-                            align: "right"
-                        }
-                    );
-
-                }
-
-            }
-        );
-
-
-        // =========================
+        // =====================================================
         // FILE NAME
-        // =========================
+        // =====================================================
 
         const departmentName =
             summaryFilters.department
-                ? `_${summaryFilters.department}`
+                ? `_${summaryFilters.department
+                    .trim()
+                    .replace(/\s+/g, "_")}`
                 : "";
 
         const employeeName =
             summaryFilters.search
-                ? `_${summaryFilters.search}`
+                ? `_${summaryFilters.search
+                    .trim()
+                    .replace(/\s+/g, "_")}`
                 : "";
 
+
         const filename =
-            `Rekap_Absensi_${getMonthName()}_${summaryFilters.year}${departmentName}${employeeName}.pdf`;
+            `Rekap_Absensi_${monthName}_${summaryFilters.year}${departmentName}${employeeName}.pdf`;
+
+
+        // =====================================================
+        // DOWNLOAD
+        // =====================================================
 
         doc.save(filename);
-
     };
 
 
