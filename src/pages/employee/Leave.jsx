@@ -42,16 +42,53 @@ export default function Leave() {
     });
 
     const [statusFilter, setStatusFilter] = useState("ALL");
+    const normalizeStatus = (status) => {
 
+        if (!status) {
+            return "";
+        }
+
+        const value = status.toString().toUpperCase();
+
+        if (
+            value === "PENDING" ||
+            value === "PENDING_SUPERVISOR" ||
+            value === "PENDING_MANAGER"
+        ) {
+            return "PENDING";
+        }
+
+        if (value === "APPROVED") {
+            return "APPROVED";
+        }
+
+        if (
+            value === "REJECTED" ||
+            value === "REJECT"
+        ) {
+            return "REJECTED";
+        }
+
+        if (value === "CANCELLED") {
+            return "CANCELLED";
+        }
+
+        return value;
+    };
     const filteredHistory = useMemo(() => {
 
         if (statusFilter === "ALL") {
             return history;
         }
 
-        return history.filter(
-            (item) => item.status === statusFilter
-        );
+        return history.filter((item) => {
+
+            return (
+                normalizeStatus(item.status) ===
+                normalizeStatus(statusFilter)
+            );
+
+        });
 
     }, [history, statusFilter]);
 
@@ -60,19 +97,27 @@ export default function Leave() {
         ALL: history.length,
 
         PENDING: history.filter(
-            item => item.status === "PENDING_SUPERVISOR"
+            item =>
+                normalizeStatus(item.status) ===
+                "PENDING"
         ).length,
 
         APPROVED: history.filter(
-            item => item.status === "APPROVED"
+            item =>
+                normalizeStatus(item.status) ===
+                "APPROVED"
         ).length,
 
         REJECTED: history.filter(
-            item => item.status === "REJECTED"
+            item =>
+                normalizeStatus(item.status) ===
+                "REJECTED"
         ).length,
 
         CANCELLED: history.filter(
-            item => item.status === "CANCELLED"
+            item =>
+                normalizeStatus(item.status) ===
+                "CANCELLED"
         ).length
 
     }), [history]);
