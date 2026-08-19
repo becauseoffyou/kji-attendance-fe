@@ -19,7 +19,7 @@ export default function OvertimeApprovalDetail() {
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const [processing, setProcessing] = useState(false);
     useEffect(() => {
 
         const loadDetail = async () => {
@@ -136,6 +136,38 @@ export default function OvertimeApprovalDetail() {
 
     }
 
+    const handleApprove = async () => {
+
+        try {
+
+            setProcessing(true);
+
+            await overtimeService.approveByManager(
+                id
+            );
+
+            alert("Pengajuan lembur berhasil disetujui.");
+
+            navigate("/employee/approval");
+
+        } catch (err) {
+
+            console.error(
+                "APPROVE OVERTIME ERROR:",
+                err
+            );
+
+            alert(
+                err.response?.data?.message ||
+                "Gagal menyetujui pengajuan lembur."
+            );
+
+        } finally {
+
+            setProcessing(false);
+
+        }
+    };
     return (
 
         <Box
@@ -303,14 +335,40 @@ export default function OvertimeApprovalDetail() {
 
             </Card>
 
-            <Button
+            <Stack
+                direction="row"
+                spacing={2}
                 sx={{ mt: 2 }}
-                onClick={() =>
-                    navigate("/employee/approval")
-                }
             >
-                Kembali
-            </Button>
+
+                <Button
+                    fullWidth
+                    variant="outlined"
+                    onClick={() =>
+                        navigate("/employee/approval")
+                    }
+                    disabled={processing}
+                >
+                    Kembali
+                </Button>
+
+                {data.status === "PENDING_MANAGER" && (
+
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="success"
+                        onClick={handleApprove}
+                        disabled={processing}
+                    >
+                        {processing
+                            ? "Memproses..."
+                            : "Setujui"}
+                    </Button>
+
+                )}
+
+            </Stack>
 
         </Box>
 

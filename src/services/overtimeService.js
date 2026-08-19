@@ -21,6 +21,11 @@ const overtimeService = {
     managerDetail(id) {
         return api.get(`/overtime/manager/${id}`);
     },
+    approveByManager(id, note = "") {
+        return api.put(`/overtime/${id}/approve`, {
+            note
+        });
+    },
 
 };
 
