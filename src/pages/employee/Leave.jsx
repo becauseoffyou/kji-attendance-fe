@@ -175,12 +175,11 @@ export default function Leave() {
                 return;
             }
 
-            if (endTime <= startTime) {
-
+            if (endTime === startTime) {
                 Swal.fire({
                     icon: "warning",
                     title: "Jam lembur tidak valid",
-                    text: "Jam selesai harus lebih besar dari jam mulai."
+                    text: "Jam mulai dan jam selesai tidak boleh sama."
                 });
 
                 return;
@@ -197,6 +196,8 @@ export default function Leave() {
                     reason: reason
                 });
 
+
+                setOpenDialog(false);
                 await Swal.fire({
                     icon: "success",
                     title: "Berhasil",
@@ -204,8 +205,6 @@ export default function Leave() {
                 });
 
                 // RESET FORM
-
-                setOpenDialog(false);
 
                 setLeaveType("SAKIT");
 
