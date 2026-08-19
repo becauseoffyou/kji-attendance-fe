@@ -19,6 +19,7 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import Swal from "sweetalert2";
 import notificationService from "../../services/notificationService";
 import overtimeService from "../../services/overtimeService";
+import OvertimeDetailDialog from "../../components/layout/OvertimeDetailDialog";
 
 export default function Leave() {
 
@@ -36,7 +37,8 @@ export default function Leave() {
     const [selectedLeave, setSelectedLeave] = useState(null);
 
     const [openDetail, setOpenDetail] = useState(false);
-
+    const [openOvertimeDetail, setOpenOvertimeDetail] =
+        useState(false);
     const [summary, setSummary] = useState({
         leave_balance: 0
     });
@@ -719,7 +721,15 @@ export default function Leave() {
 
                                         setSelectedLeave(item);
 
-                                        setOpenDetail(true);
+                                        if (item.leave_type === "LEMBUR") {
+
+                                            setOpenOvertimeDetail(true);
+
+                                        } else {
+
+                                            setOpenDetail(true);
+
+                                        }
 
                                     }}
 
@@ -801,6 +811,11 @@ export default function Leave() {
 
                 data={selectedLeave}
 
+            />
+            <OvertimeDetailDialog
+                open={openOvertimeDetail}
+                onClose={() => setOpenOvertimeDetail(false)}
+                data={selectedLeave}
             />
         </Box>
 
