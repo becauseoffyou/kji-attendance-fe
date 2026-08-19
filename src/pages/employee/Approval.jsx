@@ -313,6 +313,7 @@ export default function Approval() {
                     direction="row"
                     spacing={1}
                     mt={2}
+                    mb={1.5}
                     sx={{
                         overflowX: "auto",
                         flexWrap: "nowrap",
