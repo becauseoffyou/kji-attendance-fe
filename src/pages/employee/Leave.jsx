@@ -84,26 +84,65 @@ export default function Leave() {
     }, []);
 
     const loadHistory = async () => {
-
         try {
-
             setLoading(true);
 
-            const { data } = await leaveService.history();
+            const [leaveResult, overtimeResult] =
+                await Promise.all([
+                    leaveService.history(),
+                    overtimeService.history(),
+                ]);
 
-            setHistory(data.data);
-            await notificationService.readResult();
-            setSummary(data.summary);
+            const leaveData =
+                leaveResult.data?.data ||
+                leaveResult.data ||
+                [];
+
+            const overtimeData =
+                overtimeResult.data?.data ||
+                overtimeResult.data ||
+                [];
+
+            const overtimeHistory =
+                overtimeData.map((item) => ({
+                    ...item,
+
+                    // supaya gampang dibedakan
+                    leave_type: "LEMBUR",
+
+                    // sesuaikan field yang dipakai
+                    // komponen history lu
+                    start_date: item.overtime_date,
+                    end_date: item.overtime_date,
+
+                    // keterangan
+                    reason: item.reason,
+
+                    // tambahan khusus lembur
+                    start_time: item.start_time,
+                    end_time: item.end_time,
+
+                    duration_minutes:
+                        item.duration_minutes,
+                }));
+
+            setHistory([
+                ...leaveData,
+                ...overtimeHistory,
+            ]);
+
         } catch (err) {
 
-            console.error(err);
+            console.error(
+                "LOAD HISTORY ERROR:",
+                err
+            );
 
         } finally {
 
             setLoading(false);
 
         }
-
     };
 
     const formatDate = (date) => {
@@ -649,6 +688,10 @@ export default function Leave() {
                     setStartDate("");
 
                     setEndDate("");
+
+                    setStartTime("");
+                    setEndTime("");
+
 
                     setReason("");
 

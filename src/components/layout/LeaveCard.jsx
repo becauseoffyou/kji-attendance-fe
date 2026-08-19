@@ -8,36 +8,35 @@ import {
 } from "@mui/material";
 
 const leaveTypeLabel = {
-    SAKIT: "🏥 Sakit",
-    IZIN: "📝 Izin",
-    CUTI: "🌴 Cuti",
-    DINAS: "🚗 Dinas",
-    BUSINESS_TRIP: "✈️ Perjalanan Dinas",
-    CLIENT: "🤝 Client",
-    MEETING: "👥 Meeting",
-    WFH: "🏠 WFH"
+    SAKIT: "Sakit",
+    IZIN: "Izin",
+    CUTI: "Cuti",
+    DINAS: "Dinas",
+    BUSINESS_TRIP: "Perjalanan Dinas",
+    CLIENT: "Client",
+    MEETING: "Meeting",
+    WFH: "WFH",
+    LEMBUR: "Lembur"
+};
+
+const statusLabel = {
+    PENDING_SUPERVISOR: "Menunggu Supervisor",
+    PENDING_MANAGER: "Menunggu Manager",
+    APPROVED: "Disetujui",
+    REJECTED: "Ditolak"
 };
 
 export default function LeaveCard({
-
     item,
     onClick
-
 }) {
 
-    const formatShortDate = (date) => {
-
-        return new Date(date).toLocaleDateString(
-            "id-ID",
-            {
-                day: "numeric",
-                month: "short"
-            }
-        );
-
-    };
+    const isOvertime =
+        item.leave_type === "LEMBUR";
 
     const formatDate = (date) => {
+
+        if (!date) return "-";
 
         return new Date(date).toLocaleDateString(
             "id-ID",
@@ -50,12 +49,46 @@ export default function LeaveCard({
 
     };
 
+    const formatTime = (time) => {
+
+        if (!time) return "-";
+
+        return time.substring(0, 5);
+
+    };
+
+    const formatDuration = (minutes) => {
+
+        if (
+            minutes === undefined ||
+            minutes === null
+        ) {
+            return "-";
+        }
+
+        const hours = Math.floor(
+            minutes / 60
+        );
+
+        const remainingMinutes =
+            minutes % 60;
+
+        if (hours === 0) {
+            return `${remainingMinutes} menit`;
+        }
+
+        if (remainingMinutes === 0) {
+            return `${hours} jam`;
+        }
+
+        return `${hours} jam ${remainingMinutes} menit`;
+
+    };
+
     return (
 
         <Card
-
             onClick={onClick}
-
             sx={{
                 mb: 2,
                 borderRadius: 1,
@@ -66,7 +99,6 @@ export default function LeaveCard({
                     transform: "translateY(-2px)"
                 }
             }}
-
         >
 
             <CardContent>
@@ -85,18 +117,28 @@ export default function LeaveCard({
                             lineHeight: 1.4
                         }}
                     >
-
-                        {leaveTypeLabel[item.leave_type] || item.leave_type}
-
+                        {
+                            leaveTypeLabel[
+                            item.leave_type
+                            ] ||
+                            item.leave_type
+                        }
                     </Typography>
 
                     <Chip
-                        label={item.status}
+                        label={
+                            statusLabel[
+                            item.status
+                            ] ||
+                            item.status
+                        }
                         size="small"
                         color={
-                            item.status === "APPROVED"
+                            item.status ===
+                                "APPROVED"
                                 ? "success"
-                                : item.status === "REJECTED"
+                                : item.status ===
+                                    "REJECTED"
                                     ? "error"
                                     : "warning"
                         }
@@ -104,43 +146,126 @@ export default function LeaveCard({
 
                 </Stack>
 
-                <Box sx={{ mt: 1.5 }}>
 
-                    <Typography
-                        variant="body2"
-                        sx={{ mb: 0 }}
-                    >
-                        <strong>Tanggal :</strong>{" "}
-                        {formatDate(item.start_date)} - {formatDate(item.end_date)}
-                    </Typography>
+                {/* ===================== */}
+                {/* LEMBUR */}
+                {/* ===================== */}
 
-                    <Typography
-                        variant="body2"
-                        sx={{ mb: 0 }}
-                    >
-                        <strong>Durasi :</strong>{" "}
-                        {
-                            Math.max(
-                                1,
-                                Math.ceil(
-                                    (
-                                        new Date(item.end_date) -
-                                        new Date(item.start_date)
-                                    ) / 86400000
-                                ) + 1
-                            )
-                        } Hari
-                    </Typography>
+                {isOvertime ? (
 
-                    <Typography variant="body2">
+                    <Box sx={{ mt: 1.5 }}>
 
-                        <strong>Keterangan :</strong>{" "}
+                        <Typography
+                            variant="body2"
+                        >
+                            <strong>
+                                Tanggal :
+                            </strong>{" "}
+                            {formatDate(
+                                item.overtime_date
+                            )}
+                        </Typography>
 
-                        {item.reason || "-"}
+                        <Typography
+                            variant="body2"
+                        >
+                            <strong>
+                                Jam :
+                            </strong>{" "}
+                            {formatTime(
+                                item.start_time
+                            )}
+                            {" - "}
+                            {formatTime(
+                                item.end_time
+                            )}
+                        </Typography>
 
-                    </Typography>
+                        <Typography
+                            variant="body2"
+                        >
+                            <strong>
+                                Durasi :
+                            </strong>{" "}
+                            {formatDuration(
+                                item.duration_minutes
+                            )}
+                        </Typography>
 
-                </Box>
+                        <Typography
+                            variant="body2"
+                        >
+                            <strong>
+                                Pekerjaan :
+                            </strong>{" "}
+                            {item.reason || "-"}
+                        </Typography>
+
+                    </Box>
+
+                ) : (
+
+                    /* ===================== */
+                    /* CUTI / IZIN / SAKIT */
+                    /* ===================== */
+
+                    <Box sx={{ mt: 1.5 }}>
+
+                        <Typography
+                            variant="body2"
+                            sx={{ mb: 0 }}
+                        >
+                            <strong>
+                                Tanggal :
+                            </strong>{" "}
+                            {formatDate(
+                                item.start_date
+                            )}
+                            {" - "}
+                            {formatDate(
+                                item.end_date
+                            )}
+                        </Typography>
+
+                        <Typography
+                            variant="body2"
+                            sx={{ mb: 0 }}
+                        >
+                            <strong>
+                                Durasi :
+                            </strong>{" "}
+                            {
+                                Math.max(
+                                    1,
+                                    Math.ceil(
+                                        (
+                                            new Date(
+                                                item.end_date
+                                            ) -
+                                            new Date(
+                                                item.start_date
+                                            )
+                                        ) /
+                                        86400000
+                                    ) + 1
+                                )
+                            } Hari
+                        </Typography>
+
+                        <Typography variant="body2">
+
+                            <strong>
+                                Keterangan :
+                            </strong>{" "}
+
+                            {item.reason || "-"}
+
+                        </Typography>
+
+                    </Box>
+
+                )}
+
             </CardContent>
 
         </Card>

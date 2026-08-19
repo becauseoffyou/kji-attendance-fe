@@ -1,6 +1,7 @@
 import api from "./api";
 
 const overtimeService = {
+
     create(data) {
         return api.post("/overtime", data, {
             headers: {
@@ -8,6 +9,11 @@ const overtimeService = {
             },
         });
     },
+
+    history() {
+        return api.get("/overtime/history");
+    },
+
 };
 
 export default overtimeService;
