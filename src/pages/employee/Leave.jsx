@@ -75,6 +75,7 @@ export default function Leave() {
 
         return value;
     };
+
     const filteredHistory = useMemo(() => {
 
         console.log("FILTER DIPILIH:", statusFilter);
