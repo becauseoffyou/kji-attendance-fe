@@ -75,20 +75,34 @@ export default function Leave() {
 
         return value;
     };
+    \
     const filteredHistory = useMemo(() => {
+
+        console.log("FILTER DIPILIH:", statusFilter);
+
+        console.log(
+            "STATUS DATA:",
+            history.map(item => ({
+                id: item.id,
+                type: item.leave_type,
+                status: item.status
+            }))
+        );
 
         if (statusFilter === "ALL") {
             return history;
         }
 
-        return history.filter((item) => {
+        const result = history.filter((item) => {
 
-            return (
-                normalizeStatus(item.status) ===
-                normalizeStatus(statusFilter)
-            );
+            return normalizeStatus(item.status) ===
+                normalizeStatus(statusFilter);
 
         });
+
+        console.log("HASIL FILTER:", result);
+
+        return result;
 
     }, [history, statusFilter]);
 
