@@ -14,6 +14,10 @@ const overtimeService = {
         return api.get("/overtime/history");
     },
 
+    managerHistory() {
+        return api.get("/overtime/manager");
+    },
+
 };
 
 export default overtimeService;

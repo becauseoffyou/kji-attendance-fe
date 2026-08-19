@@ -14,6 +14,7 @@ import leaderService from "../../services/leaderService";
 
 import { useNavigate } from "react-router-dom";
 import notificationService from "../../services/notificationService";
+import overtimeService from "../../services/overtimeService";
 
 export default function Approval() {
 
@@ -41,30 +42,84 @@ export default function Approval() {
     // =========================
     // LOAD DATA
     // =========================
-
     const loadData = async () => {
 
         try {
 
             setLoading(true);
 
-            const { data } =
-                await leaderService.getLeaveApprovals(
-                    "ALL"
+            const [
+                leaveResponse,
+                overtimeResponse
+            ] = await Promise.all([
+                leaderService.getLeaveApprovals("ALL"),
+                overtimeService.managerHistory()
+            ]);
+
+            const leaveData =
+                leaveResponse.data?.data || [];
+
+            const overtimeData =
+                overtimeResponse.data?.data || [];
+
+            const overtimeRequests =
+                overtimeData.map((item) => ({
+                    ...item,
+
+                    request_type: "OVERTIME",
+                    leave_type: "LEMBUR",
+
+                    // Supaya komponen Approval
+                    // bisa memakai field tanggal
+                    start_date: item.overtime_date,
+                    end_date: item.overtime_date
+                }));
+
+            const combined = [
+                ...leaveData,
+                ...overtimeRequests
+            ].sort((a, b) => {
+
+                const dateA = new Date(
+                    a.request_type === "OVERTIME"
+                        ? a.overtime_date
+                        : a.start_date
                 );
 
-            setRequests(
-                data?.data || []
-            );
+                const dateB = new Date(
+                    b.request_type === "OVERTIME"
+                        ? b.overtime_date
+                        : b.start_date
+                );
 
-            setSummary(
-                data?.summary || {
-                    pending: 0,
-                    approved: 0,
-                    rejected: 0,
-                    total: 0
-                }
-            );
+                return dateB - dateA;
+            });
+
+            setRequests(combined);
+
+            // sementara summary dihitung dari
+            // data yang tampil
+            setSummary({
+                pending: combined.filter(
+                    item =>
+                        item.status ===
+                        "PENDING_MANAGER" ||
+                        item.status ===
+                        "PENDING_SUPERVISOR"
+                ).length,
+
+                approved: combined.filter(
+                    item =>
+                        item.status === "APPROVED"
+                ).length,
+
+                rejected: combined.filter(
+                    item =>
+                        item.status === "REJECTED"
+                ).length,
+
+                total: combined.length
+            });
 
         } catch (err) {
 
@@ -80,9 +135,7 @@ export default function Approval() {
             setLoading(false);
 
         }
-
     };
-
 
     // =========================
     // INITIAL LOAD
