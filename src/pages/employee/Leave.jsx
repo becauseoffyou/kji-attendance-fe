@@ -42,15 +42,27 @@ export default function Leave() {
     });
 
     const [statusFilter, setStatusFilter] = useState("ALL");
+
     const filteredHistory = useMemo(() => {
 
         if (statusFilter === "ALL") {
             return history;
         }
 
-        return history.filter(
-            item => item.status === statusFilter
-        );
+        return history.filter((item) => {
+
+            if (
+                statusFilter === "PENDING_SUPERVISOR"
+            ) {
+                return [
+                    "PENDING",
+                    "PENDING_SUPERVISOR",
+                    "PENDING_MANAGER"
+                ].includes(item.status);
+            }
+
+            return item.status === statusFilter;
+        });
 
     }, [history, statusFilter]);
 
@@ -59,7 +71,11 @@ export default function Leave() {
         ALL: history.length,
 
         PENDING: history.filter(
-            item => item.status === "PENDING_SUPERVISOR"
+            item => [
+                "PENDING",
+                "PENDING_SUPERVISOR",
+                "PENDING_MANAGER"
+            ].includes(item.status)
         ).length,
 
         APPROVED: history.filter(
@@ -75,7 +91,6 @@ export default function Leave() {
         ).length
 
     }), [history]);
-
 
     useEffect(() => {
 
@@ -126,10 +141,29 @@ export default function Leave() {
                         item.duration_minutes,
                 }));
 
-            setHistory([
+            const combinedHistory = [
                 ...leaveData,
-                ...overtimeHistory,
-            ]);
+                ...overtimeHistory
+            ].sort((a, b) => {
+
+                const dateA = new Date(
+                    a.leave_type === "LEMBUR"
+                        ? a.overtime_date
+                        : a.start_date
+                );
+
+                const dateB = new Date(
+                    b.leave_type === "LEMBUR"
+                        ? b.overtime_date
+                        : b.start_date
+                );
+
+                return dateB - dateA;
+            });
+
+            setHistory(combinedHistory);
+
+
 
         } catch (err) {
 
