@@ -49,20 +49,9 @@ export default function Leave() {
             return history;
         }
 
-        return history.filter((item) => {
-
-            if (
-                statusFilter === "PENDING_SUPERVISOR"
-            ) {
-                return [
-                    "PENDING",
-                    "PENDING_SUPERVISOR",
-                    "PENDING_MANAGER"
-                ].includes(item.status);
-            }
-
-            return item.status === statusFilter;
-        });
+        return history.filter(
+            (item) => item.status === statusFilter
+        );
 
     }, [history, statusFilter]);
 
@@ -71,11 +60,7 @@ export default function Leave() {
         ALL: history.length,
 
         PENDING: history.filter(
-            item => [
-                "PENDING",
-                "PENDING_SUPERVISOR",
-                "PENDING_MANAGER"
-            ].includes(item.status)
+            item => item.status === "PENDING_SUPERVISOR"
         ).length,
 
         APPROVED: history.filter(
