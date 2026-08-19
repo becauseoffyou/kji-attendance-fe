@@ -433,7 +433,7 @@ export default function Approval() {
 
                     <Stack
                         spacing={2}
-                        mt={2}
+                        mt={3}
                     >
 
                         {[1, 2, 3].map(
