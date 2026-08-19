@@ -523,7 +523,8 @@ export default function Approval() {
 
                                             sx={{
                                                 borderRadius: 1,
-                                                cursor: "pointer"
+                                                cursor: "pointer",
+                                                mt: 2,
                                             }}
 
                                             onClick={() => {
