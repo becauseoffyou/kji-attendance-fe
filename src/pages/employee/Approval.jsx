@@ -179,6 +179,7 @@ export default function Approval() {
 
         if (statusFilter === "PENDING") {
             return (
+                item.status === "PENDING" ||
                 item.status === "PENDING_SUPERVISOR" ||
                 item.status === "PENDING_MANAGER"
             );
@@ -347,24 +348,19 @@ export default function Approval() {
                         label={`Pending (${summary.pending})`}
                         clickable
                         color={
-                            statusFilter ===
-                                "PENDING_SUPERVISOR"
+                            statusFilter === "PENDING"
                                 ? "success"
                                 : "default"
                         }
                         variant={
-                            statusFilter ===
-                                "PENDING_SUPERVISOR"
+                            statusFilter === "PENDING"
                                 ? "filled"
                                 : "outlined"
                         }
                         onClick={() =>
-                            setStatusFilter(
-                                "PENDING_SUPERVISOR"
-                            )
+                            setStatusFilter("PENDING")
                         }
                     />
-
 
                     {/* APPROVED */}
 
