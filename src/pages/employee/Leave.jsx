@@ -711,7 +711,7 @@ export default function Leave() {
 
                                 <LeaveCard
 
-                                    key={item.id}
+                                    key={`${item.leave_type}-${item.id}`}
 
                                     item={item}
 

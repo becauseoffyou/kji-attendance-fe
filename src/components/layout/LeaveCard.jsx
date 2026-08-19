@@ -19,11 +19,27 @@ const leaveTypeLabel = {
     LEMBUR: "Lembur"
 };
 
-const statusLabel = {
-    PENDING_SUPERVISOR: "Menunggu Supervisor",
-    PENDING_MANAGER: "Menunggu Manager",
-    APPROVED: "Disetujui",
-    REJECTED: "Ditolak"
+const getStatusLabel = (status) => {
+
+    switch (status) {
+
+        case "PENDING":
+        case "PENDING_SUPERVISOR":
+        case "PENDING_MANAGER":
+            return "Menunggu";
+
+        case "APPROVED":
+            return "Disetujui";
+
+        case "REJECTED":
+            return "Ditolak";
+
+        case "CANCELLED":
+            return "Dibatalkan";
+
+        default:
+            return status || "-";
+    }
 };
 
 export default function LeaveCard({
@@ -126,19 +142,12 @@ export default function LeaveCard({
                     </Typography>
 
                     <Chip
-                        label={
-                            statusLabel[
-                            item.status
-                            ] ||
-                            item.status
-                        }
+                        label={getStatusLabel(item.status)}
                         size="small"
                         color={
-                            item.status ===
-                                "APPROVED"
+                            item.status === "APPROVED"
                                 ? "success"
-                                : item.status ===
-                                    "REJECTED"
+                                : item.status === "REJECTED"
                                     ? "error"
                                     : "warning"
                         }
