@@ -25,6 +25,7 @@ import EmployeeList from "../pages/employee/EmployeeList";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
 import Overtime from "../pages/employee/Overtime";
+import OvertimeApprovalDetail from "../pages/employee/OvertimeApprovalDetail";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
@@ -156,6 +157,12 @@ export default function AppRoutes() {
                         element={<Approval />}
                     />
 
+                    <Route
+                        path="/employee/approval/overtime/:id"
+                        element={
+                            <OvertimeApprovalDetail />
+                        }
+                    />
                     <Route
                         path="approval/:id"
                         element={<ApprovalDetail />}

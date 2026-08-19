@@ -530,6 +530,15 @@ export default function Approval() {
 
                                                 if (
                                                     item.request_type ===
+                                                    "OVERTIME"
+                                                ) {
+
+                                                    navigate(
+                                                        `/employee/approval/overtime/${item.id}`
+                                                    );
+
+                                                } else if (
+                                                    item.request_type ===
                                                     "ATTENDANCE_EDIT"
                                                 ) {
 

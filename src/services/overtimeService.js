@@ -18,6 +18,10 @@ const overtimeService = {
         return api.get("/overtime/manager");
     },
 
+    managerDetail(id) {
+        return api.get(`/overtime/manager/${id}`);
+    },
+
 };
 
 export default overtimeService;
