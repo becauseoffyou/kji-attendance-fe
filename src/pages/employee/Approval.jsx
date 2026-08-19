@@ -177,6 +177,13 @@ export default function Approval() {
             return true;
         }
 
+        if (statusFilter === "PENDING") {
+            return (
+                item.status === "PENDING_SUPERVISOR" ||
+                item.status === "PENDING_MANAGER"
+            );
+        }
+
         return item.status === statusFilter;
 
     });
@@ -669,35 +676,24 @@ export default function Approval() {
 
                                                 <Chip
                                                     size="small"
-
                                                     label={
-                                                        item.status ===
-                                                            "PENDING_SUPERVISOR"
-
+                                                        item.status === "PENDING_MANAGER" ||
+                                                            item.status === "PENDING_SUPERVISOR"
                                                             ? "Pending"
-
-                                                            : item.status ===
-                                                                "APPROVED"
-
+                                                            : item.status === "APPROVED"
                                                                 ? "Approved"
-
-                                                                : "Rejected"
+                                                                : item.status === "REJECTED"
+                                                                    ? "Rejected"
+                                                                    : item.status
                                                     }
-
                                                     color={
-                                                        item.status ===
-                                                            "PENDING_SUPERVISOR"
-
+                                                        item.status === "PENDING_MANAGER" ||
+                                                            item.status === "PENDING_SUPERVISOR"
                                                             ? "warning"
-
-                                                            : item.status ===
-                                                                "APPROVED"
-
+                                                            : item.status === "APPROVED"
                                                                 ? "success"
-
                                                                 : "error"
                                                     }
-
                                                     sx={{
                                                         mt: 2
                                                     }}
