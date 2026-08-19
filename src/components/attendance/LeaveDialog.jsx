@@ -11,8 +11,8 @@ import {
     TextField,
     Typography,
     Box
-
 } from "@mui/material";
+
 import AttachFileRoundedIcon from "@mui/icons-material/AttachFileRounded";
 
 export default function LeaveDialog({
@@ -22,19 +22,31 @@ export default function LeaveDialog({
 
     leaveType,
     setLeaveType,
+
     startDate,
     setStartDate,
 
     endDate,
     setEndDate,
+
+    startTime,
+    setStartTime,
+
+    endTime,
+    setEndTime,
+
     reason,
     setReason,
+
     attachment,
     setAttachment,
+
     loading,
     onSubmit
 
 }) {
+
+    const isOvertime = leaveType === "LEMBUR";
 
     return (
 
@@ -46,12 +58,14 @@ export default function LeaveDialog({
         >
 
             <DialogTitle>
-
                 Pengajuan
-
             </DialogTitle>
 
             <DialogContent>
+
+                {/* ========================= */}
+                {/* JENIS PENGAJUAN */}
+                {/* ========================= */}
 
                 <FormControl
                     fullWidth
@@ -61,149 +75,303 @@ export default function LeaveDialog({
                 >
 
                     <InputLabel>
-
                         Jenis Pengajuan
-
                     </InputLabel>
 
                     <Select
                         value={leaveType}
                         label="Jenis Pengajuan"
-                        onChange={(e) =>
-                            setLeaveType(e.target.value)
-                        }
+                        onChange={(e) => {
+
+                            const value =
+                                e.target.value;
+
+                            setLeaveType(value);
+
+                            // Reset field ketika
+                            // pindah jenis pengajuan
+                            setStartDate("");
+                            setEndDate("");
+                            setReason("");
+                            setAttachment(null);
+
+                            if (setStartTime) {
+                                setStartTime("");
+                            }
+
+                            if (setEndTime) {
+                                setEndTime("");
+                            }
+
+                        }}
                     >
 
                         <MenuItem value="SAKIT">
-
                             Sakit
-
                         </MenuItem>
 
                         <MenuItem value="IZIN">
-
                             Izin
-
                         </MenuItem>
 
                         <MenuItem value="CUTI">
-
                             Cuti
-
                         </MenuItem>
 
+                        <MenuItem value="LEMBUR">
+                            Lembur
+                        </MenuItem>
 
                     </Select>
 
                 </FormControl>
-                <Box sx={{ mt: 2 }}>
 
-                    <TextField
-                        fullWidth
-                        type="date"
-                        label="Tanggal Mulai"
-                        value={startDate}
-                        onChange={(e) => {
 
-                            setStartDate(e.target.value);
+                {/* ================================= */}
+                {/* FORM LEMBUR */}
+                {/* ================================= */}
 
-                            if (!endDate) {
+                {isOvertime ? (
 
-                                setEndDate(e.target.value);
+                    <>
 
-                            }
+                        {/* TANGGAL */}
 
-                        }}
-                        InputLabelProps={{
-                            shrink: true
-                        }}
-                    />
+                        <Box sx={{ mt: 2 }}>
 
-                </Box>
+                            <TextField
+                                fullWidth
+                                type="date"
+                                label="Tanggal Lembur"
+                                value={startDate}
+                                onChange={(e) =>
+                                    setStartDate(
+                                        e.target.value
+                                    )
+                                }
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                            />
 
-                <Box sx={{ mt: 2 }}>
+                        </Box>
 
-                    <TextField
-                        fullWidth
-                        type="date"
-                        label="Tanggal Selesai"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        InputLabelProps={{
-                            shrink: true
-                        }}
-                    />
 
-                </Box>
-                <Box sx={{ mt: 2 }}>
+                        {/* JAM */}
 
-                    <TextField
-                        fullWidth
-                        multiline
-                        rows={4}
-                        label="Keterangan"
-                        placeholder="Masukkan alasan pengajuan..."
-                        value={reason}
-                        onChange={(e) => setReason(e.target.value)}
-                    />
+                        <Box
+                            sx={{
+                                mt: 2,
+                                display: "grid",
+                                gridTemplateColumns: {
+                                    xs: "1fr",
+                                    sm: "1fr 1fr"
+                                },
+                                gap: 2
+                            }}
+                        >
 
-                </Box>
-                <Box sx={{ mt: 2 }}>
+                            <TextField
+                                fullWidth
+                                type="time"
+                                label="Jam Mulai"
+                                value={
+                                    startTime || ""
+                                }
+                                onChange={(e) =>
+                                    setStartTime(
+                                        e.target.value
+                                    )
+                                }
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                            />
 
-                    <Button
-                        fullWidth
-                        variant="outlined"
-                        component="label"
-                        startIcon={<AttachFileRoundedIcon />}
-                        sx={{
-                            height: 50,
-                            borderStyle: "dashed"
-                        }}
-                    >
+                            <TextField
+                                fullWidth
+                                type="time"
+                                label="Jam Selesai"
+                                value={
+                                    endTime || ""
+                                }
+                                onChange={(e) =>
+                                    setEndTime(
+                                        e.target.value
+                                    )
+                                }
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                            />
 
-                        Pilih Lampiran
+                        </Box>
 
-                        <input
-                            hidden
-                            type="file"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            onChange={(e) => {
 
-                                if (e.target.files.length > 0) {
+                        {/* ALASAN */}
 
-                                    setAttachment(
-                                        e.target.files[0]
+                        <Box sx={{ mt: 2 }}>
+
+                            <TextField
+                                fullWidth
+                                multiline
+                                rows={4}
+                                label="Pekerjaan / Alasan Lembur"
+                                placeholder="Contoh: Maintenance server..."
+                                value={reason}
+                                onChange={(e) =>
+                                    setReason(
+                                        e.target.value
+                                    )
+                                }
+                            />
+
+                        </Box>
+
+                    </>
+
+                ) : (
+
+                    /* ================================= */
+                    /* FORM CUTI / IZIN / SAKIT */
+                    /* ================================= */
+
+                    <>
+
+                        <Box sx={{ mt: 2 }}>
+
+                            <TextField
+                                fullWidth
+                                type="date"
+                                label="Tanggal Mulai"
+                                value={startDate}
+                                onChange={(e) => {
+
+                                    setStartDate(
+                                        e.target.value
                                     );
 
+                                    if (!endDate) {
+
+                                        setEndDate(
+                                            e.target.value
+                                        );
+
+                                    }
+
+                                }}
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                            />
+
+                        </Box>
+
+
+                        <Box sx={{ mt: 2 }}>
+
+                            <TextField
+                                fullWidth
+                                type="date"
+                                label="Tanggal Selesai"
+                                value={endDate}
+                                onChange={(e) =>
+                                    setEndDate(
+                                        e.target.value
+                                    )
                                 }
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                            />
 
-                            }}
-                        />
+                        </Box>
 
-                    </Button>
 
-                    {
+                        <Box sx={{ mt: 2 }}>
 
-                        attachment && (
+                            <TextField
+                                fullWidth
+                                multiline
+                                rows={4}
+                                label="Keterangan"
+                                placeholder="Masukkan alasan pengajuan..."
+                                value={reason}
+                                onChange={(e) =>
+                                    setReason(
+                                        e.target.value
+                                    )
+                                }
+                            />
 
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
+                        </Box>
+
+
+                        <Box sx={{ mt: 2 }}>
+
+                            <Button
+                                fullWidth
+                                variant="outlined"
+                                component="label"
+                                startIcon={
+                                    <AttachFileRoundedIcon />
+                                }
                                 sx={{
-                                    mt: 1
+                                    height: 50,
+                                    borderStyle: "dashed"
                                 }}
                             >
 
-                                {attachment.name}
+                                Pilih Lampiran
 
-                            </Typography>
+                                <input
+                                    hidden
+                                    type="file"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    onChange={(e) => {
 
-                        )
+                                        if (
+                                            e.target.files
+                                                .length > 0
+                                        ) {
 
-                    }
+                                            setAttachment(
+                                                e.target.files[0]
+                                            );
 
-                </Box>
+                                        }
+
+                                    }}
+                                />
+
+                            </Button>
+
+                            {attachment && (
+
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    sx={{
+                                        mt: 1
+                                    }}
+                                >
+                                    {attachment.name}
+                                </Typography>
+
+                            )}
+
+                        </Box>
+
+                    </>
+
+                )}
+
             </DialogContent>
+
+
+            {/* ========================= */}
+            {/* BUTTON */}
+            {/* ========================= */}
 
             <DialogActions>
 
@@ -220,13 +388,24 @@ export default function LeaveDialog({
                     disabled={
                         loading ||
                         !startDate ||
-                        !endDate ||
-                        !reason.trim()
+                        !reason.trim() ||
+                        (
+                            isOvertime &&
+                            (
+                                !startTime ||
+                                !endTime
+                            )
+                        ) ||
+                        (
+                            !isOvertime &&
+                            !endDate
+                        )
                     }
                 >
-                    {
-                        loading
-                            ? "Mengirim"
+                    {loading
+                        ? "Mengirim"
+                        : isOvertime
+                            ? "Ajukan Lembur"
                             : "Kirim"
                     }
                 </Button>
@@ -236,5 +415,4 @@ export default function LeaveDialog({
         </Dialog>
 
     );
-
 }

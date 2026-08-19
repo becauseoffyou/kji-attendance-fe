@@ -18,6 +18,7 @@ import {
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import Swal from "sweetalert2";
 import notificationService from "../../services/notificationService";
+import overtimeService from "../../services/overtimeService";
 
 export default function Leave() {
 
@@ -27,6 +28,8 @@ export default function Leave() {
     const [leaveType, setLeaveType] = useState("SAKIT");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
     const [reason, setReason] = useState("");
     const [attachment, setAttachment] = useState(null);
     const [submitLoading, setSubmitLoading] = useState(false);
@@ -133,7 +136,118 @@ export default function Leave() {
 
     const handleSubmit = async () => {
 
-        if (!startDate || !endDate) {
+        // =====================================
+        // VALIDASI UMUM
+        // =====================================
+
+        if (!startDate) {
+            Swal.fire({
+                icon: "warning",
+                title: "Tanggal belum lengkap"
+            });
+
+            return;
+        }
+
+        if (!reason.trim()) {
+            Swal.fire({
+                icon: "warning",
+                title: "Keterangan wajib diisi"
+            });
+
+            return;
+        }
+
+        // =====================================
+        // KHUSUS LEMBUR
+        // =====================================
+
+        if (leaveType === "LEMBUR") {
+
+            if (!startTime || !endTime) {
+
+                Swal.fire({
+                    icon: "warning",
+                    title: "Jam lembur belum lengkap",
+                    text: "Jam mulai dan jam selesai wajib diisi."
+                });
+
+                return;
+            }
+
+            if (endTime <= startTime) {
+
+                Swal.fire({
+                    icon: "warning",
+                    title: "Jam lembur tidak valid",
+                    text: "Jam selesai harus lebih besar dari jam mulai."
+                });
+
+                return;
+            }
+
+            try {
+
+                setSubmitLoading(true);
+
+                await overtimeService.create({
+                    overtime_date: startDate,
+                    start_time: startTime,
+                    end_time: endTime,
+                    reason: reason
+                });
+
+                await Swal.fire({
+                    icon: "success",
+                    title: "Berhasil",
+                    text: "Pengajuan lembur berhasil dikirim."
+                });
+
+                // RESET FORM
+
+                setOpenDialog(false);
+
+                setLeaveType("SAKIT");
+
+                setStartDate("");
+                setEndDate("");
+
+                setStartTime("");
+                setEndTime("");
+
+                setReason("");
+                setAttachment(null);
+
+                // Untuk sementara history leave
+                // belum memuat lembur.
+                // Nanti kita gabungkan di tahap history.
+
+            } catch (err) {
+
+                console.error(err);
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal",
+                    text:
+                        err.response?.data?.message ||
+                        "Gagal mengajukan lembur."
+                });
+
+            } finally {
+
+                setSubmitLoading(false);
+
+            }
+
+            return;
+        }
+
+        // =====================================
+        // CUTI / IZIN / SAKIT
+        // =====================================
+
+        if (!endDate) {
 
             Swal.fire({
                 icon: "warning",
@@ -141,46 +255,44 @@ export default function Leave() {
             });
 
             return;
-
         }
 
-        if (!reason.trim()) {
+        if (leaveType === "SAKIT" && !attachment) {
 
             Swal.fire({
                 icon: "warning",
-                title: "Keterangan wajib diisi"
+                title: "Lampiran Wajib",
+                text: "Pengajuan sakit wajib melampirkan surat dokter."
             });
 
             return;
-
         }
 
         try {
-
-            if (leaveType === "SAKIT" && !attachment) {
-
-                Swal.fire({
-
-                    icon: "warning",
-
-                    title: "Lampiran Wajib",
-
-                    text: "Pengajuan sakit wajib melampirkan surat dokter."
-
-                });
-
-                return;
-
-            }
 
             setSubmitLoading(true);
 
             const formData = new FormData();
 
-            formData.append("leave_type", leaveType);
-            formData.append("start_date", startDate);
-            formData.append("end_date", endDate);
-            formData.append("reason", reason);
+            formData.append(
+                "leave_type",
+                leaveType
+            );
+
+            formData.append(
+                "start_date",
+                startDate
+            );
+
+            formData.append(
+                "end_date",
+                endDate
+            );
+
+            formData.append(
+                "reason",
+                reason
+            );
 
             if (attachment) {
 
@@ -191,9 +303,11 @@ export default function Leave() {
 
             }
 
-            await leaveService.create(formData);
+            await leaveService.create(
+                formData
+            );
 
-            Swal.fire({
+            await Swal.fire({
                 icon: "success",
                 title: "Berhasil",
                 text: "Pengajuan berhasil dikirim."
@@ -202,8 +316,13 @@ export default function Leave() {
             setOpenDialog(false);
 
             setLeaveType("SAKIT");
+
             setStartDate("");
             setEndDate("");
+
+            setStartTime("");
+            setEndTime("");
+
             setReason("");
             setAttachment(null);
 
@@ -224,7 +343,6 @@ export default function Leave() {
             setSubmitLoading(false);
 
         }
-
     };
 
     const chipStyle = (value) => ({
@@ -517,7 +635,11 @@ export default function Leave() {
 
             </Fab>
             <LeaveDialog
+                startTime={startTime}
+                setStartTime={setStartTime}
 
+                endTime={endTime}
+                setEndTime={setEndTime}
                 open={openDialog}
                 onClose={() => {
 

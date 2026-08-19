@@ -24,6 +24,7 @@ import AdminAttendance from "../pages/attendance/AdminAttendance";
 import EmployeeList from "../pages/employee/EmployeeList";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
+import Overtime from "../pages/employee/Overtime";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
@@ -169,7 +170,10 @@ export default function AppRoutes() {
                         path="profile"
                         element={<EmployeeProfile />}
                     />
-
+                    <Route
+                        path="overtime"
+                        element={<Overtime />}
+                    />
 
                 </Route>
                 <Route
