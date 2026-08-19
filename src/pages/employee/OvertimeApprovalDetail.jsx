@@ -5,7 +5,12 @@ import {
     Typography,
     Chip,
     Stack,
-    Button
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    TextField
 } from "@mui/material";
 
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +25,9 @@ export default function OvertimeApprovalDetail() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [processing, setProcessing] = useState(false);
+    const [rejectDialog, setRejectDialog] = useState(false);
+    const [rejectNote, setRejectNote] = useState("");
+
     useEffect(() => {
 
         const loadDetail = async () => {
@@ -160,6 +168,49 @@ export default function OvertimeApprovalDetail() {
             alert(
                 err.response?.data?.message ||
                 "Gagal menyetujui pengajuan lembur."
+            );
+
+        } finally {
+
+            setProcessing(false);
+
+        }
+    };
+
+    const handleReject = async () => {
+
+        if (!rejectNote.trim()) {
+            alert("Alasan penolakan wajib diisi.");
+            return;
+        }
+
+        try {
+
+            setProcessing(true);
+
+            await overtimeService.rejectByManager(
+                id,
+                rejectNote.trim()
+            );
+
+            alert(
+                "Pengajuan lembur berhasil ditolak."
+            );
+
+            setRejectDialog(false);
+
+            navigate("/employee/approval");
+
+        } catch (err) {
+
+            console.error(
+                "REJECT OVERTIME ERROR:",
+                err
+            );
+
+            alert(
+                err.response?.data?.message ||
+                "Gagal menolak pengajuan lembur."
             );
 
         } finally {
@@ -335,6 +386,74 @@ export default function OvertimeApprovalDetail() {
 
             </Card>
 
+            <Dialog
+                open={rejectDialog}
+                onClose={() => {
+                    if (!processing) {
+                        setRejectDialog(false);
+                    }
+                }}
+                fullWidth
+                maxWidth="sm"
+            >
+
+                <DialogTitle>
+                    Tolak Pengajuan Lembur
+                </DialogTitle>
+
+                <DialogContent>
+
+                    <Typography
+                        color="text.secondary"
+                        sx={{ mb: 2 }}
+                    >
+                        Masukkan alasan penolakan pengajuan lembur.
+                    </Typography>
+
+                    <TextField
+                        fullWidth
+                        multiline
+                        rows={4}
+                        label="Alasan Penolakan"
+                        placeholder="Contoh: Pekerjaan lembur tidak diperlukan..."
+                        value={rejectNote}
+                        onChange={(e) =>
+                            setRejectNote(e.target.value)
+                        }
+                        disabled={processing}
+                    />
+
+                </DialogContent>
+
+                <DialogActions>
+
+                    <Button
+                        onClick={() =>
+                            setRejectDialog(false)
+                        }
+                        disabled={processing}
+                    >
+                        Batal
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={handleReject}
+                        disabled={
+                            processing ||
+                            !rejectNote.trim()
+                        }
+                    >
+                        {processing
+                            ? "Memproses..."
+                            : "Tolak Pengajuan"}
+                    </Button>
+
+                </DialogActions>
+
+            </Dialog>
+
             <Stack
                 direction="row"
                 spacing={2}
@@ -353,20 +472,35 @@ export default function OvertimeApprovalDetail() {
                 </Button>
 
                 {data.status === "PENDING_MANAGER" && (
+                    <>
+                        <Button
+                            fullWidth
+                            variant="outlined"
+                            color="error"
+                            onClick={() => {
+                                setRejectNote("");
+                                setRejectDialog(true);
+                            }}
+                            disabled={processing}
+                        >
+                            Tolak
+                        </Button>
 
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="success"
-                        onClick={handleApprove}
-                        disabled={processing}
-                    >
-                        {processing
-                            ? "Memproses..."
-                            : "Setujui"}
-                    </Button>
-
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="success"
+                            onClick={handleApprove}
+                            disabled={processing}
+                        >
+                            {processing
+                                ? "Memproses..."
+                                : "Setujui"}
+                        </Button>
+                    </>
                 )}
+
+
 
             </Stack>
 

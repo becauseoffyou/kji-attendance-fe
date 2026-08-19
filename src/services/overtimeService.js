@@ -27,6 +27,12 @@ const overtimeService = {
         });
     },
 
+    rejectByManager(id, note) {
+        return api.put(`/overtime/${id}/reject`, {
+            note
+        });
+    },
+
 };
 
 export default overtimeService;
