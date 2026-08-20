@@ -217,10 +217,9 @@ export default function Attendance() {
         const start = new Date(checkIn);
         const end = new Date(checkOut);
 
-        const durationMinutes =
-            Math.floor(
-                (end - start) / 60000
-            );
+        const durationMinutes = Math.floor(
+            (end - start) / 60000
+        );
 
         return durationMinutes > 9 * 60;
     };
@@ -267,7 +266,9 @@ export default function Attendance() {
             setOpenDialog(false);
             setPhoto(null);
 
-            await loadToday();
+
+            const today = await loadToday();
+
             await loadLocation();
 
             const checkoutTime = new Date();
@@ -277,26 +278,81 @@ export default function Attendance() {
                     todayData?.checkIn,
                     checkoutTime
                 );
+            // =====================================
+            // CEK APAKAH JAM KERJA > 9 JAM
+            // =====================================
 
-            if (overtime) {
+            if (
+                today?.checkIn &&
+                today?.checkOut
+            ) {
 
-                const confirm = await Swal.fire({
-                    icon: "question",
-                    title: "Apakah Anda Lembur?",
-                    text: "Jam kerja Anda sudah lebih dari 9 jam. Apakah Anda ingin mengajukan lembur?",
-                    showCancelButton: true,
-                    confirmButtonText: "Ya, Ajukan Lembur",
-                    cancelButtonText: "Tidak"
-                });
+                const start = new Date(today.checkIn);
+                const end = new Date(today.checkOut);
 
-                if (confirm.isConfirmed) {
+                const durationMinutes = Math.floor(
+                    (end - start) / 60000
+                );
 
-                    // Nanti kita buka form pengajuan lembur
-                    setOvertimeDialog(true);
+                console.log(
+                    "TOTAL JAM KERJA:",
+                    durationMinutes,
+                    "menit"
+                );
 
-                    return;
+
+                // Lebih dari 9 jam
+                if (durationMinutes > 9 * 60) {
+
+                    const hours =
+                        Math.floor(durationMinutes / 60);
+
+                    const minutes =
+                        durationMinutes % 60;
+
+
+                    const confirm = await Swal.fire({
+
+                        icon: "question",
+
+                        title: "Pengajuan Lembur",
+
+                        html: `
+                Jam kerja Anda adalah
+                <b>${hours} jam ${minutes} menit</b>.
+                <br><br>
+                Apakah Anda melakukan lembur?
+            `,
+
+                        showCancelButton: true,
+
+                        confirmButtonText:
+                            "Ya, Ajukan Lembur",
+
+                        cancelButtonText:
+                            "Tidak"
+
+                    });
+
+
+                    if (confirm.isConfirmed) {
+
+                        console.log(
+                            "KARYAWAN MEMILIH AJUKAN LEMBUR"
+                        );
+
+                        // NANTI FORM LEMBUR DIBUKA DI SINI
+
+                    }
+
                 }
+
             }
+
+
+            // =====================================
+            // ALERT CHECK OUT BERHASIL
+            // =====================================
 
             Swal.fire({
                 icon: "success",
@@ -433,25 +489,26 @@ export default function Attendance() {
             const result = await attendanceService.getToday();
 
             const today = result.data;
-            console.log("TODAY DATA:", today);
-            setTodayData(today);
-            if (today.checkIn && !today.checkOut) {
 
+            setTodayData(today);
+
+            if (today.checkIn && !today.checkOut) {
                 setStatus("checked-in");
 
             } else if (today.checkIn && today.checkOut) {
-
                 setStatus("checked-out");
 
             } else {
-
                 setStatus("idle");
-
             }
+
+            return today;
 
         } catch (err) {
 
             console.error(err);
+
+            return null;
 
         }
 
