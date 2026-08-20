@@ -61,6 +61,8 @@ export default function Approval() {
 
             const overtimeData =
                 overtimeResponse.data?.data || [];
+            // tandai notification pending
+            await notificationService.readPendingLeave();
 
             const overtimeRequests =
                 overtimeData.map((item) => ({
