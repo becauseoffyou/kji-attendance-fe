@@ -17,6 +17,7 @@ import officeService from "../../services/officeService";
 
 export default function Attendance() {
     const [openDialog, setOpenDialog] = useState(false);
+
     const [attendanceType, setAttendanceType] = useState("OFFICE");
     const [notes, setNotes] = useState("");
     const [office, setOffice] = useState(null);
@@ -33,7 +34,7 @@ export default function Attendance() {
     const [insideRadius, setInsideRadius] = useState(null);
     const [refreshingLocation, setRefreshingLocation] = useState(false);
     const [dialogAction, setDialogAction] = useState(null);
-
+    const [overtimeDialog, setOvertimeDialog] = useState(false);
     useEffect(() => {
 
         loadOffice();
@@ -73,7 +74,21 @@ export default function Attendance() {
         setNotes("");
 
     }, [openDialog, insideRadius]);
+    const loadOffice = async () => {
 
+        try {
+
+            const officeData = await officeService.getOffice();
+
+            setOffice(officeData);
+
+        } catch (err) {
+
+            console.error(err);
+
+        }
+
+    };
     const loadAnnouncements = async () => {
 
         try {
@@ -192,20 +207,22 @@ export default function Attendance() {
 
     };
 
-    const loadOffice = async () => {
 
-        try {
+    const checkOvertime = (checkIn, checkOut) => {
 
-            const officeData = await officeService.getOffice();
-
-            setOffice(officeData);
-
-        } catch (err) {
-
-            console.error(err);
-
+        if (!checkIn || !checkOut) {
+            return false;
         }
 
+        const start = new Date(checkIn);
+        const end = new Date(checkOut);
+
+        const durationMinutes =
+            Math.floor(
+                (end - start) / 60000
+            );
+
+        return durationMinutes > 9 * 60;
     };
     const handleCheckOut = async () => {
 
@@ -246,12 +263,40 @@ export default function Attendance() {
             );
 
             const result = await attendanceService.checkOut(formData);
+
             setOpenDialog(false);
             setPhoto(null);
+
             await loadToday();
             await loadLocation();
 
+            const checkoutTime = new Date();
 
+            const overtime =
+                checkOvertime(
+                    todayData?.checkIn,
+                    checkoutTime
+                );
+
+            if (overtime) {
+
+                const confirm = await Swal.fire({
+                    icon: "question",
+                    title: "Apakah Anda Lembur?",
+                    text: "Jam kerja Anda sudah lebih dari 9 jam. Apakah Anda ingin mengajukan lembur?",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya, Ajukan Lembur",
+                    cancelButtonText: "Tidak"
+                });
+
+                if (confirm.isConfirmed) {
+
+                    // Nanti kita buka form pengajuan lembur
+                    setOvertimeDialog(true);
+
+                    return;
+                }
+            }
 
             Swal.fire({
                 icon: "success",
@@ -388,6 +433,7 @@ export default function Attendance() {
             const result = await attendanceService.getToday();
 
             const today = result.data;
+            console.log("TODAY DATA:", today);
             setTodayData(today);
             if (today.checkIn && !today.checkOut) {
 
