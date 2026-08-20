@@ -25,7 +25,6 @@ import {
 import officeService from "../../services/officeService";
 
 export default function Attendance() {
-    const NORMAL_WORK_END = "18:00";
     const [openDialog, setOpenDialog] = useState(false);
 
     const [attendanceType, setAttendanceType] = useState("OFFICE");
@@ -410,20 +409,50 @@ export default function Attendance() {
 
                     if (confirm.isConfirmed) {
 
+                        // =========================
+                        // TANGGAL LEMBUR
+                        // =========================
+
                         const todayDate =
                             new Date(today.checkOut)
                                 .toISOString()
                                 .split("T")[0];
 
-                        // Tanggal lembur
                         setOvertimeDate(todayDate);
 
-                        // Jam mulai lembur
-                        setOvertimeStart(
-                            NORMAL_WORK_END
+
+                        // =========================
+                        // JAM MULAI LEMBUR
+                        // CHECK-IN + 9 JAM
+                        // =========================
+
+                        const overtimeStartDate =
+                            new Date(today.checkIn);
+
+                        overtimeStartDate.setHours(
+                            overtimeStartDate.getHours() + 9
                         );
 
-                        // Jam selesai = jam checkout
+                        const overtimeStartHours =
+                            String(
+                                overtimeStartDate.getHours()
+                            ).padStart(2, "0");
+
+                        const overtimeStartMinutes =
+                            String(
+                                overtimeStartDate.getMinutes()
+                            ).padStart(2, "0");
+
+                        setOvertimeStart(
+                            `${overtimeStartHours}:${overtimeStartMinutes}`
+                        );
+
+
+                        // =========================
+                        // JAM SELESAI
+                        // = CHECK OUT
+                        // =========================
+
                         const checkoutDate =
                             new Date(today.checkOut);
 
@@ -441,11 +470,20 @@ export default function Attendance() {
                             `${checkoutHours}:${checkoutMinutes}`
                         );
 
-                        // Kosongkan pekerjaan
+
+                        // =========================
+                        // RESET KETERANGAN
+                        // =========================
+
                         setOvertimeReason("");
 
-                        // Buka form lembur
+
+                        // =========================
+                        // BUKA FORM LEMBUR
+                        // =========================
+
                         setOvertimeDialog(true);
+
                     }
 
                 }
