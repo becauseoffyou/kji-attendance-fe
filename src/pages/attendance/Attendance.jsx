@@ -50,6 +50,16 @@ export default function Attendance() {
     const [overtimeStart, setOvertimeStart] = useState("");
     const [overtimeEnd, setOvertimeEnd] = useState("");
     const [overtimeReason, setOvertimeReason] = useState("");
+
+    const getLocalTimeFromTimestamp = (timestamp) => {
+        if (!timestamp) return "";
+
+        const timePart = timestamp
+            .split("T")[1]
+            ?.substring(0, 5);
+
+        return timePart || "";
+    };
     useEffect(() => {
 
         loadOffice();
@@ -297,192 +307,239 @@ export default function Attendance() {
     };
     const handleCheckOut = async () => {
 
-        let currentLocation = location;
-
-        if (!currentLocation) {
-
-            currentLocation = await loadLocation();
-
-        }
-
-        if (!currentLocation) {
-
-            Swal.fire({
-                icon: "error",
-                title: "Lokasi",
-                text: "Lokasi belum berhasil didapatkan."
-            });
-
-            return;
-
-        }
-
         try {
 
             setLoading(true);
 
-            const formData = new FormData();
+            // =================================
+            // KODE FORM CHECKOUT LU TETAP DI SINI
+            // =================================
 
-            formData.append(
-                "latitude",
-                currentLocation.latitude
-            );
+            const result =
+                await attendanceService.checkOut(formData);
 
-            formData.append(
-                "longitude",
-                currentLocation.longitude
-            );
 
-            const result = await attendanceService.checkOut(formData);
+            // =================================
+            // TUTUP DIALOG CHECKOUT
+            // =================================
 
             setOpenDialog(false);
             setPhoto(null);
 
 
-            const today = await loadToday();
+            // =================================
+            // AMBIL DATA ABSENSI TERBARU
+            // =================================
+
+            const today =
+                await loadToday();
 
             await loadLocation();
 
-            const checkoutTime = new Date();
 
-            const overtime =
-                checkOvertime(
-                    todayData?.checkIn,
-                    checkoutTime
-                );
-            // =====================================
-            // CEK APAKAH JAM KERJA > 9 JAM
-            // =====================================
+            // =================================
+            // CEK DURASI KERJA
+            // =================================
 
             if (
                 today?.checkIn &&
                 today?.checkOut
             ) {
 
-                const start = new Date(today.checkIn);
-                const end = new Date(today.checkOut);
+                const checkInTime =
+                    getLocalTimeFromTimestamp(
+                        today.checkIn
+                    );
 
-                const durationMinutes = Math.floor(
-                    (end - start) / 60000
+                const checkOutTime =
+                    getLocalTimeFromTimestamp(
+                        today.checkOut
+                    );
+
+
+                const [checkInHour, checkInMinute] =
+                    checkInTime
+                        .split(":")
+                        .map(Number);
+
+                const [checkOutHour, checkOutMinute] =
+                    checkOutTime
+                        .split(":")
+                        .map(Number);
+
+
+                let checkInTotal =
+                    checkInHour * 60 +
+                    checkInMinute;
+
+                let checkOutTotal =
+                    checkOutHour * 60 +
+                    checkOutMinute;
+
+
+                // =================================
+                // LEWAT TENGAH MALAM
+                // =================================
+
+                if (
+                    checkOutTotal <
+                    checkInTotal
+                ) {
+
+                    checkOutTotal +=
+                        24 * 60;
+
+                }
+
+
+                const workingMinutes =
+                    checkOutTotal -
+                    checkInTotal;
+
+
+                console.log(
+                    "CHECK IN:",
+                    checkInTime
+                );
+
+                console.log(
+                    "CHECK OUT:",
+                    checkOutTime
                 );
 
                 console.log(
                     "TOTAL JAM KERJA:",
-                    durationMinutes,
-                    "menit"
+                    workingMinutes,
+                    "MENIT"
                 );
 
 
-                // Lebih dari 9 jam
-                if (durationMinutes > 9 * 60) {
+                // =================================
+                // LEBIH DARI 9 JAM
+                // =================================
+
+                if (
+                    workingMinutes >
+                    9 * 60
+                ) {
 
                     const hours =
-                        Math.floor(durationMinutes / 60);
+                        Math.floor(
+                            workingMinutes / 60
+                        );
 
                     const minutes =
-                        durationMinutes % 60;
+                        workingMinutes % 60;
 
 
-                    const confirm = await Swal.fire({
+                    const confirm =
+                        await Swal.fire({
 
-                        icon: "question",
+                            icon: "question",
 
-                        title: "Pengajuan Lembur",
+                            title:
+                                "Pengajuan Lembur",
 
-                        html: `
-                Jam kerja Anda adalah
-                <b>${hours} jam ${minutes} menit</b>.
-                <br><br>
-                Apakah Anda melakukan lembur?
-            `,
+                            html: `
+                            Jam kerja Anda adalah
+                            <b>
+                                ${hours} jam ${minutes} menit
+                            </b>.
+                            <br><br>
+                            Apakah Anda melakukan lembur?
+                        `,
 
-                        showCancelButton: true,
+                            showCancelButton: true,
 
-                        confirmButtonText:
-                            "Ya, Ajukan Lembur",
+                            confirmButtonText:
+                                "Ya, Ajukan Lembur",
 
-                        cancelButtonText:
-                            "Tidak"
+                            cancelButtonText:
+                                "Tidak"
 
-                    });
+                        });
 
 
-                    if (confirm.isConfirmed) {
+                    // =================================
+                    // USER PILIH YA
+                    // =================================
 
-                        // =========================
-                        // TANGGAL LEMBUR
-                        // =========================
+                    if (
+                        confirm.isConfirmed
+                    ) {
+
+                        // -----------------------------
+                        // TANGGAL
+                        // -----------------------------
 
                         const todayDate =
-                            new Date(today.checkOut)
-                                .toISOString()
+                            today.checkOut
                                 .split("T")[0];
 
-                        setOvertimeDate(todayDate);
+                        setOvertimeDate(
+                            todayDate
+                        );
 
 
-                        // =========================
+                        // -----------------------------
                         // JAM MULAI LEMBUR
                         // CHECK-IN + 9 JAM
-                        // =========================
+                        // -----------------------------
 
-                        const overtimeStartDate =
-                            new Date(today.checkIn);
+                        let overtimeStartTotal =
+                            checkInTotal +
+                            (9 * 60);
 
-                        overtimeStartDate.setHours(
-                            overtimeStartDate.getHours() + 9
-                        );
 
-                        const overtimeStartHours =
-                            String(
-                                overtimeStartDate.getHours()
-                            ).padStart(2, "0");
+                        // Kalau lewat tengah malam
+                        overtimeStartTotal %=
+                            24 * 60;
 
-                        const overtimeStartMinutes =
-                            String(
-                                overtimeStartDate.getMinutes()
-                            ).padStart(2, "0");
+
+                        const overtimeStartHour =
+                            Math.floor(
+                                overtimeStartTotal /
+                                60
+                            );
+
+                        const overtimeStartMinute =
+                            overtimeStartTotal %
+                            60;
+
 
                         setOvertimeStart(
-                            `${overtimeStartHours}:${overtimeStartMinutes}`
+                            `${String(
+                                overtimeStartHour
+                            ).padStart(2, "0")}:${String(
+                                overtimeStartMinute
+                            ).padStart(2, "0")}`
                         );
 
 
-                        // =========================
+                        // -----------------------------
                         // JAM SELESAI
-                        // = CHECK OUT
-                        // =========================
-
-                        const checkoutDate =
-                            new Date(today.checkOut);
-
-                        const checkoutHours =
-                            String(
-                                checkoutDate.getHours()
-                            ).padStart(2, "0");
-
-                        const checkoutMinutes =
-                            String(
-                                checkoutDate.getMinutes()
-                            ).padStart(2, "0");
+                        // CHECKOUT
+                        // -----------------------------
 
                         setOvertimeEnd(
-                            `${checkoutHours}:${checkoutMinutes}`
+                            checkOutTime
                         );
 
 
-                        // =========================
+                        // -----------------------------
                         // RESET KETERANGAN
-                        // =========================
+                        // -----------------------------
 
                         setOvertimeReason("");
 
 
-                        // =========================
+                        // -----------------------------
                         // BUKA FORM LEMBUR
-                        // =========================
+                        // -----------------------------
 
-                        setOvertimeDialog(true);
+                        setOvertimeDialog(
+                            true
+                        );
 
                     }
 
@@ -491,9 +548,9 @@ export default function Attendance() {
             }
 
 
-            // =====================================
-            // ALERT CHECK OUT BERHASIL
-            // =====================================
+            // =================================
+            // ALERT CHECKOUT BERHASIL
+            // =================================
 
             Swal.fire({
                 icon: "success",
@@ -501,14 +558,20 @@ export default function Attendance() {
                 text: result.message
             });
 
+
         } catch (err) {
+
+            console.error(
+                "CHECK OUT ERROR:",
+                err
+            );
 
             Swal.fire({
                 icon: "error",
                 title: "Gagal",
                 text:
                     err.response?.data?.message ||
-                    "Check Out gagal."
+                    "Check out gagal."
             });
 
         } finally {
