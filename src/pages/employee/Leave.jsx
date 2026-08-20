@@ -142,14 +142,20 @@ export default function Leave() {
 
         loadHistory();
         const markNotificationsAsRead = async () => {
+
             try {
-                await notificationService.readLeaveResult();
+
+                await notificationService.readResult();
+
             } catch (err) {
+
                 console.error(
                     "Gagal membaca notification:",
                     err
                 );
+
             }
+
         };
 
         markNotificationsAsRead();
