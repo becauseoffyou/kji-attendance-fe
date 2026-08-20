@@ -307,29 +307,61 @@ export default function Attendance() {
     };
     const handleCheckOut = async () => {
 
+        let currentLocation = location;
+
+        if (!currentLocation) {
+
+            currentLocation = await loadLocation();
+
+        }
+
+        if (!currentLocation) {
+
+            Swal.fire({
+                icon: "error",
+                title: "Lokasi",
+                text: "Lokasi belum berhasil didapatkan."
+            });
+
+            return;
+
+        }
+
         try {
 
             setLoading(true);
 
-            // =================================
-            // KODE FORM CHECKOUT LU TETAP DI SINI
-            // =================================
+
+            // =====================================
+            // FORM CHECK OUT
+            // =====================================
+
+            const formData = new FormData();
+
+            formData.append(
+                "latitude",
+                currentLocation.latitude
+            );
+
+            formData.append(
+                "longitude",
+                currentLocation.longitude
+            );
+
 
             const result =
-                await attendanceService.checkOut(formData);
+                await attendanceService.checkOut(
+                    formData
+                );
 
-
-            // =================================
-            // TUTUP DIALOG CHECKOUT
-            // =================================
 
             setOpenDialog(false);
             setPhoto(null);
 
 
-            // =================================
+            // =====================================
             // AMBIL DATA ABSENSI TERBARU
-            // =================================
+            // =====================================
 
             const today =
                 await loadToday();
@@ -337,14 +369,19 @@ export default function Attendance() {
             await loadLocation();
 
 
-            // =================================
-            // CEK DURASI KERJA
-            // =================================
+            // =====================================
+            // CEK JAM KERJA
+            // =====================================
 
             if (
                 today?.checkIn &&
                 today?.checkOut
             ) {
+
+                // ---------------------------------
+                // Ambil jam mentah dari API
+                // tanpa konversi timezone
+                // ---------------------------------
 
                 const checkInTime =
                     getLocalTimeFromTimestamp(
@@ -357,12 +394,23 @@ export default function Attendance() {
                     );
 
 
-                const [checkInHour, checkInMinute] =
+                // ---------------------------------
+                // Ubah HH:mm menjadi total menit
+                // ---------------------------------
+
+                const [
+                    checkInHour,
+                    checkInMinute
+                ] =
                     checkInTime
                         .split(":")
                         .map(Number);
 
-                const [checkOutHour, checkOutMinute] =
+
+                const [
+                    checkOutHour,
+                    checkOutMinute
+                ] =
                     checkOutTime
                         .split(":")
                         .map(Number);
@@ -372,14 +420,15 @@ export default function Attendance() {
                     checkInHour * 60 +
                     checkInMinute;
 
+
                 let checkOutTotal =
                     checkOutHour * 60 +
                     checkOutMinute;
 
 
-                // =================================
-                // LEWAT TENGAH MALAM
-                // =================================
+                // ---------------------------------
+                // Jika checkout lewat tengah malam
+                // ---------------------------------
 
                 if (
                     checkOutTotal <
@@ -391,6 +440,10 @@ export default function Attendance() {
 
                 }
 
+
+                // ---------------------------------
+                // TOTAL JAM KERJA
+                // ---------------------------------
 
                 const workingMinutes =
                     checkOutTotal -
@@ -415,7 +468,7 @@ export default function Attendance() {
 
 
                 // =================================
-                // LEBIH DARI 9 JAM
+                // LEBIH DARI 9 JAM?
                 // =================================
 
                 if (
@@ -431,6 +484,10 @@ export default function Attendance() {
                     const minutes =
                         workingMinutes % 60;
 
+
+                    // =================================
+                    // TANYA LEMBUR
+                    // =================================
 
                     const confirm =
                         await Swal.fire({
@@ -461,37 +518,43 @@ export default function Attendance() {
 
 
                     // =================================
-                    // USER PILIH YA
+                    // JIKA YA
                     // =================================
 
                     if (
                         confirm.isConfirmed
                     ) {
 
-                        // -----------------------------
-                        // TANGGAL
-                        // -----------------------------
+
+                        // =============================
+                        // TANGGAL LEMBUR
+                        // =============================
 
                         const todayDate =
                             today.checkOut
                                 .split("T")[0];
+
 
                         setOvertimeDate(
                             todayDate
                         );
 
 
-                        // -----------------------------
+                        // =============================
                         // JAM MULAI LEMBUR
+                        //
                         // CHECK-IN + 9 JAM
-                        // -----------------------------
+                        // =============================
 
                         let overtimeStartTotal =
                             checkInTotal +
                             (9 * 60);
 
 
-                        // Kalau lewat tengah malam
+                        // -----------------------------
+                        // Jika melewati tengah malam
+                        // -----------------------------
+
                         overtimeStartTotal %=
                             24 * 60;
 
@@ -501,6 +564,7 @@ export default function Attendance() {
                                 overtimeStartTotal /
                                 60
                             );
+
 
                         const overtimeStartMinute =
                             overtimeStartTotal %
@@ -516,26 +580,27 @@ export default function Attendance() {
                         );
 
 
-                        // -----------------------------
-                        // JAM SELESAI
-                        // CHECKOUT
-                        // -----------------------------
+                        // =============================
+                        // JAM SELESAI LEMBUR
+                        //
+                        // = JAM CHECKOUT
+                        // =============================
 
                         setOvertimeEnd(
                             checkOutTime
                         );
 
 
-                        // -----------------------------
+                        // =============================
                         // RESET KETERANGAN
-                        // -----------------------------
+                        // =============================
 
                         setOvertimeReason("");
 
 
-                        // -----------------------------
+                        // =============================
                         // BUKA FORM LEMBUR
-                        // -----------------------------
+                        // =============================
 
                         setOvertimeDialog(
                             true
@@ -548,9 +613,9 @@ export default function Attendance() {
             }
 
 
-            // =================================
-            // ALERT CHECKOUT BERHASIL
-            // =================================
+            // =====================================
+            // ALERT CHECK OUT BERHASIL
+            // =====================================
 
             Swal.fire({
                 icon: "success",
@@ -566,13 +631,15 @@ export default function Attendance() {
                 err
             );
 
+
             Swal.fire({
                 icon: "error",
                 title: "Gagal",
                 text:
                     err.response?.data?.message ||
-                    "Check out gagal."
+                    "Check Out gagal."
             });
+
 
         } finally {
 
