@@ -1,13 +1,22 @@
 import { useEffect, useState, useRef } from "react";
 import Swal from "sweetalert2";
-import { Box } from "@mui/material";
+import {
+    Box,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    TextField,
+    Typography
+} from "@mui/material";
 
 import HeroCard from "../../components/attendance/HeroCard";
 import AttendanceDialog from "../../components/attendance/AttendanceDialog";
 import announcementService from "../../services/infoService";
 import AnnouncementSlider from "../../components/attendance/AnnouncementSlider";
 import attendanceService from "../../services/attService";
-
+import overtimeService from "../../services/overtimeService";
 import {
     getCurrentLocation,
     calculateDistance
@@ -16,6 +25,7 @@ import {
 import officeService from "../../services/officeService";
 
 export default function Attendance() {
+    const NORMAL_WORK_END = "18:00";
     const [openDialog, setOpenDialog] = useState(false);
 
     const [attendanceType, setAttendanceType] = useState("OFFICE");
@@ -34,7 +44,13 @@ export default function Attendance() {
     const [insideRadius, setInsideRadius] = useState(null);
     const [refreshingLocation, setRefreshingLocation] = useState(false);
     const [dialogAction, setDialogAction] = useState(null);
+    //lebih dari 9 jam lembur?
     const [overtimeDialog, setOvertimeDialog] = useState(false);
+
+    const [overtimeDate, setOvertimeDate] = useState("");
+    const [overtimeStart, setOvertimeStart] = useState("");
+    const [overtimeEnd, setOvertimeEnd] = useState("");
+    const [overtimeReason, setOvertimeReason] = useState("");
     useEffect(() => {
 
         loadOffice();
@@ -223,6 +239,63 @@ export default function Attendance() {
 
         return durationMinutes > 9 * 60;
     };
+
+    const handleSubmitOvertime = async () => {
+
+        if (!overtimeReason.trim()) {
+
+            Swal.fire({
+                icon: "warning",
+                title: "Pekerjaan Wajib Diisi",
+                text: "Silakan isi pekerjaan yang dilakukan saat lembur."
+            });
+
+            return;
+        }
+
+        try {
+
+            setLoading(true);
+
+            await overtimeService.create({
+                overtime_date: overtimeDate,
+                start_time: overtimeStart,
+                end_time: overtimeEnd,
+                reason: overtimeReason
+            });
+
+            setOvertimeDialog(false);
+
+            setOvertimeReason("");
+
+            Swal.fire({
+                icon: "success",
+                title: "Lembur Berhasil Diajukan",
+                text: "Pengajuan lembur menunggu persetujuan Manager."
+            });
+
+        } catch (err) {
+
+            console.error(
+                "CREATE OVERTIME ERROR:",
+                err
+            );
+
+            Swal.fire({
+                icon: "error",
+                title: "Gagal Mengajukan Lembur",
+                text:
+                    err.response?.data?.message ||
+                    "Pengajuan lembur gagal."
+            });
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
     const handleCheckOut = async () => {
 
         let currentLocation = location;
@@ -337,12 +410,42 @@ export default function Attendance() {
 
                     if (confirm.isConfirmed) {
 
-                        console.log(
-                            "KARYAWAN MEMILIH AJUKAN LEMBUR"
+                        const todayDate =
+                            new Date(today.checkOut)
+                                .toISOString()
+                                .split("T")[0];
+
+                        // Tanggal lembur
+                        setOvertimeDate(todayDate);
+
+                        // Jam mulai lembur
+                        setOvertimeStart(
+                            NORMAL_WORK_END
                         );
 
-                        // NANTI FORM LEMBUR DIBUKA DI SINI
+                        // Jam selesai = jam checkout
+                        const checkoutDate =
+                            new Date(today.checkOut);
 
+                        const checkoutHours =
+                            String(
+                                checkoutDate.getHours()
+                            ).padStart(2, "0");
+
+                        const checkoutMinutes =
+                            String(
+                                checkoutDate.getMinutes()
+                            ).padStart(2, "0");
+
+                        setOvertimeEnd(
+                            `${checkoutHours}:${checkoutMinutes}`
+                        );
+
+                        // Kosongkan pekerjaan
+                        setOvertimeReason("");
+
+                        // Buka form lembur
+                        setOvertimeDialog(true);
                     }
 
                 }
@@ -577,7 +680,118 @@ export default function Attendance() {
                 }
 
             />
+            <Dialog
+                open={overtimeDialog}
+                onClose={() => {
+                    if (!loading) {
+                        setOvertimeDialog(false);
+                    }
+                }}
+                fullWidth
+                maxWidth="sm"
+            >
 
+                <DialogTitle>
+                    Pengajuan Lembur
+                </DialogTitle>
+
+                <DialogContent>
+
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ mb: 2 }}
+                    >
+                        Jam kerja Anda sudah lebih dari 9 jam.
+                        Silakan lengkapi pengajuan lembur.
+                    </Typography>
+
+                    <TextField
+                        fullWidth
+                        type="date"
+                        label="Tanggal Lembur"
+                        value={overtimeDate}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                        disabled
+                        sx={{ mb: 2 }}
+                    />
+
+                    <Box
+                        sx={{
+                            display: "flex",
+                            gap: 2,
+                            mb: 2
+                        }}
+                    >
+
+                        <TextField
+                            fullWidth
+                            type="time"
+                            label="Jam Mulai"
+                            value={overtimeStart}
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                            disabled
+                        />
+
+                        <TextField
+                            fullWidth
+                            type="time"
+                            label="Jam Selesai"
+                            value={overtimeEnd}
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                            disabled
+                        />
+
+                    </Box>
+
+                    <TextField
+                        fullWidth
+                        multiline
+                        rows={4}
+                        label="Pekerjaan / Keterangan"
+                        placeholder="Jelaskan pekerjaan yang dilakukan saat lembur..."
+                        value={overtimeReason}
+                        onChange={(e) =>
+                            setOvertimeReason(e.target.value)
+                        }
+                    />
+
+                </DialogContent>
+
+                <DialogActions>
+
+                    <Button
+                        onClick={() =>
+                            setOvertimeDialog(false)
+                        }
+                        disabled={loading}
+                    >
+                        Nanti
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSubmitOvertime}
+                        disabled={
+                            loading ||
+                            !overtimeReason.trim()
+                        }
+                    >
+                        {loading
+                            ? "Mengirim..."
+                            : "Ajukan Lembur"}
+                    </Button>
+
+                </DialogActions>
+
+            </Dialog>
 
         </>
 
