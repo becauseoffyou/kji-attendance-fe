@@ -141,6 +141,18 @@ export default function Leave() {
     useEffect(() => {
 
         loadHistory();
+        const markNotificationsAsRead = async () => {
+            try {
+                await notificationService.readLeaveResult();
+            } catch (err) {
+                console.error(
+                    "Gagal membaca notification:",
+                    err
+                );
+            }
+        };
+
+        markNotificationsAsRead();
 
     }, []);
 
