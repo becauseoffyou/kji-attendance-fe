@@ -27,6 +27,7 @@ import ResetPassword from "../pages/auth/ResetPassword";
 import Overtime from "../pages/employee/Overtime";
 import OvertimeApprovalDetail from "../pages/employee/OvertimeApprovalDetail";
 import OvertimeRecap from "../pages/dashboard/OvertimeRecap";
+import OvertimeSettings from "../pages/setting/OvertimeSettings";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
@@ -118,6 +119,19 @@ export default function AppRoutes() {
                     }
                 />
 
+                <Route
+                    path="/admin/settings"
+                    element={
+                        <ProtectedAdminRoute>
+                            <DashboardLayout
+                                title="Pengaturan"
+                                subtitle="Kelola Pengaturan Absensi"
+                            >
+                                <OvertimeSettings />
+                            </DashboardLayout>
+                        </ProtectedAdminRoute>
+                    }
+                />
 
                 {/* 
                 <Route
