@@ -10,106 +10,112 @@ import {
     TableHead,
     TableRow,
     Chip,
-    Paper
+    Paper,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    IconButton
 } from "@mui/material";
 
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
-const getStatusLabel = (status) => {
-
-    switch (status) {
-
-        case "PENDING_MANAGER":
-            return "Menunggu";
-
-        case "APPROVED":
-            return "Disetujui";
-
-        case "REJECTED":
-            return "Ditolak";
-
-        case "CANCELLED":
-            return "Dibatalkan";
-
-        default:
-            return status || "-";
-    }
-};
-
-
-const getStatusColor = (status) => {
-
-    switch (status) {
-
-        case "APPROVED":
-            return "success";
-
-        case "REJECTED":
-            return "error";
-
-        case "PENDING_MANAGER":
-            return "warning";
-
-        case "CANCELLED":
-            return "default";
-
-        default:
-            return "default";
-    }
-};
-
-
-const formatDate = (date) => {
-
-    if (!date) return "-";
-
-    return new Date(date).toLocaleDateString(
-        "id-ID",
-        {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
-        }
-    );
-};
-
-
-const formatDuration = (minutes) => {
-
-    if (
-        minutes === null ||
-        minutes === undefined
-    ) {
-        return "-";
-    }
-
-    const hours =
-        Math.floor(minutes / 60);
-
-    const remainingMinutes =
-        minutes % 60;
-
-    if (hours === 0) {
-        return `${remainingMinutes} menit`;
-    }
-
-    if (remainingMinutes === 0) {
-        return `${hours} jam`;
-    }
-
-    return `${hours} jam ${remainingMinutes} menit`;
-};
 
 
 export default function OvertimeRecap() {
-
+    const [selectedItem, setSelectedItem] =
+        useState(null);
     const [data, setData] = useState([]);
 
     const [loading, setLoading] =
         useState(true);
 
 
+    const getStatusLabel = (status) => {
+
+        switch (status) {
+
+            case "PENDING_MANAGER":
+                return "Menunggu";
+
+            case "APPROVED":
+                return "Disetujui";
+
+            case "REJECTED":
+                return "Ditolak";
+
+            case "CANCELLED":
+                return "Dibatalkan";
+
+            default:
+                return status || "-";
+        }
+    };
+
+
+    const getStatusColor = (status) => {
+
+        switch (status) {
+
+            case "APPROVED":
+                return "success";
+
+            case "REJECTED":
+                return "error";
+
+            case "PENDING_MANAGER":
+                return "warning";
+
+            case "CANCELLED":
+                return "default";
+
+            default:
+                return "default";
+        }
+    };
+
+
+    const formatDate = (date) => {
+
+        if (!date) return "-";
+
+        return new Date(date).toLocaleDateString(
+            "id-ID",
+            {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            }
+        );
+    };
+
+
+    const formatDuration = (minutes) => {
+
+        if (
+            minutes === null ||
+            minutes === undefined
+        ) {
+            return "-";
+        }
+
+        const hours =
+            Math.floor(minutes / 60);
+
+        const remainingMinutes =
+            minutes % 60;
+
+        if (hours === 0) {
+            return `${remainingMinutes} menit`;
+        }
+
+        if (remainingMinutes === 0) {
+            return `${hours} jam`;
+        }
+
+        return `${hours} jam ${remainingMinutes} menit`;
+    };
     const loadData = async () => {
 
         try {
@@ -206,7 +212,7 @@ export default function OvertimeRecap() {
                                     </TableCell>
 
                                     <TableCell>
-                                        Pekerjaan
+                                        Aksi
                                     </TableCell>
 
                                 </TableRow>
@@ -339,7 +345,16 @@ export default function OvertimeRecap() {
 
                                             <TableCell>
 
-                                                {item.reason || "-"}
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() =>
+                                                        setSelectedItem(item)
+                                                    }
+                                                >
+                                                    <VisibilityIcon
+                                                        fontSize="small"
+                                                    />
+                                                </IconButton>
 
                                             </TableCell>
 
@@ -358,7 +373,111 @@ export default function OvertimeRecap() {
                 </CardContent>
 
             </Card>
+            <Dialog
+                open={Boolean(selectedItem)}
+                onClose={() =>
+                    setSelectedItem(null)
+                }
+                fullWidth
+                maxWidth="sm"
+            >
 
+                <DialogTitle>
+                    Detail Lembur
+                </DialogTitle>
+
+                <DialogContent>
+
+                    {selectedItem && (
+
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 1.5,
+                                pb: 2
+                            }}
+                        >
+
+                            <Typography>
+                                <strong>Karyawan:</strong>{" "}
+                                {selectedItem.employee_name || "-"}
+                            </Typography>
+
+                            <Typography>
+                                <strong>Tanggal:</strong>{" "}
+                                {formatDate(
+                                    selectedItem.overtime_date
+                                )}
+                            </Typography>
+
+                            <Typography>
+                                <strong>Jam:</strong>{" "}
+                                {selectedItem.start_time?.substring(
+                                    0,
+                                    5
+                                )}
+                                {" - "}
+                                {selectedItem.end_time?.substring(
+                                    0,
+                                    5
+                                )}
+                            </Typography>
+
+                            <Typography>
+                                <strong>Durasi:</strong>{" "}
+                                {formatDuration(
+                                    selectedItem.duration_minutes
+                                )}
+                            </Typography>
+
+                            <Typography>
+                                <strong>Status:</strong>{" "}
+                                {getStatusLabel(
+                                    selectedItem.status
+                                )}
+                            </Typography>
+
+                            <Typography>
+                                <strong>Pembayaran:</strong>{" "}
+                                {selectedItem.status ===
+                                    "APPROVED"
+                                    ? selectedItem.payment_status ===
+                                        "PAID"
+                                        ? "Sudah Dibayar"
+                                        : "Belum Dibayar"
+                                    : "-"
+                                }
+                            </Typography>
+
+                            <Typography>
+                                <strong>Pekerjaan:</strong>
+                            </Typography>
+
+                            <Box
+                                sx={{
+                                    p: 1.5,
+                                    borderRadius: 1,
+                                    backgroundColor:
+                                        "background.default"
+                                }}
+                            >
+
+                                <Typography
+                                    variant="body2"
+                                >
+                                    {selectedItem.reason || "-"}
+                                </Typography>
+
+                            </Box>
+
+                        </Box>
+
+                    )}
+
+                </DialogContent>
+
+            </Dialog>
         </Box>
 
     );
