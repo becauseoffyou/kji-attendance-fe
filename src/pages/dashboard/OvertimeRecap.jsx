@@ -876,13 +876,15 @@ export default function OvertimeRecap() {
                                 ) : (
 
                                     data.map(
-                                        (item) => (
+                                        (item, index) => (
 
                                             <TableRow
                                                 key={item.id}
                                                 hover
                                             >
-
+                                                <TableCell align="center">
+                                                    {index + 1}
+                                                </TableCell>
                                                 <TableCell>
                                                     {
                                                         item.employee_name ||
