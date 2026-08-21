@@ -105,7 +105,7 @@ export default function AppRoutes() {
                     }
                 />
                 <Route
-                    path="/admin/overtime-recap"
+                    path="/admin/recap"
                     element={
                         <ProtectedAdminRoute>
                             <DashboardLayout

@@ -24,7 +24,7 @@ const menu = [
     {
         title: "Lemburan",
         icon: <AccessTimeIcon />,
-        path: "/overtime-recap",
+        path: "/admin/recap",
     },
     {
         title: "Laporan",
