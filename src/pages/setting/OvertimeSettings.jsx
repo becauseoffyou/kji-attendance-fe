@@ -14,6 +14,9 @@ import {
 
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SaveIcon from "@mui/icons-material/Save";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 
 import Swal from "sweetalert2";
 
@@ -54,7 +57,8 @@ export default function OvertimeSettings() {
 
     const [saving, setSaving] =
         useState(false);
-
+    const [openSection, setOpenSection] =
+        useState("overtime");
 
     // =====================================
     // LOAD SETTINGS
@@ -208,215 +212,431 @@ export default function OvertimeSettings() {
 
 
     return (
-
         <Box>
 
             {/* ================================= */}
             {/* HEADER */}
             {/* ================================= */}
 
-            <Box
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    mb: 0.5
-                }}
+            <Typography
+                variant="h4"
+                fontWeight={700}
+                sx={{ mb: 0.5 }}
             >
-
-                <AccessTimeIcon />
-
-                <Typography
-                    variant="h5"
-                    fontWeight={700}
-                >
-                    Pengaturan Overtime
-                </Typography>
-
-            </Box>
-
+                Pengaturan
+            </Typography>
 
             <Typography
                 variant="body2"
                 color="text.secondary"
                 sx={{ mb: 3 }}
             >
-                Atur tarif lembur berdasarkan hari kerja.
+                Kelola pengaturan sistem absensi dan lembur.
             </Typography>
 
 
             {/* ================================= */}
-            {/* CARD */}
+            {/* OVERTIME */}
             {/* ================================= */}
 
             <Card
                 sx={{
-                    maxWidth: 700,
-                    borderRadius: 2
+                    borderRadius: 2,
+                    mb: 2,
+                    overflow: "hidden"
                 }}
             >
 
-                <CardContent
+                {/* HEADER CARD */}
+
+                <Box
+                    onClick={() =>
+                        setOpenSection(
+                            openSection === "overtime"
+                                ? null
+                                : "overtime"
+                        )
+                    }
                     sx={{
-                        p: 3
+                        px: 2.5,
+                        py: 2,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        cursor: "pointer",
+
+                        "&:hover": {
+                            backgroundColor: "action.hover"
+                        }
                     }}
                 >
 
-                    <Typography
-                        variant="h6"
-                        fontWeight={600}
-                        sx={{ mb: 0.5 }}
-                    >
-                        Tarif Lembur
-                    </Typography>
-
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ mb: 3 }}
-                    >
-                        Tarif digunakan untuk menghitung
-                        nominal lembur secara proporsional
-                        berdasarkan durasi lembur.
-                    </Typography>
-
-
-                    <Divider
-                        sx={{ mb: 3 }}
-                    />
-
-
-                    <Stack
-                        spacing={2.5}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.5
+                        }}
                     >
 
-                        {/* WEEKDAY */}
+                        <AccessTimeIcon />
 
-                        <Box>
+                        <Typography
+                            fontWeight={600}
+                        >
+                            Pengaturan Overtime
+                        </Typography>
 
-                            <Typography
-                                variant="body2"
-                                fontWeight={600}
-                                sx={{ mb: 1 }}
-                            >
-                                Senin - Jumat
-                            </Typography>
-
-                            <TextField
-                                fullWidth
-                                size="small"
-                                type="text"
-                                value={weekdayRate}
-                                onChange={(e) =>
-                                    setWeekdayRate(
-                                        e.target.value
-                                    )
-                                }
-                                disabled={loading}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment
-                                            position="start"
-                                        >
-                                            Rp
-                                        </InputAdornment>
-                                    ),
-                                    endAdornment: (
-                                        <InputAdornment
-                                            position="end"
-                                        >
-                                            / jam
-                                        </InputAdornment>
-                                    )
-                                }}
-                            />
-
-                        </Box>
+                    </Box>
 
 
-                        {/* WEEKEND */}
+                    {openSection === "overtime"
+                        ? <ExpandLessIcon />
+                        : <ExpandMoreIcon />
+                    }
 
-                        <Box>
-
-                            <Typography
-                                variant="body2"
-                                fontWeight={600}
-                                sx={{ mb: 1 }}
-                            >
-                                Sabtu - Minggu
-                            </Typography>
-
-                            <TextField
-                                fullWidth
-                                size="small"
-                                type="text"
-                                value={weekendRate}
-                                onChange={(e) =>
-                                    setWeekendRate(
-                                        e.target.value
-                                    )
-                                }
-                                disabled={loading}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment
-                                            position="start"
-                                        >
-                                            Rp
-                                        </InputAdornment>
-                                    ),
-                                    endAdornment: (
-                                        <InputAdornment
-                                            position="end"
-                                        >
-                                            / jam
-                                        </InputAdornment>
-                                    )
-                                }}
-                            />
-
-                        </Box>
+                </Box>
 
 
-                        {/* SAVE */}
+                {/* ================================= */}
+                {/* CONTENT */}
+                {/* ================================= */}
 
-                        <Box
-                            sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                pt: 1
-                            }}
+                {openSection === "overtime" && (
+
+                    <Box
+                        sx={{
+                            borderTop: "1px solid",
+                            borderColor: "divider",
+                            px: 3,
+                            py: 3,
+                            maxWidth: 800
+                        }}
+                    >
+
+                        <Typography
+                            variant="h6"
+                            fontWeight={600}
+                            sx={{ mb: 0.5 }}
+                        >
+                            Tarif Lembur
+                        </Typography>
+
+
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ mb: 3 }}
+                        >
+                            Tarif digunakan untuk menghitung
+                            nominal lembur secara proporsional
+                            berdasarkan durasi lembur.
+                        </Typography>
+
+
+                        <Divider
+                            sx={{ mb: 3 }}
+                        />
+
+
+                        <Stack
+                            spacing={2.5}
                         >
 
-                            <Button
-                                variant="contained"
-                                startIcon={
-                                    <SaveIcon />
-                                }
-                                onClick={
-                                    handleSave
-                                }
-                                disabled={
-                                    loading ||
-                                    saving
-                                }
+                            {/* SENIN - JUMAT */}
+
+                            <Box>
+
+                                <Typography
+                                    variant="body2"
+                                    fontWeight={600}
+                                    sx={{ mb: 1 }}
+                                >
+                                    Senin - Jumat
+                                </Typography>
+
+                                <TextField
+                                    fullWidth
+                                    size="small"
+                                    type="text"
+                                    value={weekdayRate}
+                                    onChange={(e) => {
+
+                                        const value =
+                                            e.target.value;
+
+                                        const cleaned =
+                                            value.replace(
+                                                /\D/g,
+                                                ""
+                                            );
+
+                                        setWeekdayRate(
+                                            cleaned
+                                                ? formatNumber(
+                                                    cleaned
+                                                )
+                                                : ""
+                                        );
+
+                                    }}
+                                    disabled={loading}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment
+                                                position="start"
+                                            >
+                                                Rp
+                                            </InputAdornment>
+                                        ),
+
+                                        endAdornment: (
+                                            <InputAdornment
+                                                position="end"
+                                            >
+                                                / jam
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                />
+
+                            </Box>
+
+
+                            {/* SABTU - MINGGU */}
+
+                            <Box>
+
+                                <Typography
+                                    variant="body2"
+                                    fontWeight={600}
+                                    sx={{ mb: 1 }}
+                                >
+                                    Sabtu - Minggu
+                                </Typography>
+
+                                <TextField
+                                    fullWidth
+                                    size="small"
+                                    type="text"
+                                    value={weekendRate}
+                                    onChange={(e) => {
+
+                                        const value =
+                                            e.target.value;
+
+                                        const cleaned =
+                                            value.replace(
+                                                /\D/g,
+                                                ""
+                                            );
+
+                                        setWeekendRate(
+                                            cleaned
+                                                ? formatNumber(
+                                                    cleaned
+                                                )
+                                                : ""
+                                        );
+
+                                    }}
+                                    disabled={loading}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment
+                                                position="start"
+                                            >
+                                                Rp
+                                            </InputAdornment>
+                                        ),
+
+                                        endAdornment: (
+                                            <InputAdornment
+                                                position="end"
+                                            >
+                                                / jam
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                />
+
+                            </Box>
+
+
+                            {/* SIMPAN */}
+
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    pt: 1
+                                }}
                             >
-                                {saving
-                                    ? "Menyimpan..."
-                                    : "Simpan Pengaturan"
-                                }
-                            </Button>
 
-                        </Box>
+                                <Button
+                                    variant="contained"
+                                    startIcon={
+                                        <SaveIcon />
+                                    }
+                                    onClick={
+                                        handleSave
+                                    }
+                                    disabled={
+                                        loading ||
+                                        saving
+                                    }
+                                >
+                                    {saving
+                                        ? "Menyimpan..."
+                                        : "Simpan Pengaturan"
+                                    }
+                                </Button>
 
-                    </Stack>
+                            </Box>
 
-                </CardContent>
+                        </Stack>
+
+                    </Box>
+
+                )}
+
+            </Card>
+
+
+            {/* ================================= */}
+            {/* JAM KERJA */}
+            {/* ================================= */}
+
+            <Card
+                sx={{
+                    borderRadius: 2,
+                    mb: 2,
+                    overflow: "hidden"
+                }}
+            >
+
+                <Box
+                    onClick={() =>
+                        setOpenSection(
+                            openSection === "working-hours"
+                                ? null
+                                : "working-hours"
+                        )
+                    }
+                    sx={{
+                        px: 2.5,
+                        py: 2,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        cursor: "pointer",
+
+                        "&:hover": {
+                            backgroundColor: "action.hover"
+                        }
+                    }}
+                >
+
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.5
+                        }}
+                    >
+
+                        <WorkHistoryIcon />
+
+                        <Typography
+                            fontWeight={600}
+                        >
+                            Pengaturan Jam Kerja
+                        </Typography>
+
+                    </Box>
+
+
+                    {openSection === "working-hours"
+                        ? <ExpandLessIcon />
+                        : <ExpandMoreIcon />
+                    }
+
+                </Box>
+
+
+                {openSection === "working-hours" && (
+
+                    <Box
+                        sx={{
+                            borderTop: "1px solid",
+                            borderColor: "divider",
+                            px: 3,
+                            py: 3
+                        }}
+                    >
+
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Pengaturan jam kerja akan
+                            ditambahkan di sini.
+                        </Typography>
+
+                    </Box>
+
+                )}
+
+            </Card>
+
+
+            {/* ================================= */}
+            {/* ABSENSI */}
+            {/* ================================= */}
+
+            <Card
+                sx={{
+                    borderRadius: 2,
+                    mb: 2,
+                    overflow: "hidden"
+                }}
+            >
+
+                <Box
+                    sx={{
+                        px: 2.5,
+                        py: 2,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between"
+                    }}
+                >
+
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.5
+                        }}
+                    >
+
+                        <AccessTimeIcon />
+
+                        <Typography
+                            fontWeight={600}
+                        >
+                            Pengaturan Absensi
+                        </Typography>
+
+                    </Box>
+
+                    <ExpandMoreIcon />
+
+                </Box>
 
             </Card>
 
         </Box>
-
     );
 
 }
