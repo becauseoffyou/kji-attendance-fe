@@ -31,6 +31,46 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import api from "../../services/api";
 import Swal from "sweetalert2";
 
+const formatRupiah = (value) => {
+
+    return new Intl.NumberFormat(
+        "id-ID",
+        {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }
+    ).format(
+        Number(value || 0)
+    );
+
+};
+
+const formatTotalDuration = (
+    hours,
+    minutes
+) => {
+
+    if (
+        Number(hours) === 0 &&
+        Number(minutes) === 0
+    ) {
+        return "0 jam";
+    }
+
+    if (Number(hours) === 0) {
+        return `${minutes} menit`;
+    }
+
+    if (Number(minutes) === 0) {
+        return `${hours} jam`;
+    }
+
+    return `${hours} jam ${minutes} menit`;
+
+};
+
 export default function OvertimeRecap() {
 
     // =====================================
@@ -86,6 +126,15 @@ export default function OvertimeRecap() {
             totalPages: 0
         });
 
+    const [summary, setSummary] = useState({
+        approved_count: 0,
+        total_minutes: 0,
+        total_hours: 0,
+        total_remaining_minutes: 0,
+        total_bill: 0,
+        unpaid_bill: 0,
+        paid_bill: 0
+    });
 
     // =====================================
     // DETAIL
@@ -277,6 +326,18 @@ export default function OvertimeRecap() {
                 }
             );
 
+            setSummary(
+                response.data.summary || {
+                    approved_count: 0,
+                    total_minutes: 0,
+                    total_hours: 0,
+                    total_remaining_minutes: 0,
+                    total_bill: 0,
+                    unpaid_bill: 0,
+                    paid_bill: 0
+                }
+            );
+
 
         } catch (err) {
 
@@ -412,7 +473,122 @@ export default function OvertimeRecap() {
     return (
 
         <Box>
+            <Box
+                sx={{
+                    display: "grid",
+                    gridTemplateColumns: {
+                        xs: "1fr",
+                        sm: "repeat(2, 1fr)",
+                        lg: "repeat(4, 1fr)"
+                    },
+                    gap: 2,
+                    mb: 2
+                }}
+            >
 
+                {/* TOTAL PENGAJUAN */}
+
+                <Card>
+                    <CardContent>
+
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Lembur Disetujui
+                        </Typography>
+
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                            sx={{ mt: 0.5 }}
+                        >
+                            {summary.approved_count}
+                        </Typography>
+
+                    </CardContent>
+                </Card>
+
+
+                {/* TOTAL JAM */}
+
+                <Card>
+                    <CardContent>
+
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Total Jam Lembur
+                        </Typography>
+
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                            sx={{ mt: 0.5 }}
+                        >
+                            {formatTotalDuration(
+                                summary.total_hours,
+                                summary.total_remaining_minutes
+                            )}
+                        </Typography>
+
+                    </CardContent>
+                </Card>
+
+
+                {/* TOTAL TAGIHAN */}
+
+                <Card>
+                    <CardContent>
+
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Total Tagihan
+                        </Typography>
+
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                            sx={{ mt: 0.5 }}
+                        >
+                            {formatRupiah(
+                                summary.total_bill
+                            )}
+                        </Typography>
+
+                    </CardContent>
+                </Card>
+
+
+                {/* BELUM DIBAYAR */}
+
+                <Card>
+                    <CardContent>
+
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Belum Dibayar
+                        </Typography>
+
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                            sx={{ mt: 0.5 }}
+                        >
+                            {formatRupiah(
+                                summary.unpaid_bill
+                            )}
+                        </Typography>
+
+                    </CardContent>
+                </Card>
+
+            </Box>
             {/* ================================= */}
             {/* FILTER */}
             {/* ================================= */}
@@ -615,7 +791,9 @@ export default function OvertimeRecap() {
                             <TableHead>
 
                                 <TableRow>
-
+                                    <TableCell>
+                                        No.
+                                    </TableCell>
                                     <TableCell>
                                         Karyawan
                                     </TableCell>
@@ -637,6 +815,14 @@ export default function OvertimeRecap() {
                                     </TableCell>
 
                                     <TableCell>
+                                        Tarif / Jam
+                                    </TableCell>
+
+                                    <TableCell>
+                                        Nominal
+                                    </TableCell>
+
+                                    <TableCell>
                                         Status
                                     </TableCell>
 
@@ -644,9 +830,7 @@ export default function OvertimeRecap() {
                                         Pembayaran
                                     </TableCell>
 
-                                    <TableCell
-                                        align="center"
-                                    >
+                                    <TableCell align="center">
                                         Aksi
                                     </TableCell>
 
@@ -662,7 +846,7 @@ export default function OvertimeRecap() {
                                     <TableRow>
 
                                         <TableCell
-                                            colSpan={8}
+                                            colSpan={10}
                                             align="center"
                                             sx={{
                                                 py: 5
@@ -751,7 +935,13 @@ export default function OvertimeRecap() {
                                                     }
                                                 </TableCell>
 
+                                                <TableCell>
+                                                    {formatRupiah(item.hourly_rate)}
+                                                </TableCell>
 
+                                                <TableCell>
+                                                    {formatRupiah(item.overtime_amount)}
+                                                </TableCell>
                                                 <TableCell>
 
                                                     <Chip
