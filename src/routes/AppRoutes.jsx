@@ -26,6 +26,7 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
 import Overtime from "../pages/employee/Overtime";
 import OvertimeApprovalDetail from "../pages/employee/OvertimeApprovalDetail";
+import OvertimeRecap from "../pages/dashboard/OvertimeRecap";
 
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
@@ -103,6 +104,20 @@ export default function AppRoutes() {
                         </ProtectedAdminRoute>
                     }
                 />
+                <Route
+                    path="/admin/overtime-recap"
+                    element={
+                        <ProtectedAdminRoute>
+                            <DashboardLayout
+                                title="Lemburan"
+                                subtitle="Kelola Overtime Karyawan"
+                            >
+                                <OvertimeRecap />
+                            </DashboardLayout>
+                        </ProtectedAdminRoute>
+                    }
+                />
+
 
                 {/* 
                 <Route

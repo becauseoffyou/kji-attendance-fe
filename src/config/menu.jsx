@@ -3,6 +3,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import GroupsIcon from "@mui/icons-material/Groups";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import SettingsIcon from "@mui/icons-material/Settings";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const menu = [
     {
@@ -19,6 +20,11 @@ const menu = [
         title: "Karyawan",
         icon: <GroupsIcon />,
         path: "/admin/employees",
+    },
+    {
+        title: "Lemburan",
+        icon: <AccessTimeIcon />,
+        path: "/overtime-recap",
     },
     {
         title: "Laporan",
