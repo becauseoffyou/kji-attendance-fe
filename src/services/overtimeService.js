@@ -32,6 +32,15 @@ const overtimeService = {
             note
         });
     },
+    myRecap: async () => {
+
+        const response = await api.get(
+            "/overtime/my-recap"
+        );
+
+        return response.data;
+
+    },
 
 };
 

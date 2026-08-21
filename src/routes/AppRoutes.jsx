@@ -28,7 +28,7 @@ import Overtime from "../pages/employee/Overtime";
 import OvertimeApprovalDetail from "../pages/employee/OvertimeApprovalDetail";
 import OvertimeRecap from "../pages/dashboard/OvertimeRecap";
 import OvertimeSettings from "../pages/setting/OvertimeSettings";
-
+import OvertimeHistory from "../pages/employee/OvertimeHistory";
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
     const token = localStorage.getItem("token");
@@ -221,7 +221,10 @@ export default function AppRoutes() {
                     path="/reset-password"
                     element={<ResetPassword />}
                 />
-                {/* 404 */}
+                <Route
+                    path="/overtime"
+                    element={<OvertimeHistory />}
+                />
                 <Route
                     path="*"
                     element={<Navigate to="/" replace />}

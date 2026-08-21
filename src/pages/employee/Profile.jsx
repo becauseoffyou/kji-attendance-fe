@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import authService from "../../services/authService";
 import { useAuth } from "../../context/AuthContext";
 
@@ -329,6 +330,25 @@ export default function Profile() {
             >
                 <List disablePadding>
 
+
+
+                    <ListItemButton
+                        onClick={() => navigate("/profile/overtime")}
+                    >
+
+                        <ListItemIcon>
+                            <AccessTimeRoundedIcon color="primary" />
+                        </ListItemIcon>
+
+                        <ListItemText
+                            primary="Rekap Lembur"
+                            secondary="Lihat riwayat dan pembayaran lembur"
+                        />
+
+                        <ChevronRightRoundedIcon color="action" />
+
+                    </ListItemButton>
+                    <Divider />
                     <ListItemButton>
 
                         <ListItemIcon>
