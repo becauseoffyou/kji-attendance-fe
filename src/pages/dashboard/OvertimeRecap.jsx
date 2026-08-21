@@ -27,99 +27,9 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
-
+import PaymentsIcon from "@mui/icons-material/Payments";
 import api from "../../services/api";
-
-
-const getStatusLabel = (status) => {
-
-    switch (status) {
-
-        case "PENDING_MANAGER":
-            return "Menunggu";
-
-        case "APPROVED":
-            return "Disetujui";
-
-        case "REJECTED":
-            return "Ditolak";
-
-        case "CANCELLED":
-            return "Dibatalkan";
-
-        default:
-            return status || "-";
-    }
-
-};
-
-
-const getStatusColor = (status) => {
-
-    switch (status) {
-
-        case "APPROVED":
-            return "success";
-
-        case "REJECTED":
-            return "error";
-
-        case "PENDING_MANAGER":
-            return "warning";
-
-        case "CANCELLED":
-            return "default";
-
-        default:
-            return "default";
-    }
-
-};
-
-
-const formatDate = (date) => {
-
-    if (!date) return "-";
-
-    return new Date(date).toLocaleDateString(
-        "id-ID",
-        {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
-        }
-    );
-
-};
-
-
-const formatDuration = (minutes) => {
-
-    if (
-        minutes === null ||
-        minutes === undefined
-    ) {
-        return "-";
-    }
-
-    const hours =
-        Math.floor(minutes / 60);
-
-    const remainingMinutes =
-        minutes % 60;
-
-    if (hours === 0) {
-        return `${remainingMinutes} menit`;
-    }
-
-    if (remainingMinutes === 0) {
-        return `${hours} jam`;
-    }
-
-    return `${hours} jam ${remainingMinutes} menit`;
-
-};
-
+import Swal from "sweetalert2";
 
 export default function OvertimeRecap() {
 
@@ -184,6 +94,94 @@ export default function OvertimeRecap() {
     const [selectedItem, setSelectedItem] =
         useState(null);
 
+    const getStatusLabel = (status) => {
+
+        switch (status) {
+
+            case "PENDING_MANAGER":
+                return "Menunggu";
+
+            case "APPROVED":
+                return "Disetujui";
+
+            case "REJECTED":
+                return "Ditolak";
+
+            case "CANCELLED":
+                return "Dibatalkan";
+
+            default:
+                return status || "-";
+        }
+
+    };
+
+
+    const getStatusColor = (status) => {
+
+        switch (status) {
+
+            case "APPROVED":
+                return "success";
+
+            case "REJECTED":
+                return "error";
+
+            case "PENDING_MANAGER":
+                return "warning";
+
+            case "CANCELLED":
+                return "default";
+
+            default:
+                return "default";
+        }
+
+    };
+
+
+    const formatDate = (date) => {
+
+        if (!date) return "-";
+
+        return new Date(date).toLocaleDateString(
+            "id-ID",
+            {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    };
+
+
+    const formatDuration = (minutes) => {
+
+        if (
+            minutes === null ||
+            minutes === undefined
+        ) {
+            return "-";
+        }
+
+        const hours =
+            Math.floor(minutes / 60);
+
+        const remainingMinutes =
+            minutes % 60;
+
+        if (hours === 0) {
+            return `${remainingMinutes} menit`;
+        }
+
+        if (remainingMinutes === 0) {
+            return `${hours} jam`;
+        }
+
+        return `${hours} jam ${remainingMinutes} menit`;
+
+    };
 
     // =====================================
     // LOAD DATA
@@ -345,7 +343,68 @@ export default function OvertimeRecap() {
         setPage(1);
 
     };
+    const handleMarkAsPaid = async (item) => {
 
+        const confirm = await Swal.fire({
+            icon: "question",
+            title: "Konfirmasi Pembayaran",
+            html: `
+            Apakah lembur <b>${item.employee_name}</b>
+            pada tanggal <b>${formatDate(item.overtime_date)}</b>
+            sudah dibayarkan?
+        `,
+            showCancelButton: true,
+            confirmButtonText: "Ya, Sudah Dibayar",
+            cancelButtonText: "Batal"
+        });
+
+        if (!confirm.isConfirmed) {
+            return;
+        }
+
+        try {
+
+            setLoading(true);
+
+            const response = await api.patch(
+                `/overtime/${item.id}/pay`
+            );
+
+            await Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text:
+                    response.data?.message ||
+                    "Pembayaran lembur berhasil dicatat.",
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            // Refresh tabel
+            await loadData();
+
+        } catch (err) {
+
+            console.error(
+                "MARK OVERTIME PAID ERROR:",
+                err
+            );
+
+            Swal.fire({
+                icon: "error",
+                title: "Gagal",
+                text:
+                    err.response?.data?.message ||
+                    "Pembayaran lembur gagal dicatat."
+            });
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
 
     return (
 
@@ -744,22 +803,48 @@ export default function OvertimeRecap() {
                                                 <TableCell
                                                     align="center"
                                                 >
-
-                                                    <IconButton
-                                                        size="small"
-                                                        onClick={() =>
-                                                            setSelectedItem(
-                                                                item
-                                                            )
-                                                        }
+                                                    <Stack
+                                                        direction="row"
+                                                        spacing={0.5}
+                                                        justifyContent="center"
                                                     >
 
-                                                        <VisibilityIcon
-                                                            fontSize="small"
-                                                        />
+                                                        {/* DETAIL */}
 
-                                                    </IconButton>
+                                                        <IconButton
+                                                            size="small"
+                                                            onClick={() =>
+                                                                setSelectedItem(item)
+                                                            }
+                                                            title="Lihat Detail"
+                                                        >
+                                                            <VisibilityIcon
+                                                                fontSize="small"
+                                                            />
+                                                        </IconButton>
 
+
+                                                        {/* BAYAR */}
+
+                                                        {item.status === "APPROVED" &&
+                                                            item.payment_status === "UNPAID" && (
+
+                                                                <IconButton
+                                                                    size="small"
+                                                                    color="success"
+                                                                    onClick={() =>
+                                                                        handleMarkAsPaid(item)
+                                                                    }
+                                                                    title="Tandai Sudah Dibayar"
+                                                                >
+                                                                    <PaymentsIcon
+                                                                        fontSize="small"
+                                                                    />
+                                                                </IconButton>
+
+                                                            )}
+
+                                                    </Stack>
                                                 </TableCell>
 
                                             </TableRow>
