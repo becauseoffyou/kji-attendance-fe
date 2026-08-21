@@ -19,6 +19,27 @@ import Swal from "sweetalert2";
 
 import api from "../../services/api";
 
+const formatNumber = (value) => {
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+        return "";
+    }
+
+    return new Intl.NumberFormat("id-ID", {
+        maximumFractionDigits: 0
+    }).format(Number(value));
+};
+
+const parseNumber = (value) => {
+    return Number(
+        String(value)
+            .replace(/\./g, "")
+            .replace(",", ".")
+    );
+};
 
 export default function OvertimeSettings() {
 
@@ -50,13 +71,12 @@ export default function OvertimeSettings() {
 
             const data =
                 response.data?.data;
-
             setWeekdayRate(
-                data?.weekday_rate || ""
+                formatNumber(data?.weekday_rate)
             );
 
             setWeekendRate(
-                data?.weekend_rate || ""
+                formatNumber(data?.weekend_rate)
             );
 
         } catch (err) {
@@ -97,11 +117,10 @@ export default function OvertimeSettings() {
     const handleSave = async () => {
 
         const weekday =
-            Number(weekdayRate);
+            parseNumber(weekdayRate);
 
         const weekend =
-            Number(weekendRate);
-
+            parseNumber(weekendRate);
 
         if (
             !Number.isFinite(weekday) ||
@@ -286,7 +305,7 @@ export default function OvertimeSettings() {
                             <TextField
                                 fullWidth
                                 size="small"
-                                type="number"
+                                type="text"
                                 value={weekdayRate}
                                 onChange={(e) =>
                                     setWeekdayRate(
@@ -330,7 +349,7 @@ export default function OvertimeSettings() {
                             <TextField
                                 fullWidth
                                 size="small"
-                                type="number"
+                                type="text"
                                 value={weekendRate}
                                 onChange={(e) =>
                                     setWeekendRate(
