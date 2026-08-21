@@ -352,27 +352,6 @@ export default function OvertimeRecap() {
         <Box>
 
             {/* ================================= */}
-            {/* TITLE */}
-            {/* ================================= */}
-
-            <Typography
-                variant="h5"
-                fontWeight={700}
-                sx={{ mb: 0.5 }}
-            >
-                Rekap Lembur
-            </Typography>
-
-            <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ mb: 2 }}
-            >
-                Rekap pengajuan lembur seluruh karyawan
-            </Typography>
-
-
-            {/* ================================= */}
             {/* FILTER */}
             {/* ================================= */}
 
@@ -452,16 +431,13 @@ export default function OvertimeRecap() {
                             label="Dari Tanggal"
                             value={startDate}
                             onChange={(e) => {
-
-                                setStartDate(
-                                    e.target.value
-                                );
-
+                                setStartDate(e.target.value);
                                 setPage(1);
-
                             }}
-                            InputLabelProps={{
-                                shrink: true
+                            slotProps={{
+                                inputLabel: {
+                                    shrink: true
+                                }
                             }}
                         />
 
@@ -475,16 +451,13 @@ export default function OvertimeRecap() {
                             label="Sampai Tanggal"
                             value={endDate}
                             onChange={(e) => {
-
-                                setEndDate(
-                                    e.target.value
-                                );
-
+                                setEndDate(e.target.value);
                                 setPage(1);
-
                             }}
-                            InputLabelProps={{
-                                shrink: true
+                            slotProps={{
+                                inputLabel: {
+                                    shrink: true
+                                }
                             }}
                         />
 
