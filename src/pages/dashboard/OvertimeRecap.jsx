@@ -829,18 +829,21 @@ export default function OvertimeRecap() {
                                                         {item.status === "APPROVED" &&
                                                             item.payment_status === "UNPAID" && (
 
-                                                                <IconButton
+                                                                <Button
                                                                     size="small"
+                                                                    variant="outlined"
                                                                     color="success"
                                                                     onClick={() =>
                                                                         handleMarkAsPaid(item)
                                                                     }
-                                                                    title="Tandai Sudah Dibayar"
+                                                                    sx={{
+                                                                        minWidth: 70,
+                                                                        height: 32,
+                                                                        textTransform: "none"
+                                                                    }}
                                                                 >
-                                                                    <PaymentsIcon
-                                                                        fontSize="small"
-                                                                    />
-                                                                </IconButton>
+                                                                    Bayar
+                                                                </Button>
 
                                                             )}
 
