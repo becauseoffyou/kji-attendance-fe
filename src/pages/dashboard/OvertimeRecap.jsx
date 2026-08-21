@@ -479,16 +479,23 @@ export default function OvertimeRecap() {
                     gridTemplateColumns: {
                         xs: "1fr",
                         sm: "repeat(2, 1fr)",
-                        lg: "repeat(4, 1fr)"
+                        md: "repeat(3, 1fr)",
+                        lg: "repeat(5, 1fr)"
                     },
                     gap: 2,
                     mb: 2
                 }}
             >
 
-                {/* TOTAL PENGAJUAN */}
+                {/* ============================== */}
+                {/* LEMBUR DISETUJUI */}
+                {/* ============================== */}
 
-                <Card>
+                <Card
+                    sx={{
+                        height: "100%"
+                    }}
+                >
                     <CardContent>
 
                         <Typography
@@ -510,9 +517,15 @@ export default function OvertimeRecap() {
                 </Card>
 
 
+                {/* ============================== */}
                 {/* TOTAL JAM */}
+                {/* ============================== */}
 
-                <Card>
+                <Card
+                    sx={{
+                        height: "100%"
+                    }}
+                >
                     <CardContent>
 
                         <Typography
@@ -537,9 +550,15 @@ export default function OvertimeRecap() {
                 </Card>
 
 
+                {/* ============================== */}
                 {/* TOTAL TAGIHAN */}
+                {/* ============================== */}
 
-                <Card>
+                <Card
+                    sx={{
+                        height: "100%"
+                    }}
+                >
                     <CardContent>
 
                         <Typography
@@ -563,9 +582,15 @@ export default function OvertimeRecap() {
                 </Card>
 
 
+                {/* ============================== */}
                 {/* BELUM DIBAYAR */}
+                {/* ============================== */}
 
-                <Card>
+                <Card
+                    sx={{
+                        height: "100%"
+                    }}
+                >
                     <CardContent>
 
                         <Typography
@@ -582,6 +607,38 @@ export default function OvertimeRecap() {
                         >
                             {formatRupiah(
                                 summary.unpaid_bill
+                            )}
+                        </Typography>
+
+                    </CardContent>
+                </Card>
+
+
+                {/* ============================== */}
+                {/* SUDAH DIBAYAR */}
+                {/* ============================== */}
+
+                <Card
+                    sx={{
+                        height: "100%"
+                    }}
+                >
+                    <CardContent>
+
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Sudah Dibayar
+                        </Typography>
+
+                        <Typography
+                            variant="h5"
+                            fontWeight={700}
+                            sx={{ mt: 0.5 }}
+                        >
+                            {formatRupiah(
+                                summary.paid_bill
                             )}
                         </Typography>
 
