@@ -46,9 +46,7 @@ export default function OvertimeSettings() {
             setLoading(true);
 
             const response =
-                await api.get(
-                    "/overtime/settings"
-                );
+                await api.get("/overtime/admin/settings");
 
             const data =
                 response.data?.data;
@@ -145,7 +143,7 @@ export default function OvertimeSettings() {
 
             const response =
                 await api.patch(
-                    "/overtime/settings",
+                    "/overtime/admin/settings",
                     {
                         weekday_rate: weekday,
                         weekend_rate: weekend
