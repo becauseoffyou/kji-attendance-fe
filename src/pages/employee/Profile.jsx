@@ -333,7 +333,7 @@ export default function Profile() {
 
 
                     <ListItemButton
-                        onClick={() => navigate("/profile/overtime")}
+                        onClick={() => navigate("/overtime")}
                     >
 
                         <ListItemIcon>
