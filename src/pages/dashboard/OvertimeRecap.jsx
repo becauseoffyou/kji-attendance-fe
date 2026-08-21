@@ -343,6 +343,7 @@ export default function OvertimeRecap() {
         setPage(1);
 
     };
+
     const handleMarkAsPaid = async (item) => {
 
         const confirm = await Swal.fire({
@@ -364,11 +365,14 @@ export default function OvertimeRecap() {
 
         try {
 
-            setLoading(true);
-
             const response = await api.patch(
                 `/overtime/${item.id}/pay`
             );
+
+
+            // =====================================
+            // ALERT BERHASIL DULU
+            // =====================================
 
             await Swal.fire({
                 icon: "success",
@@ -376,12 +380,16 @@ export default function OvertimeRecap() {
                 text:
                     response.data?.message ||
                     "Pembayaran lembur berhasil dicatat.",
-                timer: 1500,
-                showConfirmButton: false
+                confirmButtonText: "OK"
             });
 
-            // Refresh tabel
+
+            // =====================================
+            // BARU REFRESH DATA
+            // =====================================
+
             await loadData();
+
 
         } catch (err) {
 
@@ -398,14 +406,9 @@ export default function OvertimeRecap() {
                     "Pembayaran lembur gagal dicatat."
             });
 
-        } finally {
-
-            setLoading(false);
-
         }
 
     };
-
     return (
 
         <Box>
