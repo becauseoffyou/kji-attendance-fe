@@ -58,11 +58,17 @@ export default function HeroCard({
         return "🔴 Kamu berada di luar area kantor";
     };
 
-    const formatTime = (time) => {
+    const formatTime = (timestamp) => {
 
-        if (!time) return "-";
+        if (!timestamp) return "-";
 
-        return time.substring(11, 16);
+        const date = new Date(timestamp);
+
+        return date.toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+        });
 
     };
 
