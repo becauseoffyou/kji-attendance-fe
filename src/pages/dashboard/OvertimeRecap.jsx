@@ -780,47 +780,57 @@ export default function OvertimeRecap() {
                     {/* PAGINATION */}
                     {/* ================================= */}
 
-                    <Stack
-                        direction={{
-                            xs: "column",
-                            sm: "row"
-                        }}
-                        justifyContent="space-between"
-                        alignItems={{
-                            xs: "stretch",
-                            sm: "center"
-                        }}
-                        spacing={2}
+                    {/* ================================= */}
+                    {/* PAGINATION */}
+                    {/* ================================= */}
+
+                    <Box
                         sx={{
-                            mt: 2
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                            mt: 2,
+                            px: 2,
+                            pb: 1
                         }}
                     >
-
-                        <Typography
-                            variant="body2"
-                            color="text.secondary"
-                        >
-                            Total data:{" "}
-                            {pagination.total}
-                        </Typography>
-
-
                         <Stack
                             direction="row"
-                            spacing={1}
                             alignItems="center"
+                            justifyContent="center"
+                            spacing={1.5}
+                            sx={{
+                                flexWrap: "wrap"
+                            }}
                         >
+
+                            {/* TOTAL DATA */}
+
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    whiteSpace: "nowrap",
+                                    mr: 0.5
+                                }}
+                            >
+                                Total data:{" "}
+                                <strong>
+                                    {pagination.total}
+                                </strong>
+                            </Typography>
+
+
+                            {/* PER HALAMAN */}
 
                             <TextField
                                 select
                                 size="small"
                                 label="Per halaman"
                                 value={limit}
-                                onChange={
-                                    handleLimitChange
-                                }
+                                onChange={handleLimitChange}
                                 sx={{
-                                    minWidth: 120
+                                    width: 145
                                 }}
                             >
 
@@ -839,34 +849,41 @@ export default function OvertimeRecap() {
                             </TextField>
 
 
+                            {/* SEBELUMNYA */}
+
                             <Button
                                 variant="outlined"
-                                disabled={
-                                    page <= 1
-                                }
+                                disabled={page <= 1}
                                 onClick={() =>
-                                    setPage(
-                                        page - 1
-                                    )
+                                    setPage(page - 1)
                                 }
+                                sx={{
+                                    minWidth: 125,
+                                    height: 40
+                                }}
                             >
                                 Sebelumnya
                             </Button>
 
 
+                            {/* PAGE */}
+
                             <Typography
                                 variant="body2"
                                 sx={{
-                                    minWidth: 80,
-                                    textAlign: "center"
+                                    minWidth: 55,
+                                    textAlign: "center",
+                                    fontWeight: 500
                                 }}
                             >
                                 {pagination.totalPages === 0
-                                    ? "0"
+                                    ? "0 / 0"
                                     : `${page} / ${pagination.totalPages}`
                                 }
                             </Typography>
 
+
+                            {/* BERIKUTNYA */}
 
                             <Button
                                 variant="outlined"
@@ -875,17 +892,18 @@ export default function OvertimeRecap() {
                                     pagination.totalPages
                                 }
                                 onClick={() =>
-                                    setPage(
-                                        page + 1
-                                    )
+                                    setPage(page + 1)
                                 }
+                                sx={{
+                                    minWidth: 125,
+                                    height: 40
+                                }}
                             >
                                 Berikutnya
                             </Button>
 
                         </Stack>
-
-                    </Stack>
+                    </Box>
 
                 </CardContent>
 
