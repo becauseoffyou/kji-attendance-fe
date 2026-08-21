@@ -34,7 +34,7 @@ const menu = [
     {
         title: "Pengaturan",
         icon: <SettingsIcon />,
-        path: "/settings",
+        path: "/admin/settings",
     },
 ];
 
