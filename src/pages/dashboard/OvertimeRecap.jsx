@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import {
     Box,
     Card,
@@ -11,130 +13,272 @@ import {
     TableRow,
     Chip,
     Paper,
+    TextField,
+    MenuItem,
+    Button,
+    IconButton,
     Dialog,
     DialogTitle,
     DialogContent,
-    IconButton
+    DialogActions,
+    Stack
 } from "@mui/material";
 
-import { useEffect, useState } from "react";
-import api from "../../services/api";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import SearchIcon from "@mui/icons-material/Search";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
+import api from "../../services/api";
+
+
+const getStatusLabel = (status) => {
+
+    switch (status) {
+
+        case "PENDING_MANAGER":
+            return "Menunggu";
+
+        case "APPROVED":
+            return "Disetujui";
+
+        case "REJECTED":
+            return "Ditolak";
+
+        case "CANCELLED":
+            return "Dibatalkan";
+
+        default:
+            return status || "-";
+    }
+
+};
+
+
+const getStatusColor = (status) => {
+
+    switch (status) {
+
+        case "APPROVED":
+            return "success";
+
+        case "REJECTED":
+            return "error";
+
+        case "PENDING_MANAGER":
+            return "warning";
+
+        case "CANCELLED":
+            return "default";
+
+        default:
+            return "default";
+    }
+
+};
+
+
+const formatDate = (date) => {
+
+    if (!date) return "-";
+
+    return new Date(date).toLocaleDateString(
+        "id-ID",
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+};
+
+
+const formatDuration = (minutes) => {
+
+    if (
+        minutes === null ||
+        minutes === undefined
+    ) {
+        return "-";
+    }
+
+    const hours =
+        Math.floor(minutes / 60);
+
+    const remainingMinutes =
+        minutes % 60;
+
+    if (hours === 0) {
+        return `${remainingMinutes} menit`;
+    }
+
+    if (remainingMinutes === 0) {
+        return `${hours} jam`;
+    }
+
+    return `${hours} jam ${remainingMinutes} menit`;
+
+};
 
 
 export default function OvertimeRecap() {
-    const [selectedItem, setSelectedItem] =
-        useState(null);
+
+    // =====================================
+    // DATA
+    // =====================================
+
     const [data, setData] = useState([]);
 
     const [loading, setLoading] =
-        useState(true);
+        useState(false);
 
 
-    const getStatusLabel = (status) => {
+    // =====================================
+    // FILTER
+    // =====================================
 
-        switch (status) {
+    const [name, setName] =
+        useState("");
 
-            case "PENDING_MANAGER":
-                return "Menunggu";
+    const [department, setDepartment] =
+        useState("");
 
-            case "APPROVED":
-                return "Disetujui";
+    const [startDate, setStartDate] =
+        useState("");
 
-            case "REJECTED":
-                return "Ditolak";
-
-            case "CANCELLED":
-                return "Dibatalkan";
-
-            default:
-                return status || "-";
-        }
-    };
+    const [endDate, setEndDate] =
+        useState("");
 
 
-    const getStatusColor = (status) => {
+    // =====================================
+    // SORTING
+    // =====================================
 
-        switch (status) {
-
-            case "APPROVED":
-                return "success";
-
-            case "REJECTED":
-                return "error";
-
-            case "PENDING_MANAGER":
-                return "warning";
-
-            case "CANCELLED":
-                return "default";
-
-            default:
-                return "default";
-        }
-    };
+    const [sort, setSort] =
+        useState("latest");
 
 
-    const formatDate = (date) => {
+    // =====================================
+    // PAGINATION
+    // =====================================
 
-        if (!date) return "-";
+    const [page, setPage] =
+        useState(1);
 
-        return new Date(date).toLocaleDateString(
-            "id-ID",
-            {
-                day: "numeric",
-                month: "short",
-                year: "numeric"
-            }
-        );
-    };
+    const [limit, setLimit] =
+        useState(10);
+
+    const [pagination, setPagination] =
+        useState({
+            page: 1,
+            limit: 10,
+            total: 0,
+            totalPages: 0
+        });
 
 
-    const formatDuration = (minutes) => {
+    // =====================================
+    // DETAIL
+    // =====================================
 
-        if (
-            minutes === null ||
-            minutes === undefined
-        ) {
-            return "-";
-        }
+    const [selectedItem, setSelectedItem] =
+        useState(null);
 
-        const hours =
-            Math.floor(minutes / 60);
 
-        const remainingMinutes =
-            minutes % 60;
+    // =====================================
+    // LOAD DATA
+    // =====================================
 
-        if (hours === 0) {
-            return `${remainingMinutes} menit`;
-        }
-
-        if (remainingMinutes === 0) {
-            return `${hours} jam`;
-        }
-
-        return `${hours} jam ${remainingMinutes} menit`;
-    };
     const loadData = async () => {
 
         try {
 
             setLoading(true);
 
+            const params = new URLSearchParams();
+
+            params.append(
+                "page",
+                page
+            );
+
+            params.append(
+                "limit",
+                limit
+            );
+
+            params.append(
+                "sort",
+                sort
+            );
+
+
+            if (name.trim()) {
+
+                params.append(
+                    "name",
+                    name.trim()
+                );
+
+            }
+
+
+            if (department.trim()) {
+
+                params.append(
+                    "department",
+                    department.trim()
+                );
+
+            }
+
+
+            if (startDate) {
+
+                params.append(
+                    "start_date",
+                    startDate
+                );
+
+            }
+
+
+            if (endDate) {
+
+                params.append(
+                    "end_date",
+                    endDate
+                );
+
+            }
+
+
             const response =
                 await api.get(
-                    "/overtime/admin/recap"
+                    `/overtime/admin/recap?${params.toString()}`
                 );
+
 
             console.log(
                 "OVERTIME RECAP:",
                 response.data
             );
 
+
             setData(
                 response.data.data || []
             );
+
+
+            setPagination(
+                response.data.pagination || {
+                    page: 1,
+                    limit: 10,
+                    total: 0,
+                    totalPages: 0
+                }
+            );
+
 
         } catch (err) {
 
@@ -156,32 +300,282 @@ export default function OvertimeRecap() {
 
         loadData();
 
-    }, []);
+    }, [
+        page,
+        limit,
+        sort,
+        name,
+        department,
+        startDate,
+        endDate
+    ]);
+
+
+    // =====================================
+    // RESET FILTER
+    // =====================================
+
+    const handleReset = () => {
+
+        setName("");
+
+        setDepartment("");
+
+        setStartDate("");
+
+        setEndDate("");
+
+        setSort("latest");
+
+        setPage(1);
+
+    };
+
+
+    // =====================================
+    // CHANGE LIMIT
+    // =====================================
+
+    const handleLimitChange = (e) => {
+
+        setLimit(
+            Number(e.target.value)
+        );
+
+        setPage(1);
+
+    };
 
 
     return (
 
         <Box>
 
+            {/* ================================= */}
+            {/* TITLE */}
+            {/* ================================= */}
+
             <Typography
                 variant="h5"
                 fontWeight={700}
-                sx={{ mb: 2 }}
+                sx={{ mb: 0.5 }}
             >
                 Rekap Lembur
             </Typography>
 
+            <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mb: 2 }}
+            >
+                Rekap pengajuan lembur seluruh karyawan
+            </Typography>
 
-            <Card>
+
+            {/* ================================= */}
+            {/* FILTER */}
+            {/* ================================= */}
+
+            <Card
+                sx={{
+                    mb: 2,
+                    borderRadius: 2
+                }}
+            >
+
+                <CardContent>
+
+                    <Stack
+                        direction={{
+                            xs: "column",
+                            md: "row"
+                        }}
+                        spacing={2}
+                    >
+
+                        {/* NAMA */}
+
+                        <TextField
+                            fullWidth
+                            size="small"
+                            label="Nama Karyawan"
+                            value={name}
+                            onChange={(e) => {
+
+                                setName(
+                                    e.target.value
+                                );
+
+                                setPage(1);
+
+                            }}
+                            placeholder="Cari nama..."
+                            InputProps={{
+                                startAdornment:
+                                    <SearchIcon
+                                        fontSize="small"
+                                        sx={{
+                                            mr: 1,
+                                            color: "text.secondary"
+                                        }}
+                                    />
+                            }}
+                        />
+
+
+                        {/* DIVISI */}
+
+                        <TextField
+                            fullWidth
+                            size="small"
+                            label="Divisi"
+                            value={department}
+                            onChange={(e) => {
+
+                                setDepartment(
+                                    e.target.value
+                                );
+
+                                setPage(1);
+
+                            }}
+                            placeholder="Contoh: IT"
+                        />
+
+
+                        {/* START DATE */}
+
+                        <TextField
+                            fullWidth
+                            size="small"
+                            type="date"
+                            label="Dari Tanggal"
+                            value={startDate}
+                            onChange={(e) => {
+
+                                setStartDate(
+                                    e.target.value
+                                );
+
+                                setPage(1);
+
+                            }}
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                        />
+
+
+                        {/* END DATE */}
+
+                        <TextField
+                            fullWidth
+                            size="small"
+                            type="date"
+                            label="Sampai Tanggal"
+                            value={endDate}
+                            onChange={(e) => {
+
+                                setEndDate(
+                                    e.target.value
+                                );
+
+                                setPage(1);
+
+                            }}
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                        />
+
+                    </Stack>
+
+
+                    <Stack
+                        direction={{
+                            xs: "column",
+                            sm: "row"
+                        }}
+                        spacing={2}
+                        sx={{ mt: 2 }}
+                    >
+
+                        {/* SORT */}
+
+                        <TextField
+                            select
+                            size="small"
+                            label="Urutan"
+                            value={sort}
+                            onChange={(e) => {
+
+                                setSort(
+                                    e.target.value
+                                );
+
+                                setPage(1);
+
+                            }}
+                            sx={{
+                                minWidth: 180
+                            }}
+                        >
+
+                            <MenuItem value="latest">
+                                Terbaru
+                            </MenuItem>
+
+                            <MenuItem value="oldest">
+                                Terlama
+                            </MenuItem>
+
+                        </TextField>
+
+
+                        <Button
+                            variant="outlined"
+                            startIcon={
+                                <RefreshIcon />
+                            }
+                            onClick={
+                                handleReset
+                            }
+                        >
+                            Reset Filter
+                        </Button>
+
+                    </Stack>
+
+                </CardContent>
+
+            </Card>
+
+
+            {/* ================================= */}
+            {/* TABLE */}
+            {/* ================================= */}
+
+            <Card
+                sx={{
+                    borderRadius: 2
+                }}
+            >
 
                 <CardContent>
 
                     <TableContainer
                         component={Paper}
                         elevation={0}
+                        sx={{
+                            overflowX: "auto"
+                        }}
                     >
 
-                        <Table>
+                        <Table
+                            sx={{
+                                minWidth: 950
+                            }}
+                        >
 
                             <TableHead>
 
@@ -189,6 +583,10 @@ export default function OvertimeRecap() {
 
                                     <TableCell>
                                         Karyawan
+                                    </TableCell>
+
+                                    <TableCell>
+                                        Divisi
                                     </TableCell>
 
                                     <TableCell>
@@ -211,7 +609,9 @@ export default function OvertimeRecap() {
                                         Pembayaran
                                     </TableCell>
 
-                                    <TableCell>
+                                    <TableCell
+                                        align="center"
+                                    >
                                         Aksi
                                     </TableCell>
 
@@ -227,8 +627,11 @@ export default function OvertimeRecap() {
                                     <TableRow>
 
                                         <TableCell
-                                            colSpan={7}
+                                            colSpan={8}
                                             align="center"
+                                            sx={{
+                                                py: 5
+                                            }}
                                         >
                                             Memuat data...
                                         </TableCell>
@@ -240,127 +643,156 @@ export default function OvertimeRecap() {
                                     <TableRow>
 
                                         <TableCell
-                                            colSpan={7}
+                                            colSpan={8}
                                             align="center"
+                                            sx={{
+                                                py: 5
+                                            }}
                                         >
-                                            Belum ada data lembur.
+                                            Tidak ada data lembur.
                                         </TableCell>
 
                                     </TableRow>
 
                                 ) : (
 
-                                    data.map((item) => (
+                                    data.map(
+                                        (item) => (
 
-                                        <TableRow
-                                            key={item.id}
-                                            hover
-                                        >
+                                            <TableRow
+                                                key={item.id}
+                                                hover
+                                            >
 
-                                            <TableCell>
-                                                {item.employee_name}
-                                            </TableCell>
-
-
-                                            <TableCell>
-                                                {formatDate(
-                                                    item.overtime_date
-                                                )}
-                                            </TableCell>
+                                                <TableCell>
+                                                    {
+                                                        item.employee_name ||
+                                                        "-"
+                                                    }
+                                                </TableCell>
 
 
-                                            <TableCell>
-                                                {item.start_time?.substring(
-                                                    0,
-                                                    5
-                                                )}
-                                                {" - "}
-                                                {item.end_time?.substring(
-                                                    0,
-                                                    5
-                                                )}
-                                            </TableCell>
+                                                <TableCell>
+                                                    {
+                                                        item.department ||
+                                                        "-"
+                                                    }
+                                                </TableCell>
 
 
-                                            <TableCell>
-                                                {formatDuration(
-                                                    item.duration_minutes
-                                                )}
-                                            </TableCell>
-
-
-                                            <TableCell>
-
-                                                <Chip
-                                                    label={
-                                                        getStatusLabel(
-                                                            item.status
+                                                <TableCell>
+                                                    {
+                                                        formatDate(
+                                                            item.overtime_date
                                                         )
                                                     }
-                                                    size="small"
-                                                    color={
-                                                        getStatusColor(
-                                                            item.status
+                                                </TableCell>
+
+
+                                                <TableCell>
+                                                    {
+                                                        item.start_time?.substring(
+                                                            0,
+                                                            5
                                                         )
                                                     }
-                                                />
 
-                                            </TableCell>
+                                                    {" - "}
+
+                                                    {
+                                                        item.end_time?.substring(
+                                                            0,
+                                                            5
+                                                        )
+                                                    }
+                                                </TableCell>
 
 
-                                            <TableCell>
+                                                <TableCell>
+                                                    {
+                                                        formatDuration(
+                                                            item.duration_minutes
+                                                        )
+                                                    }
+                                                </TableCell>
 
-                                                {item.status ===
-                                                    "APPROVED" ? (
+
+                                                <TableCell>
 
                                                     <Chip
                                                         label={
-                                                            item.payment_status ===
-                                                                "PAID"
-                                                                ? "Sudah Dibayar"
-                                                                : "Belum Dibayar"
+                                                            getStatusLabel(
+                                                                item.status
+                                                            )
                                                         }
                                                         size="small"
                                                         color={
-                                                            item.payment_status ===
-                                                                "PAID"
-                                                                ? "success"
-                                                                : "warning"
+                                                            getStatusColor(
+                                                                item.status
+                                                            )
                                                         }
                                                     />
 
-                                                ) : (
-
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        -
-                                                    </Typography>
-
-                                                )}
-
-                                            </TableCell>
+                                                </TableCell>
 
 
-                                            <TableCell>
+                                                <TableCell>
 
-                                                <IconButton
-                                                    size="small"
-                                                    onClick={() =>
-                                                        setSelectedItem(item)
+                                                    {
+                                                        item.status ===
+                                                            "APPROVED"
+                                                            ? (
+
+                                                                <Chip
+                                                                    label={
+                                                                        item.payment_status ===
+                                                                            "PAID"
+                                                                            ? "Sudah Dibayar"
+                                                                            : "Belum Dibayar"
+                                                                    }
+                                                                    size="small"
+                                                                    color={
+                                                                        item.payment_status ===
+                                                                            "PAID"
+                                                                            ? "success"
+                                                                            : "warning"
+                                                                    }
+                                                                />
+
+                                                            )
+                                                            : (
+                                                                "-"
+                                                            )
                                                     }
+
+                                                </TableCell>
+
+
+                                                <TableCell
+                                                    align="center"
                                                 >
-                                                    <VisibilityIcon
-                                                        fontSize="small"
-                                                    />
-                                                </IconButton>
 
-                                            </TableCell>
+                                                    <IconButton
+                                                        size="small"
+                                                        onClick={() =>
+                                                            setSelectedItem(
+                                                                item
+                                                            )
+                                                        }
+                                                    >
 
-                                        </TableRow>
+                                                        <VisibilityIcon
+                                                            fontSize="small"
+                                                        />
 
-                                    ))
+                                                    </IconButton>
+
+                                                </TableCell>
+
+                                            </TableRow>
+
+                                        )
+                                    )
 
                                 )}
 
@@ -370,11 +802,131 @@ export default function OvertimeRecap() {
 
                     </TableContainer>
 
+
+                    {/* ================================= */}
+                    {/* PAGINATION */}
+                    {/* ================================= */}
+
+                    <Stack
+                        direction={{
+                            xs: "column",
+                            sm: "row"
+                        }}
+                        justifyContent="space-between"
+                        alignItems={{
+                            xs: "stretch",
+                            sm: "center"
+                        }}
+                        spacing={2}
+                        sx={{
+                            mt: 2
+                        }}
+                    >
+
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Total data:{" "}
+                            {pagination.total}
+                        </Typography>
+
+
+                        <Stack
+                            direction="row"
+                            spacing={1}
+                            alignItems="center"
+                        >
+
+                            <TextField
+                                select
+                                size="small"
+                                label="Per halaman"
+                                value={limit}
+                                onChange={
+                                    handleLimitChange
+                                }
+                                sx={{
+                                    minWidth: 120
+                                }}
+                            >
+
+                                <MenuItem value={10}>
+                                    10
+                                </MenuItem>
+
+                                <MenuItem value={25}>
+                                    25
+                                </MenuItem>
+
+                                <MenuItem value={50}>
+                                    50
+                                </MenuItem>
+
+                            </TextField>
+
+
+                            <Button
+                                variant="outlined"
+                                disabled={
+                                    page <= 1
+                                }
+                                onClick={() =>
+                                    setPage(
+                                        page - 1
+                                    )
+                                }
+                            >
+                                Sebelumnya
+                            </Button>
+
+
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    minWidth: 80,
+                                    textAlign: "center"
+                                }}
+                            >
+                                {pagination.totalPages === 0
+                                    ? "0"
+                                    : `${page} / ${pagination.totalPages}`
+                                }
+                            </Typography>
+
+
+                            <Button
+                                variant="outlined"
+                                disabled={
+                                    page >=
+                                    pagination.totalPages
+                                }
+                                onClick={() =>
+                                    setPage(
+                                        page + 1
+                                    )
+                                }
+                            >
+                                Berikutnya
+                            </Button>
+
+                        </Stack>
+
+                    </Stack>
+
                 </CardContent>
 
             </Card>
+
+
+            {/* ================================= */}
+            {/* DETAIL DIALOG */}
+            {/* ================================= */}
+
             <Dialog
-                open={Boolean(selectedItem)}
+                open={
+                    Boolean(selectedItem)
+                }
                 onClose={() =>
                     setSelectedItem(null)
                 }
@@ -386,98 +938,169 @@ export default function OvertimeRecap() {
                     Detail Lembur
                 </DialogTitle>
 
+
                 <DialogContent>
 
                     {selectedItem && (
 
-                        <Box
+                        <Stack
+                            spacing={1.5}
                             sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: 1.5,
-                                pb: 2
+                                pt: 1
                             }}
                         >
 
                             <Typography>
-                                <strong>Karyawan:</strong>{" "}
-                                {selectedItem.employee_name || "-"}
-                            </Typography>
-
-                            <Typography>
-                                <strong>Tanggal:</strong>{" "}
-                                {formatDate(
-                                    selectedItem.overtime_date
-                                )}
-                            </Typography>
-
-                            <Typography>
-                                <strong>Jam:</strong>{" "}
-                                {selectedItem.start_time?.substring(
-                                    0,
-                                    5
-                                )}
-                                {" - "}
-                                {selectedItem.end_time?.substring(
-                                    0,
-                                    5
-                                )}
-                            </Typography>
-
-                            <Typography>
-                                <strong>Durasi:</strong>{" "}
-                                {formatDuration(
-                                    selectedItem.duration_minutes
-                                )}
-                            </Typography>
-
-                            <Typography>
-                                <strong>Status:</strong>{" "}
-                                {getStatusLabel(
-                                    selectedItem.status
-                                )}
-                            </Typography>
-
-                            <Typography>
-                                <strong>Pembayaran:</strong>{" "}
-                                {selectedItem.status ===
-                                    "APPROVED"
-                                    ? selectedItem.payment_status ===
-                                        "PAID"
-                                        ? "Sudah Dibayar"
-                                        : "Belum Dibayar"
-                                    : "-"
+                                <strong>
+                                    Karyawan:
+                                </strong>{" "}
+                                {
+                                    selectedItem.employee_name ||
+                                    "-"
                                 }
                             </Typography>
 
+
                             <Typography>
-                                <strong>Pekerjaan:</strong>
+                                <strong>
+                                    Divisi:
+                                </strong>{" "}
+                                {
+                                    selectedItem.department ||
+                                    "-"
+                                }
                             </Typography>
 
-                            <Box
-                                sx={{
-                                    p: 1.5,
-                                    borderRadius: 1,
-                                    backgroundColor:
-                                        "background.default"
-                                }}
-                            >
+
+                            <Typography>
+                                <strong>
+                                    Tanggal:
+                                </strong>{" "}
+                                {
+                                    formatDate(
+                                        selectedItem.overtime_date
+                                    )
+                                }
+                            </Typography>
+
+
+                            <Typography>
+                                <strong>
+                                    Jam:
+                                </strong>{" "}
+                                {
+                                    selectedItem.start_time?.substring(
+                                        0,
+                                        5
+                                    )
+                                }
+
+                                {" - "}
+
+                                {
+                                    selectedItem.end_time?.substring(
+                                        0,
+                                        5
+                                    )
+                                }
+                            </Typography>
+
+
+                            <Typography>
+                                <strong>
+                                    Durasi:
+                                </strong>{" "}
+                                {
+                                    formatDuration(
+                                        selectedItem.duration_minutes
+                                    )
+                                }
+                            </Typography>
+
+
+                            <Typography>
+                                <strong>
+                                    Status:
+                                </strong>{" "}
+                                {
+                                    getStatusLabel(
+                                        selectedItem.status
+                                    )
+                                }
+                            </Typography>
+
+
+                            <Typography>
+                                <strong>
+                                    Pembayaran:
+                                </strong>{" "}
+                                {
+                                    selectedItem.status ===
+                                        "APPROVED"
+                                        ? selectedItem.payment_status ===
+                                            "PAID"
+                                            ? "Sudah Dibayar"
+                                            : "Belum Dibayar"
+                                        : "-"
+                                }
+                            </Typography>
+
+
+                            <Box>
 
                                 <Typography
-                                    variant="body2"
+                                    fontWeight={600}
+                                    sx={{
+                                        mb: 0.5
+                                    }}
                                 >
-                                    {selectedItem.reason || "-"}
+                                    Pekerjaan
                                 </Typography>
+
+
+                                <Box
+                                    sx={{
+                                        p: 1.5,
+                                        borderRadius: 1,
+                                        bgcolor:
+                                            "action.hover"
+                                    }}
+                                >
+
+                                    <Typography
+                                        variant="body2"
+                                    >
+                                        {
+                                            selectedItem.reason ||
+                                            "-"
+                                        }
+                                    </Typography>
+
+                                </Box>
 
                             </Box>
 
-                        </Box>
+                        </Stack>
 
                     )}
 
                 </DialogContent>
 
+
+                <DialogActions>
+
+                    <Button
+                        onClick={() =>
+                            setSelectedItem(null)
+                        }
+                    >
+                        Tutup
+                    </Button>
+
+                </DialogActions>
+
             </Dialog>
+
         </Box>
 
     );
