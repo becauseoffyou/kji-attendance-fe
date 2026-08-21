@@ -780,10 +780,6 @@ export default function OvertimeRecap() {
                     {/* PAGINATION */}
                     {/* ================================= */}
 
-                    {/* ================================= */}
-                    {/* PAGINATION */}
-                    {/* ================================= */}
-
                     <Box
                         sx={{
                             display: "flex",
@@ -791,34 +787,41 @@ export default function OvertimeRecap() {
                             alignItems: "center",
                             width: "100%",
                             mt: 2,
-                            px: 2,
                             pb: 1
                         }}
                     >
-                        <Stack
-                            direction="row"
-                            alignItems="center"
-                            justifyContent="center"
-                            spacing={1.5}
+                        <Box
                             sx={{
-                                flexWrap: "wrap"
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: 1.5,
+                                minHeight: 40
                             }}
                         >
 
                             {/* TOTAL DATA */}
 
-                            <Typography
-                                variant="body2"
+                            <Box
                                 sx={{
-                                    whiteSpace: "nowrap",
-                                    mr: 0.5
+                                    height: 40,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    whiteSpace: "nowrap"
                                 }}
                             >
-                                Total data:{" "}
-                                <strong>
-                                    {pagination.total}
-                                </strong>
-                            </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        lineHeight: 1
+                                    }}
+                                >
+                                    Total data:{" "}
+                                    <strong>
+                                        {pagination.total}
+                                    </strong>
+                                </Typography>
+                            </Box>
 
 
                             {/* PER HALAMAN */}
@@ -830,10 +833,13 @@ export default function OvertimeRecap() {
                                 value={limit}
                                 onChange={handleLimitChange}
                                 sx={{
-                                    width: 145
+                                    width: 145,
+
+                                    "& .MuiInputBase-root": {
+                                        height: 40
+                                    }
                                 }}
                             >
-
                                 <MenuItem value={10}>
                                     10
                                 </MenuItem>
@@ -845,7 +851,6 @@ export default function OvertimeRecap() {
                                 <MenuItem value={50}>
                                     50
                                 </MenuItem>
-
                             </TextField>
 
 
@@ -859,7 +864,8 @@ export default function OvertimeRecap() {
                                 }
                                 sx={{
                                     minWidth: 125,
-                                    height: 40
+                                    height: 40,
+                                    whiteSpace: "nowrap"
                                 }}
                             >
                                 Sebelumnya
@@ -868,19 +874,28 @@ export default function OvertimeRecap() {
 
                             {/* PAGE */}
 
-                            <Typography
-                                variant="body2"
+                            <Box
                                 sx={{
+                                    height: 40,
                                     minWidth: 55,
-                                    textAlign: "center",
-                                    fontWeight: 500
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center"
                                 }}
                             >
-                                {pagination.totalPages === 0
-                                    ? "0 / 0"
-                                    : `${page} / ${pagination.totalPages}`
-                                }
-                            </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        lineHeight: 1,
+                                        fontWeight: 500
+                                    }}
+                                >
+                                    {pagination.totalPages === 0
+                                        ? "0 / 0"
+                                        : `${page} / ${pagination.totalPages}`
+                                    }
+                                </Typography>
+                            </Box>
 
 
                             {/* BERIKUTNYA */}
@@ -896,13 +911,14 @@ export default function OvertimeRecap() {
                                 }
                                 sx={{
                                     minWidth: 125,
-                                    height: 40
+                                    height: 40,
+                                    whiteSpace: "nowrap"
                                 }}
                             >
                                 Berikutnya
                             </Button>
 
-                        </Stack>
+                        </Box>
                     </Box>
 
                 </CardContent>
