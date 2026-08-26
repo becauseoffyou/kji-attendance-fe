@@ -400,6 +400,30 @@ export default function ApprovalDetail() {
                         >
                             Lampiran
                         </Typography>
+
+                        {
+
+                            detail.attachment
+
+                                ?
+
+                                <Button>
+
+                                    Lihat Lampiran
+
+                                </Button>
+
+                                :
+
+                                <Typography
+                                    color="text.secondary"
+                                >
+
+                                    Tidak ada lampiran
+
+                                </Typography>
+
+                        }
                         {!isAttendanceEdit &&
                             detail.leave_type === "SAKIT" && (
                                 <>
@@ -455,30 +479,6 @@ export default function ApprovalDetail() {
                                     </Typography>
                                 </>
                             )}
-                        {
-
-                            detail.attachment
-
-                                ?
-
-                                <Button>
-
-                                    Lihat Lampiran
-
-                                </Button>
-
-                                :
-
-                                <Typography
-                                    color="text.secondary"
-                                >
-
-                                    Tidak ada lampiran
-
-                                </Typography>
-
-                        }
-
                     </CardContent>
 
                 </Card>
