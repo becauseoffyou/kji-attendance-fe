@@ -177,7 +177,10 @@ export default function Leave() {
                 leaveResult.data?.data ||
                 leaveResult.data ||
                 [];
-
+            console.log(
+                "LEAVE DATA:",
+                leaveData
+            );
             setSummary({
                 leave_balance:
                     leaveResult.data?.summary?.leave_balance ?? 0
