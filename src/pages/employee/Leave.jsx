@@ -41,7 +41,10 @@ export default function Leave() {
     const [openOvertimeDetail, setOpenOvertimeDetail] =
         useState(false);
     const [summary, setSummary] = useState({
-        leave_balance: 0
+        leave_balance: 0,
+        cuti_taken_days: 0,
+        sick_deduction_days: 0,
+        special_leave_days: 0
     });
 
     const [statusFilter, setStatusFilter] = useState("ALL");
@@ -177,13 +180,19 @@ export default function Leave() {
                 leaveResult.data?.data ||
                 leaveResult.data ||
                 [];
-            console.log(
-                "LEAVE DATA:",
-                leaveData
-            );
+
             setSummary({
                 leave_balance:
-                    leaveResult.data?.summary?.leave_balance ?? 0
+                    leaveResult.data?.summary?.leave_balance ?? 0,
+
+                cuti_taken_days:
+                    leaveResult.data?.summary?.cuti_taken_days ?? 0,
+
+                sick_deduction_days:
+                    leaveResult.data?.summary?.sick_deduction_days ?? 0,
+
+                special_leave_days:
+                    leaveResult.data?.summary?.special_leave_days ?? 0
             });
 
             const overtimeData =
@@ -533,56 +542,110 @@ export default function Leave() {
                 <Card
                     sx={{
                         mb: 3,
-                        background: "linear-gradient(135deg,#0e7d63,#17a673)",
+                        background:
+                            "linear-gradient(135deg,#0e7d63,#17a673)",
                         color: "#fff"
                     }}
                 >
-
                     <CardContent>
 
                         <Typography
                             variant="h5"
                             fontWeight={700}
+                            sx={{ mb: 2 }}
                         >
                             Pengajuan
                         </Typography>
 
-                        <Typography
-                            variant="body2"
+                        <Box
                             sx={{
-                                mt: 1,
-                                opacity: .9
+                                display: "grid",
+                                gridTemplateColumns: {
+                                    xs: "1fr 1fr",
+                                    sm: "repeat(4, 1fr)"
+                                },
+                                gap: 2
                             }}
                         >
-                            Sisa Cuti Tahunan
-                        </Typography>
 
-                        <Typography
-                            variant="h4"
-                            fontWeight={700}
-                        >
-                            {summary.leave_balance} Hari
-                        </Typography>
+                            {/* SISA CUTI */}
+
+                            <Box>
+                                <Typography
+                                    variant="body2"
+                                    sx={{ opacity: 0.85 }}
+                                >
+                                    Sisa Cuti Tahunan
+                                </Typography>
+
+                                <Typography
+                                    variant="h5"
+                                    fontWeight={700}
+                                >
+                                    {summary.leave_balance} Hari
+                                </Typography>
+                            </Box>
+
+
+                            {/* CUTI DIAMBIL */}
+
+                            <Box>
+                                <Typography
+                                    variant="body2"
+                                    sx={{ opacity: 0.85 }}
+                                >
+                                    Cuti Diambil
+                                </Typography>
+
+                                <Typography
+                                    variant="h5"
+                                    fontWeight={700}
+                                >
+                                    {summary.cuti_taken_days} Hari
+                                </Typography>
+                            </Box>
+
+
+                            {/* SAKIT POTONG CUTI */}
+
+                            <Box>
+                                <Typography
+                                    variant="body2"
+                                    sx={{ opacity: 0.85 }}
+                                >
+                                    Sakit Potong Cuti
+                                </Typography>
+
+                                <Typography
+                                    variant="h5"
+                                    fontWeight={700}
+                                >
+                                    {summary.sick_deduction_days} Hari
+                                </Typography>
+                            </Box>
+
+
+                            {/* CUTI KHUSUS */}
+
+                            <Box>
+                                <Typography
+                                    variant="body2"
+                                    sx={{ opacity: 0.85 }}
+                                >
+                                    Cuti Khusus
+                                </Typography>
+
+                                <Typography
+                                    variant="h5"
+                                    fontWeight={700}
+                                >
+                                    {summary.special_leave_days} Hari
+                                </Typography>
+                            </Box>
+
+                        </Box>
 
                     </CardContent>
-                    <Stack
-                        direction="row"
-                        spacing={1}
-                        sx={{
-                            mt: 2,
-                            overflowX: "auto",
-                            pb: .5,
-
-                            "&::-webkit-scrollbar": {
-                                display: "none"
-                            }
-                        }}
-                    >
-
-
-
-                    </Stack>
-
                 </Card>
 
                 <Box
