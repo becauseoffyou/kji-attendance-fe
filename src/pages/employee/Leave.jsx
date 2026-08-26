@@ -179,7 +179,7 @@ export default function Leave() {
 
             setSummary({
                 leave_balance:
-                    leaveResult.data?.leave_balance ?? 0
+                    leaveResult.leave_balance ?? 0
             });
 
             const overtimeData =
