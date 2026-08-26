@@ -42,7 +42,7 @@ export default function ApprovalDetail() {
     const [note, setNote] = useState("");
 
     const [saving, setSaving] = useState(false);
-
+    const [deductLeave, setDeductLeave] = useState(false);
     const [snackbar, setSnackbar] = useState({
 
         open: false,
@@ -151,7 +151,7 @@ export default function ApprovalDetail() {
 
                     await leaderService.approveAttendanceEdit(
                         id,
-                        note
+                        note,
                     );
 
                 } else {
@@ -169,7 +169,10 @@ export default function ApprovalDetail() {
 
                     await leaderService.approve(
                         id,
-                        note
+                        note,
+                        detail.leave_type === "SAKIT"
+                            ? deductLeave
+                            : false
                     );
 
                 } else {
@@ -373,6 +376,61 @@ export default function ApprovalDetail() {
                                 />
                             </>
                         )}
+                        {!isAttendanceEdit &&
+                            detail.leave_type === "SAKIT" && (
+                                <>
+                                    <Divider sx={{ my: 2 }} />
+
+                                    <Typography
+                                        fontWeight={600}
+                                        mb={1}
+                                    >
+                                        Potong Cuti Tahunan?
+                                    </Typography>
+
+                                    <Stack
+                                        direction="row"
+                                        spacing={1}
+                                    >
+                                        <Button
+                                            variant={
+                                                deductLeave
+                                                    ? "contained"
+                                                    : "outlined"
+                                            }
+                                            color="success"
+                                            onClick={() =>
+                                                setDeductLeave(true)
+                                            }
+                                        >
+                                            Ya
+                                        </Button>
+
+                                        <Button
+                                            variant={
+                                                !deductLeave
+                                                    ? "contained"
+                                                    : "outlined"
+                                            }
+                                            color="inherit"
+                                            onClick={() =>
+                                                setDeductLeave(false)
+                                            }
+                                        >
+                                            Tidak
+                                        </Button>
+                                    </Stack>
+
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                        sx={{ mt: 1 }}
+                                    >
+                                        Pilih "Ya" jika pengajuan sakit ini
+                                        akan mengurangi saldo cuti tahunan.
+                                    </Typography>
+                                </>
+                            )}
                         <Divider sx={{ my: 2 }} />
 
                         <Typography
