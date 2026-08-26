@@ -376,6 +376,30 @@ export default function ApprovalDetail() {
                                 />
                             </>
                         )}
+
+                        <Divider sx={{ my: 2 }} />
+
+                        <Typography
+                            fontWeight={600}
+                            mb={1}
+                        >
+                            Alasan
+                        </Typography>
+
+                        <Typography
+                            color="text.secondary"
+                        >
+                            {detail.reason}
+                        </Typography>
+
+                        <Divider sx={{ my: 2 }} />
+
+                        <Typography
+                            fontWeight={600}
+                            mb={1}
+                        >
+                            Lampiran
+                        </Typography>
                         {!isAttendanceEdit &&
                             detail.leave_type === "SAKIT" && (
                                 <>
@@ -431,30 +455,6 @@ export default function ApprovalDetail() {
                                     </Typography>
                                 </>
                             )}
-                        <Divider sx={{ my: 2 }} />
-
-                        <Typography
-                            fontWeight={600}
-                            mb={1}
-                        >
-                            Alasan
-                        </Typography>
-
-                        <Typography
-                            color="text.secondary"
-                        >
-                            {detail.reason}
-                        </Typography>
-
-                        <Divider sx={{ my: 2 }} />
-
-                        <Typography
-                            fontWeight={600}
-                            mb={1}
-                        >
-                            Lampiran
-                        </Typography>
-
                         {
 
                             detail.attachment
