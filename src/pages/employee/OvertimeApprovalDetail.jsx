@@ -16,6 +16,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import overtimeService from "../../services/overtimeService";
+import Swal from "sweetalert2";
 
 export default function OvertimeApprovalDetail() {
 
@@ -154,9 +155,25 @@ export default function OvertimeApprovalDetail() {
                 id
             );
 
-            alert("Pengajuan lembur berhasil disetujui.");
+
+            // =====================================
+            // ALERT BERHASIL
+            // =====================================
+
+            await Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: "Pengajuan lembur berhasil disetujui.",
+                confirmButtonText: "OK",
+            });
+
+
+            // =====================================
+            // BARU KEMBALI KE LIST
+            // =====================================
 
             navigate("/employee/approval");
+
 
         } catch (err) {
 
@@ -165,24 +182,39 @@ export default function OvertimeApprovalDetail() {
                 err
             );
 
-            alert(
-                err.response?.data?.message ||
-                "Gagal menyetujui pengajuan lembur."
-            );
+
+            Swal.fire({
+                icon: "error",
+                title: "Gagal",
+                text:
+                    err.response?.data?.message ||
+                    "Gagal menyetujui pengajuan lembur.",
+                confirmButtonText: "OK",
+            });
+
 
         } finally {
 
             setProcessing(false);
 
         }
+
     };
 
     const handleReject = async () => {
 
         if (!rejectNote.trim()) {
-            alert("Alasan penolakan wajib diisi.");
+
+            Swal.fire({
+                icon: "warning",
+                title: "Alasan Wajib Diisi",
+                text: "Silakan masukkan alasan penolakan.",
+                confirmButtonText: "OK",
+            });
+
             return;
         }
+
 
         try {
 
@@ -193,13 +225,33 @@ export default function OvertimeApprovalDetail() {
                 rejectNote.trim()
             );
 
-            alert(
-                "Pengajuan lembur berhasil ditolak."
-            );
+
+            // =====================================
+            // ALERT BERHASIL
+            // =====================================
+
+            await Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: "Pengajuan lembur berhasil ditolak.",
+                confirmButtonText: "OK",
+            });
+
+
+            // =====================================
+            // TUTUP DIALOG
+            // =====================================
 
             setRejectDialog(false);
+            setRejectNote("");
+
+
+            // =====================================
+            // KEMBALI KE LIST
+            // =====================================
 
             navigate("/employee/approval");
+
 
         } catch (err) {
 
@@ -208,16 +260,23 @@ export default function OvertimeApprovalDetail() {
                 err
             );
 
-            alert(
-                err.response?.data?.message ||
-                "Gagal menolak pengajuan lembur."
-            );
+
+            Swal.fire({
+                icon: "error",
+                title: "Gagal",
+                text:
+                    err.response?.data?.message ||
+                    "Gagal menolak pengajuan lembur.",
+                confirmButtonText: "OK",
+            });
+
 
         } finally {
 
             setProcessing(false);
 
         }
+
     };
     return (
 
