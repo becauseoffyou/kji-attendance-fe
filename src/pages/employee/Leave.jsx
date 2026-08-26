@@ -35,6 +35,7 @@ export default function Leave() {
     const [attachment, setAttachment] = useState(null);
     const [submitLoading, setSubmitLoading] = useState(false);
     const [selectedLeave, setSelectedLeave] = useState(null);
+    const [cutiType, setCutiType] = useState("TAHUNAN");
 
     const [openDetail, setOpenDetail] = useState(false);
     const [openOvertimeDetail, setOpenOvertimeDetail] =
@@ -786,7 +787,8 @@ export default function Leave() {
             <LeaveDialog
                 startTime={startTime}
                 setStartTime={setStartTime}
-
+                cutiType={cutiType}
+                setCutiType={setCutiType}
                 endTime={endTime}
                 setEndTime={setEndTime}
                 open={openDialog}

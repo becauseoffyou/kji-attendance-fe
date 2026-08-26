@@ -19,7 +19,8 @@ export default function LeaveDialog({
 
     open,
     onClose,
-
+    cutiType,
+    setCutiType,
     leaveType,
     setLeaveType,
 
@@ -103,6 +104,10 @@ export default function LeaveDialog({
                                 setEndTime("");
                             }
 
+                            if (setCutiType) {
+                                setCutiType("TAHUNAN");
+                            }
+
                         }}
                     >
 
@@ -123,7 +128,45 @@ export default function LeaveDialog({
                         </MenuItem>
 
                     </Select>
+                    {leaveType === "CUTI" && (
+                        <Box sx={{ mt: 2 }}>
 
+                            <FormControl fullWidth>
+
+                                <InputLabel>
+                                    Jenis Cuti
+                                </InputLabel>
+
+                                <Select
+                                    value={cutiType}
+                                    label="Jenis Cuti"
+                                    onChange={(e) =>
+                                        setCutiType(e.target.value)
+                                    }
+                                >
+
+                                    <MenuItem value="TAHUNAN">
+                                        Cuti Tahunan
+                                    </MenuItem>
+
+                                    <MenuItem value="MENIKAH">
+                                        Menikah
+                                    </MenuItem>
+
+                                    <MenuItem value="MELAHIRKAN">
+                                        Melahirkan
+                                    </MenuItem>
+
+                                    <MenuItem value="KELUARGA_MENINGGAL">
+                                        Keluarga Meninggal
+                                    </MenuItem>
+
+                                </Select>
+
+                            </FormControl>
+
+                        </Box>
+                    )}
                 </FormControl>
 
 
