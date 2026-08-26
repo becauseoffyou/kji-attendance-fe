@@ -226,30 +226,24 @@ export default function OvertimeApprovalDetail() {
             );
 
 
-            // =====================================
-            // ALERT BERHASIL
-            // =====================================
+            // Tutup dialog dulu
+            setRejectDialog(false);
+            setRejectNote("");
 
+
+            // Baru tampilkan SweetAlert
             await Swal.fire({
                 icon: "success",
                 title: "Berhasil",
                 text: "Pengajuan lembur berhasil ditolak.",
                 confirmButtonText: "OK",
+                customClass: {
+                    container: "swal2-over-mui"
+                }
             });
 
 
-            // =====================================
-            // TUTUP DIALOG
-            // =====================================
-
-            setRejectDialog(false);
-            setRejectNote("");
-
-
-            // =====================================
-            // KEMBALI KE LIST
-            // =====================================
-
+            // Kembali ke list
             navigate("/employee/approval");
 
 
