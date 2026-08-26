@@ -177,6 +177,11 @@ export default function Leave() {
                 leaveResult.data ||
                 [];
 
+            setSummary({
+                leave_balance:
+                    leaveResult.data?.leave_balance ?? 0
+            });
+
             const overtimeData =
                 overtimeResult.data?.data ||
                 overtimeResult.data ||
