@@ -613,7 +613,7 @@ export default function Leave() {
                                     variant="body2"
                                     sx={{ opacity: 0.85 }}
                                 >
-                                    Sakit Potong Cuti
+                                    Sakit
                                 </Typography>
 
                                 <Typography
