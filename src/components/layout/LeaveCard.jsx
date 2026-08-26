@@ -101,6 +101,8 @@ export default function LeaveCard({
 
     };
 
+
+
     return (
 
         <Card
@@ -133,10 +135,17 @@ export default function LeaveCard({
                             lineHeight: 1.4
                         }}
                     >
-                        {
-                            leaveTypeLabel[
-                            item.leave_type
-                            ] ||
+                        {item.leave_type === "CUTI"
+                            ? item.leave_category === "TAHUNAN"
+                                ? "Cuti Tahunan"
+                                : item.leave_category === "MENIKAH"
+                                    ? "Cuti Menikah"
+                                    : item.leave_category === "MELAHIRKAN"
+                                        ? "Cuti Melahirkan"
+                                        : item.leave_category === "KELUARGA_MENINGGAL"
+                                            ? "Cuti Keluarga Meninggal"
+                                            : "Cuti"
+                            : leaveTypeLabel[item.leave_type] ||
                             item.leave_type
                         }
                     </Typography>

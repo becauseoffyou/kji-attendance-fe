@@ -454,15 +454,16 @@ export default function Leave() {
             await leaveService.create(
                 formData
             );
+            // Tutup dialog pengajuan dulu
+            setOpenDialog(false);
 
+            // Baru tampilkan SweetAlert
             await Swal.fire({
                 icon: "success",
                 title: "Berhasil",
-                text: "Pengajuan berhasil dikirim."
+                text: "Pengajuan berhasil dikirim.",
+                confirmButtonText: "OK",
             });
-
-            setOpenDialog(false);
-
             setLeaveType("SAKIT");
 
             setStartDate("");
