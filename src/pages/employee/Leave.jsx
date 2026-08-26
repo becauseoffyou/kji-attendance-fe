@@ -420,6 +420,12 @@ export default function Leave() {
                 "leave_type",
                 leaveType
             );
+            if (leaveType === "CUTI") {
+                formData.append(
+                    "leave_category",
+                    cutiType
+                );
+            }
 
             formData.append(
                 "start_date",
