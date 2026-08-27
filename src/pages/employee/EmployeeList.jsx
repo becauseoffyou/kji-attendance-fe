@@ -286,56 +286,6 @@ export default function EmployeeList() {
     return (
         <Box>
 
-            {/* HEADER */}
-
-            <Stack
-                direction={{
-                    xs: "column",
-                    sm: "row"
-                }}
-                justifyContent="space-between"
-                alignItems={{
-                    xs: "stretch",
-                    sm: "center"
-                }}
-                spacing={2}
-            >
-
-                <Box>
-
-                    <Typography
-                        variant="h6"
-                        fontWeight={700}
-                    >
-                        Daftar Karyawan
-                    </Typography>
-
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                    >
-                        Kelola data karyawan dan akun login
-                    </Typography>
-
-                </Box>
-
-                <Button
-                    variant="contained"
-                    size="small"
-                    startIcon={<AddIcon />}
-                    onClick={() => setOpenCreate(true)}
-                    sx={{
-                        px: 1,
-                        py: 0.5,
-                        textTransform: "none",
-                        fontWeight: 600,
-                    }}
-                >
-                    Tambah Karyawan
-                </Button>
-            </Stack>
-
-
             {/* TABLE */}
 
             <Card
@@ -343,7 +293,7 @@ export default function EmployeeList() {
                 sx={{
                     mt: 3,
                     border: "1px solid #E5E7EB",
-                    borderRadius: 3,
+                    borderRadius: 1,
                 }}
             >
 
@@ -519,6 +469,19 @@ export default function EmployeeList() {
                             }}
                         >
                             Export Excel
+                        </Button>
+                        <Button
+                            variant="contained"
+                            size="small"
+                            startIcon={<AddIcon />}
+                            onClick={() => setOpenCreate(true)}
+                            sx={{
+                                minWidth: 140,
+                                textTransform: "none",
+                                fontWeight: 600,
+                            }}
+                        >
+                            Tambah Karyawan
                         </Button>
                     </Stack>
 
