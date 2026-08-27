@@ -149,7 +149,7 @@ export default function DailyAttendanceTable({
 
                                     <TableRow
                                         key={item.id}
-                                        hover hover
+                                        hover
                                         sx={{
                                             "& td": {
                                                 py: 1
@@ -466,7 +466,7 @@ export default function DailyAttendanceTable({
                             {selectedAttendance?.photo_path ? (
                                 <Box
                                     component="img"
-                                    src={`https://kji-attendance-be-production.up.railway.app${selectedAttendance.photo_path}`}
+                                    src={`https://kji-attendance-be-production-91fc.up.railway.app${selectedAttendance.photo_path}`}
                                     alt="Foto absensi"
                                     sx={{
                                         width: "100%",

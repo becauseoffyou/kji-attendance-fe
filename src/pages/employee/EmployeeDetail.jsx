@@ -24,7 +24,7 @@ export default function EmployeeDetail({
         return null;
     }
     const API_BASE_URL =
-        "https://kji-attendance-be-production.up.railway.app";
+        "https://kji-attendance-be-production-91fc.up.railway.app";
     const formatDate = (date) => {
 
         if (!date) {

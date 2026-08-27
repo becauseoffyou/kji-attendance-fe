@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "https://kji-attendance-be-production.up.railway.app/api",
+    baseURL: "https://kji-attendance-be-production-91fc.up.railway.app/api",
 });
 
 api.interceptors.request.use(
