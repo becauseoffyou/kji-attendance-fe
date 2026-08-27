@@ -19,9 +19,10 @@ const leaderService = {
     return api.get(`/leader/leave/${id}`);
   },
 
-  approve(id, note) {
+  approve(id, note, deductLeave = false) {
     return api.patch(`/leader/leave/${id}/approve`, {
       note,
+      deduct_leave: deductLeave,
     });
   },
 
