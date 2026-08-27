@@ -30,6 +30,8 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import api from "../../services/api";
 import Swal from "sweetalert2";
+import * as XLSX from "xlsx";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const formatRupiah = (value) => {
 
@@ -405,6 +407,157 @@ export default function OvertimeRecap() {
 
     };
 
+
+    const handleExportExcel = async () => {
+
+        try {
+
+            const params = new URLSearchParams();
+
+            params.append("page", 1);
+            params.append("limit", 100);
+            params.append("sort", sort);
+
+            if (name.trim()) {
+                params.append(
+                    "name",
+                    name.trim()
+                );
+            }
+
+            if (department.trim()) {
+                params.append(
+                    "department",
+                    department.trim()
+                );
+            }
+
+            if (startDate) {
+                params.append(
+                    "start_date",
+                    startDate
+                );
+            }
+
+            if (endDate) {
+                params.append(
+                    "end_date",
+                    endDate
+                );
+            }
+
+            const response = await api.get(
+                `/overtime/admin/recap?${params.toString()}`
+            );
+
+            const exportRows =
+                response.data?.data || [];
+
+            if (exportRows.length === 0) {
+
+                Swal.fire({
+                    icon: "info",
+                    title: "Tidak Ada Data",
+                    text: "Tidak ada data lembur untuk diexport."
+                });
+
+                return;
+            }
+
+            const exportData = exportRows.map(
+                (item, index) => ({
+                    "No": index + 1,
+
+                    "Nama Karyawan":
+                        item.employee_name || "-",
+
+                    "Divisi":
+                        item.department || "-",
+
+                    "Tanggal":
+                        formatDate(
+                            item.overtime_date
+                        ),
+
+                    "Jam Mulai":
+                        item.start_time
+                            ?.substring(0, 5) || "-",
+
+                    "Jam Selesai":
+                        item.end_time
+                            ?.substring(0, 5) || "-",
+
+                    "Durasi":
+                        formatDuration(
+                            item.duration_minutes
+                        ),
+
+                    "Tarif / Jam":
+                        Number(
+                            item.hourly_rate || 0
+                        ),
+
+                    "Nominal":
+                        Number(
+                            item.overtime_amount || 0
+                        ),
+
+                    "Status":
+                        getStatusLabel(
+                            item.status
+                        ),
+
+                    "Pembayaran":
+                        item.status === "APPROVED"
+                            ? item.payment_status === "PAID"
+                                ? "Sudah Dibayar"
+                                : "Belum Dibayar"
+                            : "-",
+
+                    "Pekerjaan":
+                        item.reason || "-"
+                })
+            );
+
+            const worksheet =
+                XLSX.utils.json_to_sheet(
+                    exportData
+                );
+
+            const workbook =
+                XLSX.utils.book_new();
+
+            XLSX.utils.book_append_sheet(
+                workbook,
+                worksheet,
+                "Rekap Lembur"
+            );
+
+            XLSX.writeFile(
+                workbook,
+                `Rekap_Lembur_${new Date()
+                    .toISOString()
+                    .slice(0, 10)}.xlsx`
+            );
+
+        } catch (err) {
+
+            console.error(
+                "EXPORT OVERTIME ERROR:",
+                err
+            );
+
+            Swal.fire({
+                icon: "error",
+                title: "Gagal Export",
+                text:
+                    err.response?.data?.message ||
+                    "Gagal export data lembur."
+            });
+
+        }
+
+    };
     const handleMarkAsPaid = async (item) => {
 
         const confirm = await Swal.fire({
@@ -811,7 +964,18 @@ export default function OvertimeRecap() {
                         >
                             Reset Filter
                         </Button>
-
+                        <Button
+                            variant="outlined"
+                            startIcon={<DownloadIcon />}
+                            onClick={handleExportExcel}
+                            sx={{
+                                minWidth: 150,
+                                textTransform: "none",
+                                whiteSpace: "nowrap"
+                            }}
+                        >
+                            Export Excel
+                        </Button>
                     </Stack>
 
                 </CardContent>
