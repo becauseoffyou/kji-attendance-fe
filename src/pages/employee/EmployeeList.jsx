@@ -24,7 +24,7 @@ import {
     FormControl,
     InputLabel,
     MenuItem,
-    Select,
+    Select, Pagination,
 } from "@mui/material";
 import * as XLSX from "xlsx";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -57,10 +57,22 @@ export default function EmployeeList() {
     const [openDeactivate, setOpenDeactivate] = useState(false);
     const [deactivateEmployee, setDeactivateEmployee] = useState(null);
     const [deactivating, setDeactivating] = useState(false);
+    const [page, setPage] = useState(1);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     useEffect(() => {
         loadEmployees();
     }, []);
+
+    useEffect(() => {
+        setPage(1);
+    }, [
+        search,
+        departmentFilter,
+        statusFilter,
+        typeFilter,
+        rowsPerPage
+    ]);
 
     const handleToggleStatus = async () => {
         if (!deactivateEmployee) {
@@ -211,6 +223,21 @@ export default function EmployeeList() {
 
     });
 
+    const totalPages =
+        Math.ceil(
+            sortedEmployees.length /
+            rowsPerPage
+        );
+
+    const startIndex =
+        (page - 1) *
+        rowsPerPage;
+
+    const paginatedEmployees =
+        sortedEmployees.slice(
+            startIndex,
+            startIndex + rowsPerPage
+        );
     const handleExportExcel = () => {
 
         if (sortedEmployees.length === 0) {
@@ -774,7 +801,7 @@ export default function EmployeeList() {
 
                                     /* ================= DATA ================= */
 
-                                    sortedEmployees.map((item, index) => (
+                                    paginatedEmployees.map((item, index) => (
 
                                         <TableRow
                                             key={item.id}
@@ -783,7 +810,7 @@ export default function EmployeeList() {
 
                                             {/* NO */}
                                             <TableCell align="center">
-                                                {index + 1}
+                                                {startIndex + index + 1}
                                             </TableCell>
 
 
@@ -969,7 +996,98 @@ export default function EmployeeList() {
                         </Table>
 
                     </Box>
+                    <Box
+                        sx={{
+                            mt: 2,
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            flexWrap: "wrap",
+                            gap: 2
+                        }}
+                    >
 
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                        >
+                            Total data: {sortedEmployees.length}
+                        </Typography>
+
+
+                        <Stack
+                            direction="row"
+                            spacing={2}
+                            alignItems="center"
+                        >
+
+                            <TextField
+                                select
+                                size="small"
+                                label="Per halaman"
+                                value={rowsPerPage}
+                                onChange={(e) => {
+                                    setRowsPerPage(
+                                        Number(e.target.value)
+                                    );
+
+                                    setPage(1);
+                                }}
+                                sx={{
+                                    width: 130
+                                }}
+                            >
+
+                                <MenuItem value={10}>
+                                    10
+                                </MenuItem>
+
+                                <MenuItem value={25}>
+                                    25
+                                </MenuItem>
+
+                                <MenuItem value={50}>
+                                    50
+                                </MenuItem>
+
+                                <MenuItem value={100}>
+                                    100
+                                </MenuItem>
+
+                            </TextField>
+
+
+                            <Pagination
+                                count={
+                                    Math.max(
+                                        totalPages,
+                                        1
+                                    )
+                                }
+                                page={
+                                    Math.min(
+                                        page,
+                                        Math.max(
+                                            totalPages,
+                                            1
+                                        )
+                                    )
+                                }
+                                onChange={(
+                                    _event,
+                                    value
+                                ) => {
+                                    setPage(value);
+                                }}
+                                color="primary"
+                                shape="rounded"
+                                showFirstButton
+                                showLastButton
+                            />
+
+                        </Stack>
+
+                    </Box>
                 </CardContent>
 
             </Card>
