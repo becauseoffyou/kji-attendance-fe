@@ -26,7 +26,8 @@ import {
     MenuItem,
     Select,
 } from "@mui/material";
-
+import * as XLSX from "xlsx";
+import DownloadIcon from "@mui/icons-material/Download";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
@@ -209,6 +210,51 @@ export default function EmployeeList() {
         );
 
     });
+
+    const handleExportExcel = () => {
+
+        if (sortedEmployees.length === 0) {
+            alert("Tidak ada data untuk diexport.");
+            return;
+        }
+
+        const exportData = sortedEmployees.map(
+            (item, index) => ({
+                "No": index + 1,
+                "Nama Karyawan": item.name || "-",
+                "NIK": item.nik || "-",
+                "Email": item.email || "-",
+                "Departemen": item.department || "-",
+                "Jabatan": item.position || "-",
+                "Status": item.status
+                    ? "Aktif"
+                    : "Nonaktif",
+                "Tipe Karyawan":
+                    item.employee_type === "KONTRAK"
+                        ? "Kontrak"
+                        : "Tetap"
+            })
+        );
+
+        const worksheet =
+            XLSX.utils.json_to_sheet(exportData);
+
+        const workbook =
+            XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(
+            workbook,
+            worksheet,
+            "Data Karyawan"
+        );
+
+        XLSX.writeFile(
+            workbook,
+            `Data_Karyawan_${new Date()
+                .toISOString()
+                .slice(0, 10)}.xlsx`
+        );
+    };
 
     return (
         <Box>
@@ -431,7 +477,22 @@ export default function EmployeeList() {
 
                             </Select>
                         </FormControl>
-
+                        <Button
+                            variant="outlined"
+                            startIcon={<DownloadIcon />}
+                            onClick={handleExportExcel}
+                            disabled={
+                                loading ||
+                                sortedEmployees.length === 0
+                            }
+                            sx={{
+                                minWidth: 140,
+                                textTransform: "none",
+                                whiteSpace: "nowrap"
+                            }}
+                        >
+                            Export Excel
+                        </Button>
                     </Stack>
 
                     <Box
