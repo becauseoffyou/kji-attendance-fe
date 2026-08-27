@@ -411,16 +411,16 @@ export default function Leave() {
             return;
         }
 
-        if (leaveType === "SAKIT" && !attachment) {
+        // if (leaveType === "SAKIT" && !attachment) {
 
-            Swal.fire({
-                icon: "warning",
-                title: "Lampiran Wajib",
-                text: "Pengajuan sakit wajib melampirkan surat dokter."
-            });
+        //     Swal.fire({
+        //         icon: "warning",
+        //         title: "Lampiran Wajib",
+        //         text: "Pengajuan sakit wajib melampirkan surat dokter."
+        //     });
 
-            return;
-        }
+        //     return;
+        // }
 
         try {
 
@@ -613,7 +613,7 @@ export default function Leave() {
                                     variant="body2"
                                     sx={{ opacity: 0.85 }}
                                 >
-                                    Sakit
+                                    Sakit Potong Cuti
                                 </Typography>
 
                                 <Typography
