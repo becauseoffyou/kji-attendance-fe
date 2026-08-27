@@ -21,6 +21,10 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -36,6 +40,11 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 export default function EmployeeList() {
 
     const [search, setSearch] = useState("");
+    // filter
+    const [departmentFilter, setDepartmentFilter] = useState("ALL");
+    const [statusFilter, setStatusFilter] = useState("ALL");
+    const [typeFilter, setTypeFilter] = useState("ALL");
+    // 
     const [openCreate, setOpenCreate] = useState(false);
     const [order, setOrder] = useState("asc");
     const [orderBy, setOrderBy] = useState("name");
@@ -132,11 +141,52 @@ export default function EmployeeList() {
         setOrderBy(property);
 
     };
-    const filteredEmployees = employees.filter((item) =>
-        item.name
-            .toLowerCase()
-            .includes(search.toLowerCase())
-    );
+
+    const departments = [
+        ...new Set(
+            employees
+                .map((item) => item.department)
+                .filter(Boolean)
+        )
+    ].sort();
+
+    const filteredEmployees = employees.filter((item) => {
+
+        const keyword = search.toLowerCase();
+
+        const matchSearch =
+            item.name
+                ?.toLowerCase()
+                .includes(keyword) ||
+            item.nik
+                ?.toString()
+                .toLowerCase()
+                .includes(keyword) ||
+            item.email
+                ?.toLowerCase()
+                .includes(keyword);
+
+        const matchDepartment =
+            departmentFilter === "ALL" ||
+            item.department === departmentFilter;
+
+        const matchStatus =
+            statusFilter === "ALL" ||
+            (statusFilter === "ACTIVE"
+                ? item.status === true
+                : item.status === false);
+
+        const matchType =
+            typeFilter === "ALL" ||
+            item.employee_type === typeFilter;
+
+        return (
+            matchSearch &&
+            matchDepartment &&
+            matchStatus &&
+            matchType
+        );
+    });
 
     const sortedEmployees = [...filteredEmployees].sort((a, b) => {
 
@@ -228,29 +278,161 @@ export default function EmployeeList() {
 
                     {/* SEARCH */}
 
-                    <TextField
-                        size="small"
-                        placeholder="Cari nama karyawan..."
-                        value={search}
-                        onChange={(e) =>
-                            setSearch(e.target.value)
-                        }
+                    <Stack
+                        direction={{
+                            xs: "column",
+                            md: "row"
+                        }}
+                        spacing={1.5}
                         sx={{
-                            mb: 2,
-                            width: {
-                                xs: "100%",
-                                sm: 320
-                            }
+                            mb: 2
                         }}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon fontSize="small" />
-                                </InputAdornment>
-                            )
-                        }}
-                    />
+                    >
 
+                        {/* SEARCH */}
+
+                        <TextField
+                            size="small"
+                            placeholder="Cari nama, NIK, atau email..."
+                            value={search}
+                            onChange={(e) =>
+                                setSearch(e.target.value)
+                            }
+                            sx={{
+                                width: {
+                                    xs: "100%",
+                                    md: 320
+                                }
+                            }}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon fontSize="small" />
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+
+
+                        {/* DEPARTEMEN */}
+
+                        <FormControl
+                            size="small"
+                            sx={{
+                                minWidth: 180
+                            }}
+                        >
+                            <InputLabel>
+                                Departemen
+                            </InputLabel>
+
+                            <Select
+                                value={departmentFilter}
+                                label="Departemen"
+                                onChange={(e) =>
+                                    setDepartmentFilter(
+                                        e.target.value
+                                    )
+                                }
+                            >
+
+                                <MenuItem value="ALL">
+                                    Semua Departemen
+                                </MenuItem>
+
+                                {departments.map(
+                                    (department) => (
+
+                                        <MenuItem
+                                            key={department}
+                                            value={department}
+                                        >
+                                            {department}
+                                        </MenuItem>
+
+                                    )
+                                )}
+
+                            </Select>
+                        </FormControl>
+
+
+                        {/* STATUS */}
+
+                        <FormControl
+                            size="small"
+                            sx={{
+                                minWidth: 140
+                            }}
+                        >
+                            <InputLabel>
+                                Status
+                            </InputLabel>
+
+                            <Select
+                                value={statusFilter}
+                                label="Status"
+                                onChange={(e) =>
+                                    setStatusFilter(
+                                        e.target.value
+                                    )
+                                }
+                            >
+
+                                <MenuItem value="ALL">
+                                    Semua Status
+                                </MenuItem>
+
+                                <MenuItem value="ACTIVE">
+                                    Aktif
+                                </MenuItem>
+
+                                <MenuItem value="INACTIVE">
+                                    Nonaktif
+                                </MenuItem>
+
+                            </Select>
+                        </FormControl>
+
+
+                        {/* TIPE KARYAWAN */}
+
+                        <FormControl
+                            size="small"
+                            sx={{
+                                minWidth: 140
+                            }}
+                        >
+                            <InputLabel>
+                                Tipe
+                            </InputLabel>
+
+                            <Select
+                                value={typeFilter}
+                                label="Tipe"
+                                onChange={(e) =>
+                                    setTypeFilter(
+                                        e.target.value
+                                    )
+                                }
+                            >
+
+                                <MenuItem value="ALL">
+                                    Semua Tipe
+                                </MenuItem>
+
+                                <MenuItem value="TETAP">
+                                    Tetap
+                                </MenuItem>
+
+                                <MenuItem value="KONTRAK">
+                                    Kontrak
+                                </MenuItem>
+
+                            </Select>
+                        </FormControl>
+
+                    </Stack>
 
                     <Box
                         sx={{
