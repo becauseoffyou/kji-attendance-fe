@@ -553,7 +553,26 @@ export default function EmployeeCreate({
                                 label="Jabatan"
                                 name="role_id"
                                 value={form.role_id}
-                                onChange={handleChange}
+                                onChange={(e) => {
+
+                                    const selectedRoleId =
+                                        e.target.value;
+
+                                    const selectedRole =
+                                        roles.find(
+                                            (role) =>
+                                                String(role.id) ===
+                                                String(selectedRoleId)
+                                        );
+
+                                    setForm((prev) => ({
+                                        ...prev,
+                                        role_id: selectedRoleId,
+                                        position:
+                                            selectedRole?.name || ""
+                                    }));
+
+                                }}
                             >
 
                                 {roles.map((role) => (
