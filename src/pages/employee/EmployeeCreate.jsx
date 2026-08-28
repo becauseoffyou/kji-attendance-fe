@@ -28,6 +28,7 @@ export default function EmployeeCreate({
     mode = "create",
 }) {
     const [saving, setSaving] = useState(false);
+    const [roles, setRoles] = useState([]);
     const [form, setForm] = useState({
         nik: "",
         name: "",
@@ -35,6 +36,7 @@ export default function EmployeeCreate({
         phone: "",
         department: "",
         position: "",
+        role_id: "",
         join_date: "",
         address: "",
 
@@ -49,6 +51,14 @@ export default function EmployeeCreate({
         photo: null,
         ktp: null,
     });
+
+    useEffect(() => {
+
+        if (open) {
+            loadRoles();
+        }
+
+    }, [open]);
     useEffect(() => {
 
         if (mode === "edit" && employee) {
@@ -60,6 +70,7 @@ export default function EmployeeCreate({
                 phone: employee.phone || "",
                 department: employee.department || "",
                 position: employee.position || "",
+                role_id: employee.role_id || "",
                 join_date: employee.join_date
                     ? dayjs(employee.join_date).format("YYYY-MM-DD")
                     : "",
@@ -119,7 +130,25 @@ export default function EmployeeCreate({
         }));
 
     };
+    const loadRoles = async () => {
+        try {
 
+            const result =
+                await attendanceService.getRoles();
+
+            if (result.success) {
+                setRoles(result.data || []);
+            }
+
+        } catch (err) {
+
+            console.error(
+                "GET ROLES ERROR:",
+                err
+            );
+
+        }
+    };
 
     const handleFileChange = (e) => {
 
@@ -151,6 +180,7 @@ export default function EmployeeCreate({
             formData.append("phone", form.phone);
             formData.append("department", form.department);
             formData.append("position", form.position);
+            formData.append("role_id", form.role_id);
             formData.append("join_date", form.join_date);
             formData.append("address", form.address);
             formData.append(
@@ -518,14 +548,28 @@ export default function EmployeeCreate({
 
                             <TextField
                                 fullWidth
+                                required
+                                select
                                 label="Jabatan"
-                                name="position"
-                                value={form.position}
+                                name="role_id"
+                                value={form.role_id}
                                 onChange={handleChange}
-                            />
+                            >
+
+                                {roles.map((role) => (
+
+                                    <MenuItem
+                                        key={role.id}
+                                        value={role.id}
+                                    >
+                                        {role.name}
+                                    </MenuItem>
+
+                                ))}
+
+                            </TextField>
 
                         </Grid>
-
 
                         {/* JOIN DATE */}
 

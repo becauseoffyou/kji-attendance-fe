@@ -74,6 +74,10 @@ const attendanceService = {
 
     return data;
   },
+  getRoles: async () => {
+    const response = await api.get("/auth/roles");
+    return response.data;
+  },
   createEmployee: async (formData) => {
     const { data } = await api.post("/auth/employees", formData, {
       headers: {
