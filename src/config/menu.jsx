@@ -34,7 +34,7 @@ const menu = [
         path: "/report",
     },
     {
-        label: "Pengumuman",
+        title: "Pengumuman",
         icon: <CampaignIcon />,
         path: "/admin/announcements",
     },

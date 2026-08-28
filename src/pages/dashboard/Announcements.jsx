@@ -99,25 +99,6 @@ export default function Announcements() {
                 sx={{ mb: 3 }}
             >
 
-                <Box>
-
-                    <Typography
-                        variant="h5"
-                        fontWeight={700}
-                    >
-                        Pengumuman
-                    </Typography>
-
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                    >
-                        Kelola pengumuman yang tampil
-                        pada aplikasi karyawan.
-                    </Typography>
-
-                </Box>
-
 
                 <Button
                     variant="contained"
