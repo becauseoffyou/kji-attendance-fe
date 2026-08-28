@@ -29,6 +29,9 @@ import OvertimeApprovalDetail from "../pages/employee/OvertimeApprovalDetail";
 import OvertimeRecap from "../pages/dashboard/OvertimeRecap";
 import OvertimeSettings from "../pages/setting/OvertimeSettings";
 import OvertimeHistory from "../pages/employee/OvertimeHistory";
+import Announcements
+    from "../pages/dashboard/Announcements";
+
 export default function AppRoutes() {
     const isLogin = !!localStorage.getItem("token");
     const token = localStorage.getItem("token");
@@ -114,6 +117,19 @@ export default function AppRoutes() {
                                 subtitle="Kelola Overtime Karyawan"
                             >
                                 <OvertimeRecap />
+                            </DashboardLayout>
+                        </ProtectedAdminRoute>
+                    }
+                />
+                <Route
+                    path="/admin/announcements"
+                    element={
+                        <ProtectedAdminRoute>
+                            <DashboardLayout
+                                title="Pengumuman"
+                                subtitle="Kelola Berita Untuk Karyawan"
+                            >
+                                <Announcements />
                             </DashboardLayout>
                         </ProtectedAdminRoute>
                     }

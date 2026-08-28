@@ -4,6 +4,8 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import CampaignIcon
+    from "@mui/icons-material/Campaign";
 
 const menu = [
     {
@@ -32,10 +34,16 @@ const menu = [
         path: "/report",
     },
     {
+        label: "Pengumuman",
+        icon: <CampaignIcon />,
+        path: "/admin/announcements",
+    },
+    {
         title: "Pengaturan",
         icon: <SettingsIcon />,
         path: "/admin/settings",
     },
+
 ];
 
 export default menu;
