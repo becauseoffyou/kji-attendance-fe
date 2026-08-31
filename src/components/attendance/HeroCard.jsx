@@ -58,8 +58,17 @@ export default function HeroCard({
         return "🔴 Kamu berada di luar area kantor";
     };
 
-    const formatTimeJam = (date) => {
-        if (!date) return "-";
+    const formatTimeJam = (value) => {
+        if (!value) return "-";
+
+        const date =
+            value instanceof Date
+                ? value
+                : new Date(value);
+
+        if (isNaN(date.getTime())) {
+            return "-";
+        }
 
         return date.toLocaleTimeString("id-ID", {
             hour: "2-digit",
