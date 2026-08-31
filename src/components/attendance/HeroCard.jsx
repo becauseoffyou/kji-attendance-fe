@@ -244,7 +244,7 @@ export default function HeroCard({
                             fontWeight={700}
                             fontSize={18}
                         >
-                            {formatTime(todayData?.checkIn || null)}
+                            {formatTimeJam(todayData?.checkIn || null)}
                         </Typography>
 
                     </Paper>
