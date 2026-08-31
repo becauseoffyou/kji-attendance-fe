@@ -58,15 +58,15 @@ export default function HeroCard({
         return "🔴 Kamu berada di luar area kantor";
     };
 
-    const formatTimeJam = (time) => {
+    const formatTimeJam = (date) => {
+        if (!date) return "-";
 
-        if (!time) {
-            return "-";
-        }
-
-        return time.substring(0, 5);
+        return date.toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+        });
     };
-
 
     const formatTime = (timestamp) => {
 
@@ -153,7 +153,7 @@ export default function HeroCard({
                     lineHeight: 1,
                 }}
             >
-                {formatTimeJam(todayData?.checkIn || time.toISOString())}
+                {formatTimeJam(time)}
             </Typography>
 
             {/* TANGGAL */}
