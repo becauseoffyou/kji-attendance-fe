@@ -69,17 +69,25 @@ export default function HeroCard({
     };
 
     const formatTime = (timestamp) => {
-
         if (!timestamp) return "-";
 
-        const date = new Date(timestamp);
+        // Kalau format dari API berupa timestamp
+        // contoh: 2026-08-31T16:28:00.000Z
+        if (typeof timestamp === "string" && timestamp.includes("T")) {
+            const timePart = timestamp.split("T")[1];
 
-        return date.toLocaleTimeString("id-ID", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-        });
+            if (timePart) {
+                return timePart.substring(0, 5);
+            }
+        }
 
+        // Kalau formatnya langsung HH:mm:ss
+        // contoh: 16:28:00
+        if (typeof timestamp === "string") {
+            return timestamp.substring(0, 5);
+        }
+
+        return "-";
     };
 
     return (
@@ -244,7 +252,7 @@ export default function HeroCard({
                             fontWeight={700}
                             fontSize={18}
                         >
-                            {formatTimeJam(todayData?.checkIn || null)}
+                            {formatTime(todayData?.checkIn || null)}
                         </Typography>
 
                     </Paper>
