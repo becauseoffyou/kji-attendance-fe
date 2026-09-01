@@ -10,11 +10,18 @@ const announcementService = {
         return data;
     },
 
-    create: async (payload) => {
+    create: async (formData) => {
+
         const { data } =
             await api.post(
                 "/announcements",
-                payload
+                formData,
+                {
+                    headers: {
+                        "Content-Type":
+                            "multipart/form-data",
+                    },
+                }
             );
 
         return data;
