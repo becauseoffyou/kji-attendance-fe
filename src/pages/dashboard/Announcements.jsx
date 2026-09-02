@@ -373,16 +373,17 @@ export default function Announcements() {
 
                                         {item.url && (
                                             <Typography
-                                                variant="caption"
-                                                color="primary"
-                                                display="block"
-                                                sx={{
-                                                    mt: 0.5,
-                                                    wordBreak:
-                                                        "break-all",
-                                                }}
+                                                variant="body2"
+                                                sx={{ mt: 1 }}
                                             >
-                                                {item.url}
+                                                URL:{" "}
+                                                <a
+                                                    href={item.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    {item.url}
+                                                </a>
                                             </Typography>
                                         )}
 
