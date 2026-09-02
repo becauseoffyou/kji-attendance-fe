@@ -115,19 +115,13 @@ export default function Attendance() {
 
     };
     const loadAnnouncements = async () => {
-
         try {
+            const result = await announcementService.getActive();
 
-            const result = await announcementService.getAll();
-
-            setAnnouncements(result.data);
-
+            setAnnouncements(result.data || []);
         } catch (err) {
-
-            console.error(err);
-
+            console.error("LOAD ANNOUNCEMENTS ERROR:", err);
         }
-
     };
 
     const handleCheckIn = async (image) => {
