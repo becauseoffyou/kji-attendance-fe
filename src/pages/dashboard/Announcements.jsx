@@ -213,19 +213,11 @@ export default function Announcements() {
     }, []);
 
     const formatDate = (date) => {
-
         if (!date) return "-";
 
-        return new Date(
-            `${date}T00:00:00`
-        ).toLocaleDateString(
-            "id-ID",
-            {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-            }
-        );
+        const [year, month, day] = date.split("-");
+
+        return `${day}/${month}/${year}`;
     };
 
     return (
@@ -372,14 +364,8 @@ export default function Announcements() {
                                             display="block"
                                             sx={{ mt: 1 }}
                                         >
-                                            Periode:{" "}
-                                            {formatDate(
-                                                item.start_date
-                                            )}
-                                            {" - "}
-                                            {formatDate(
-                                                item.end_date
-                                            )}
+                                            Periode: {formatDate(item.start_date)} - {formatDate(item.end_date)}
+
                                         </Typography>
 
                                         {item.url && (
