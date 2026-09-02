@@ -39,7 +39,7 @@ export default function AnnouncementSlider({ announcements }) {
             sx={{
                 mt: 2,
                 mx: 1.5,
-                borderRadius: 4,
+                borderRadius: 2,
                 overflow: "hidden",
                 bgcolor: "#fff",
                 boxShadow: "0 6px 20px rgba(0,0,0,.08)"
