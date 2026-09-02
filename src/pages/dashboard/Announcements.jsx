@@ -310,104 +310,119 @@ export default function Announcements() {
 
                     {data.map((item) => (
 
-                        <Card key={item.id}>
+                        <Card
+                            key={item.id}
+                            sx={{
+                                mb: 2,
+                                borderRadius: 3,
+                                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                            }}
+                        >
+                            <CardContent
+                                sx={{
+                                    display: "flex",
+                                    gap: 2,
+                                    alignItems: "center",
+                                    p: 2,
+                                    "&:last-child": {
+                                        pb: 2,
+                                    },
+                                }}
+                            >
+                                {/* THUMBNAIL */}
+                                {item.image_url && (
+                                    <Box
+                                        component="img"
+                                        src={`https://kji-attendance-be-production-91fc.up.railway.app${item.image_url}`}
+                                        alt={item.title}
+                                        sx={{
+                                            width: 120,
+                                            height: 100,
+                                            objectFit: "cover",
+                                            borderRadius: 2,
+                                            flexShrink: 0,
+                                        }}
+                                    />
+                                )}
 
-                            <CardContent>
+                                {/* CONTENT */}
+                                <Box sx={{ flex: 1, minWidth: 0 }}>
 
-                                <Stack
-                                    direction={{
-                                        xs: "column",
-                                        md: "row",
-                                    }}
-                                    justifyContent="space-between"
-                                    spacing={2}
-                                >
-
-                                    <Box>
-                                        {item.image_url && (
-                                            <Box
-                                                component="img"
-                                                src={`https://kji-attendance-be-production-91fc.up.railway.app${item.image_url}`}
-                                                alt={item.title}
-                                                sx={{
-                                                    width: "100%",
-                                                    maxHeight: 220,
-                                                    objectFit: "cover",
-                                                    borderRadius: 2,
-                                                    mb: 2,
-                                                }}
-                                            />
-                                        )}
-                                        <Stack
-                                            direction="row"
-                                            spacing={1}
-                                            alignItems="center"
-                                            sx={{ mb: 1 }}
+                                    <Stack
+                                        direction="row"
+                                        spacing={1}
+                                        alignItems="center"
+                                        sx={{ mb: 0.5 }}
+                                    >
+                                        <Typography
+                                            variant="h6"
+                                            sx={{
+                                                fontWeight: 600,
+                                                fontSize: "16px",
+                                            }}
                                         >
+                                            {item.title}
+                                        </Typography>
 
-                                            <Typography
-                                                fontWeight={700}
-                                            >
-                                                {item.title}
-                                            </Typography>
+                                        <Chip
+                                            label={item.is_active ? "Aktif" : "Nonaktif"}
+                                            size="small"
+                                            color={item.is_active ? "success" : "default"}
+                                        />
+                                    </Stack>
 
-                                            <Chip
-                                                size="small"
-                                                label={
-                                                    item.is_active
-                                                        ? "Aktif"
-                                                        : "Nonaktif"
-                                                }
-                                                color={
-                                                    item.is_active
-                                                        ? "success"
-                                                        : "default"
-                                                }
-                                            />
-
-                                        </Stack>
-
+                                    {item.description && (
                                         <Typography
                                             variant="body2"
-                                            color="text.secondary"
+                                            sx={{
+                                                mb: 0.5,
+                                                color: "text.secondary",
+                                            }}
                                         >
-                                            {item.description || "-"}
+                                            {item.description}
                                         </Typography>
+                                    )}
 
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            fontSize: "13px",
+                                            mb: 0.5,
+                                        }}
+                                    >
+                                        Periode: {formatDate(item.start_date)} -{" "}
+                                        {formatDate(item.end_date)}
+                                    </Typography>
+
+                                    {item.url && (
                                         <Typography
-                                            variant="caption"
-                                            color="text.secondary"
-                                            display="block"
-                                            sx={{ mt: 1 }}
+                                            variant="body2"
+                                            sx={{
+                                                fontSize: "13px",
+                                            }}
                                         >
-                                            Periode: {formatDate(item.start_date)} - {formatDate(item.end_date)}
-
-                                        </Typography>
-
-                                        {item.url && (
-                                            <Typography
-                                                variant="body2"
-                                                sx={{ mt: 1 }}
+                                            URL:{" "}
+                                            <Box
+                                                component="a"
+                                                href={item.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                sx={{
+                                                    color: "primary.main",
+                                                    textDecoration: "none",
+                                                    "&:hover": {
+                                                        textDecoration: "underline",
+                                                    },
+                                                }}
                                             >
-                                                URL:{" "}
-                                                <a
-                                                    href={item.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >
-                                                    {item.url}
-                                                </a>
-                                            </Typography>
-                                        )}
+                                                {item.url}
+                                            </Box>
+                                        </Typography>
+                                    )}
 
-                                    </Box>
-
-                                </Stack>
-
+                                </Box>
                             </CardContent>
-
                         </Card>
-
                     ))}
 
                 </Stack>
