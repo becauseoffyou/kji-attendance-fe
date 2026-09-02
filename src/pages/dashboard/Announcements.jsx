@@ -181,6 +181,23 @@ export default function Announcements() {
         }
     };
 
+    const handleToggleStatus = async (item) => {
+        try {
+            await announcementService.updateStatus(
+                item.id,
+                !item.is_active
+            );
+
+            await loadData();
+
+        } catch (err) {
+            console.error(
+                "UPDATE STATUS ERROR:",
+                err.response?.data || err
+            );
+        }
+    };
+
     const loadData = async () => {
 
         try {
@@ -352,23 +369,59 @@ export default function Announcements() {
                                         direction="row"
                                         spacing={1}
                                         alignItems="center"
+                                        justifyContent="space-between"
                                         sx={{ mb: 0.5 }}
                                     >
-                                        <Typography
-                                            variant="h6"
+                                        <Stack
+                                            direction="row"
+                                            spacing={1}
+                                            alignItems="center"
+                                        >
+                                            <Typography
+                                                variant="h6"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    fontSize: "16px"
+                                                }}
+                                            >
+                                                {item.title}
+                                            </Typography>
+
+                                            <Chip
+                                                label={
+                                                    item.is_active
+                                                        ? "Aktif"
+                                                        : "Nonaktif"
+                                                }
+                                                size="small"
+                                                color={
+                                                    item.is_active
+                                                        ? "success"
+                                                        : "default"
+                                                }
+                                            />
+                                        </Stack>
+
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            color={
+                                                item.is_active
+                                                    ? "error"
+                                                    : "success"
+                                            }
+                                            onClick={() =>
+                                                handleToggleStatus(item)
+                                            }
                                             sx={{
-                                                fontWeight: 600,
-                                                fontSize: "16px",
+                                                textTransform: "none",
+                                                fontWeight: 600
                                             }}
                                         >
-                                            {item.title}
-                                        </Typography>
-
-                                        <Chip
-                                            label={item.is_active ? "Aktif" : "Nonaktif"}
-                                            size="small"
-                                            color={item.is_active ? "success" : "default"}
-                                        />
+                                            {item.is_active
+                                                ? "Nonaktifkan"
+                                                : "Aktifkan"}
+                                        </Button>
                                     </Stack>
 
                                     {item.description && (

@@ -37,6 +37,15 @@ const announcementService = {
         return data;
     },
 
+    updateStatus: async (id, is_active) => {
+        const { data } = await api.patch(
+            `/announcements/${id}/status`,
+            { is_active }
+        );
+
+        return data;
+    },
+
 };
 
 export default announcementService;
