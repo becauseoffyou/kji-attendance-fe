@@ -215,7 +215,10 @@ export default function Announcements() {
     const formatDate = (date) => {
         if (!date) return "-";
 
-        const [year, month, day] = date.split("-");
+        // Ambil bagian YYYY-MM-DD saja
+        const cleanDate = date.substring(0, 10);
+
+        const [year, month, day] = cleanDate.split("-");
 
         return `${day}/${month}/${year}`;
     };
