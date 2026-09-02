@@ -44,6 +44,8 @@ export default function AnnouncementSlider({ announcements }) {
                 boxShadow: "0 6px 20px rgba(0,0,0,.08)"
             }}
         >
+
+            {/* BAGIAN ATAS */}
             <Box
                 sx={{
                     display: "flex",
@@ -61,7 +63,7 @@ export default function AnnouncementSlider({ announcements }) {
                                 xs: 120,
                                 sm: 180
                             },
-                            minHeight: 150,
+                            height: 140,
                             objectFit: "cover",
                             flexShrink: 0
                         }}
@@ -93,12 +95,8 @@ export default function AnnouncementSlider({ announcements }) {
                     <Typography
                         sx={{
                             fontWeight: 700,
-                            fontSize: {
-                                xs: "15px",
-                                sm: "17px"
-                            },
-                            color: "#111827",
-                            lineHeight: 1.3
+                            fontSize: "15px",
+                            color: "#111827"
                         }}
                     >
                         {item.title}
@@ -110,9 +108,6 @@ export default function AnnouncementSlider({ announcements }) {
                             sx={{
                                 mt: 0.5,
                                 color: "#6B7280",
-                                lineHeight: 1.4,
-
-                                // Biar card nggak kepanjangan
                                 display: "-webkit-box",
                                 WebkitLineClamp: 2,
                                 WebkitBoxOrient: "vertical",
@@ -146,42 +141,41 @@ export default function AnnouncementSlider({ announcements }) {
                             Baca Selengkapnya →
                         </Button>
                     )}
-
-                    {/* DOT SLIDER */}
-                    {announcements.length > 1 && (
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                mt: 1,
-                                gap: 0.6
-                            }}
-                        >
-                            {announcements.map((_, index) => (
-                                <Box
-                                    key={index}
-                                    onClick={() => setActive(index)}
-                                    sx={{
-                                        width:
-                                            active === index
-                                                ? 18
-                                                : 6,
-                                        height: 6,
-                                        borderRadius: 10,
-                                        cursor: "pointer",
-                                        transition: ".3s",
-                                        bgcolor:
-                                            active === index
-                                                ? "#0E7D63"
-                                                : "#D1D5DB"
-                                    }}
-                                />
-                            ))}
-                        </Box>
-                    )}
                 </CardContent>
             </Box>
+
+            {/* INDIKATOR STAY DI BAWAH */}
+            {announcements.length > 1 && (
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: 0.6,
+                        py: 1.2,
+                        borderTop: "1px solid #F3F4F6"
+                    }}
+                >
+                    {announcements.map((_, index) => (
+                        <Box
+                            key={index}
+                            onClick={() => setActive(index)}
+                            sx={{
+                                width: active === index ? 18 : 6,
+                                height: 6,
+                                borderRadius: 10,
+                                cursor: "pointer",
+                                transition: ".3s",
+                                bgcolor:
+                                    active === index
+                                        ? "#0E7D63"
+                                        : "#D1D5DB"
+                            }}
+                        />
+                    ))}
+                </Box>
+            )}
+
         </Card>
     );
-
 }
