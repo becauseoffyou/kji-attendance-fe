@@ -6,7 +6,7 @@ import {
     Box,
     Chip
 } from "@mui/material";
-
+const API_URL = "https://kji-attendance-be-production-91fc.up.railway.app";
 export default function AnnouncementSlider({ announcements }) {
 
     const [active, setActive] = useState(0);
