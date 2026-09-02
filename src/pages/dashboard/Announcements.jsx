@@ -422,6 +422,20 @@ export default function Announcements() {
                         spacing={2}
                     >
 
+                        {item.image_url && (
+                            <Box
+                                component="img"
+                                src={`https://kji-attendance-be-production-91fc.up.railway.app${item.image_url}`}
+                                alt={item.title}
+                                sx={{
+                                    width: "100%",
+                                    maxHeight: 220,
+                                    objectFit: "cover",
+                                    borderRadius: 2,
+                                    mb: 2,
+                                }}
+                            />
+                        )}
                         <Grid size={{ xs: 12 }}>
                             <TextField
                                 fullWidth
