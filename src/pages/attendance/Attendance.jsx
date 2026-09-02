@@ -13,7 +13,8 @@ import {
 
 import HeroCard from "../../components/attendance/HeroCard";
 import AttendanceDialog from "../../components/attendance/AttendanceDialog";
-import announcementService from "../../services/infoService";
+// import announcementService from "../../services/infoService";
+import announcementService from "../../services/announcementService";
 import AnnouncementSlider from "../../components/attendance/AnnouncementSlider";
 import attendanceService from "../../services/attService";
 import overtimeService from "../../services/overtimeService";
