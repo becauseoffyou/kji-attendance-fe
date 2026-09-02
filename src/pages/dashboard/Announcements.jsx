@@ -15,21 +15,17 @@ import {
     Switch,
     Grid,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 
+import AddIcon from "@mui/icons-material/Add";
 import { useEffect, useState } from "react";
 
 import announcementService
     from "../../services/announcementService";
 
-
 export default function Announcements() {
 
-    const [data, setData] =
-        useState([]);
-
-    const [loading, setLoading] =
-        useState(false);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const [open, setOpen] = useState(false);
     const [saving, setSaving] = useState(false);
@@ -37,11 +33,8 @@ export default function Announcements() {
     const [form, setForm] = useState({
         title: "",
         description: "",
-        image_url: "",
         url: "",
-        button_text: "",
         is_active: true,
-        sort_order: 0,
         start_date: "",
         end_date: "",
     });
@@ -50,27 +43,28 @@ export default function Announcements() {
     const [preview, setPreview] = useState("");
 
     const handleChange = (e) => {
-
-        const { name, value, checked, type } = e.target;
+        const {
+            name,
+            value,
+            checked,
+            type,
+        } = e.target;
 
         setForm((prev) => ({
             ...prev,
-            [name]: type === "checkbox"
-                ? checked
-                : value,
+            [name]:
+                type === "checkbox"
+                    ? checked
+                    : value,
         }));
     };
-
 
     const resetForm = () => {
         setForm({
             title: "",
             description: "",
-            image_url: "",
             url: "",
-            button_text: "",
             is_active: true,
-            sort_order: 0,
             start_date: "",
             end_date: "",
         });
@@ -79,34 +73,40 @@ export default function Announcements() {
         setPreview("");
     };
 
-    const handleImageChange = (e) => {
+    const handleOpen = () => {
+        resetForm();
+        setOpen(true);
+    };
 
+    const handleClose = () => {
+        if (saving) return;
+
+        setOpen(false);
+        resetForm();
+    };
+
+    const handleImageChange = (e) => {
         const file = e.target.files?.[0];
 
         if (!file) return;
 
         setImageFile(file);
 
-        const imagePreview =
-            URL.createObjectURL(file);
+        if (preview) {
+            URL.revokeObjectURL(preview);
+        }
 
-        setPreview(imagePreview);
+        setPreview(
+            URL.createObjectURL(file)
+        );
     };
-
-    const handleClose = () => {
-
-        if (saving) return;
-
-        setOpen(false);
-        resetForm();
-
-    };
-
 
     const handleSubmit = async () => {
 
         if (!form.title.trim()) {
-            alert("Judul pengumuman wajib diisi");
+            alert(
+                "Judul pengumuman wajib diisi"
+            );
             return;
         }
 
@@ -114,9 +114,14 @@ export default function Announcements() {
 
             setSaving(true);
 
-            const formData = new FormData();
+            const formData =
+                new FormData();
 
-            formData.append("title", form.title);
+            formData.append(
+                "title",
+                form.title.trim()
+            );
+
             formData.append(
                 "description",
                 form.description || ""
@@ -128,18 +133,8 @@ export default function Announcements() {
             );
 
             formData.append(
-                "button_text",
-                form.button_text || ""
-            );
-
-            formData.append(
                 "is_active",
                 form.is_active
-            );
-
-            formData.append(
-                "sort_order",
-                Number(form.sort_order) || 0
             );
 
             formData.append(
@@ -183,9 +178,7 @@ export default function Announcements() {
         } finally {
 
             setSaving(false);
-
         }
-
     };
 
     const loadData = async () => {
@@ -195,7 +188,8 @@ export default function Announcements() {
             setLoading(true);
 
             const result =
-                await announcementService.getAll();
+                await announcementService
+                    .getAll();
 
             setData(
                 result.data || []
@@ -211,18 +205,12 @@ export default function Announcements() {
         } finally {
 
             setLoading(false);
-
         }
-
     };
 
-
     useEffect(() => {
-
         loadData();
-
     }, []);
-
 
     const formatDate = (date) => {
 
@@ -235,12 +223,10 @@ export default function Announcements() {
             {
                 day: "2-digit",
                 month: "short",
-                year: "numeric"
+                year: "numeric",
             }
         );
-
     };
-
 
     return (
 
@@ -251,25 +237,43 @@ export default function Announcements() {
             <Stack
                 direction={{
                     xs: "column",
-                    sm: "row"
+                    sm: "row",
                 }}
                 justifyContent="space-between"
                 alignItems={{
                     xs: "stretch",
-                    sm: "center"
+                    sm: "center",
                 }}
                 spacing={2}
                 sx={{ mb: 3 }}
             >
 
+                <Box>
+                    <Typography
+                        variant="h5"
+                        fontWeight={700}
+                    >
+                        Pengumuman
+                    </Typography>
+
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                    >
+                        Kelola pengumuman yang
+                        ditampilkan pada aplikasi
+                        karyawan.
+                    </Typography>
+                </Box>
 
                 <Button
                     variant="contained"
                     startIcon={<AddIcon />}
-                    onClick={() => setOpen(true)}
+                    onClick={handleOpen}
                 >
                     Tambah Pengumuman
                 </Button>
+
             </Stack>
 
 
@@ -280,13 +284,11 @@ export default function Announcements() {
                 <Card>
 
                     <CardContent>
-
                         <Typography
                             color="text.secondary"
                         >
                             Memuat pengumuman...
                         </Typography>
-
                     </CardContent>
 
                 </Card>
@@ -300,10 +302,9 @@ export default function Announcements() {
                         <Box
                             sx={{
                                 py: 6,
-                                textAlign: "center"
+                                textAlign: "center",
                             }}
                         >
-
                             <Typography
                                 fontWeight={600}
                             >
@@ -319,7 +320,6 @@ export default function Announcements() {
                                 untuk ditampilkan pada
                                 aplikasi karyawan.
                             </Typography>
-
                         </Box>
 
                     </CardContent>
@@ -339,7 +339,7 @@ export default function Announcements() {
                                 <Stack
                                     direction={{
                                         xs: "column",
-                                        md: "row"
+                                        md: "row",
                                     }}
                                     justifyContent="space-between"
                                     spacing={2}
@@ -376,14 +376,12 @@ export default function Announcements() {
 
                                         </Stack>
 
-
                                         <Typography
                                             variant="body2"
                                             color="text.secondary"
                                         >
                                             {item.description || "-"}
                                         </Typography>
-
 
                                         <Typography
                                             variant="caption"
@@ -401,25 +399,21 @@ export default function Announcements() {
                                             )}
                                         </Typography>
 
+                                        {item.url && (
+                                            <Typography
+                                                variant="caption"
+                                                color="primary"
+                                                display="block"
+                                                sx={{
+                                                    mt: 0.5,
+                                                    wordBreak:
+                                                        "break-all",
+                                                }}
+                                            >
+                                                {item.url}
+                                            </Typography>
+                                        )}
 
-                                        <Typography
-                                            variant="caption"
-                                            color="text.secondary"
-                                            display="block"
-                                        >
-                                            Urutan:{" "}
-                                            {item.sort_order ?? 0}
-                                        </Typography>
-                                        <Grid size={{ xs: 12 }}>
-                                            <TextField
-                                                fullWidth
-                                                label="URL Pengumuman"
-                                                name="url"
-                                                value={form.url}
-                                                onChange={handleChange}
-                                                placeholder="https://..."
-                                            />
-                                        </Grid>
                                     </Box>
 
                                 </Stack>
@@ -434,19 +428,26 @@ export default function Announcements() {
 
             )}
 
+
+            {/* MODAL TAMBAH */}
+
             <Dialog
                 open={open}
                 onClose={handleClose}
                 fullWidth
                 maxWidth="md"
             >
+
                 <DialogTitle>
                     Tambah Pengumuman
                 </DialogTitle>
 
                 <DialogContent dividers>
 
-                    <Grid container spacing={2}>
+                    <Grid
+                        container
+                        spacing={2}
+                    >
 
                         <Grid size={{ xs: 12 }}>
                             <TextField
@@ -472,6 +473,7 @@ export default function Announcements() {
                         </Grid>
 
                         <Grid size={{ xs: 12 }}>
+
                             <Typography
                                 variant="subtitle2"
                                 sx={{ mb: 1 }}
@@ -488,9 +490,12 @@ export default function Announcements() {
                                 <input
                                     hidden
                                     type="file"
-                                    accept="image/*"
-                                    onChange={handleImageChange}
+                                    accept="image/jpeg,image/png,image/webp"
+                                    onChange={
+                                        handleImageChange
+                                    }
                                 />
+
                             </Button>
 
                             {imageFile && (
@@ -517,7 +522,9 @@ export default function Announcements() {
                                     }}
                                 />
                             )}
+
                         </Grid>
+
                         <Grid size={{ xs: 12 }}>
                             <TextField
                                 fullWidth
@@ -526,81 +533,62 @@ export default function Announcements() {
                                 value={form.url}
                                 onChange={handleChange}
                                 placeholder="https://..."
-                                helperText="Contoh: link berita, website perusahaan, Google Drive, atau halaman informasi lainnya"
+                                helperText="Opsional. Contoh: link berita, website perusahaan, Google Drive, atau halaman informasi lainnya."
                             />
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Teks Tombol"
-                                name="button_text"
-                                value={form.button_text}
-                                onChange={handleChange}
-                                placeholder="Contoh: Lihat Detail"
-                            />
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Teks Tombol"
-                                name="button_text"
-                                value={form.button_text}
-                                onChange={handleChange}
-                                placeholder="Baca Selengkapnya"
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, md: 6 }}>
+                        <Grid
+                            size={{
+                                xs: 12,
+                                md: 6,
+                            }}
+                        >
                             <TextField
                                 fullWidth
                                 type="date"
                                 label="Tanggal Mulai"
                                 name="start_date"
-                                value={form.start_date}
-                                onChange={handleChange}
+                                value={
+                                    form.start_date
+                                }
+                                onChange={
+                                    handleChange
+                                }
                                 slotProps={{
                                     inputLabel: {
                                         shrink: true,
-                                    },
-                                }}
-                            />
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <TextField
-                                fullWidth
-                                type="date"
-                                label="Tanggal Selesai"
-                                name="end_date"
-                                value={form.end_date}
-                                onChange={handleChange}
-                                slotProps={{
-                                    inputLabel: {
-                                        shrink: true,
-                                    },
-                                }}
-                            />
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <TextField
-                                fullWidth
-                                type="number"
-                                label="Urutan Slider"
-                                name="sort_order"
-                                value={form.sort_order}
-                                onChange={handleChange}
-                                slotProps={{
-                                    htmlInput: {
-                                        min: 0,
                                     },
                                 }}
                             />
                         </Grid>
 
                         <Grid
-                            size={{ xs: 12, md: 6 }}
+                            size={{
+                                xs: 12,
+                                md: 6,
+                            }}
+                        >
+                            <TextField
+                                fullWidth
+                                type="date"
+                                label="Tanggal Selesai"
+                                name="end_date"
+                                value={
+                                    form.end_date
+                                }
+                                onChange={
+                                    handleChange
+                                }
+                                slotProps={{
+                                    inputLabel: {
+                                        shrink: true,
+                                    },
+                                }}
+                            />
+                        </Grid>
+
+                        <Grid
+                            size={{ xs: 12 }}
                             sx={{
                                 display: "flex",
                                 alignItems: "center",
@@ -609,8 +597,12 @@ export default function Announcements() {
                             <FormControlLabel
                                 control={
                                     <Switch
-                                        checked={form.is_active}
-                                        onChange={handleChange}
+                                        checked={
+                                            form.is_active
+                                        }
+                                        onChange={
+                                            handleChange
+                                        }
                                         name="is_active"
                                     />
                                 }
@@ -650,7 +642,5 @@ export default function Announcements() {
             </Dialog>
 
         </Box>
-
     );
-
 }
